@@ -19,6 +19,15 @@ class UnknownOIFitsFileFormat(Exception):
 class UnknownFittingRoutine(Exception):
     pass
 
+
+def clean_name_for_match(name):
+        name = str(name).strip()
+        name = name.replace(" ", "")
+        name = name.replace("_", "")
+        name = name.lower()
+        return name
+
+
 # -----------------------------------------------------------------------------
 # Predicting LDD
 # -----------------------------------------------------------------------------
@@ -583,11 +592,17 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
     
     for sci in vis2.keys():
         # Only take the ID part of sci - could have " (Sequence)" after it
+        tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
+                       for id in tgt_info["Primary"]]
+
+        tgt_info["Primary"] = [clean_name_for_match(x) for x in tgt_info["Primary"]]
         if type(sci) == tuple:
+
             sci_data = tgt_info[tgt_info["Primary"]==sci[0]]
         else:
             sci_data = tgt_info[tgt_info["Primary"]==sci]
-        
+        print(tgt_info["Primary"], sci)
+
         id = sci_data.index.values[0]
         
         # Print depending on what diameter we're fitting, and if not science
@@ -600,7 +615,7 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
             else:
                 print("\tFitting limb-darkened disc to %s --> " % str(sci), 
                       end="")
-        
+        print(sampled_params.index.values[:10])
         popt, pstd = fit_for_ldd(vis2[sci], e_vis2[sci], 
                                  baselines[sci], wavelengths[sci], 
                                  sampled_params.loc[id].iloc[bs_i], 
@@ -836,6 +851,12 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
     # diagnostic purposes, but still need to collate in the instance
     # that a star has duplicate sequences on the same night
     dates_obs = pd.read_csv("data/dates_observed.tsv", sep="\t")
+
+    dates_obs["star_clean"] = dates_obs["star"].apply(clean_name_for_match)
+    dates_obs["b_night"] = dates_obs["b_night"].astype(str).str.strip()
+    dates_obs["f_night"] = dates_obs["f_night"].astype(str).str.strip()
+
+    print(dates_obs)
     
     print("\nFound %i oifits file/s for bootstrap %i" % (len(ith_bs_oifits), 
                                                        bs_i+1))
@@ -845,7 +866,8 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
         # robust than the former method of slicing using static indices which
         # inherently assumes a constant file length (which changes when we
         # begin bootstrapping)
-        sci = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
+        sci_raw = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
+        sci = clean_name_for_match(sci_raw)
         
         # Extract data from oifits file. If multiple sequences were observed
         # on the same night, each of the retuned lists will contain more than
@@ -865,6 +887,7 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
             
             # If returning both a faint and bright entry, need to define 
             # which is which - create a tuple of form (id, seq, period)
+            print(bright_entry, faint_entry)
             if len(bright_entry) > 0 and len(faint_entry) > 0:
                 # Bright
                 if seq_i == bright_entry["b_order"].values[0]:
@@ -884,6 +907,7 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
             # If keeping the sequences separate, the ID we use will be the 
             # sequence tuple (star, bright/faint, period) as the ID, otherwise
             # just the star ID
+            
             if separate_sequences:
                 seq_id = seq_tup
                 

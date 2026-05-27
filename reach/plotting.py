@@ -932,8 +932,8 @@ def plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=3, n_cols=2,
                 plt.gcf().set_size_inches(8, 11*(n_rows/n_rows_init))
                 
             plt.tight_layout(pad=1.0)
-            plt.savefig("paper/joint_seq_vis2_plots_pg%i.png" % set_i, dpi=500)
-            pdf.savefig(dpi=600)
+            plt.savefig("paper/joint_seq_vis2_plots_pg%i.png" % set_i, dpi=200)
+            pdf.savefig(dpi=200)
             plt.close()    
 
 
@@ -1075,7 +1075,7 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
         
     plt.tight_layout(pad=1.0)
     plt.savefig("paper/lam_sgr_sidelobe.pdf") 
-    plt.savefig("paper/lam_sgr_sidelobe.png", dpi=1024)   
+    plt.savefig("paper/lam_sgr_sidelobe.png", dpi=200)   
  
 
 def plot_lit_diam_comp(tgt_info, xy_map=None, markers=["s","v","D","o","*"]):
@@ -1174,7 +1174,7 @@ def plot_lit_diam_comp(tgt_info, xy_map=None, markers=["s","v","D","o","*"]):
     
     plt.tight_layout()
     plt.savefig("paper/lit_diam_comp.pdf")    
-    plt.savefig("paper/lit_diam_comp.png", dpi=500) 
+    plt.savefig("paper/lit_diam_comp.png", dpi=200) 
     
 
 
@@ -1341,7 +1341,7 @@ def plot_colour_rel_diam_comp(tgt_info, colour_rels=["V-W3","V-W4","B-V_feh"],
     plt.savefig("paper/colour_rel_diam_comp_%s.pdf" % cbar, 
                 bbox_inches="tight")     
     plt.savefig("paper/colour_rel_diam_comp_%s.png" % cbar, 
-                bbox_inches="tight", dpi=500)   
+                bbox_inches="tight", dpi=200)   
         
 
 def plot_casagrande_teff_comp(tgt_info, xy_map=None):
@@ -1463,7 +1463,7 @@ def plot_casagrande_teff_comp(tgt_info, xy_map=None):
 
     plt.tight_layout()
     plt.savefig("paper/teff_comp_casagrande.pdf")  
-    plt.savefig("paper/teff_comp_casagrande.png", dpi=500)  
+    plt.savefig("paper/teff_comp_casagrande.png", dpi=200)  
 
 
 def plot_lit_teff_comp(tgt_info):

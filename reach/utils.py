@@ -26,12 +26,10 @@ def summarise_sequences():
         Dict mapping key (period, science, bright/faint) with list of target 
         IDs in the sequence.
     """
-    # Read in each sequence
-    bright_list_files = ["data/p99_bright.txt", "data/p101_bright.txt", 
-                         "data/p102_bright.txt"]
-    faint_list_files = ["data/p99_faint.txt", "data/p101_faint.txt",
-                        "data/p102_faint.txt"]
-    period = [99, 101, 102]
+    bright_list_files = sorted(glob.glob("data/p106_bright.txt"))
+
+    faint_list_files  = sorted(glob.glob("data/p106_faint.txt"))
+    period = [106]
 
     target_list = []
 
@@ -80,9 +78,11 @@ def load_target_information(filepath="data/target_info.tsv",
     pandas.read_csv.html#pandas.read_csv
     """
     # Import (TODO: specify dtypes)
-    tgt_info = pd.read_csv(filepath, sep="\t", header=1, index_col=8, 
+    tgt_info = pd.read_csv(filepath, sep="\t", header=1, index_col=8,
                               skiprows=0)
     
+    print(list(tgt_info.columns))
+
     # Organise dataframe by removing duplicates
     # Note that the tilde is a bitwise not operation on the mask
     tgt_info = tgt_info[~tgt_info.index.duplicated(keep="first")]
@@ -94,6 +94,7 @@ def load_target_information(filepath="data/target_info.tsv",
     tgt_info["Bayer_ID"] = [id.replace(" ", "").replace("_","") 
                             if type(id)==str else None
                             for id in tgt_info["Bayer_ID"]]
+
                             
     # Use None as empty value for IDs
     # Note: this is possibly unnecessary since dataframes have a notnull method
@@ -103,7 +104,7 @@ def load_target_information(filepath="data/target_info.tsv",
                                inplace=True)
     tgt_info["Ref_ID_3"].where(tgt_info["Ref_ID_3"].notnull(), None, 
                                inplace=True)
-     
+
     # Use empty string for empty references
     tgt_info["vsini_bib_ref"].where(tgt_info["vsini_bib_ref"].notnull(), "", 
                                     inplace=True)                           
@@ -126,10 +127,13 @@ def load_target_information(filepath="data/target_info.tsv",
         tgt_info["e_FeH_rel"].where(~feh_mask, def_e_feh, inplace=True)    
     
     # Remove any targets not used
+        
     if remove_unused_targets:
         tgt_info = tgt_info[tgt_info["in_paper"]]
                                
     # Return result
+    tgt_info.index.name = "HD_ID"
+    tgt_info["HD_ID"] = tgt_info.index
     return tgt_info
     
     
@@ -292,7 +296,7 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
     """
     # Import the base target info sans calculations
     tgt_info = load_target_information(
-                assign_default_uncertainties=assign_default_uncertainties)
+                assign_default_uncertainties=assign_default_uncertainties)        
 
     # Calculate distances and distance errors
     compute_dist(tgt_info, use_plx_systematic)
@@ -305,10 +309,11 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
     # For simplification during testing, remove any stars that fall outside the 
     # VT --> V conversion from Bessell 2000, or those science targets not
     # in use
-    tgt_info = tgt_info.drop(["GJ551","HD133869", "HD203608"])
+    #tgt_info = tgt_info.drop(["GJ551","HD133869", "HD203608"])
 
     # Convert VT and BT to V and B
     # TODO: proper treatment of magnitude errors
+
     Bmag, Vmag = rphot.convert_vtbt_to_vb(tgt_info["BTmag"], tgt_info["VTmag"])
 
     tgt_info["Bmag"] = Bmag   
@@ -338,6 +343,7 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
 
     # Calculate selective extinction (i.e. (B-V) colour excess) only for stars
     # outside the local bubble
+    print(tgt_info.columns)
     eb_v = rphot.calculate_selective_extinction(tgt_info["Bmag"], 
                                                 tgt_info["Vmag"], 
                                                 tgt_info["SpT_simple"], grid)
@@ -437,15 +443,15 @@ def save_sampled_params(sampled_params, folder, force_claret_params=False,
     """
     # Using literature teffs (but not forcing Claret params)
     if not force_claret_params and not final_teff_sample:
-        pkl_params = open("results/%s/sampled_params.pkl" % folder, "wb")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params.pkl" % folder, "wb")
     
     # Using literature teffs (but forcing Claret params)
     elif force_claret_params and not final_teff_sample:
-        pkl_params = open("results/%s/sampled_params_claret.pkl" % folder, "wb")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params_claret.pkl" % folder, "wb")
 
     # Using interferometric teffs
     else:
-        pkl_params = open("results/%s/sampled_params_final.pkl" % folder, "wb")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params_final.pkl" % folder, "wb")
         
     pickle.dump(sampled_params, pkl_params)
     pkl_params.close()
@@ -457,15 +463,15 @@ def load_sampled_params(folder, force_claret_params=False,
     """
     # Force use of claret params
     if not force_claret_params and not final_teff_sample:
-        pkl_params = open("results/%s/sampled_params.pkl" % folder, "r")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params.pkl" % folder, "r")
     
     # Standard load in using literature values
     elif force_claret_params and not final_teff_sample:
-        pkl_params = open("results/%s/sampled_params_claret.pkl" % folder, "r")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params_claret.pkl" % folder, "r")
     
     # Loading in sample using interferometric teffs
     elif final_teff_sample:
-        pkl_params = open("results/%s/sampled_params_final.pkl" % folder, "r")
+        pkl_params = open("/home2/ihernand/Desktop/reach/results/%s/sampled_params_final.pkl" % folder, "r")
     
     sampled_params = pickle.load(pkl_params)
     pkl_params.close()    

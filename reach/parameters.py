@@ -187,12 +187,37 @@ def compute_sampled_fbol(sampled_sci_params, band_mask=[1, 0, 0, 0, 0]):
         
         
         for mag, bc, fbol in zip(mag_labels, bc_labels, fbol_labels):
-            bcs = sampled_sci_params.loc[star, bc].values
-            mags = sampled_sci_params.loc[star, mag].values
-            sampled_sci_params.loc[star, fbol] = calc_f_bol(bcs, mags)
+            print("DEBUG compute_sampled_fbol")
+            print("star =", star)
+            print("bc column =", bc)
+            print("mag column =", mag)
+            bc_raw = sampled_sci_params.loc[star, bc]
+            mag_raw = sampled_sci_params.loc[star, mag]
+
+            bcs = np.atleast_1d(bc_raw)
+            mags = np.atleast_1d(mag_raw)
+            print("bcs first values =", bcs[:5])
+            print("mags first values =", mags[:5])
+            bcs = pd.to_numeric(pd.Series(bcs), errors="coerce").values
+            mags = pd.to_numeric(pd.Series(mags), errors="coerce").values
+
+
+            good = np.isfinite(bcs) & np.isfinite(mags)
+
+            if np.sum(good) == 0:
+                print("WARNING: no valid BC/mag values for")
+                print("  star =", star)
+                print("  bc column =", bc)
+                print("  mag column =", mag)
+                sampled_sci_params.loc[star, fbol] = np.nan
+            else:
+                sampled_sci_params.loc[star, fbol] = calc_f_bol(
+                bcs[good],
+                mags[good]
+            )
         
         # Compute the "final" value of fbol for each iteration
-        #weights = sampled_sci_params.loc[star][e_masked_fbol].values**(-2)
+        #weights = sampled_sci_params.loc[star][e_masked_fbosl].values**(-2)
         f_bol_avg = np.average(sampled_sci_params.loc[star][masked_fbol].values, 
                                axis=1)
                                #weights=weights, axis=1)
@@ -238,6 +263,7 @@ def sample_all(tgt_info, n_bootstraps, bc_path, force_claret_params=False,
     sample_distance(sampled_sci_params, tgt_info)
     
     sample_bc_magnitudes(sampled_sci_params, tgt_info)
+
     
     sample_casagrande_bc(sampled_sci_params, bc_path)
     
@@ -609,7 +635,7 @@ def sample_casagrande_bc(sampled_sci_params, bc_path):
         # Load in the result
         results = pd.read_csv("%s/output.file.all" % bc_path, 
                               delim_whitespace=True)
-                              
+        print("Reading BC file:", results)                    
         # Save the bolometric corrections
         bc_num_cols = ["BC_1", "BC_2", "BC_3", "BC_4", "BC_5"]
         sampled_sci_params.loc[star, bc_labels] = results[bc_num_cols].values

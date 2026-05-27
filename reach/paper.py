@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import reach.utils as rutils
 from collections import OrderedDict
+import os
         
 # -----------------------------------------------------------------------------
 # Making tables
@@ -468,6 +469,7 @@ def make_table_targets(tgt_info):
             continue
         
         # Format RA and DEC
+
         ra_hr = np.floor(star["RA"] / 15)
         ra_min = np.floor((star["RA"] / 15 - ra_hr) * 60)
         ra_sec = ((star["RA"] / 15 - ra_hr) * 60 - ra_min) * 60
@@ -548,6 +550,9 @@ def make_table_targets(tgt_info):
     table_rows.append("\\end{landscape}")
     
     # Write the table
+    if not os.path.exists("paper"):
+        os.makedirs("paper")
+
     np.savetxt("paper/table_targets.tex", table_rows, fmt="%s")
 
 

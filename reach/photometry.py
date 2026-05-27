@@ -78,6 +78,7 @@ def convert_vtbt_to_vb(BTmag, VTmag):
     
     # Calculate (BT-VT)
     BT_minus_VT = BTmag - VTmag
+
     
     # Interpolation only works for colour range in Bessell 2000 - reject values
     # that fall outside of this

@@ -18,10 +18,19 @@ from collections import OrderedDict, Counter
 # -----------------------------------------------------------------------------
 # pndrs Affiliated Functions
 # -----------------------------------------------------------------------------
+base_path = "/home2/ihernand/Desktop/reach/all_sequence"
+
+def clean_name_for_match(name):
+    name = str(name).strip()
+    name = name.replace(" ", "")
+    name = name.replace("_", "")
+    name = name.lower()
+    return name
+
 def save_nightly_ldd(sequences, complete_sequences, tgt_info, 
                 pred_ldd, e_pred_ldd,
-                base_path="/priv/mulga1/arains/pionier/complete_sequences/",
-                dir_suffix="_v3.73_abcd", run_local=False):
+                base_path,
+                dir_suffix="_v3.94_abcd", run_local=False):
     """This is a function to create and save the oiDiam.fits files referenced
     by pndrs during calibration. Each night of observations has a single such
     file with the name formatted per YYYY-MM-DD_oiDiam.fits containing an
@@ -96,6 +105,7 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         # Note that several stars are observed multiple times under different
         # primary IDs, so we need to check HD and Bayer IDs as well
         for star in nights[night]:
+    
             prim_id = tgt_info[tgt_info["Primary"]==star].index
             
             if len(prim_id)==0:
@@ -227,9 +237,9 @@ def load_bad_baselines_log():
 
 
 def save_nightly_pndrs_script(complete_sequences, tgt_info, 
-            base_path="/priv/mulga1/arains/pionier/complete_sequences/",
-            dir_suffix="_v3.73_abcd", run_local=False):
-    """This is a function to create and save the pndrs script files referenced
+            base_path,
+            dir_suffix="_v3.94_abcd", run_local=False):
+    """This is a function to create and save the pndrs script files referencedF
     by pndrs during calibration. Each night of observations has a single such
     file with the name formatted per YYYY-MM-DD_pndrsScript.i containing a list
     of pndrs commands to run in order to customise the calibration procedure.
@@ -468,8 +478,7 @@ def select_only_bad_target_durations(sequence_durations, tgt_info):
     return bad_durations
 
 
-def reduce_all_observations(base_path=("/priv/mulga1/arains/pionier/"
-                                       "complete_sequences/")):
+def reduce_all_observations(base_path):
     """Removes existing reduced and calibrated data, then runs pndrsReduce.
     
     Parameters
@@ -638,6 +647,9 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
         # Collect interferograms of the same target together, select N randomly
         # with repeats from these, copy to the subdirectory and rename, then
         # proceed to the next target
+        print(bootstrapping_folder)
+        #if not os.path.exists(bootstrapping_folder):
+        #    os.makedirs(bootstrapping_folder)
         ifgs = sample_interferograms(complete_sequences[seq][2], n_ifg, 
                                      do_random_ifg_sampling)
         
@@ -802,8 +814,9 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
     
     if not run_local and not already_calibrated:
         # Save oiDiam files
+        print(list(tgt_info.columns))
         nights = save_nightly_ldd(sequences, complete_sequences, tgt_info,
-                                  pred_ldd, e_pred_ldd)
+                                  pred_ldd, e_pred_ldd, base_path)
         
         print("\n", "-"*79, "\n", "\tCalibrating %i night/s, bootstrap %i\n" 
               % (len(nights), bs_i), "-"*79)
@@ -815,8 +828,8 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
     
     elif run_local and not already_calibrated:
         # Save oiDiam files for local inspection
-        nights = save_nightly_ldd(sequences, complete_sequences, tgt_info, 
-                                  pred_ldd, e_pred_ldd, 
+        nights = save_nightly_ldd(sequences, complete_sequences, tgt_info,
+                                  pred_ldd, e_pred_ldd,base_path, 
                                   run_local=run_local)
     
     
@@ -886,6 +899,7 @@ def run_n_bootstraps(sequences, complete_sequences, base_path, tgt_info,
         print("\n", "|"*79, "\n\tBootstrapping iteration %i\n" % bs_i, "|"*79)
         
         # Run a single calibration run
+    
         run_one_calibration_set(sequences, complete_sequences, base_path, 
                                 tgt_info, n_pred_ldd.iloc[bs_i], 
                                 e_pred_ldd, bs_i, results_path, 
