@@ -20,26 +20,25 @@ folders = [f for f in all_logs if os.path.isdir(f)]
 print(folders)
 
 for path in folders:
-    print "Carpeta:", path
+    print("Carpeta:", path)
 
     if not os.path.isdir(path):
         continue
 
     for filename in os.listdir(path):
-        print "Archivo:", filename
+        print("Archivo:", filename)
 
         if filename.startswith("PIONI") and (
             filename.endswith(".NL.txt") or
-            filename.endswith(".fits.Z") or
-            filename.endswith(".fits.Z.1") or
-            filename.endswith(".NL.txt.1")):
+            filename.endswith(".fits.Z") or filename.endswith(".NL.txt.1") or
+            filename.endswith(".fits.Z.1") ):
 
             match = re.search(r"\d{4}-\d{2}-\d{2}", filename)
 
             if match:
                 fecha = match.group()
 
-                folder_path = os.path.join("../Desktop/reach/all_sequences/", fecha)
+                folder_path = os.path.join("/home2/ihernand/Desktop/reach/all_sequences", fecha)
 
                 # equivalente a exist_ok=True
                 if not os.path.exists(folder_path):
@@ -48,5 +47,7 @@ for path in folders:
                 old_file = os.path.join(path, filename)
                 new_file = os.path.join(folder_path, filename)
 
-                shutil.move(old_file, new_file)
-                print "Movido: {} -> {}".format(filename, folder_path)
+
+                shutil.copy2(old_file, new_file)
+
+                print("Copiado {} -> {}".format(filename, folder_path))

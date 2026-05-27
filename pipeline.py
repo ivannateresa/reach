@@ -29,32 +29,49 @@ from sys import exit as sys_exit
 # Define Bootstrapping Parameters
 # -----------------------------------------------------------------------------
 # Run specific parameters
+#lb_pc = 70                          # The size of the local bubble in pc
+#use_plx_systematic = True           # Use Stassun & Torres 18 plx offset
+#do_random_ifg_sampling = True       # Sample interferograms with repeats
+#do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
+#assign_default_uncertainties = True # Assign conservative placeholder errors
+#force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
+#n_bootstraps = 5000                 # Number of bootstrapping iterations
+#pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
+#e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
+#n_calib_runs = 8                    # N calibration runs to split nights among
+#calib_run_i = 0                     # ith calibration run to perform, 0 indexed
+
+
+
 lb_pc = 70                          # The size of the local bubble in pc
-use_plx_systematic = True           # Use Stassun & Torres 18 plx offset
+use_plx_systematic = False           # Use Stassun & Torres 18 plx offset
 do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
 force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
-n_bootstraps = 5000                 # Number of bootstrapping iterations
+n_bootstraps = 10                 # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
-n_calib_runs = 8                    # N calibration runs to split nights among
-calib_run_i = 0                     # ith calibration run to perform, 0 indexed
+n_calib_runs = 1                   # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
+calib_run_i = 1                     # ith calibration run to perform, 0 indexed
+
 
 # Folder mask where the reduced files are stored
-base_path = "/priv/mulga1/arains/pionier/complete_sequences/%s_v3.73_abcd/"
-
+base_path = "/home2/ihernand/Desktop/reach/complete_sequences/%s_v3.94_abcd/"
 # Day and N bootstrap specific results folder details
 str_date = time.strftime("%y-%m-%d")  
 results_folder = "%s_i%i" % (str_date, n_bootstraps)
-results_path = "/home/arains/code/reach/results/%s/" % results_folder
+if not os.path.exists("/home2/ihernand/Desktop/reach/results/"):
+    os.mkdir("/home2/ihernand/Desktop/reach/results/")
+
+results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 if not os.path.exists(results_path):
     os.mkdir(results_path)
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
 # and filters to use when calculating fbol_final from [Hp, Bt, Vt, Bp, Rp]
-bc_path =  "/home/arains/code/bolometric-corrections"
+bc_path =  "/home2/ihernand/Desktop/reach/bolometric-corrections"
 band_mask = [1, 1, 1, 0, 0]
 
 # Set these if investigating the quality of calibrators
@@ -76,8 +93,10 @@ print(" - do_gaussian_diam_sampling\t=\t%s" % do_gaussian_diam_sampling)
 # -----------------------------------------------------------------------------
 # Targets information is loaded into a pandas dataframe, with column labels for
 # each of the stored parameters (e.g. VTmag) and row indices of HD ID
+
 tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
                                       use_plx_systematic)
+print(list(tgt_info.columns))
 
 print("\n", "-"*79, "\n", "\tSampling\n", "-"*79)  
 
@@ -106,18 +125,19 @@ else:
 # Import observing logs, remove unwanted sequences/stars
 # -----------------------------------------------------------------------------
 # Load in the summarising data structures created in organise_obs.py
+
 complete_sequences, sequences = rutils.load_sequence_logs()
 
 # Currently no proxima cen or gam pav data, so pop
-sequences.pop((102, 'gamPav', 'faint'))
-sequences.pop((102, 'gamPav', 'bright'))
-sequences.pop((102, 'ProximaCen', 'bright'))
+#sequences.pop((102, 'gamPav', 'faint'))
+#sequences.pop((102, 'gamPav', 'bright'))
+#sequences.pop((102, 'ProximaCen', 'bright'))
 
 # Don't care about distant RGB, pop
-sequences.pop((99, "HD187289", "faint"))
-sequences.pop((99, "HD187289", "bright"))
-complete_sequences.pop((99, 'HD187289', 'faint'))
-complete_sequences.pop((99, 'HD187289', 'bright'))
+#sequences.pop((99, "HD187289", "faint"))
+#sequences.pop((99, "HD187289", "bright"))
+#complete_sequences.pop((99, 'HD187289', 'faint'))
+#complete_sequences.pop((99, 'HD187289', 'bright'))
 
 # -----------------------------------------------------------------------------
 # [Optional] Calibrate calibrators against each other
@@ -139,12 +159,12 @@ if calibrate_calibrators:
 # Do the following:
 #  i)  Exclude bad calibrators
 #  ii) Split nights between sequences
-# **ONLY** for the first calib run (i.e. only do this once, but for all seqs)
+# **ONLY** for the first calib run (i.e. only do this once, but for all seq
 if calib_run_i == 0:
     if not run_local and not already_calibrated:
-        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info)
+        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path)
     elif not already_calibrated:
-        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, 
+        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path,
                                          run_local=run_local)
 
 # -----------------------------------------------------------------------------
@@ -189,7 +209,6 @@ print("\n", "-"*79, "\n", "\tBootstrapping\n", "-"*79)
 print("Bootstrapping run %i/%i" % (calib_run_i + 1, n_calib_runs))
 print("Running on %i/%i sequences over %i/%i nights" 
       % (len(complete_sequences), n_init_seq, len(valid_nights), len(nights)))
-
 rpndrs.run_n_bootstraps(sequences, complete_sequences, base_path, tgt_info,
                         n_pred_ldd, e_pred_ldd, n_bootstraps, results_path,
                         run_local=run_local, 

@@ -26,12 +26,14 @@ from shutil import copyfile
 from collections import OrderedDict
 from datetime import datetime
 
+def clean_name(name):
+    return name.strip().replace(" ", "").replace("_", "").lower()
+
 # -----------------------------------------------------------------------------
 # Import and separate observation log into nights
 # -----------------------------------------------------------------------------
-# Find of the text logs
-all_logs = glob.glob("/priv/mulga1/arains/pionier"
-                     "/all_sequences/*/PIONI*.NL.txt")
+# Find of the text logsa
+all_logs = glob.glob("/home2/ihernand/Desktop/reach/all_sequences/*/PIONI*.NL.txt")
 all_logs.sort()
 
 # Initialise dictionary to store observations
@@ -70,7 +72,7 @@ for obs_log in all_logs:
             grade = row[-1]
         # Target name (uniform) AND target name (unaltered)
         elif row[:7] == "Target:":
-            target = row.split(" ")[-1].replace("_", "")
+            target = clean_name(row.split("Target:")[-1])
             
             ref_ids.add(row.split(" ")[-1])
             
@@ -141,46 +143,155 @@ for obs_log in all_logs:
     file.close()
 
 np.savetxt("ref_ids.csv", list(ref_ids), fmt="%s")
+
 # Can check that two datetime objects are close in time by subtracting them   
 # datetime1 - datetime2 --> datetime.timedelta(...)
-# datetime.timedelta(...).seconds
-
+# datetime.timedelta(...).secondsa
 # -----------------------------------------------------------------------------
 # Read in and separate out the bright and faint sci-cal sequences
 # -----------------------------------------------------------------------------
 # Read in each sequence
-bright_list_files = ["data/p99_bright.txt", "data/p101_bright.txt"]
-faint_list_files = ["data/p99_faint.txt", "data/p101_faint.txt"]
+#bright_list_files = ["data/p99_bright.txt", "data/p101_bright.txt"]
+#faint_list_files = ["data/p99_faint.txt", "data/p101_faint.txt"]
 
-bright_list = []
-faint_list = []
+#bright_list_files = sorted(glob.glob("data/p106_bright.txt"))
+#faint_list_files = sorted(glob.glob("data/p106_faint.txt"))
 
-for bright_list_file in bright_list_files:
-    with open(bright_list_file) as csv_file:
-        for line in csv.reader(csv_file):
-            bright_list.append(line[0].replace(" ", "_"))
+#right_list = []
+#faint_list = []
 
-for faint_list_file in faint_list_files:        
-    with open(faint_list_file) as csv_file:
-        for line in csv.reader(csv_file):
-            faint_list.append(line[0].replace(" ", "_"))
+#for bright_list_file in bright_list_files:
+#    with open(bright_list_file) as csv_file:
+#        for line in csv.reader(csv_file):
+#            bright_list.append(line[0].replace(" ", "_"))
+
+#for faint_list_file in faint_list_files:        
+#    with open(faint_list_file) as csv_file:
+#        for line in csv.reader(csv_file):
+#            faint_list.append(line[0].replace(" ", "_"))
 
 # For consistency, remove any underscores
-bright_list = [tgt.replace("_", "") for tgt in bright_list]
-faint_list = [tgt.replace("_", "") for tgt in faint_list]
-        
-# Order each sequence
-bright_sequences = {}
-faint_sequences = {}
+#bright_list = [tgt.replace("_", "") for tgt in bright_list]
+#faint_list = [tgt.replace("_", "") for tgt in faint_list]
 
-for i in xrange(0, len(bright_list), 4):
-    bright_sequences[bright_list[i]] = [bright_list[i+1], bright_list[i],
-                                        bright_list[i+2], bright_list[i],
-                                        bright_list[i+3]]
-for i in xrange(0, len(faint_list), 4):    
-    faint_sequences[faint_list[i]] = [faint_list[i+1], faint_list[i],
-                                      faint_list[i+2], faint_list[i],
-                                      faint_list[i+3]]
+
+# -----------------------------------------------------------------------------
+# Crear una funcion donde una secuencia puede tener 3 o MENOS calibradores, y elimina los que solo 
+# tiene la estrella, es decir, que no tenga calibradores.
+
+ 
+bright_list_files = ['data/p104_bright.txt','data/p105_bright.txt','data/p106_bright.txt']
+
+faint_list_files  = ['data/p104_faint.txt' ,'data/p105_faint.txt','data/p106_faint.txt']
+
+
+def get_period_from_filename(filename):
+    """
+    Extract period from filenames like:
+    data/p106_bright.txt
+    """
+    base = os.path.basename(filename)
+    period = base.split("_")[0].replace("p", "")
+    return int(period)
+
+
+ 
+def build_sequences_for_pickle(sequence_dict, list_files, sequence_label):
+    """
+    Build the format expected by pipeline later.
+
+    Output:
+    {
+        (106, 'alfCmi', 'bright'): ['HR2729', 'alfCmi', 'HD63241', 'alfCmi', '27Mon']
+    }
+    """
+
+    sequences_pickle = OrderedDict()
+
+    for list_file in list_files:
+        period = get_period_from_filename(list_file)
+
+        for sci in sequence_dict:
+            sequences_pickle[(period, sci, sequence_label)] = sequence_dict[sci]
+
+    return sequences_pickle
+
+
+
+def make_sequence(current_science, current_cals):
+    seq = []
+
+    for i, cal in enumerate(current_cals):
+        if i == len(current_cals) - 1:
+            seq.append(cal)
+        else:
+            seq.append(cal)
+            seq.append(current_science)
+
+    return seq
+
+
+def build_sequences(list_files):
+
+    sequences = {}
+
+    for list_file in list_files:
+
+        current_science = None
+        current_cals = []
+
+        with open(list_file) as csv_file:
+            reader = csv.reader(csv_file)
+
+            for line in reader:
+
+                if len(line) < 2:
+                    continue
+
+                name = clean_name(line[0])
+                is_science = line[1].strip().upper()
+
+                if is_science == "TRUE":
+
+                    if current_science is not None and len(current_cals) > 0:
+                        sequences[current_science] = make_sequence(
+                            current_science,
+                            current_cals
+                        )
+
+                    current_science = name
+                    current_cals = []
+
+                else:
+                    current_cals.append(name)
+        if current_science is not None and len(current_cals) > 0:
+            sequences[current_science] = make_sequence(
+                current_science,
+                current_cals
+            )
+
+    return sequences
+ 
+
+bright_sequences = build_sequences(bright_list_files)
+faint_sequences  = build_sequences(faint_list_files)
+# -----------------------------------------------------------------------------
+
+
+# Order each sequence
+#bright_sequences = {}
+#faint_sequences = {}
+
+
+
+#for i in xrange(0, len(bright_list), 4):
+#    bright_sequences[bright_list[i]] = [bright_list[i+1], bright_list[i],
+#                                        bright_list[i+2], bright_list[i],
+#                                        bright_list[i+3]]
+#for i in xrange(0, len(faint_list), 4):    
+#    faint_sequences[faint_list[i]] = [faint_list[i+1], faint_list[i],
+#                                      faint_list[i+2], faint_list[i],
+#                                      faint_list[i+3]]
 
 all_sequences = [bright_sequences, faint_sequences]
 seq_label = ["bright", "faint"]
@@ -188,6 +299,10 @@ seq_label = ["bright", "faint"]
 missing_sequences = [(key, "bright") for key in bright_sequences]
 missing_sequences.extend([(key, "faint") for key in faint_sequences])
 missing_sequences = set(missing_sequences)
+
+# -----------------------------------------------------------------------------
+# Crear una funcion donde una secuencia puede tener 3 o MENOS calibradores, y elimina los que solo 
+# tiene la estrella, es decir, que no tenga calibradores.
 
 # -----------------------------------------------------------------------------
 # Check night by night to see which sequences were completed
@@ -221,9 +336,11 @@ for night in night_log.keys():
     print("\n\n---------------------------------------------------------")
     print(night, "\n---------------------------------------------------------")
     # For every sequence (i.e. bright, faint)...
+
     for seq_i, sequence in enumerate(all_sequences):
         print("-------", seq_label[seq_i], "-------")
         # For every science target...
+
         for sci in sequence:
             print("")
             print(sci, end="   ")
@@ -236,12 +353,13 @@ for night in night_log.keys():
             ob_i = 0            # The ith observation that night
             tgt_i = 0           # The ith target in the CAL-SCI sequence
             concatenation = []  # Current list of obs from CAL-SCI sequence
-            
+            print(sci)
             # For every observation in the night...
             while ob_i < len(night_log[night]):
                 # Get the grade of the observation to be considered
                 grade = night_log[night][ob_i][3]
                 obs_tar = night_log[night][ob_i][2] 
+
                 
                 sequence_added_to = True
                 
@@ -330,11 +448,20 @@ for night in night_log.keys():
                 # and move on
                 elif not sequence_added_to:
                     
-                    if len(concatenation) > 100:
-                        print(" [Failed on: %s vs %s, %s, %i] on SEQ %s" %  
-                                (night_log[night][ob_i][2], 
-                                sequence[sci][tgt_i], grade, ob_i,
-                                sequence[sci]), end="") 
+                    if len(concatenation) > 0:
+                        print(
+            "\nFAILED:",
+            "night =", night,
+            "| sci =", sci,
+            "| seq =", seq_label[seq_i],
+            "| expected =", sequence[sci][tgt_i],
+            "| found =", night_log[night][ob_i][2],
+            "| grade =", grade,
+            "| good_grade =", is_good_grade(grade),
+            "| ob_i =", ob_i,
+            "| tgt_i =", tgt_i,
+            "| full_expected_seq =", sequence[sci]
+            )
                     
                     # Here is where we decide whether to move to the next 
                     # observation. We should *not* move on if:
@@ -350,7 +477,6 @@ for night in night_log.keys():
                         
                         if len(concatenation) > 0:
                             print("A")
-                        
                     elif (len(concatenation) > 0 
                         and night_log[night][ob_i][2] in sequence[sci]):
                         tgt_i = 0
@@ -383,54 +509,55 @@ for night in night_log.keys():
 # was lost for all telescopes/baselines
 
 # First calibrator, HR7732 --> keep
-concatenation = night_log["2017-08-27"][:6]
+#concatenation = night_log["2017-08-27"][:6]
 
 # Take kappa matrix and darks of first del Pav exposure, but not the science
 # Then take everything else except seven exposures where the guiding was lost
 # (np.mean(vis2.flatten()) == 0), and everything in between
-concatenation.extend(night_log["2017-08-27"][11:40])
-concatenation.extend(night_log["2017-08-27"][47:])
+#concatenation.extend(night_log["2017-08-27"][11:40])
+#concatenation.extend(night_log["2017-08-27"][47:])
 
 # Determine grades, period, and end time, then save to dict as usual
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "delPav", "faint")
+#key = (period, "delPav", "faint")
 #print(key in complete_sequences)
-complete_sequences[key] = ("2017-08-27", grade, concatenation)
+#complete_sequences[key] = ("2017-08-27", grade, concatenation)
 
-missing_sequences.remove(("delPav", "faint"))
+#missing_sequences.remove(("delPav", "faint"))
 
 # Second star: lam Sgr. First calibrator observed within requirements, but 1st
 # science was not. Everything else per the log seems to be okay, with HR6838
 # observed again to bracket the science observations.
-concatenation = night_log["2017-08-26"][:6]
-concatenation.extend(night_log["2017-08-26"][17:51])
+#concatenation = night_log["2017-08-26"][:6]
+#concatenation.extend(night_log["2017-08-26"][17:51])
 
 # Determine grades, period, and end time, then save to dict as usual
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "lamSgr", "faint")
-complete_sequences[key] = ("2017-08-26", grade, concatenation)
+#key = (period, "lamSgr", "faint")
+#complete_sequences[key] = ("2017-08-26", grade, concatenation)
 
-missing_sequences.remove(("lamSgr", "faint"))
+#missing_sequences.remove(("lamSgr", "faint"))
 
 # Third star: Tau Ceti (bright) in period 99, which is missed because of the
 # assumption that each star has a single unique bright and faint sequence, 
 # which breaks down for Tau Cet given we removed a bad calibrator from it. It's
 # easier to account for this here than changing the data structures used above.
-concatenation = night_log["2017-08-26"][67:101]
+#concatenation = night_log["2017-08-26"][67:101]
 
 # Determine grades, period, and end time, then save to dict as usual
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
 
-key = (period, "TauCet", "bright")
-complete_sequences[key] = ("2017-08-26", grade, concatenation)
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
+
+#key = (period, "TauCet", "bright")
+#complete_sequences[key] = ("2017-08-26", grade, concatenation)
 
 #missing_sequences.remove(("TauCet", "bright"))
 
@@ -439,49 +566,49 @@ complete_sequences[key] = ("2017-08-26", grade, concatenation)
 # -----------------------------------------------------------------------------
 # del Eri (bright)
 # All obs are fine, save first which had grade of "_"
-concatenation = night_log["2018-11-25"]
+#concatenation = night_log["2018-11-25"]
 
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "delEri", "bright")
-complete_sequences[key] = ("2018-11-25", grade, concatenation)
+#key = (period, "delEri", "bright")
+#complete_sequences[key] = ("2018-11-25", grade, concatenation)
 
 # del Eri (faint)
 # Observations of first cal (HD16970) are bad (grade "X"), and the first delEri
 # observations is "_". Everything after this is good, and the first cal is done
 # again successfully at the end
-concatenation = night_log["2018-11-26"][7:41]
+#concatenation = night_log["2018-11-26"][7:41]
 
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "delEri", "faint")
-complete_sequences[key] = ("2018-11-26", grade, concatenation)
+#key = (period, "delEri", "faint")
+#complete_sequences[key] = ("2018-11-26", grade, concatenation)
 
 # omi2 Eri (faint)
 # All obs are fine
-concatenation = night_log["2018-11-26"][41:75]
+#concatenation = night_log["2018-11-26"][41:75]
 
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "omi2Eri", "faint")
-complete_sequences[key] = ("2018-11-26", grade, concatenation)
+#key = (period, "omi2Eri", "faint")
+#complete_sequences[key] = ("2018-11-26", grade, concatenation)
 
 # omi2 Eri (bright)
 # All obs are fine
-concatenation = night_log["2018-11-26"][75:]
+#concatenation = night_log["2018-11-26"][75:]
 
-grade = "".join([observation[3] for observation in concatenation])
-period = int(concatenation[0][6].split(".")[0])
-end_time = concatenation[-1][4].isoformat()
+#grade = "".join([observation[3] for observation in concatenation])
+#period = int(concatenation[0][6].split(".")[0])
+#end_time = concatenation[-1][4].isoformat()
 
-key = (period, "omi2Eri", "bright")
-complete_sequences[key] = ("2018-11-26", grade, concatenation)
+#key = (period, "omi2Eri", "bright")
+#complete_sequences[key] = ("2018-11-26", grade, concatenation)
 
 # -----------------------------------------------------------------------------
 # Summarise keys for easy inspection
@@ -512,16 +639,20 @@ for sequence in missing_sequences:
 # Copy the completed sequences to a new directory structure
 # -----------------------------------------------------------------------------
 print("\n\n------------------------\nCopying Files\n------------------------")
-new_path = "/priv/mulga1/arains/pionier/complete_sequences/"
+new_path = "/home2/ihernand/Desktop/reach/complete_sequences"
+
+#new_path = "/home2/ihernand/Desktop/test_reach_code/reach/complete_sequences"
+
 
 # Create new night subfolders if not already in existence
-all_nights = glob.glob("/priv/mulga1/arains/pionier/all_sequences/*/")
+all_nights = glob.glob("/home2/ihernand/Desktop/reach/all_sequences/*/")
 all_nights = [night.replace("all_sequences", "complete_sequences") 
               for night in all_nights]
 
 for night in all_nights:
     if not os.path.exists(night):
         os.makedirs(night)
+    
     
 # For every observation in complete_sequences, copy it to the corresponding 
 # folder in all_sequences if it isn't already there.
@@ -570,3 +701,12 @@ pkl_nightlog.close()
 pkl_obslog = open("data/pionier_observing_log.pkl", "wb")
 pickle.dump(complete_sequences, pkl_obslog)
 pkl_obslog.close()
+
+sequences = OrderedDict()
+sequences.update(build_sequences_for_pickle(bright_sequences, bright_list_files, "bright"))
+sequences.update(build_sequences_for_pickle(faint_sequences, faint_list_files, "faint"))
+
+pkl_sequences = open("data/sequences.pkl", "wb")
+pickle.dump(sequences, pkl_sequences)
+pkl_sequences.close()
+

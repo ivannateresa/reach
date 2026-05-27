@@ -21,12 +21,12 @@ import xy_map
 # Setup & Loading
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
-use_plx_systematic = True           # Use Stassun & Torres 18 plx offset
+use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
 combined_fit = True                 # Fit for LDD for multiple seq at once
-load_saved_results = True           # Load or do fitting fresh
+load_saved_results = False          # Load or do fitting fresh
 assign_default_uncertainties = True # Give default errors to stars without
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 5000
+n_bootstraps = 10
 fitting_method = "ls"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -40,12 +40,12 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "19-09-30_i5000"       # Final run for 1st draft
-results_path = "results/%s/" % results_folder
+results_folder = "26-05-20_i10"       # Final run for 1st draft
+results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
 # and filters to use when calculating fbol_final from [Hp, Bt, Vt, Bp, Rp]
-bc_path =  "/Users/adamrains/code/bolometric-corrections"
+bc_path =  "/home2/ihernand/Desktop/reach/bolometric-corrections"
 #bc_path =  "/home/arains/code/bolometric-corrections"
 band_mask = [1, 1, 1, 0, 0]
 
@@ -53,18 +53,11 @@ band_mask = [1, 1, 1, 0, 0]
 print("Loading in files...")
 tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc, 
                                       use_plx_systematic)
+
 complete_sequences, sequences = rutils.load_sequence_logs()
 
-# Currently no proxima cen or gam pav data, so pop
-sequences.pop((102, 'gamPav', 'faint'))
-sequences.pop((102, 'gamPav', 'bright'))
-sequences.pop((102, 'ProximaCen', 'bright'))
 
-# Don't care about distant RGB
-sequences.pop((99, "HD187289", "faint"))
-sequences.pop((99, "HD187289", "bright"))
-complete_sequences.pop((99, 'HD187289', 'faint'))
-complete_sequences.pop((99, 'HD187289', 'bright'))
+
 
 # -----------------------------------------------------------------------------
 # Loading Existing Results
@@ -95,6 +88,7 @@ else:
     
     print("Getting results of bootstrapping for %s bootstraps..." 
           % n_bootstraps)
+    print(tgt_info)
     bs_results = rdiam.fit_ldd_for_all_bootstraps(tgt_info, n_bootstraps, 
                                             results_path, sampled_sci_params,
                                             method=fitting_method, 
@@ -119,7 +113,7 @@ else:
     sampled_sci_params = rparam.sample_all(tgt_info, n_bootstraps, bc_path,
                                            force_claret_params, band_mask,
                                            use_literature_teffs=False)
-                                                                       
+                                          
     rutils.save_sampled_params(sampled_sci_params, results_folder, 
                                force_claret_params=force_claret_params,
                                final_teff_sample=True)
@@ -166,12 +160,12 @@ print("Generating plots...")
 rplt.plot_fbol_comp(tgt_info)
 rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
 rplt.plot_casagrande_teff_comp(tgt_info, xy_map.teff)
-rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
-rplt.plot_sidelobe_vis2_fit(tgt_info, results)  
-rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
+#rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results)  
+#rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
 rplt.plot_colour_rel_diam_comp(tgt_info, 
                                xy_maps=(xy_map.vw3, xy_map.vw4, xy_map.bv_feh))
-rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=False, 
-                                sequences=sequences, 
-                                complete_sequences=complete_sequences, 
-                                tgt_info=tgt_info)
+#rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=False, 
+#                                sequences=sequences, 
+#                                complete_sequences=complete_sequences, 
+#                                tgt_info=tgt_info)
