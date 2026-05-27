@@ -1,0 +1,96 @@
+General weather conditions:
+Seeing:          0.43 - 2.67 arcsec
+Humidity:        17.0 - 35.0 %
+Wind:            3.38 - 9.13 m/s
+Temperature:     13.7 - 17.6 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:53	Clear	
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-25
+
+---------------------------------------------------
+
+General Comments:
+---------------------------------------------------
+
+OB:         2896450
+Instrument: PIONIER
+Name:       SCI_alf_CMi_f2.obx
+Target:     alf_CMi
+Run:        106.21KX.002
+Container:  2896443
+---------------------------------------------------
+
+Comments:
+03:51 Seeing ~0.6", coherence time >7ms. Fringes stable, target very resolved. - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Yes
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	A
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896450
+OBS.NAME: SCI_alf_CMi_f2.obx
+OBS.PROG.ID: 106.21KX.002
+OBS.START: 2021-02-26T02:27:01
+OBS.TARG.NAME: alf_CMi (RA:4.13359936E8, DEC:1.879308E7)
+STATION 1: K0
+STATION 2: G2
+STATION 3: D0
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.165
+WindSpeed: 6.18
+WindDir: 82.0
+DL1/DL2/DL3/DL4 OPL: 28.479206 / 60.76114 / 19.715458 / 25.615982
+PROJECTED BL: BL12/BL13/BL14: 67.474 / 95.954 / 48.83
+PROJECTED BL: BL23/BL24/BL34: 37.808 / 62.045 / 99.69
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE057_0016.fits	PIONI.2021-02-26T02:31:04.311	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.007893	
+PIONIER_OBS_FRINGE057_0017.fits	PIONI.2021-02-26T02:31:42.558	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.007893	
+PIONIER_OBS_FRINGE057_0018.fits	PIONI.2021-02-26T02:32:20.692	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008139	
+PIONIER_OBS_FRINGE057_0019.fits	PIONI.2021-02-26T02:32:58.720	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008139	
+PIONIER_OBS_FRINGE057_0020.fits	PIONI.2021-02-26T02:33:36.912	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00755	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.165
+WindSpeed: 6.18
+WindDir: 82.0
+DL1/DL2/DL3/DL4 OPL: 28.479206 / 60.76114 / 19.715458 / 25.615982
+PROJECTED BL: BL12/BL13/BL14: 67.474 / 95.954 / 48.83
+PROJECTED BL: BL23/BL24/BL34: 37.808 / 62.045 / 99.69
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK057_0004.fits	PIONI.2021-02-26T02:34:15.521	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00755	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned
