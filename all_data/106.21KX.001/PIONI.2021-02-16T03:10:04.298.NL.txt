@@ -1,0 +1,105 @@
+General weather conditions:
+Seeing:          0.5 - 1.7 arcsec
+Humidity:        12 - 50%
+Wind:            10.1 - 20.7 m/s
+Temperature:     13.0 - 9.8 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:39	Clear	
+00:11	Clear,Windy	pointing restriction to the north
+02:49	Clear,Windy	continue with pointing restrictions to the north
+04:15	Clear,Windy	High winds, DIMM lost star, moving to another star.
+Continue with pointing restrictions to the north.
+05:25	Clear,Windy	Continue with pointing restrictions to the north.
+Dimm stopped working, auto parked due bad weather.
+05:30	Clear,Windy	High Winds alarm, Closing telescopes
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-15
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896681
+Instrument: PIONIER
+Name:       CAL_HD_38295_f1.obx
+Target:     HD_38295
+Run:        106.21KX.001
+Container:  2896679
+---------------------------------------------------
+
+Comments:
+03:12 The science target was too close to the delayline limits. The delay line complained about tracking, but the fringes looked ok. Took the second calibrator just in case the data is useful. Could not do the second science observation because of the delay lin - 
+05:11  - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	-		70%
+Fringe Quality:  	Yes
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	C
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896681
+OBS.NAME: CAL_HD_38295_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-16T02:52:56
+OBS.TARG.NAME: HD_38295 (RA:3.09395488E8, DEC:-7.714332E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.206
+WindSpeed: 11.93
+WindDir: 13.0
+DL1/DL2/DL3/DL4 OPL: 86.444 / 42.104763 / 12.082003 / 38.83313
+PROJECTED BL: BL12/BL13/BL14: 78.731 / 107.257 / 120.3
+PROJECTED BL: BL23/BL24/BL34: 51.352 / 131.974 / 102.628
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE047_0001.fits	PIONI.2021-02-16T03:08:47.780	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+PIONIER_OBS_FRINGE047_0002.fits	PIONI.2021-02-16T03:09:25.951	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+PIONIER_OBS_FRINGE047_0003.fits	PIONI.2021-02-16T03:10:04.298	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+PIONIER_OBS_FRINGE047_0004.fits	PIONI.2021-02-16T03:10:42.327	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+PIONIER_OBS_FRINGE047_0005.fits	PIONI.2021-02-16T03:11:20.355	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.206
+WindSpeed: 11.93
+WindDir: 13.0
+DL1/DL2/DL3/DL4 OPL: 86.444 / 42.104763 / 12.082003 / 38.83313
+PROJECTED BL: BL12/BL13/BL14: 78.731 / 107.257 / 120.3
+PROJECTED BL: BL23/BL24/BL34: 51.352 / 131.974 / 102.628
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK047_0001.fits	PIONI.2021-02-16T03:11:58.983	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003868	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

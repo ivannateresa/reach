@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="KAPPA" certified="true" complete="false"
+    mode="Raw2Raw" type="main">
+    <mainFiles>
+        <file category="KAPPA" name="PIONI.2022-02-26T02:51:45.216"/>
+    </mainFiles>
+    <messages>
+        <message text="No association could be established: this file type is not supported"/>
+    </messages>
+    <associatedFiles/>
+</association>

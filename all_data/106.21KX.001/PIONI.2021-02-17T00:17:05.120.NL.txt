@@ -1,0 +1,103 @@
+General weather conditions:
+Seeing:          0.53-1.22 arcsec
+Humidity:        7-41%
+Wind:            7.9-15.3 m/s
+Temperature:     8.8 - 11.8 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:39	Clear	
+01:38	Photometric	according to omegacam
+03:25	Earthquake,Photometric	EQ 74 km NO of Taltal, 4.5mag, no risk. We continued with observations.
+04:34	Photometric	according to FORS and omegacam
+05:25	Photometric,Windy	pointing restriction to the north
+07:27	Clear,Windy	
+08:38	Clear,Windy	
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-16
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896681
+Instrument: PIONIER
+Name:       CAL_HD_38295_f1.obx
+Target:     HD_38295
+Run:        106.21KX.001
+Container:  2896679
+---------------------------------------------------
+
+Comments:
+00:18 stardted during the twilight. The first two calibrators and science look very good. During the second science we were too close to the zenith. - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	-		70%
+Fringe Quality:  	Yes
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	C
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896681
+OBS.NAME: CAL_HD_38295_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-17T00:07:11
+OBS.TARG.NAME: HD_38295 (RA:3.09395488E8, DEC:-7.714332E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.006
+WindSpeed: 8.3
+WindDir: 14.0
+DL1/DL2/DL3/DL4 OPL: 14.341669 / 19.880419 / 23.441027 / 35.68813
+PROJECTED BL: BL12/BL13/BL14: 90.359 / 128.739 / 131.722
+PROJECTED BL: BL23/BL24/BL34: 57.906 / 132.142 / 103.962
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE048_0001.fits	PIONI.2021-02-17T00:15:11.109	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+PIONIER_OBS_FRINGE048_0002.fits	PIONI.2021-02-17T00:15:48.976	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+PIONIER_OBS_FRINGE048_0003.fits	PIONI.2021-02-17T00:16:26.980	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+PIONIER_OBS_FRINGE048_0004.fits	PIONI.2021-02-17T00:17:05.120	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+PIONIER_OBS_FRINGE048_0005.fits	PIONI.2021-02-17T00:17:43.175	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.006
+WindSpeed: 8.3
+WindDir: 14.0
+DL1/DL2/DL3/DL4 OPL: 14.341669 / 19.880419 / 23.441027 / 35.68813
+PROJECTED BL: BL12/BL13/BL14: 90.359 / 128.739 / 131.722
+PROJECTED BL: BL23/BL24/BL34: 57.906 / 132.142 / 103.962
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK048_0001.fits	PIONI.2021-02-17T00:18:21.879	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002421	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

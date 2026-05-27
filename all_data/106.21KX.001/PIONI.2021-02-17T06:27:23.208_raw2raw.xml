@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="DARK" certified="true" complete="false"
+    mode="Raw2Raw" type="main">
+    <mainFiles>
+        <file category="DARK" name="PIONI.2021-02-17T06:27:23.208"/>
+    </mainFiles>
+    <messages>
+        <message text="No association could be established: this file type is not supported"/>
+    </messages>
+    <associatedFiles/>
+</association>

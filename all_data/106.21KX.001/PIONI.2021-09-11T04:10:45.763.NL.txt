@@ -1,0 +1,115 @@
+General weather conditions:
+Seeing:          0.36 - 1.02 arcsec
+Humidity:        5.0 - 13.0 %
+Wind:            5.0 - 10.2 m/s
+Temperature:     11.6 - 14.1 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:08	Clear	
+02:00	Clear	
+03:45	Clear	
+06:27	Clear	
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-09-10
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896666
+Instrument: PIONIER
+Name:       SCI_bet_Hyi_f1.obx
+Target:     bet_Hyi
+Run:        106.21KX.001
+Container:  2896552
+---------------------------------------------------
+
+Comments:
+04:59 Executed in good conditions with seeing 0.4-0.5" and coherence time 4-5ms. Slightly high transfer function slope on one of the baselines. - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896666
+OBS.NAME: SCI_bet_Hyi_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-09-11T04:05:22
+OBS.TARG.NAME: bet_Hyi (RA:2.334159E7, DEC:-2.78109536E8)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.691
+WindSpeed: 8.4
+WindDir: 344.0
+DL1/DL2/DL3/DL4 OPL: 68.658714 / 108.36159 / 83.49853 / 11.50004
+PROJECTED BL: BL12/BL13/BL14: 81.491 / 128.1 / 115.436
+PROJECTED BL: BL23/BL24/BL34: 53.795 / 81.61 / 63.973
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE254_0081.fits	PIONI.2021-09-11T04:08:13.638	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005078	
+PIONIER_OBS_FRINGE254_0082.fits	PIONI.2021-09-11T04:08:51.757	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005078	
+PIONIER_OBS_FRINGE254_0083.fits	PIONI.2021-09-11T04:09:29.898	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005078	
+PIONIER_OBS_FRINGE254_0084.fits	PIONI.2021-09-11T04:10:07.969	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004457	
+PIONIER_OBS_FRINGE254_0085.fits	PIONI.2021-09-11T04:10:45.763	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004431	
+---------------------------------------------------
+Template: PIONIER_gen_cal_kappa
+Data product: CALIB/KAPPA,OBJECT
+Airmass: 1.691
+WindSpeed: 8.4
+WindDir: 344.0
+DL1/DL2/DL3/DL4 OPL: 68.658714 / 108.36159 / 83.49853 / 11.50004
+PROJECTED BL: BL12/BL13/BL14: 81.491 / 128.1 / 115.436
+PROJECTED BL: BL23/BL24/BL34: 53.795 / 81.61 / 63.973
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_KAPPA254_0017.fits	PIONI.2021-09-11T04:11:24.131	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004431	
+PIONIER_GEN_KAPPA254_0018.fits	PIONI.2021-09-11T04:11:44.777	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004648	
+PIONIER_GEN_KAPPA254_0019.fits	PIONI.2021-09-11T04:12:05.517	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004648	
+PIONIER_GEN_KAPPA254_0020.fits	PIONI.2021-09-11T04:12:26.376	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004648	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.691
+WindSpeed: 8.4
+WindDir: 344.0
+DL1/DL2/DL3/DL4 OPL: 68.658714 / 108.36159 / 83.49853 / 11.50004
+PROJECTED BL: BL12/BL13/BL14: 81.491 / 128.1 / 115.436
+PROJECTED BL: BL23/BL24/BL34: 53.795 / 81.61 / 63.973
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK254_0017.fits	PIONI.2021-09-11T04:12:47.574	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005109	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

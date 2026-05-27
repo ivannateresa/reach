@@ -1,0 +1,107 @@
+General weather conditions:
+Seeing:           0.48 - 3.77 arcsec
+Humidity:        27.0 - 66.0 %
+Wind:            6.95 - 20.7 m/s
+Temperature:      8.01 - 10.4 C
+Overall comment: Windy!
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:34	Clear,Humid,Windy	Clear condition - Pointing restriction N - humidity ~64%
+23:57	Clear,Humid,Windy	PR N, humidity ~67%
+01:42	Clear,Humid	End of PR, still humid, ~55%
+03:20	Clear,Humid	humidity ~60%, clear skies
+04:16	Clear,Humid,Windy	PR NE, humidity~60%
+07:06	Clear,Windy	PR North, high winds forced VISTA to close. Humidity ~36%.
+07:37	Clear,Humid,Windy	high winds, Dimm is having trouble centering star. Humidity ~55%
+08:13	Clear,Windy	Dimm parked due wind is higher than 18 m/s.
+Humidity ~44%
+09:08	Clear,Windy	closing telescopes due high winds
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-17
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896701
+Instrument: PIONIER
+Name:       SCI_gam_Lep_f2.obx
+Target:     gam_Lep
+Run:        106.21KX.001
+Container:  2896679
+---------------------------------------------------
+
+Comments:
+04:24 Good conditions and nice fringes, som eof the V2 slopes are a bit high. - 
+09:30 The quality control confirms that there is a gradual decrease of the TF, which is probably real. But it is not too steep and an interpolation should do a good job. - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896701
+OBS.NAME: SCI_gam_Lep_f2.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-18T03:38:28
+OBS.TARG.NAME: gam_Lep (RA:3.10009344E8, DEC:-8.0820432E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.36
+WindSpeed: 9.98
+WindDir: 23.0
+DL1/DL2/DL3/DL4 OPL: 100.74503 / 49.58434 / 12.07939 / 36.65451
+PROJECTED BL: BL12/BL13/BL14: 74.452 / 96.119 / 111.252
+PROJECTED BL: BL23/BL24/BL34: 46.591 / 130.834 / 102.96
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE049_0046.fits	PIONI.2021-02-18T03:40:46.711	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004954	
+PIONIER_OBS_FRINGE049_0047.fits	PIONI.2021-02-18T03:41:24.517	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004954	
+PIONIER_OBS_FRINGE049_0048.fits	PIONI.2021-02-18T03:42:02.748	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004954	
+PIONIER_OBS_FRINGE049_0049.fits	PIONI.2021-02-18T03:42:40.885	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004615	
+PIONIER_OBS_FRINGE049_0050.fits	PIONI.2021-02-18T03:43:19.108	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004283	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.36
+WindSpeed: 9.98
+WindDir: 23.0
+DL1/DL2/DL3/DL4 OPL: 100.74503 / 49.58434 / 12.07939 / 36.65451
+PROJECTED BL: BL12/BL13/BL14: 74.452 / 96.119 / 111.252
+PROJECTED BL: BL23/BL24/BL34: 46.591 / 130.834 / 102.96
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK049_0010.fits	PIONI.2021-02-18T03:43:57.610	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004283	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

@@ -1,0 +1,81 @@
+General weather conditions:
+Seeing:          0.328 - 1.54 arcsec
+Humidity:        3 - 6 %
+Wind:            0 - 6.45 m/s
+Temperature:     12.73 - 15.58 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+22:40	Clear	
+09:09	Clear	according to FORS2 zp.
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-09-04
+
+---------------------------------------------------
+
+General Comments:
+---------------------------------------------------
+
+OB:         2896636
+Instrument: PIONIER
+Name:       CAL_sig_Pav_b1.obx
+Target:     sig_Pav
+Run:        106.21KX.001
+Container:  2896548
+---------------------------------------------------
+
+Comments:
+No comments
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	n/a		2.0
+Sky transparency:	n/a		THIN
+Airmass:         	n/a		2.0
+FLI:             	n/a		1.0
+Moon distance:   	n/a		30
+Twilight:        	n/a		0
+Water Vapour:    	n/a		30.0
+Strehl:          	n/a		0.0
+ATM:             	n/a		70%
+Fringe Quality:  	n/a
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	_
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896636
+OBS.NAME: CAL_sig_Pav_b1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-09-05T06:02:01
+OBS.TARG.NAME: sig_Pav (RA:1.1243639E9, DEC:-2.47596336E8)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.693
+WindSpeed: 5.28
+WindDir: 319.0
+DL1/DL2/DL3/DL4 OPL: 100.61449 / 107.45368 / 65.97441 / 11.499991
+PROJECTED BL: BL12/BL13/BL14: 90.273 / 125.115 / 90.325
+PROJECTED BL: BL23/BL24/BL34: 43.328 / 82.757 / 81.599
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE248_0041.fits	PIONI.2021-09-05T06:04:30.054	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00828	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

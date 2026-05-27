@@ -1,0 +1,106 @@
+General weather conditions:
+Seeing:           0.48 - 3.77 arcsec
+Humidity:        27.0 - 66.0 %
+Wind:            6.95 - 20.7 m/s
+Temperature:      8.01 - 10.4 C
+Overall comment: Windy!
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:34	Clear,Humid,Windy	Clear condition - Pointing restriction N - humidity ~64%
+23:57	Clear,Humid,Windy	PR N, humidity ~67%
+01:42	Clear,Humid	End of PR, still humid, ~55%
+03:20	Clear,Humid	humidity ~60%, clear skies
+04:16	Clear,Humid,Windy	PR NE, humidity~60%
+07:06	Clear,Windy	PR North, high winds forced VISTA to close. Humidity ~36%.
+07:37	Clear,Humid,Windy	high winds, Dimm is having trouble centering star. Humidity ~55%
+08:13	Clear,Windy	Dimm parked due wind is higher than 18 m/s.
+Humidity ~44%
+09:08	Clear,Windy	closing telescopes due high winds
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-17
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896611
+Instrument: PIONIER
+Name:       CAL_HR_3317_b3.obx
+Target:     HR_3317
+Run:        106.21KX.001
+Container:  2896556
+---------------------------------------------------
+
+Comments:
+04:35 Excuted in good conditions with nice fringes. Some of the V2 slopes a bit high. - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896611
+OBS.NAME: CAL_HR_3317_b3.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-18T04:21:38
+OBS.TARG.NAME: HR_3317 (RA:4.55088096E8, DEC:-6.2781876E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.049
+WindSpeed: 12.3
+WindDir: 29.0
+DL1/DL2/DL3/DL4 OPL: 60.403442 / 33.389896 / 20.777088 / 50.791645
+PROJECTED BL: BL12/BL13/BL14: 86.282 / 123.711 / 131.277
+PROJECTED BL: BL23/BL24/BL34: 57.355 / 132.031 / 102.041
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE049_0076.fits	PIONI.2021-02-18T04:24:13.973	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00358	
+PIONIER_OBS_FRINGE049_0077.fits	PIONI.2021-02-18T04:24:52.088	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00358	
+PIONIER_OBS_FRINGE049_0078.fits	PIONI.2021-02-18T04:25:30.155	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003218	
+PIONIER_OBS_FRINGE049_0079.fits	PIONI.2021-02-18T04:26:08.367	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003218	
+PIONIER_OBS_FRINGE049_0080.fits	PIONI.2021-02-18T04:26:46.437	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003226	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.049
+WindSpeed: 12.3
+WindDir: 29.0
+DL1/DL2/DL3/DL4 OPL: 60.403442 / 33.389896 / 20.777088 / 50.791645
+PROJECTED BL: BL12/BL13/BL14: 86.282 / 123.711 / 131.277
+PROJECTED BL: BL23/BL24/BL34: 57.355 / 132.031 / 102.041
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK049_0016.fits	PIONI.2021-02-18T04:27:25.061	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003582	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

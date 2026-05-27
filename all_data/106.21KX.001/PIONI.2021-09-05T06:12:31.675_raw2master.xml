@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="SCIENCE_FRINGE" certified="true" complete="true"
+    mode="Raw2Master" type="main">
+    <mainFiles>
+        <file category="FRINGE" name="PIONI.2021-09-05T06:12:31.675"/>
+    </mainFiles>
+    <messages/>
+    <associatedFiles>
+        <association category="CALIB_OIDATA_RAW" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:16:48.320"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:16:50.253"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:16:53.830"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:16:55.436"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:00.733"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:04.573"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:06.376"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:11.543"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:15.006"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:16.716"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:22.086"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:26.433"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:28.196"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:34.220"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:37.586"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-07T09:17:39.343"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="DARK_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="DARK_CALIBRATION" name="M.PIONIER.2021-09-07T09:19:10.996"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="JSDC_CAT" certified="true"
+            complete="true" match="N/A" type="main">
+            <mainFiles>
+                <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="KAPPA_MATRIX" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="KAPPA_MATRIX" name="M.PIONIER.2021-09-07T09:19:36.993"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="OIDATA_TF" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-09-07T09:18:01.820"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-09-07T09:18:07.566"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-09-07T09:18:12.770"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-09-07T09:18:17.966"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-09-07T09:18:23.500"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="SPECTRAL_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="SPECTRAL_CALIBRATION" name="M.PIONIER.2021-09-07T09:19:41.690"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+    </associatedFiles>
+</association>

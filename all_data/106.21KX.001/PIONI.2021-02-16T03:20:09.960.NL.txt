@@ -1,0 +1,119 @@
+General weather conditions:
+Seeing:          0.5 - 1.7 arcsec
+Humidity:        12 - 50%
+Wind:            10.1 - 20.7 m/s
+Temperature:     13.0 - 9.8 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:39	Clear	
+00:11	Clear,Windy	pointing restriction to the north
+02:49	Clear,Windy	continue with pointing restrictions to the north
+04:15	Clear,Windy	High winds, DIMM lost star, moving to another star.
+Continue with pointing restrictions to the north.
+05:25	Clear,Windy	Continue with pointing restrictions to the north.
+Dimm stopped working, auto parked due bad weather.
+05:30	Clear,Windy	High Winds alarm, Closing telescopes
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-15
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896696
+Instrument: PIONIER
+Name:       SCI_gam_Lep_f1.obx
+Target:     gam_Lep
+Run:        106.21KX.001
+Container:  2896679
+---------------------------------------------------
+
+Comments:
+05:09 Not enough tracking time on delay lines, send the preset again. No time loss. - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	n/a		2.0
+Sky transparency:	n/a		THIN
+Airmass:         	n/a		2.0
+FLI:             	n/a		1.0
+Moon distance:   	n/a		30
+Twilight:        	n/a		0
+Water Vapour:    	n/a		30.0
+Strehl:          	n/a		0.0
+ATM:             	n/a		70%
+Fringe Quality:  	n/a
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	_
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896696
+OBS.NAME: SCI_gam_Lep_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-16T03:12:47
+OBS.TARG.NAME: gam_Lep (RA:3.10009344E8, DEC:-8.0820432E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.226
+WindSpeed: 11.63
+WindDir: 14.0
+DL1/DL2/DL3/DL4 OPL: 88.545074 / 43.7216 / 12.037413 / 36.99942
+PROJECTED BL: BL12/BL13/BL14: 78.455 / 105.784 / 118.411
+PROJECTED BL: BL23/BL24/BL34: 50.429 / 131.649 / 102.904
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE047_0006.fits	PIONI.2021-02-16T03:16:18.305	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002565	
+PIONIER_OBS_FRINGE047_0007.fits	PIONI.2021-02-16T03:16:56.297	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002565	
+PIONIER_OBS_FRINGE047_0008.fits	PIONI.2021-02-16T03:17:34.283	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002915	
+PIONIER_OBS_FRINGE047_0009.fits	PIONI.2021-02-16T03:18:12.569	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003261	
+PIONIER_OBS_FRINGE047_0010.fits	PIONI.2021-02-16T03:18:50.651	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003261	
+---------------------------------------------------
+Template: PIONIER_gen_cal_kappa
+Data product: CALIB/KAPPA,OBJECT
+Airmass: 1.226
+WindSpeed: 11.63
+WindDir: 14.0
+DL1/DL2/DL3/DL4 OPL: 88.545074 / 43.7216 / 12.037413 / 36.99942
+PROJECTED BL: BL12/BL13/BL14: 78.455 / 105.784 / 118.411
+PROJECTED BL: BL23/BL24/BL34: 50.429 / 131.649 / 102.904
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_KAPPA047_0001.fits	PIONI.2021-02-16T03:19:28.919	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003261	
+PIONIER_GEN_KAPPA047_0002.fits	PIONI.2021-02-16T03:19:49.465	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003261	
+PIONIER_GEN_KAPPA047_0003.fits	PIONI.2021-02-16T03:20:09.960	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.003261	
+PIONIER_GEN_KAPPA047_0004.fits	PIONI.2021-02-16T03:20:30.820	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002893	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.226
+WindSpeed: 11.63
+WindDir: 14.0
+DL1/DL2/DL3/DL4 OPL: 88.545074 / 43.7216 / 12.037413 / 36.99942
+PROJECTED BL: BL12/BL13/BL14: 78.455 / 105.784 / 118.411
+PROJECTED BL: BL23/BL24/BL34: 50.429 / 131.649 / 102.904
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK047_0002.fits	PIONI.2021-02-16T03:20:51.815	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002893	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

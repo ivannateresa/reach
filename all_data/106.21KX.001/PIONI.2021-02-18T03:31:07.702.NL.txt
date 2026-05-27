@@ -1,0 +1,122 @@
+General weather conditions:
+Seeing:           0.48 - 3.77 arcsec
+Humidity:        27.0 - 66.0 %
+Wind:            6.95 - 20.7 m/s
+Temperature:      8.01 - 10.4 C
+Overall comment: Windy!
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:34	Clear,Humid,Windy	Clear condition - Pointing restriction N - humidity ~64%
+23:57	Clear,Humid,Windy	PR N, humidity ~67%
+01:42	Clear,Humid	End of PR, still humid, ~55%
+03:20	Clear,Humid	humidity ~60%, clear skies
+04:16	Clear,Humid,Windy	PR NE, humidity~60%
+07:06	Clear,Windy	PR North, high winds forced VISTA to close. Humidity ~36%.
+07:37	Clear,Humid,Windy	high winds, Dimm is having trouble centering star. Humidity ~55%
+08:13	Clear,Windy	Dimm parked due wind is higher than 18 m/s.
+Humidity ~44%
+09:08	Clear,Windy	closing telescopes due high winds
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-17
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896696
+Instrument: PIONIER
+Name:       SCI_gam_Lep_f1.obx
+Target:     gam_Lep
+Run:        106.21KX.001
+Container:  2896679
+---------------------------------------------------
+
+Comments:
+04:24 Good conditions and nice fringes, som eof the V2 slopes are a bit high. - 
+09:29 The quality control confirms that there is a gradual decrease of the TF, which is probably real. But it is not too steep and an interpolation should do a good job. - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896696
+OBS.NAME: SCI_gam_Lep_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-18T03:23:41
+OBS.TARG.NAME: gam_Lep (RA:3.10009344E8, DEC:-8.0820432E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.297
+WindSpeed: 9.6
+WindDir: 28.0
+DL1/DL2/DL3/DL4 OPL: 95.715965 / 47.122807 / 12.066818 / 36.928185
+PROJECTED BL: BL12/BL13/BL14: 76.161 / 100.394 / 114.5
+PROJECTED BL: BL23/BL24/BL34: 48.328 / 131.23 / 102.919
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE049_0036.fits	PIONI.2021-02-18T03:26:54.363	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00493	
+PIONIER_OBS_FRINGE049_0037.fits	PIONI.2021-02-18T03:27:32.559	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004388	
+PIONIER_OBS_FRINGE049_0038.fits	PIONI.2021-02-18T03:28:10.632	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004388	
+PIONIER_OBS_FRINGE049_0039.fits	PIONI.2021-02-18T03:28:48.803	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004551	
+PIONIER_OBS_FRINGE049_0040.fits	PIONI.2021-02-18T03:29:26.938	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004551	
+---------------------------------------------------
+Template: PIONIER_gen_cal_kappa
+Data product: CALIB/KAPPA,OBJECT
+Airmass: 1.297
+WindSpeed: 9.6
+WindDir: 28.0
+DL1/DL2/DL3/DL4 OPL: 95.715965 / 47.122807 / 12.066818 / 36.928185
+PROJECTED BL: BL12/BL13/BL14: 76.161 / 100.394 / 114.5
+PROJECTED BL: BL23/BL24/BL34: 48.328 / 131.23 / 102.919
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_KAPPA049_0009.fits	PIONI.2021-02-18T03:30:05.251	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004551	
+PIONIER_GEN_KAPPA049_0010.fits	PIONI.2021-02-18T03:30:26.099	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005573	
+PIONIER_GEN_KAPPA049_0011.fits	PIONI.2021-02-18T03:30:46.942	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005573	
+PIONIER_GEN_KAPPA049_0012.fits	PIONI.2021-02-18T03:31:07.702	25600/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005573	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.297
+WindSpeed: 9.6
+WindDir: 28.0
+DL1/DL2/DL3/DL4 OPL: 95.715965 / 47.122807 / 12.066818 / 36.928185
+PROJECTED BL: BL12/BL13/BL14: 76.161 / 100.394 / 114.5
+PROJECTED BL: BL23/BL24/BL34: 48.328 / 131.23 / 102.919
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK049_0008.fits	PIONI.2021-02-18T03:31:28.597	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005039	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

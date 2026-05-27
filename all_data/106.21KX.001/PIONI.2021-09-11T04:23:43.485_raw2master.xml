@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="SCIENCE_FRINGE" certified="true" complete="true"
+    mode="Raw2Master" type="main">
+    <mainFiles>
+        <file category="FRINGE" name="PIONI.2021-09-11T04:23:43.485"/>
+    </mainFiles>
+    <messages/>
+    <associatedFiles>
+        <association category="CALIB_OIDATA_RAW" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:44:58.070"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:04.150"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:05.976"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:11.273"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:18.023"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:19.813"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:26.913"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:32.490"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:34.310"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:39.580"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:44.956"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:51.046"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:45:56.973"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:46:03.196"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-09-13T18:46:04.986"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="DARK_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="DARK_CALIBRATION" name="M.PIONIER.2021-09-13T18:49:16.826"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="JSDC_CAT" certified="true"
+            complete="true" match="N/A" type="main">
+            <mainFiles>
+                <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="KAPPA_MATRIX" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="KAPPA_MATRIX" name="M.PIONIER.2021-09-13T18:49:36.963"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="SPECTRAL_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="SPECTRAL_CALIBRATION" name="M.PIONIER.2021-09-13T18:49:43.713"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+    </associatedFiles>
+</association>

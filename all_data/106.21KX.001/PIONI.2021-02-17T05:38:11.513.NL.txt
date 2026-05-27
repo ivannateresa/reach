@@ -1,0 +1,104 @@
+General weather conditions:
+Seeing:          0.53-1.22 arcsec
+Humidity:        7-41%
+Wind:            7.9-15.3 m/s
+Temperature:     8.8 - 11.8 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:39	Clear	
+01:38	Photometric	according to omegacam
+03:25	Earthquake,Photometric	EQ 74 km NO of Taltal, 4.5mag, no risk. We continued with observations.
+04:34	Photometric	according to FORS and omegacam
+05:25	Photometric,Windy	pointing restriction to the north
+07:27	Clear,Windy	
+08:38	Clear,Windy	
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2021-02-16
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2896781
+Instrument: PIONIER
+Name:       CAL_HD_65181_f1.obx
+Target:     HD_65181
+Run:        106.21KX.001
+Container:  2896558
+---------------------------------------------------
+
+Comments:
+05:39 Science OB saturating. - 
+06:03  - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	-		70%
+Fringe Quality:  	n/a
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	C
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2896781
+OBS.NAME: CAL_HD_65181_f1.obx
+OBS.PROG.ID: 106.21KX.001
+OBS.START: 2021-02-17T05:31:31
+OBS.TARG.NAME: HD_65181 (RA:4.28963776E8, DEC:-9.1491664E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.259
+WindSpeed: 13.85
+WindDir: 13.0
+DL1/DL2/DL3/DL4 OPL: 90.89 / 46.847923 / 12.053256 / 31.535826
+PROJECTED BL: BL12/BL13/BL14: 78.896 / 104.105 / 114.165
+PROJECTED BL: BL23/BL24/BL34: 48.499 / 130.44 / 103.553
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE048_0021.fits	PIONI.2021-02-17T05:35:39.147	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+PIONIER_OBS_FRINGE048_0022.fits	PIONI.2021-02-17T05:36:17.216	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+PIONIER_OBS_FRINGE048_0023.fits	PIONI.2021-02-17T05:36:55.329	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+PIONIER_OBS_FRINGE048_0024.fits	PIONI.2021-02-17T05:37:33.466	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+PIONIER_OBS_FRINGE048_0025.fits	PIONI.2021-02-17T05:38:11.513	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.259
+WindSpeed: 13.85
+WindDir: 13.0
+DL1/DL2/DL3/DL4 OPL: 90.89 / 46.847923 / 12.053256 / 31.535826
+PROJECTED BL: BL12/BL13/BL14: 78.896 / 104.105 / 114.165
+PROJECTED BL: BL23/BL24/BL34: 48.499 / 130.44 / 103.553
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK048_0005.fits	PIONI.2021-02-17T05:38:50.150	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.002847	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

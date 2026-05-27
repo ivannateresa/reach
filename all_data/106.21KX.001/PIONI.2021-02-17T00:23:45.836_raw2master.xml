@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="SCIENCE_FRINGE" certified="true" complete="true"
+    mode="Raw2Master" type="main">
+    <mainFiles>
+        <file category="FRINGE" name="PIONI.2021-02-17T00:23:45.836"/>
+    </mainFiles>
+    <messages/>
+    <associatedFiles>
+        <association category="CALIB_OIDATA_RAW" certified="true"
+            complete="true" match="extended" type="main">
+            <mainFiles>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:43.903"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:45.776"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:47.560"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:49.306"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:51.090"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:52.843"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:54.670"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:56.513"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:30:58.373"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-17T13:31:05.570"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:18.666"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:24.786"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:31.690"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:35.176"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:42.770"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:46.670"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:53.803"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:45:57.310"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:46:04.893"/>
+                <file category="CALIB_OIDATA_RAW" name="M.PIONIER.2021-02-19T11:46:08.743"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="DARK_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="DARK_CALIBRATION" name="M.PIONIER.2021-02-19T11:47:19.743"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="JSDC_CAT" certified="true"
+            complete="true" match="N/A" type="main">
+            <mainFiles>
+                <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="KAPPA_MATRIX" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="KAPPA_MATRIX" name="M.PIONIER.2021-02-19T11:48:02.593"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="OIDATA_TF" certified="true"
+            complete="true" match="extended" type="main">
+            <mainFiles>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:07.396"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:09.073"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:10.730"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:12.403"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:14.130"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:15.780"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:17.516"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:19.086"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-17T13:31:20.966"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:20.866"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:24.303"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:31.280"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:34.683"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:41.746"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:45.273"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:52.130"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:46:55.723"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:47:02.596"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:47:05.920"/>
+                <file category="OIDATA_TF" name="M.PIONIER.2021-02-19T11:51:01.553"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="SPECTRAL_CALIBRATION" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="SPECTRAL_CALIBRATION" name="M.PIONIER.2021-02-19T11:48:14.820"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+    </associatedFiles>
+</association>
