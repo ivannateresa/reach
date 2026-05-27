@@ -3,6 +3,7 @@ complete_sequences/
 results/
 plots/
 all_sequences/
+paper/
 
 *.fits
 *.fits.Z
