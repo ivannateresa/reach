@@ -1,0 +1,98 @@
+General weather conditions:
+Seeing:          0.41 - 2.55 arcsec
+Humidity:        8.0 - 35.0 %
+Wind:            0.0 - 12.2 m/s
+Temperature:     12.8 - 16.0 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:50	ThickCirrus	Thick clouds passing by.
+02:35	ThickCirrus	Still some thick clouds passing by between 20-40 degrees of altitude.
+03:53	ThinCirrus	Only some thin clouds passing by.
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2020-01-02
+
+---------------------------------------------------
+
+General Comments:
+---------------------------------------------------
+
+OB:         2553951
+Instrument: PIONIER
+Name:       SCI_rho_Pup_b2.obx
+Target:     rho_Pup
+Run:        0104.D-0580(A)
+Container:  2553934
+---------------------------------------------------
+
+Comments:
+05:28 First calibrator done with HIGH sens (value for targets with H>2mag). However, the science of 2.1mag saturated the detector, so we switched to MEDIUM sensitivity for the rest of the sequence. Same DIT was used, so the first calibrator is still useful. ->B - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	Yes		1.2
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	-		1.0
+Moon distance:   	-		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	-		NATM
+Fringe Quality:  	No
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	C
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2553951
+OBS.NAME: SCI_rho_Pup_b2.obx
+OBS.PROG.ID: 0104.D-0580(A)
+OBS.START: 2020-01-03T05:13:08
+OBS.TARG.NAME: rho_Pup (RA:4.38783872E8, DEC:-8.7494832E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: K0
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.016
+WindSpeed: 3.9
+WindDir: 326.0
+DL1/DL2/DL3/DL4 OPL: 12.201221 / 26.965746 / 32.73296 / 70.45536
+PROJECTED BL: BL12/BL13/BL14: 89.351 / 127.218 / 126.212
+PROJECTED BL: BL23/BL24/BL34: 57.629 / 90.226 / 48.624
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE003_0065.fits	PIONI.2020-01-03T05:16:11.345	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.006976	
+PIONIER_OBS_FRINGE003_0066.fits	PIONI.2020-01-03T05:16:49.528	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00808	
+PIONIER_OBS_FRINGE003_0067.fits	PIONI.2020-01-03T05:17:27.649	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00808	
+PIONIER_OBS_FRINGE003_0068.fits	PIONI.2020-01-03T05:18:05.734	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008464	
+PIONIER_OBS_FRINGE003_0069.fits	PIONI.2020-01-03T05:18:43.871	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008464	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.016
+WindSpeed: 3.9
+WindDir: 326.0
+DL1/DL2/DL3/DL4 OPL: 12.201221 / 26.965746 / 32.73296 / 70.45536
+PROJECTED BL: BL12/BL13/BL14: 89.351 / 127.218 / 126.212
+PROJECTED BL: BL23/BL24/BL34: 57.629 / 90.226 / 48.624
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK003_0012.fits	PIONI.2020-01-03T05:19:22.589	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008464	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

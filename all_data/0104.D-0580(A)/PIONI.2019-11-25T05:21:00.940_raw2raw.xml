@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<association category="SCIENCE_FRINGE" certified="false" complete="true"
+    mode="Raw2Raw" type="main">
+    <mainFiles>
+        <file category="FRINGE" name="PIONI.2019-11-25T05:21:00.940"/>
+    </mainFiles>
+    <messages/>
+    <associatedFiles>
+        <association category="JSDC_CAT" certified="true"
+            complete="true" match="N/A" type="main">
+            <mainFiles>
+                <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T04:10:06.387"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T04:13:17.685"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T04:10:44.560"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T04:13:17.685"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T04:11:22.537"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T04:13:17.685"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T04:12:00.835"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T04:13:17.685"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T04:12:38.880"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T04:13:17.685"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:05:01.498"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:08:12.263"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:05:39.504"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:08:12.263"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:06:17.659"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:08:12.263"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:06:55.728"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:08:12.263"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:07:33.530"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:37.688"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:37:58.464"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:19.109"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T04:38:39.842"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="false" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T04:39:00.746"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:08:12.263"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="RAW_DARK_CALIBRATION" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="DARK" name="PIONI.2019-11-25T05:21:39.641"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:38:00.618"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:41:11.773"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="true" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:38:38.590"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:41:11.773"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="true" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:39:16.739"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:41:11.773"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="true" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:39:54.825"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:41:11.773"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="true" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="CALIB_FRINGE" certified="false"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="FRINGE" name="PIONI.2019-11-25T05:40:32.969"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="JSDC_CAT" certified="true"
+                    complete="true" match="N/A" type="main">
+                    <mainFiles>
+                        <file category="JSDC_CAT" name="M.PIONIER.2023-07-25T09:40:28.670"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="false" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T05:41:11.773"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+                <association category="RAW_KAPPA_MATRIX"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                        <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles>
+                        <association category="RAW_DARK_CALIBRATION"
+                            certified="true" complete="true"
+                            match="calib_plan" type="main">
+                            <mainFiles>
+                                <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                            </mainFiles>
+                            <messages/>
+                            <associatedFiles/>
+                        </association>
+                    </associatedFiles>
+                </association>
+                <association category="RAW_SPECTRAL_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="RAW_KAPPA_MATRIX" certified="true"
+            complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="KAPPA" name="PIONI.2019-11-25T06:02:40.569"/>
+                <file category="KAPPA" name="PIONI.2019-11-25T06:03:07.578"/>
+                <file category="KAPPA" name="PIONI.2019-11-25T06:03:34.528"/>
+                <file category="KAPPA" name="PIONI.2019-11-25T06:04:01.525"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles>
+                <association category="RAW_DARK_CALIBRATION"
+                    certified="true" complete="true" match="calib_plan" type="main">
+                    <mainFiles>
+                        <file category="DARK" name="PIONI.2019-11-25T06:04:28.775"/>
+                    </mainFiles>
+                    <messages/>
+                    <associatedFiles/>
+                </association>
+            </associatedFiles>
+        </association>
+        <association category="RAW_SPECTRAL_CALIBRATION"
+            certified="true" complete="true" match="calib_plan" type="main">
+            <mainFiles>
+                <file category="SPEC_CAL" name="PIONI.2019-11-25T08:50:40.945"/>
+            </mainFiles>
+            <messages/>
+            <associatedFiles/>
+        </association>
+    </associatedFiles>
+</association>

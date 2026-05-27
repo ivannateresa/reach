@@ -1,0 +1,98 @@
+General weather conditions:
+Seeing:          0.38 - 1.19 arcsec
+Humidity:        6.0 - 11.0 %
+Wind:            0.0 - 7.55 m/s
+Temperature:     15.4 - 17.5 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:22	Clear	No visibles clouds
+00:35	Photometric	According to FORS and OCAM
+04:27	Photometric	Photometric according to OCAM
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2019-11-27
+
+---------------------------------------------------
+
+General Comments:
+No comments
+---------------------------------------------------
+
+OB:         2553633
+Instrument: PIONIER
+Name:       CAL_HD_30507_f2.obx
+Target:     HD_30507
+Run:        0104.D-0580(A)
+Container:  2553614
+---------------------------------------------------
+
+Comments:
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	Yes		1.2
+Sky transparency:	Yes		THIN
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	-		NATM
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2553633
+OBS.NAME: CAL_HD_30507_f2.obx
+OBS.PROG.ID: 0104.D-0580(A)
+OBS.START: 2019-11-28T04:57:30
+OBS.TARG.NAME: HD_30507 (RA:2.59813536E8, DEC:2.8224288E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_calibrator
+Data product: CALIB/FRINGE,OBJECT
+Airmass: 1.185
+WindSpeed: 0.6
+WindDir: 242.0
+DL1/DL2/DL3/DL4 OPL: 32.33865 / 11.506111 / 26.95891 / 89.71666
+PROJECTED BL: BL12/BL13/BL14: 88.003 / 129.198 / 122.774
+PROJECTED BL: BL23/BL24/BL34: 55.372 / 111.911 / 89.613
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE332_0011.fits	PIONI.2019-11-28T05:03:37.080	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.0086	
+PIONIER_OBS_FRINGE332_0012.fits	PIONI.2019-11-28T05:04:15.096	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.009257	
+PIONIER_OBS_FRINGE332_0013.fits	PIONI.2019-11-28T05:04:53.223	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.009257	
+PIONIER_OBS_FRINGE332_0014.fits	PIONI.2019-11-28T05:05:31.340	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.008044	
+PIONIER_OBS_FRINGE332_0015.fits	PIONI.2019-11-28T05:06:09.646	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00936	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.185
+WindSpeed: 0.6
+WindDir: 242.0
+DL1/DL2/DL3/DL4 OPL: 32.33865 / 11.506111 / 26.95891 / 89.71666
+PROJECTED BL: BL12/BL13/BL14: 88.003 / 129.198 / 122.774
+PROJECTED BL: BL23/BL24/BL34: 55.372 / 111.911 / 89.613
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK332_0003.fits	PIONI.2019-11-28T05:06:48.168	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.00936	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned

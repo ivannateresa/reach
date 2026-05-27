@@ -1,0 +1,92 @@
+General weather conditions:
+Seeing:          0.41 - 2.55 arcsec
+Humidity:        8.0 - 35.0 %
+Wind:            0.0 - 12.2 m/s
+Temperature:     12.8 - 16.0 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+23:50	ThickCirrus	Thick clouds passing by.
+02:35	ThickCirrus	Still some thick clouds passing by between 20-40 degrees of altitude.
+03:53	ThinCirrus	Only some thin clouds passing by.
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2020-01-02
+
+---------------------------------------------------
+
+General Comments:
+---------------------------------------------------
+
+OB:         2553948
+Instrument: PIONIER
+Name:       SCI_rho_Pup_b1.obx
+Target:     rho_Pup
+Run:        0104.D-0580(A)
+Container:  2553934
+---------------------------------------------------
+
+Comments:
+05:00 target to bright for readout mode. have to switch to MEDIUM. - 
+05:03  Observed with minimum DIT 0.5ms and HIGH sensitivity. Detector is saturating, probably target is brighter than given in OB?
+ - Paranal Observatory
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	n/a		1.2
+Sky transparency:	n/a		THIN
+Airmass:         	n/a		2.0
+FLI:             	n/a		1.0
+Moon distance:   	n/a		30
+Twilight:        	n/a		0
+Water Vapour:    	n/a		30.0
+Strehl:          	n/a		0.0
+ATM:             	n/a		NATM
+Fringe Quality:  	n/a
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	X
+---------------------------------------------------
+
+Partial Losses		Duration	Loss Type	Comment
+04:59:00 > 05:00:20	00:01:20	Preparation	
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2553948
+OBS.NAME: SCI_rho_Pup_b1.obx
+OBS.PROG.ID: 0104.D-0580(A)
+OBS.START: 2020-01-03T04:55:06
+OBS.TARG.NAME: rho_Pup (RA:4.38783872E8, DEC:-8.7494832E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: K0
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.031
+WindSpeed: 4.45
+WindDir: 335.0
+DL1/DL2/DL3/DL4 OPL: 12.310268 / 32.925365 / 41.741383 / 78.585014
+PROJECTED BL: BL12/BL13/BL14: 88.207 / 125.3 / 124.598
+PROJECTED BL: BL23/BL24/BL34: 57.106 / 90.037 / 48.588
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE003_0052.fits	PIONI.2020-01-03T04:58:28.251	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.011021	
+* PIONIER_OBS_FRINGE003_0053.fits	PIONI.2020-01-03T04:59:06.365	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.011948	
+* PIONIER_OBS_FRINGE003_0054.fits	PIONI.2020-01-03T04:59:44.502	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.012285	
+---------------------------------------------------
+* The file is potentially affected by issues during acquisition. Please check the corresponding "Comments" and "Partial Losses" sections above.
+
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned
