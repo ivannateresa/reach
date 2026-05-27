@@ -4,6 +4,9 @@ results/
 plots/
 all_sequences/
 paper/
+bolometric-corrections/
+data/
+extinction/
 
 *.fits
 *.fits.Z
