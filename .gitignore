@@ -2,6 +2,7 @@ all_data/
 complete_sequences/
 results/
 plots/
+all_sequences/
 
 *.fits
 *.fits.Z
