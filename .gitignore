@@ -6,6 +6,7 @@ all_sequences/
 paper/
 bolometric-corrections/
 extinction/
+all_data/
 
 *.fits
 *.fits.Z
