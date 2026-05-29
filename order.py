@@ -12,7 +12,7 @@ import shutil
 
 
 
-base_path = "/home2/ihernand/Desktop/reach/all_data/*"
+base_path = "/home2/ihernand/Desktop/reach/all_data/0104.D-0580(A)"
 all_logs = glob.glob(base_path)
 
 folders = [f for f in all_logs if os.path.isdir(f)]

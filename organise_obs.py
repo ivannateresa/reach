@@ -180,9 +180,9 @@ np.savetxt("ref_ids.csv", list(ref_ids), fmt="%s")
 # tiene la estrella, es decir, que no tenga calibradores.
 
  
-bright_list_files = ['data/p104_bright.txt','data/p105_bright.txt','data/p106_bright.txt']
+bright_list_files = ['data/p104_bright.txt']
 
-faint_list_files  = ['data/p104_faint.txt' ,'data/p105_faint.txt','data/p106_faint.txt']
+faint_list_files  = ['data/p104_faint.txt' ]
 
 
 def get_period_from_filename(filename):

@@ -648,8 +648,8 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
         # with repeats from these, copy to the subdirectory and rename, then
         # proceed to the next target
         print(bootstrapping_folder)
-        #if not os.path.exists(bootstrapping_folder):
-        #    os.makedirs(bootstrapping_folder)
+        if not os.path.exists(bootstrapping_folder):
+           os.makedirs(bootstrapping_folder)
         ifgs = sample_interferograms(complete_sequences[seq][2], n_ifg, 
                                      do_random_ifg_sampling)
         

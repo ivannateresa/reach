@@ -78,10 +78,10 @@ def load_target_information(filepath="data/target_info.tsv",
     pandas.read_csv.html#pandas.read_csv
     """
     # Import (TODO: specify dtypes)
-    tgt_info = pd.read_csv(filepath, sep="\t", header=1, index_col=8,
+    tgt_info = pd.read_csv(filepath, sep=",", header=1, index_col=8,
                               skiprows=0)
     
-    print(list(tgt_info.columns))
+    
 
     # Organise dataframe by removing duplicates
     # Note that the tilde is a bitwise not operation on the mask

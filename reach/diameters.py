@@ -601,7 +601,7 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
             sci_data = tgt_info[tgt_info["Primary"]==sci[0]]
         else:
             sci_data = tgt_info[tgt_info["Primary"]==sci]
-        print(tgt_info["Primary"], sci)
+
 
         id = sci_data.index.values[0]
         
@@ -856,7 +856,6 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
     dates_obs["b_night"] = dates_obs["b_night"].astype(str).str.strip()
     dates_obs["f_night"] = dates_obs["f_night"].astype(str).str.strip()
 
-    print(dates_obs)
     
     print("\nFound %i oifits file/s for bootstrap %i" % (len(ith_bs_oifits), 
                                                        bs_i+1))
@@ -879,15 +878,15 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
             # Figure out what sequence we're dealing with
             night = oifits.split("/")[-1].split("_SCI")[0]
         
-            faint_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
+            faint_entry = dates_obs[np.logical_and(dates_obs["star_clean"]==sci, 
                                             dates_obs["f_night"]==night)]
         
-            bright_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
+            bright_entry = dates_obs[np.logical_and(dates_obs["star_clean"]==sci, 
                                             dates_obs["b_night"]==night)]
             
             # If returning both a faint and bright entry, need to define 
             # which is which - create a tuple of form (id, seq, period)
-            print(bright_entry, faint_entry)
+            print(faint_entry, bright_entry)
             if len(bright_entry) > 0 and len(faint_entry) > 0:
                 # Bright
                 if seq_i == bright_entry["b_order"].values[0]:
