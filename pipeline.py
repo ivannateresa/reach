@@ -49,11 +49,11 @@ do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
 force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
-n_bootstraps = 10                 # Number of bootstrapping iterations
+n_bootstraps = 2                 # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
 n_calib_runs = 1                   # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
-calib_run_i = 1                     # ith calibration run to perform, 0 indexed
+calib_run_i = 0                     # ith calibration run to perform, 0 indexed
 
 
 # Folder mask where the reduced files are stored
@@ -96,7 +96,6 @@ print(" - do_gaussian_diam_sampling\t=\t%s" % do_gaussian_diam_sampling)
 
 tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
                                       use_plx_systematic)
-print(list(tgt_info.columns))
 
 print("\n", "-"*79, "\n", "\tSampling\n", "-"*79)  
 
@@ -113,12 +112,13 @@ else:
     n_pred_ldd, e_pred_ldd = rdiam.sample_n_pred_ldd(tgt_info, n_bootstraps, 
                                                  pred_ldd_col, e_pred_ldd_col,
                                                  do_gaussian_diam_sampling)
-    
+    #s)
     rutils.save_sampled_ldd(n_pred_ldd, e_pred_ldd, results_folder)
                                                  
     # Sample stellar parameters
     sampled_sci_params = rparam.sample_all(tgt_info, n_bootstraps, bc_path,
                                            force_claret_params, band_mask)
+
     rutils.save_sampled_params(sampled_sci_params, results_folder)
 
 # -----------------------------------------------------------------------------
@@ -127,7 +127,12 @@ else:
 # Load in the summarising data structures created in organise_obs.py
 
 complete_sequences, sequences = rutils.load_sequence_logs()
+print("\n--- COMPLETE SEQUENCES LOADED ---")
+for key in sorted(complete_sequences.keys()):
+    print(key, complete_sequences[key])
 
+print("\nTotal complete_sequences:", len(complete_sequences))
+print("Total sequences:", len(sequences))
 # Currently no proxima cen or gam pav data, so pop
 #sequences.pop((102, 'gamPav', 'faint'))
 #sequences.pop((102, 'gamPav', 'bright'))
@@ -138,7 +143,16 @@ complete_sequences, sequences = rutils.load_sequence_logs()
 #sequences.pop((99, "HD187289", "bright"))
 #complete_sequences.pop((99, 'HD187289', 'faint'))
 #complete_sequences.pop((99, 'HD187289', 'bright'))
+sequences.pop((106, "bethyi", "bright"))
+sequences.pop((105, "hd142860", "bright"))
+complete_sequences.pop((106, "bethyi", "bright"))
+complete_sequences.pop((105, "hd142860", "bright"))
+print("\n--- COMPLETE SEQUENCES LOADED ---")
+for key in sorted(complete_sequences.keys()):
+    print(key, complete_sequences[key])
 
+print("\nTotal complete_sequences:", len(complete_sequences))
+print("Total sequences:", len(sequences))
 # -----------------------------------------------------------------------------
 # [Optional] Calibrate calibrators against each other
 # -----------------------------------------------------------------------------
@@ -201,6 +215,7 @@ if n_calib_runs != 1:
     complete_sequences = {seq:complete_sequences[seq] for seq in valid_seqs}
     
     sequences = {seq:sequences[seq] for seq in complete_sequences}
+
 
 # -----------------------------------------------------------------------------
 # Run bootstrapping

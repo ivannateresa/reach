@@ -592,10 +592,13 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
     
     for sci in vis2.keys():
         # Only take the ID part of sci - could have " (Sequence)" after it
+    
         tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
                        for id in tgt_info["Primary"]]
 
         tgt_info["Primary"] = [clean_name_for_match(x) for x in tgt_info["Primary"]]
+
+        
         if type(sci) == tuple:
 
             sci_data = tgt_info[tgt_info["Primary"]==sci[0]]
@@ -852,7 +855,7 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
     # that a star has duplicate sequences on the same night
     dates_obs = pd.read_csv("data/dates_observed.tsv", sep="\t")
 
-    dates_obs["star_clean"] = dates_obs["star"].apply(clean_name_for_match)
+    dates_obs["star"] = dates_obs["star"].apply(clean_name_for_match)
     dates_obs["b_night"] = dates_obs["b_night"].astype(str).str.strip()
     dates_obs["f_night"] = dates_obs["f_night"].astype(str).str.strip()
 
@@ -867,6 +870,7 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
         # begin bootstrapping)
         sci_raw = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
         sci = clean_name_for_match(sci_raw)
+        print(sci, dates_obs["star"])
         
         # Extract data from oifits file. If multiple sequences were observed
         # on the same night, each of the retuned lists will contain more than
@@ -878,10 +882,10 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
             # Figure out what sequence we're dealing with
             night = oifits.split("/")[-1].split("_SCI")[0]
         
-            faint_entry = dates_obs[np.logical_and(dates_obs["star_clean"]==sci, 
+            faint_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
                                             dates_obs["f_night"]==night)]
         
-            bright_entry = dates_obs[np.logical_and(dates_obs["star_clean"]==sci, 
+            bright_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
                                             dates_obs["b_night"]==night)]
             
             # If returning both a faint and bright entry, need to define 

@@ -16,6 +16,12 @@ from collections import OrderedDict
 # -----------------------------------------------------------------------------
 # Utilities Functions
 # -----------------------------------------------------------------------------
+def clean_name_for_match(name):
+    name = str(name).strip()
+    name = name.replace(" ", "")
+    name = name.replace("_", "")
+    name = name.lower()
+    return name
 def summarise_sequences():
     """Creates a dictionary summary of each sequence, specified with the unique
     key (period, science, bright/faint).
@@ -86,7 +92,7 @@ def load_target_information(filepath="data/target_info.tsv",
     # Organise dataframe by removing duplicates
     # Note that the tilde is a bitwise not operation on the mask
     tgt_info = tgt_info[~tgt_info.index.duplicated(keep="first")]
-    
+
     # Force primary and Bayer IDs to standard no-space format
     tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
                            for id in tgt_info["Primary"]]
@@ -231,25 +237,31 @@ def get_unique_key(tgt_info, id_list):
     # primary IDs, so we need to check HD and Bayer IDs as well
     for star in id_list:
         # Remove non-alpha-numeric characters 
+        print(star)
         star = star.replace("_", "").replace(" ", "").replace(".", "")
-        
+        tgt_info["Primary"] = tgt_info["Primary"].apply(clean_name_for_match)
         prim_id = tgt_info[tgt_info["Primary"]==star].index
         
         if len(prim_id)==0:
             prim_id = tgt_info[tgt_info["Bayer_ID"]==star].index
+        if len(prim_id)==0:
+            tgt_info["Ref_ID_1"] = tgt_info["Ref_ID_1"].apply(clean_name_for_match)
+            prim_id = tgt_info[tgt_info["Ref_ID_1"]==star].index
+
             
         if len(prim_id)==0:
             prim_id = tgt_info[tgt_info.index==star].index
+
         
         try:
             assert len(prim_id) > 0
         except:
-            print("...failed on %s, %s" % (star))
+            print("...failed on %s, %s" % (star, star))
             failed = True
             break
         unique_ids.append(prim_id[0])
         
-    return unique_ids
+    return list(unique_ids)
     
     
 def compute_dist(tgt_info, use_plx_systematic=True):
@@ -343,7 +355,7 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
 
     # Calculate selective extinction (i.e. (B-V) colour excess) only for stars
     # outside the local bubble
-    print(tgt_info.columns)
+   
     eb_v = rphot.calculate_selective_extinction(tgt_info["Bmag"], 
                                                 tgt_info["Vmag"], 
                                                 tgt_info["SpT_simple"], grid)
@@ -494,11 +506,11 @@ def save_sampled_ldd(n_pred_ldd, e_pred_ldd, folder):
 def load_sampled_ldd(folder):
     """Load in the sampled values of LDD and the corresponding uncertainties.
     """
-    pkl_pred_ldd = open("results/%s/n_pred_ldd.pkl" % folder, "r")
+    pkl_pred_ldd = open("/home2/ihernand/Desktop/reach/results/%s/n_pred_ldd.pkl" % folder, "r")
     n_pred_ldd = pickle.load(pkl_pred_ldd)
     pkl_pred_ldd.close()
 
-    pkl_e_pred_ldd = open("results/%s/e_pred_ldd.pkl" % folder, "r")
+    pkl_e_pred_ldd = open("/home2/ihernand/Desktop/reach/results/%s/e_pred_ldd.pkl" % folder, "r")
     e_pred_ldd = pickle.load(pkl_e_pred_ldd)
     pkl_e_pred_ldd.close()  
     
@@ -573,9 +585,11 @@ def get_mean_delta_h(tgt_info, complete_sequences, sequences):
     """
     """
     used_cals = {}
-    
+
     for seq in complete_sequences.keys():
         # Get the science target id
+   
+        print(get_unique_key(tgt_info, [seq[1]]))
         sci = get_unique_key(tgt_info, [seq[1]])[0]
         sci_h = tgt_info.loc[sci]["Hmag"]
         
@@ -625,7 +639,7 @@ def get_mean_delta_h(tgt_info, complete_sequences, sequences):
     print("Faint LDD frac = %0.2f" % np.nanmean(faint_ldd_frac))
 
 
-def summarise_cs(results):
+def summarise_cs_old(results):
     """
     """
     cs = np.hstack(results["C_SCALE"].values)
@@ -637,6 +651,71 @@ def summarise_cs(results):
     print("AVG: %0.2f \pm %0.2f" % (cs.mean(), cs.std()))
     print("Bright: %0.2f \pm %0.2f" % (cs[bmask].mean(), cs[bmask].std()))  
     print("Faint: %0.2f \pm %0.2f" % (cs[fmask].mean(), cs[fmask].std())) 
+
+def summarise_cs(results):
+    """
+    Summarise C_SCALE values, separating bright and faint sequences.
+    """
+
+    cs_all = []
+    seq_all = []
+
+    for i, row in results.iterrows():
+
+        cs_i = np.asarray(row["C_SCALE"]).ravel()
+        seq_i = np.asarray(row["SEQ_ORDER"], dtype=object)
+
+        # Si seq_i es array de tuplas tipo (period, star, bright),
+        # dejamos una entrada por secuencia
+        if seq_i.ndim > 1:
+            seq_i = list(seq_i)
+        else:
+            seq_i = seq_i.ravel()
+
+        if len(cs_i) != len(seq_i):
+            print("WARNING: C_SCALE y SEQ_ORDER tienen distinto largo en fila", i)
+            print("len(C_SCALE) =", len(cs_i))
+            print("len(SEQ_ORDER) =", len(seq_i))
+            print("C_SCALE =", cs_i)
+            print("SEQ_ORDER =", seq_i)
+
+            n = min(len(cs_i), len(seq_i))
+            cs_i = cs_i[:n]
+            seq_i = seq_i[:n]
+
+        for c, seq in zip(cs_i, seq_i):
+            try:
+                c = float(c)
+            except:
+                continue
+
+            if not np.isfinite(c):
+                continue
+
+            cs_all.append(c)
+            seq_all.append(seq)
+
+    cs = np.asarray(cs_all, dtype=float)
+    seq_order = np.asarray(seq_all, dtype=object)
+
+    if len(cs) == 0:
+        print("No valid C_SCALE values.")
+        return
+
+    bmask = np.asarray(["bright" in str(seq).lower() for seq in seq_order])
+    fmask = np.asarray(["faint" in str(seq).lower() for seq in seq_order])
+
+    print("AVG: %0.2f \\pm %0.2f" % (cs.mean(), cs.std()))
+
+    if np.sum(bmask) > 0:
+        print("Bright: %0.2f \\pm %0.2f" % (cs[bmask].mean(), cs[bmask].std()))
+    else:
+        print("Bright: no valid values")
+
+    if np.sum(fmask) > 0:
+        print("Faint: %0.2f \\pm %0.2f" % (cs[fmask].mean(), cs[fmask].std()))
+    else:
+        print("Faint: no valid values")
 
 
 def summarise_percentages(tgt_info):

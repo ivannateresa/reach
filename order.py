@@ -12,7 +12,7 @@ import shutil
 
 
 
-base_path = "/home2/ihernand/Desktop/reach/all_data/0104.D-0580(A)"
+base_path = "/home2/ihernand/Desktop/reach/all_data/*"
 all_logs = glob.glob(base_path)
 
 folders = [f for f in all_logs if os.path.isdir(f)]
@@ -30,8 +30,7 @@ for path in folders:
 
         if filename.startswith("PIONI") and (
             filename.endswith(".NL.txt") or
-            filename.endswith(".fits.Z") or filename.endswith(".NL.txt.1") or
-            filename.endswith(".fits.Z.1") ):
+            filename.endswith(".fits.Z") ):
 
             match = re.search(r"\d{4}-\d{2}-\d{2}", filename)
 

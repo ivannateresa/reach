@@ -167,6 +167,103 @@ def make_table_seq_results(results):
     """Make the table to display the C intercept parameter associated with
     each sequence.
     """
+
+    columns = OrderedDict([("Star", ""),
+                           ("Period", ""),
+                           ("Sequence", ""),
+                           (r"$C_{\rm LD}$", ""),
+                           (r"$C_{\rm UD}$", "")])
+
+    header = []
+    table_rows = []
+    footer = []
+
+    header.append("\\begin{tabular}{%s}" % ("c"*len(columns)))
+    header.append("\\hline")
+    header.append((("%s & "*len(columns))[:-2] + r"\\") % tuple(columns.keys()))
+    header.append("\\hline")
+
+    for star, row in results.iterrows():
+
+        star_id = row["STAR"]
+
+        seq_order = list(row["SEQ_ORDER"])
+
+        c_ld = np.asarray(row["C_SCALE"]).ravel()
+        e_c_ld = np.asarray(row["e_C_SCALE"]).ravel()
+
+        c_ud = np.asarray(row["C_SCALE_UDD"]).ravel()
+        e_c_ud = np.asarray(row["e_C_SCALE_UDD"]).ravel()
+
+        print("DEBUG", star_id)
+        print("len SEQ_ORDER =", len(seq_order))
+        print("len C_SCALE =", len(c_ld))
+        print("SEQ_ORDER =", seq_order)
+        print("C_SCALE =", c_ld)
+
+        # Caso 1: hay un C_SCALE por secuencia
+        if len(c_ld) == len(seq_order):
+            n_rows = len(seq_order)
+
+            for seq_i in np.arange(n_rows):
+                period = seq_order[seq_i][2]
+                sequence = seq_order[seq_i][1]
+
+                table_row = ""
+                table_row += "%s & " % rutils.format_id(str(star_id))
+                table_row += "%s & " % period
+                table_row += "%s & " % sequence
+                table_row += "%0.3f $\\pm$ %0.3f & " % (c_ld[seq_i], e_c_ld[seq_i])
+                table_row += "%0.3f $\\pm$ %0.3f" % (c_ud[seq_i], e_c_ud[seq_i])
+
+                table_rows.append(table_row + r"\\")
+        elif len(c_ld) == 1:
+            periods = [seq[2] for seq in seq_order]
+            sequences = [seq[1] for seq in seq_order]
+
+            period_txt = ",".join([str(p) for p in sorted(set(periods))])
+            sequence_txt = "combined"
+
+            table_row = ""
+            table_row += "%s & " % rutils.format_id(str(star_id))
+            table_row += "%s & " % period_txt
+            table_row += "%s & " % sequence_txt
+            table_row += "%0.3f $\\pm$ %0.3f & " % (c_ld[0], e_c_ld[0])
+            table_row += "%0.3f $\\pm$ %0.3f" % (c_ud[0], e_c_ud[0])
+
+            table_rows.append(table_row + r"\\")
+
+        else:
+            print("WARNING: largos incompatibles para", star_id)
+            print("len(SEQ_ORDER) =", len(seq_order))
+            print("len(C_SCALE) =", len(c_ld))
+
+            n_rows = min(len(seq_order), len(c_ld), len(c_ud))
+
+            for seq_i in np.arange(n_rows):
+                period = seq_order[seq_i][2]
+                sequence = seq_order[seq_i][1]
+
+                table_row = ""
+                table_row += "%s & " % rutils.format_id(str(star_id))
+                table_row += "%s & " % period
+                table_row += "%s & " % sequence
+                table_row += "%0.3f $\\pm$ %0.3f & " % (c_ld[seq_i], e_c_ld[seq_i])
+                table_row += "%0.3f $\\pm$ %0.3f" % (c_ud[seq_i], e_c_ud[seq_i])
+
+                table_rows.append(table_row + r"\\")
+
+    footer.append("\\hline")
+    footer.append("\\end{tabular}")
+
+    table_1 = header + table_rows + footer
+
+    np.savetxt("paper/table_sequence_results.tex", table_1, fmt="%s")
+
+def make_table_seq_results_old(results):
+    """Make the table to display the C intercept parameter associated with
+    each sequence.
+    """
     columns = OrderedDict([("Star", ""),
                            #("HD", ""),
                            ("Period", ""),
@@ -395,7 +492,8 @@ def make_table_observation_log(tgt_info, complete_sequences, sequences):
         cals = [target.replace("_", "").replace(".","").replace(" ", "") 
                 for target in sequences[seq][::2]]
         cals_hd = tuple(rutils.get_unique_key(tgt_info, cals))
-        cals = ("%s, %s, %s" % cals_hd).replace("HD", "")
+        #cals = ("%s, %s, %s" % cals_hd).replace("HD", "")
+        cals =  cals_hd
         
         # Figure out how many calibrators we used (i.e. weren't 'BAD')
         cal_quality = [tgt_info.loc[cal]["Quality"] for cal in cals_hd]

@@ -8,6 +8,7 @@ import pandas as pd
 import astropy.constants as apc
 import reach.limb_darkening as rld
 import reach.utils as rutils
+import re
 # -----------------------------------------------------------------------------
 # Sampling Parameters
 # -----------------------------------------------------------------------------   
@@ -615,7 +616,10 @@ def sample_casagrande_bc(sampled_sci_params, bc_path):
     # Go through star by star and populate
     for star in star_ids:
         print("Getting BC for %s" % star)
+        
+       
         n_bs = len(sampled_sci_params.loc[star])
+
         id_fmt = star + "_%0" + str(int(np.log10(n_bs)) + 1) + "i"
         ids = [id_fmt % s for s in np.arange(0, n_bs)]
         #ids = np.arange(n_bs)
@@ -626,7 +630,7 @@ def sample_casagrande_bc(sampled_sci_params, bc_path):
         data = np.vstack((ids, sampled_sci_params.loc[star]["logg"], 
                           sampled_sci_params.loc[star]["feh"],
                           sampled_sci_params.loc[star]["teff"], ebvs)).T
-    
+        print(data)
         np.savetxt("%s/input.sample.all" % bc_path, data, delimiter=" ", fmt="%s")#, 
                    #fmt=["%s", "%0.3f", "%0.3f", "%0.2f", "%0.2f"])
     
@@ -635,10 +639,13 @@ def sample_casagrande_bc(sampled_sci_params, bc_path):
         # Load in the result
         results = pd.read_csv("%s/output.file.all" % bc_path, 
                               delim_whitespace=True)
+
+        
         print("Reading BC file:", results)                    
         # Save the bolometric corrections
         bc_num_cols = ["BC_1", "BC_2", "BC_3", "BC_4", "BC_5"]
         sampled_sci_params.loc[star, bc_labels] = results[bc_num_cols].values
+
 
 
 def sample_stellar_params(tgt_info, n_samples):
@@ -727,9 +734,21 @@ def merge_sampled_params_and_results(sampled_sci_params, bs_results, tgt_info):
     """
     # Get the IDs from bs_results
     prim_ids = bs_results.keys()
-    
+    print(prim_ids)
     # And the matching HD IDs
-    hd_ids = rutils.get_unique_key(tgt_info, bs_results.keys())
+    #hd_ids = rutils.get_unique_key(tgt_info, bs_results.keys())
+    prim_names = []
+
+    for key in prim_ids:
+        if isinstance(key, tuple):
+            prim_names.append(key[0])
+        else:
+            prim_names.append(key)
+
+    print("prim_names =", prim_names)
+
+    # And the matching HD IDs
+    hd_ids = rutils.get_unique_key(tgt_info, prim_names)
     
     # Get the list of new columns. For now don't worry about the vectors
     #bs_cols = ['MJD', 'TEL_PAIR', 'VIS2', 'FLAG', 'BASELINE', 'WAVELENGTH',

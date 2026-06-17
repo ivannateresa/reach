@@ -88,8 +88,7 @@ def convert_vtbt_to_vb(BTmag, VTmag):
     elif not np.max(BT_minus_VT) < np.max(colour_rel[:,0]):
         raise ColourOutOfBoundsException("Maximum (B_T-V_T) colour must be <"
                                         " %f0" % np.max(colour_rel[:,0]))
-    
-    # Predict (V-VT) from (BT-VT)
+        # Predict (V-VT) from (BT-VT)
     V_minus_VT= predict_V_minus_VT(BT_minus_VT)
     
     # Determine V from the (V-VT) prediction
@@ -188,7 +187,6 @@ def create_spt_uv_grid(do_interpolate=True):
         teff = grid["Teff"][~np.isnan(grid[col])]
         b_minus_v = grid[col][~np.isnan(grid[col])]
         calc_b_minus_v = interp1d(teff, b_minus_v, kind="linear") 
-        
         unknown_i = (np.isnan(grid[col]) & (grid["Teff"] > np.min(teff)) 
                           & (grid["Teff"] < np.max(teff)))
 

@@ -14,6 +14,13 @@ import matplotlib.ticker as plticker
 import matplotlib.cm as cm
 import matplotlib.transforms as transforms
 
+# -----------------------------------------------------------------------------
+def clean_name_for_match(name):
+    name = str(name).strip()
+    name = name.replace(" ", "")
+    name = name.replace("_", "")
+    name = name.lower()
+    return name
 def plot_diameter_comparison(diam_rel_1, diam_rel_2, diam_rel_1_dr, 
                             diam_rel_2_dr, diam_rel_1_label, diam_rel_2_label):
     """Function to compare two different measures of angular diameter (e.g. two
@@ -480,20 +487,85 @@ def plot_bootstrapping_summary(results, bs_results, n_bins=20,
             # -----------------------------------------------------------------
             # Plot histograms
             # -----------------------------------------------------------------
-            axes[1].hist(bs_results[star_id]["LDD_FIT"].values.tolist(), n_bins)
+                        # -----------------------------------------------------------------
+            # Plot histograms
+            # -----------------------------------------------------------------
+
+            ldd_samples = np.asarray(bs_results[star_id]["LDD_FIT"].values, dtype=float)
+
+            # Quitar NaN e infinitos
+            ldd_samples = ldd_samples[np.isfinite(ldd_samples)]
+
+            print("DEBUG hist:", star_id)
+            print("N valid LDD_FIT =", len(ldd_samples))
+
+            if len(ldd_samples) == 0:
+                print("WARNING: no valid LDD_FIT values for", star_id)
+
+                axes[1].text(0.5, 0.5, "No valid bootstrap values",
+                            transform=axes[1].transAxes,
+                            horizontalalignment="center",
+                            verticalalignment="center")
+                axes[1].set_title(stitle)
+
+            else:
+                ldd_min = np.nanmin(ldd_samples)
+                ldd_max = np.nanmax(ldd_samples)
+
+                print("min =", ldd_min, "max =", ldd_max)
+
+                # Si todos los valores son iguales, hist() falla.
+                # Por eso le damos un rango artificial.
+                if ldd_min == ldd_max:
+                    print("WARNING: all LDD_FIT values are identical for", star_id)
+
+                    if np.isfinite(ldd_fit) and np.isfinite(e_ldd_fit) and e_ldd_fit > 0:
+                        hist_range = (ldd_fit - 5.0 * e_ldd_fit,
+                                    ldd_fit + 5.0 * e_ldd_fit)
+                    elif np.isfinite(ldd_fit):
+                        hist_range = (ldd_fit - 0.01,
+                                    ldd_fit + 0.01)
+                    else:
+                        hist_range = (ldd_min - 0.01,
+                                    ldd_max + 0.01)
+
+                    axes[1].hist(ldd_samples, n_bins, range=hist_range)
+
+                else:
+                    axes[1].hist(ldd_samples, n_bins)
+
+                text_y = axes[1].get_ylim()[1]
+
+                axes[1].set_title(stitle + r" (${\rm N}_{\rm bootstraps} = $%i)"
+                                % len(ldd_samples))
+
+                y_height = axes[1].get_ylim()[1]
+
+                axes[1].vlines(ldd_fit, 0, y_height, linestyles="dashed")
+                axes[1].vlines(ldd_fit - e_ldd_fit, 0, y_height,
+                            colors="red", linestyles="dotted")
+                axes[1].vlines(ldd_fit + e_ldd_fit, 0, y_height,
+                            colors="red", linestyles="dotted")
+
+                axes[1].text(ldd_fit, text_y,
+                            r"$\theta_{\rm LDD}=%0.4f \pm%0.4f$"
+                            % (ldd_fit, e_ldd_fit),
+                            horizontalalignment="center")
+                
+            #axes[1].hist(bs_results[star_id]["LDD_FIT"].values.tolist(), n_bins)
         
-            text_y = axes[1].get_ylim()[1]
+            #text_y = axes[1].get_ylim()[1]
         
-            axes[1].set_title(stitle + r" (${\rm N}_{\rm bootstraps} = $%i)" 
-                             % len(bs_results[star_id]["LDD_FIT"].values.tolist()))
-            y_height = axes[1].get_ylim()[1]
-            axes[1].vlines(ldd_fit, 0, y_height, linestyles="dashed")
-            axes[1].vlines(ldd_fit-e_ldd_fit, 0, y_height, colors="red", 
-                           linestyles="dotted")
-            axes[1].vlines(ldd_fit+e_ldd_fit, 0, y_height, colors="red", 
-                           linestyles="dotted")
-            axes[1].text(ldd_fit, text_y, r"$\theta_{\rm LDD}=%0.4f \pm%0.4f$" 
-                         % (ldd_fit, e_ldd_fit), horizontalalignment="center") 
+            #axes[1].set_title(stitle + r" (${\rm N}_{\rm bootstraps} = $%i)" 
+             #                % len(bs_results[star_id]["LDD_FIT"].values.tolist()))
+            #y_height = axes[1].get_ylim()[1]
+            #axes[1].vlines(ldd_fit, 0, y_height, linestyles="dashed")
+            #axes[1].vlines(ldd_fit-e_ldd_fit, 0, y_height, colors="red", 
+            #               linestyles="dotted")
+            #axes[1].vlines(ldd_fit+e_ldd_fit, 0, y_height, colors="red", 
+              #             linestyles="dotted")
+            #axes[1].text(ldd_fit, text_y, r"$\theta_{\rm LDD}=%0.4f \pm%0.4f$" 
+            #            % (ldd_fit, e_ldd_fit), horizontalalignment="center") 
             
             plt.gcf().set_size_inches(16, 9)
             pdf.savefig()
@@ -733,8 +805,361 @@ def plot_paper_vis2_fits(results, n_rows=8, n_cols=2):
             pdf.savefig()
 
 
-
 def plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=3, n_cols=2,
+                                   rasterize=False):
+    """Plot the rescaled simultaneous fits for multiple sequences.
+    """
+
+    plt.close("all")
+
+    # ============================================================
+    # Crear columnas limpias para hacer match de nombres
+    # ============================================================
+
+    tgt_info = tgt_info.copy()
+
+    match_cols = ["Primary", "Ref_ID_1", "Ref_ID_2", "Ref_ID_3",
+                  "Bayer_ID", "HD_ID"]
+
+    for col in match_cols:
+        if col in tgt_info.columns:
+            tgt_info[col + "_clean"] = [
+                clean_name_for_match(x) if pd.notnull(x) else ""
+                for x in tgt_info[col].values
+            ]
+
+    search_cols = ["Primary_clean",
+                   "Ref_ID_1_clean", "Ref_ID_2_clean", "Ref_ID_3_clean",
+                   "Bayer_ID_clean", "HD_ID_clean"]
+
+    with PdfPages("paper/joint_seq_vis2_plots.pdf") as pdf:
+
+        num_sets = int(np.ceil(float(len(results)) / float(n_rows * n_cols)))
+        n_rows_init = n_rows
+
+        for set_i in np.arange(0, num_sets):
+
+            # Numero de filas en esta pagina
+            if set_i + 1 == num_sets:
+                n_left = len(results) - set_i * n_rows_init * n_cols
+                n_rows_page = int(np.ceil(float(n_left) / float(n_cols)))
+            else:
+                n_rows_page = n_rows_init
+
+            fig, axes = plt.subplots(n_rows_page, n_cols)
+            plt.subplots_adjust(wspace=0.3, hspace=0.4)
+            axes = np.atleast_1d(axes).flatten()
+
+            for star_i in np.arange(set_i * n_rows_init * n_cols,
+                                    (set_i + 1) * n_rows_init * n_cols):
+
+                plt_i = star_i - set_i * n_rows_init * n_cols
+
+                if star_i >= len(results):
+                    if plt_i < len(axes):
+                        axes[plt_i].axis("off")
+                    continue
+
+                # ============================================================
+                # Datos de la estrella
+                # ============================================================
+
+                sci = str(results.iloc[star_i]["STAR"])
+                period = results.iloc[star_i]["PERIOD"]
+                sequence = results.iloc[star_i]["SEQUENCE"]
+
+                sci_clean = clean_name_for_match(sci)
+
+                # Buscar sci en varias columnas
+                sci_data = pd.DataFrame()
+                matched_col = None
+
+                for col in search_cols:
+                    if col not in tgt_info.columns:
+                        continue
+
+                    tmp = tgt_info[tgt_info[col] == sci_clean]
+
+                    if len(tmp) > 0:
+                        sci_data = tmp
+                        matched_col = col
+                        break
+
+                if len(sci_data) == 0:
+                    print("WARNING: no encontre match para", sci)
+                    print("sci_clean =", sci_clean)
+                    print("Busque en:", search_cols)
+                    axes[plt_i].axis("off")
+                    continue
+
+                hd_id = sci_data.index.values[0]
+
+                stitle = "%s (%s, %s)" % (sci, sequence, period)
+
+                print("%i, %i, [%i] %s %s %s" %
+                      (set_i, plt_i, star_i, sci, period, sequence))
+
+                print("Match:", sci, "-->", hd_id, "using", matched_col)
+
+                # ============================================================
+                # Coeficientes de limb darkening
+                # ============================================================
+
+                u_lambda_cols = ["u_lambda_%i" % ui for ui in np.arange(0, 6)]
+                s_lambda_cols = ["s_lambda_%i" % ui for ui in np.arange(0, 6)]
+
+                u_lambdas = np.asarray(tgt_info.loc[hd_id][u_lambda_cols].values,
+                                       dtype=float)
+                s_lambdas = np.asarray(tgt_info.loc[hd_id][s_lambda_cols].values,
+                                       dtype=float)
+
+                c_scale = np.asarray(results.iloc[star_i]["C_SCALE"],
+                                     dtype=float).ravel()
+
+                if len(c_scale) == 0:
+                    print("WARNING: C_SCALE vacio para", sci)
+                    axes[plt_i].axis("off")
+                    continue
+
+                # Esto asume 12 puntos por secuencia
+                n_points_seq = [12] * len(c_scale)
+
+                c_array = np.hstack([
+                    c_scale[ni] * np.ones(n)
+                    for ni, n in enumerate(n_points_seq)
+                ])
+
+                cmap = cm.get_cmap("magma")
+                colours = [cmap(i) for i in np.arange(0.84, 0, -0.14)]
+
+                wl_um = [1.533, 1.581, 1.629, 1.677, 1.725, 1.773]
+                wl_lbl = [r"%s$\,\mu$m" % wl for wl in wl_um]
+
+                # ============================================================
+                # Panel de residuos
+                # ============================================================
+
+                divider = make_axes_locatable(axes[plt_i])
+                res_ax = divider.append_axes("bottom", size="35%", pad=0.1)
+                axes[plt_i].figure.add_axes(res_ax, sharex=axes[plt_i])
+
+                residuals_all = np.array([], dtype=float)
+                e_vis2_all = np.array([], dtype=float)
+
+                # ============================================================
+                # Plot por canal de longitud de onda
+                # ============================================================
+
+                for wl_i in np.arange(6):
+
+                    bls = np.asarray(results.iloc[star_i]["BASELINE"],
+                                     dtype=float)
+                    wls = np.asarray(results.iloc[star_i]["WAVELENGTH"],
+                                     dtype=float)
+
+                    sfreq = (bls / wls[wl_i])[:len(c_array)]
+
+                    vis2 = np.asarray(results.iloc[star_i]["VIS2"][:, wl_i],
+                                      dtype=float)
+                    e_vis2 = np.asarray(results.iloc[star_i]["e_VIS2"][:, wl_i],
+                                        dtype=float)
+
+                    ldd_fit = float(results.iloc[star_i]["LDD_FIT"])
+                    e_ldd_fit = float(results.iloc[star_i]["e_LDD_FIT"])
+
+                    valid_i = (((vis2 >= 0)
+                                & (e_vis2 > 0)
+                                & np.isfinite(vis2)
+                                & np.isfinite(e_vis2)))[:len(c_array)]
+
+                    vis2 = vis2[:len(c_array)] / c_array
+                    e_vis2 = e_vis2[:len(c_array)]
+                    ldd_fit_wl = ldd_fit * s_lambdas[wl_i]
+
+                    u_lambda = float(u_lambdas[wl_i])
+                    s_lambda = float(s_lambdas[wl_i])
+
+                    vis2 = vis2[valid_i]
+                    e_vis2 = e_vis2[valid_i]
+                    sfreq = sfreq[valid_i]
+
+                    if len(vis2) == 0:
+                        print("WARNING: sin puntos validos para",
+                              sci, period, sequence, "wl_i =", wl_i)
+                        continue
+
+                    x = np.arange(1 * 10**6, 25 * 10**7, 10000)
+                    n_points_fit = (len(x),)
+
+                    y_fit = rdiam.calc_vis2(x, ldd_fit_wl, 1.0, n_points_fit,
+                                            u_lambda, s_lambda)
+
+                    axes[plt_i].errorbar(sfreq, vis2, yerr=e_vis2, fmt=".",
+                                          label=wl_lbl[wl_i],
+                                          elinewidth=0.3,
+                                          capsize=0.6,
+                                          capthick=0.3,
+                                          markersize=3,
+                                          color=colours[wl_i],
+                                          markeredgecolor="grey",
+                                          markeredgewidth=0.01,
+                                          rasterized=rasterize)
+
+                    axes[plt_i].plot(x, y_fit, "--",
+                                     linewidth=0.4,
+                                     color=colours[wl_i])
+
+                    # Residuals
+                    n_points_res = (len(sfreq),)
+
+                    model = rdiam.calc_vis2(sfreq, ldd_fit_wl, 1.0,
+                                            n_points_res, u_lambda, s_lambda)
+
+                    residuals = vis2 - model
+
+                    res_ax.errorbar(sfreq, residuals, yerr=e_vis2, fmt=".",
+                                    elinewidth=0.3,
+                                    capsize=0.6,
+                                    capthick=0.3,
+                                    markersize=3,
+                                    color=colours[wl_i],
+                                    markeredgecolor="grey",
+                                    markeredgewidth=0.01,
+                                    rasterized=rasterize)
+
+                    residuals_all = np.hstack((residuals_all, residuals))
+                    e_vis2_all = np.hstack((e_vis2_all, e_vis2))
+
+                # ============================================================
+                # Labels y limites del panel principal
+                # ============================================================
+
+                xx = (axes[plt_i].get_xlim()[1] -
+                      axes[plt_i].get_xlim()[0]) * 0.05
+
+                yy = (axes[plt_i].get_ylim()[1] -
+                      axes[plt_i].get_ylim()[0]) * 0.05
+
+                axes[plt_i].text(xx, yy, rutils.format_id(sci),
+                                  fontsize="small")
+
+                axes[plt_i].set_xlim([0.0, 10E7])
+                axes[plt_i].set_ylim([0.0, 1.1])
+
+                axes[plt_i].set_xticklabels([])
+
+                axes[plt_i].tick_params(axis="both", top=True, right=True)
+                res_ax.tick_params(axis="y", right=True)
+
+                maj_loc = plticker.MultipleLocator(base=0.2)
+                min_loc = plticker.MultipleLocator(base=0.1)
+
+                axes[plt_i].yaxis.set_major_locator(maj_loc)
+                axes[plt_i].yaxis.set_minor_locator(min_loc)
+
+                # ============================================================
+                # Ticks seguros para residuos
+                # ============================================================
+
+                residuals_all = np.asarray(residuals_all, dtype=float)
+                e_vis2_all = np.asarray(e_vis2_all, dtype=float)
+
+                good_res = (np.isfinite(residuals_all)
+                            & np.isfinite(e_vis2_all))
+
+                if np.sum(good_res) == 0:
+
+                    print("WARNING: no finite residuals for",
+                          sci, period, sequence)
+
+                    res_sep_maj = 0.1
+                    res_sep_min = 0.05
+                    res_ax.set_ylim([-0.3, 0.3])
+
+                else:
+
+                    y_low = residuals_all[good_res] - e_vis2_all[good_res]
+                    y_high = residuals_all[good_res] + e_vis2_all[good_res]
+
+                    y_min = np.nanmin(y_low)
+                    y_max = np.nanmax(y_high)
+
+                    if ((not np.isfinite(y_min))
+                        or (not np.isfinite(y_max))
+                        or (y_max == y_min)):
+
+                        print("WARNING: invalid residual range for",
+                              sci, period, sequence)
+                        print("y_min =", y_min, "y_max =", y_max)
+
+                        res_sep_maj = 0.1
+                        res_sep_min = 0.05
+                        res_ax.set_ylim([-0.3, 0.3])
+
+                    else:
+
+                        res_range = np.abs(y_max - y_min)
+
+                        res_sep_maj = res_range / 4.0
+                        res_sep_maj = np.round(res_sep_maj * 2, 2) / 2.0
+
+                        if ((not np.isfinite(res_sep_maj))
+                            or (res_sep_maj <= 0)):
+
+                            res_sep_maj = 0.1
+
+                        res_sep_min = res_sep_maj / 2.0
+
+                        pad = 0.1 * res_range
+                        res_ax.set_ylim([y_min - pad, y_max + pad])
+
+                res_maj_loc = plticker.MultipleLocator(base=res_sep_maj)
+                res_min_loc = plticker.MultipleLocator(base=res_sep_min)
+
+                res_ax.yaxis.set_major_locator(res_maj_loc)
+                res_ax.yaxis.set_minor_locator(res_min_loc)
+
+                res_ax.set_xlim([0.0, 10E7])
+                res_ax.hlines(0, 0, 25E7,
+                              linestyles="dotted",
+                              linewidth=0.25)
+
+                plt.setp(axes[plt_i].get_xticklabels(), fontsize="medium")
+                plt.setp(axes[plt_i].get_yticklabels(), fontsize="medium")
+                plt.setp(res_ax.get_xticklabels(), fontsize="medium")
+                plt.setp(res_ax.get_yticklabels(), fontsize="medium")
+
+                res_ax.xaxis.offsetText.set_fontsize("medium")
+                res_ax.yaxis.offsetText.set_fontsize("medium")
+
+            # ================================================================
+            # Finalizar pagina
+            # ================================================================
+
+            fig.text(0.5, 0.005,
+                     r"Spatial Frequency (rad$^{-1})$",
+                     ha="center")
+
+            fig.text(0.005, 0.5,
+                     r"Visibility$^2$",
+                     va="center",
+                     rotation="vertical")
+
+            if n_rows_page == n_cols:
+                plt.gcf().set_size_inches(10,
+                                           6 * (float(n_rows_page)
+                                                / float(n_rows_init)))
+            else:
+                plt.gcf().set_size_inches(8,
+                                           11 * (float(n_rows_page)
+                                                 / float(n_rows_init)))
+
+            plt.tight_layout(pad=1.0)
+            plt.savefig("paper/joint_seq_vis2_plots_pg%i.png" % set_i,
+                        dpi=200)
+            pdf.savefig(dpi=200)
+            plt.close()
+def plot_joint_seq_paper_vis2_fits_old(tgt_info, results, n_rows=3, n_cols=2,
                                    rasterize=False):
     """Plot the rescaled simultaneous fits for multiple sequences
     """
@@ -937,7 +1362,7 @@ def plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=3, n_cols=2,
             plt.close()    
 
 
-def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
+def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     """Plot the zoomed in fitted sidelobe
     """
     plt.close("all")
@@ -946,6 +1371,7 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
     plt.subplots_adjust(wspace=0.3, hspace=0.4)
     
     # Get the science target name
+    print(tgt_info["Primary"], results["STAR"])
     hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]
     
     # And the science target results
@@ -1038,16 +1464,16 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
     axes.legend(loc="best", fontsize="medium")
     
     # Set up ticks and axes
-    axes.set_xlim([5.5E7,9.5E7])
-    axes.set_ylim([0.0,0.018])
+    axes.set_xlim([0E7,9.5E7])
+    axes.set_ylim([0.0,1.1])
     
     axes.set_xticklabels([])
     
     axes.tick_params(axis="both", top=True, right=True)
     res_ax.tick_params(axis="y", right=True)
     
-    maj_loc = plticker.MultipleLocator(base=0.004)
-    min_loc = plticker.MultipleLocator(base=0.00025)
+    maj_loc = plticker.MultipleLocator(base=0.2)
+    min_loc = plticker.MultipleLocator(base=0.1)
     
     axes.yaxis.set_major_locator(maj_loc)
     axes.yaxis.set_minor_locator(min_loc)
@@ -1059,8 +1485,8 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
     res_ax.yaxis.set_major_locator(res_maj_loc)
     res_ax.yaxis.set_minor_locator(res_min_loc)
     
-    res_ax.set_xlim([5.5E7,9.5E7])
-    res_ax.set_ylim([-0.008,0.008])
+    res_ax.set_xlim([0E7,9.5E7])
+    res_ax.set_ylim([-0.02,0.02])
     res_ax.hlines(0, 0, 25E7, linestyles="dotted", linewidth=0.25)
     res_ax.set_ylabel("Residuals", fontsize="x-large")
     
@@ -1074,8 +1500,9 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci="lamSgr"):
     res_ax.yaxis.offsetText.set_fontsize("x-large")
         
     plt.tight_layout(pad=1.0)
-    plt.savefig("paper/lam_sgr_sidelobe.pdf") 
-    plt.savefig("paper/lam_sgr_sidelobe.png", dpi=200)   
+
+    plt.savefig("paper/%s_sidelobe.pdf" % sci)
+    plt.savefig("paper/%s_sidelobe.png" % sci, dpi=200)
  
 
 def plot_lit_diam_comp(tgt_info, xy_map=None, markers=["s","v","D","o","*"]):
@@ -1243,9 +1670,12 @@ def plot_colour_rel_diam_comp(tgt_info, colour_rels=["V-W3","V-W4","B-V_feh"],
             sep = 0.1
 
             # Import the provided xy_map if given
+            xy_map = None
             if xy_map is not None:
-                xx = xy_map[star_data["Primary"]][0]
-                yy = xy_map[star_data["Primary"]][1]
+                xx = xy_map["alfcmi"][0]
+                yy = xy_map["alfcmi"][1]
+                #xx = xy_map[star_data["Primary"]][0]
+                #yy = xy_map[star_data["Primary"]][1]
 
             elif len(xy_txt) > 0 and (xy < sep).any():
                 xx = 0.025
@@ -1305,7 +1735,7 @@ def plot_colour_rel_diam_comp(tgt_info, colour_rels=["V-W3","V-W4","B-V_feh"],
         
         # Plot the two lines
         xlim = ax.get_xlim()
-        ylim = [0.9, 4.6]
+        ylim = [-1, 4.6]
         ax.plot(np.arange(0, 10), np.arange(0, 10), "--", color="black", 
                 zorder=1)
         res_ax.hlines(1, xmin=0, xmax=10, linestyles="dashed", zorder=1)
@@ -1385,11 +1815,16 @@ def plot_casagrande_teff_comp(tgt_info, xy_map=None):
         xy_abs = (final_teffs[-1]**2 + casagrande_teffs[-1]**2)**0.5
         xy = np.abs(np.array(xy_txt) - xy_abs)
         sep = 50
+        star_data["Primary"] = clean_name_for_match(star_data["Primary"])
         
         # Import the provided xy_map if given
         if xy_map is not None:
-            xx = xy_map[star_data["Primary"]][0]
-            yy = xy_map[star_data["Primary"]][1]
+           
+            xx = xy_map["alfcmi"][0]
+            yy = xy_map["alfcmi"][1]
+
+            #xx = xy_map[star_data["Primary"]][0]
+            #yy = xy_map[star_data["Primary"]][1]
 
         elif len(xy_txt) > 0 and (xy < sep).any():
             xx = 25

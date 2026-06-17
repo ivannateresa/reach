@@ -18,7 +18,7 @@ from collections import OrderedDict, Counter
 # -----------------------------------------------------------------------------
 # pndrs Affiliated Functions
 # -----------------------------------------------------------------------------
-base_path = "/home2/ihernand/Desktop/reach/all_sequence"
+base_path = "/home2/ihernand/Desktop/reach/complete_sequences" 
 
 def clean_name_for_match(name):
     name = str(name).strip()
@@ -76,7 +76,6 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         
         sequence = [star.replace("_", "").replace(".","").replace(" ", "") 
                     for star in sequences[seq]]
-        
         if night not in nights:
             nights[night] = set(sequence)
         else:
@@ -105,6 +104,7 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         # Note that several stars are observed multiple times under different
         # primary IDs, so we need to check HD and Bayer IDs as well
         for star in nights[night]:
+            tgt_info["Primary"] = tgt_info["Primary"].apply(clean_name_for_match)
     
             prim_id = tgt_info[tgt_info["Primary"]==star].index
             
@@ -113,7 +113,7 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
                 
             if len(prim_id)==0:
                 prim_id = tgt_info[tgt_info["HD_ID"]==star].index
-            
+
             try:
                 assert len(prim_id) > 0
             except:
@@ -131,14 +131,14 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         # We need to compile entries for multiple targets with the same name
         # due to the non-unique/inconsistent IDs initially sent to ESO. These
         # are stored in the following columns of the input table.
-        ref_ids = ["Ref_ID_1", "Ref_ID_2", "Ref_ID_3"]
+        ref_ids = ["HD_ID","Ref_ID_1", "Ref_ID_2", "Ref_ID_3"]
         
         recs = []
         
         # For each non-null reference ID, collate magnitude, LDD, and sci/cal
         # Rename the reference ID column in the pandas dataframe, then stack
         for ref_id in ref_ids:
-            
+    
             rec = tgt_info.loc[ids][tgt_info.loc[ids][ref_id].notnull()]
             rec = rec[["Hmag", "Kmag", "Vmag", "Science", ref_id, "LDD_rel"]]
             
@@ -156,6 +156,8 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
             
             if len(rec) > 0:
                 recs.append(rec.copy(deep=True))
+
+     
 
         rec = pd.concat(recs)
         
@@ -192,10 +194,11 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
     
         # Save the fits file to the night directory
         if not run_local:
-            dir = base_path + "%s%s/%s/" % (night, dir_suffix, night)
+            dir =  (base_path % night)+ "/%s/" % (night)
         else:
             dir = "test/"
-        
+       
+
         if os.path.exists(dir):
             fname = dir + "/" + night + "_oiDiam.fits" 
             hdu.writeto(fname, output_verify="warn", overwrite=True)
@@ -209,8 +212,40 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
     print("%i oiDiam.fits files written" % diam_files_written)    
     return nights
 
+def load_bad_baselines_log(bad_baseline_file="data/bad_baselines.txt"):
+    """
+    Load bad baselines log.
 
-def load_bad_baselines_log():
+    If the file is empty or does not exist, return an empty dictionary.
+    """
+
+    import os
+    import numpy as np
+
+    if (not os.path.exists(bad_baseline_file)) or os.path.getsize(bad_baseline_file) == 0:
+        print("No bad baselines found: %s is empty or missing" % bad_baseline_file)
+        return {}
+
+    bad_baselines = np.loadtxt(bad_baseline_file, str, comments="#")
+
+    if bad_baselines.size == 0:
+        print("No bad baselines found in %s" % bad_baseline_file)
+        return {}
+
+    # If there is only one row, np.loadtxt returns 1D. Convert to 2D.
+    bad_baselines = np.atleast_2d(bad_baselines)
+
+    bad_baseline_dict = {}
+
+    for row in bad_baselines:
+        night = row[0]
+        station = row[4]
+        start = float(row[5])
+        end = float(row[6])
+        bad_baseline_dict[night] = [station, start, end]
+
+    return bad_baseline_dict
+def load_bad_baselines_log_old():
     """Loads in the text file recording any bad baselines, where each entry
     has the form: (Period,ID,concatenation,station,start,end)
     
@@ -321,10 +356,10 @@ def save_nightly_pndrs_script(complete_sequences, tgt_info,
     for night in sequence_times:
         # Save the fits file to the night directory
         if not run_local:
-            dir = base_path + "%s%s/%s/" % (night, dir_suffix, night)
+            dir = (base_path % night) + "%s/" % ( night)
         else:
             dir = "test"
-        
+       
         # Make the directory if it does not exist
         if not os.path.exists(dir):
             os.mkdir(dir)
@@ -439,8 +474,34 @@ def calculate_target_durations(complete_sequences):
         
     return sequence_durations
 
-
 def select_only_bad_target_durations(sequence_durations, tgt_info):
+    """Takes the output of calculate_target_durations, and compares to the 
+    target quality values in tgt_info, returning only durations for targets
+    marked as BAD.
+    """
+
+    bad_durations = {}
+
+    for night in sequence_durations:
+        bad_durations[night] = []
+
+        for star in sequence_durations[night]:
+
+            # star[0] es el nombre del target/calibrador
+            prim_id = rutils.get_unique_key(tgt_info, star[0])
+
+            # Si no encuentra el target en tgt_info, no debe romper el codigo
+            if len(prim_id) == 0:
+                print("WARNING: target not found in tgt_info:", star[0], "night:", night)
+                continue
+
+            # Si existe Quality y esta marcado como BAD, se excluye
+            if tgt_info.loc[prim_id[0]]["Quality"] == "BAD":
+                bad_durations[night].append(star)
+
+    return bad_durations
+
+def select_only_bad_target_durations_old(sequence_durations, tgt_info):
     """Takes the output of calculate_target_durations, and compares to the 
     target quality values in tgt_info, returning only durations for only those
     targets which we wish to exclude from the calibration process.
@@ -549,7 +610,7 @@ def calibrate_all_observations(reduced_data_folders, bootstrap_i,
              total_time % 60.))
         
 
-def move_sci_oifits(obs_path, results_path, bootstrap_i):
+def move_sci_oifits_old(obs_path, results_path, bootstrap_i):
     """Used to collect the calibrated oiFits files of all science targets after
     running the PIONIER data reduction pipeline. 
     
@@ -584,6 +645,39 @@ def move_sci_oifits(obs_path, results_path, bootstrap_i):
     
     print("%i files copied" % files_copied)
     
+
+def move_sci_oifits(obs_path, results_path, bootstrap_i):
+
+    sci_oi_fits = glob.glob(obs_path + "/*SCI*oidataCalibrated.fits")
+    sci_oi_fits.sort()
+
+    files_copied = 0
+    if len(sci_oi_fits) == 0:
+     
+        print(obs_path + "/*SCI*oidataCalibrated.fits")
+        all_fits = glob.glob(obs_path + "/*.fits")
+        for f in all_fits[:10]:
+            print("  ", f)
+
+        print("%i files copied" % files_copied)
+        return files_copied
+
+    for oifits in sci_oi_fits:
+        if not os.path.exists(results_path):
+            os.mkdir(results_path)
+
+        fname = oifits.split("/")[-1].replace(
+            ".fits",
+            "_%02i.fits" % bootstrap_i)
+
+        print("...copying %s as %s" % (oifits.split("/")[-1], fname))
+
+        copyfile(oifits, results_path + fname)
+        files_copied += 1
+
+    print("%i files copied" % files_copied)
+
+    return files_copied
 
 def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
                               do_random_ifg_sampling=True):
@@ -623,12 +717,13 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
     nights = [complete_sequences[seq][0] for seq in complete_sequences.keys()]
     nights = list(set(nights))
     nights.sort()
-    
+    #nights = [night for night in nights if night != "2022-08-11"]
+    #nights = [night for night in nights if night != "2021-09-05"]
     for night in nights:
         night_folder = base_path % night
         bootstrapping_folder = night_folder + "%s/" % night
-        
         old_files = glob.glob(bootstrapping_folder + "PIONI*")
+
         
         print("Deleting %i files from: %s" % (len(old_files), 
                                               bootstrapping_folder))
@@ -639,7 +734,10 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
     print("\nRemoved %i old files \n" % total_old_files)
 
     # For every sequence, perform bootstrapping at the interferogram level
+
+
     for seq in complete_sequences.keys():
+       
         night = complete_sequences[seq][0]
         night_folder = base_path % night
         bootstrapping_folder = night_folder + "/%s/" % night
@@ -647,7 +745,7 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
         # Collect interferograms of the same target together, select N randomly
         # with repeats from these, copy to the subdirectory and rename, then
         # proceed to the next target
-        print(bootstrapping_folder)
+    
         if not os.path.exists(bootstrapping_folder):
            os.makedirs(bootstrapping_folder)
         ifgs = sample_interferograms(complete_sequences[seq][2], n_ifg, 
@@ -814,7 +912,6 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
     
     if not run_local and not already_calibrated:
         # Save oiDiam files
-        print(list(tgt_info.columns))
         nights = save_nightly_ldd(sequences, complete_sequences, tgt_info,
                                   pred_ldd, e_pred_ldd, base_path)
         
