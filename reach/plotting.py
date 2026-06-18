@@ -14,13 +14,7 @@ import matplotlib.ticker as plticker
 import matplotlib.cm as cm
 import matplotlib.transforms as transforms
 
-# -----------------------------------------------------------------------------
-def clean_name_for_match(name):
-    name = str(name).strip()
-    name = name.replace(" ", "")
-    name = name.replace("_", "")
-    name = name.lower()
-    return name
+#
 def plot_diameter_comparison(diam_rel_1, diam_rel_2, diam_rel_1_dr, 
                             diam_rel_2_dr, diam_rel_1_label, diam_rel_2_label):
     """Function to compare two different measures of angular diameter (e.g. two
@@ -823,8 +817,7 @@ def plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=3, n_cols=2,
 
     for col in match_cols:
         if col in tgt_info.columns:
-            tgt_info[col + "_clean"] = [
-                clean_name_for_match(x) if pd.notnull(x) else ""
+            tgt_info[col + "_clean"] = [x if pd.notnull(x) else ""
                 for x in tgt_info[col].values
             ]
 
@@ -868,7 +861,7 @@ def plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=3, n_cols=2,
                 period = results.iloc[star_i]["PERIOD"]
                 sequence = results.iloc[star_i]["SEQUENCE"]
 
-                sci_clean = clean_name_for_match(sci)
+                sci_clean = sci
 
                 # Buscar sci en varias columnas
                 sci_data = pd.DataFrame()
@@ -1191,6 +1184,7 @@ def plot_joint_seq_paper_vis2_fits_old(tgt_info, results, n_rows=3, n_cols=2,
             
                 # Get the science target name
                 sci = str(results.iloc[star_i]["STAR"])
+                
                 hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]
                 
                 period = results.iloc[star_i]["PERIOD"]
@@ -1372,6 +1366,8 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     
     # Get the science target name
     print(tgt_info["Primary"], results["STAR"])
+ 
+    print(tgt_info[tgt_info["Primary"]==sci].index)
     hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]
     
     # And the science target results
@@ -1480,13 +1476,13 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     axes.set_ylabel(r"Visibility$^2$", fontsize="x-large")
     
     res_maj_loc = plticker.MultipleLocator(base=0.005)
-    res_min_loc = plticker.MultipleLocator(base=0.001)
+    res_min_loc = plticker.MultipleLocator(base=0.01)
     
     res_ax.yaxis.set_major_locator(res_maj_loc)
     res_ax.yaxis.set_minor_locator(res_min_loc)
     
     res_ax.set_xlim([0E7,9.5E7])
-    res_ax.set_ylim([-0.02,0.02])
+    res_ax.set_ylim([-0.03,0.03])
     res_ax.hlines(0, 0, 25E7, linestyles="dotted", linewidth=0.25)
     res_ax.set_ylabel("Residuals", fontsize="x-large")
     
@@ -1815,7 +1811,7 @@ def plot_casagrande_teff_comp(tgt_info, xy_map=None):
         xy_abs = (final_teffs[-1]**2 + casagrande_teffs[-1]**2)**0.5
         xy = np.abs(np.array(xy_txt) - xy_abs)
         sep = 50
-        star_data["Primary"] = clean_name_for_match(star_data["Primary"])
+        star_data["Primary"] = star_data["Primary"]
         
         # Import the provided xy_map if given
         if xy_map is not None:

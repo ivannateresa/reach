@@ -20,12 +20,6 @@ from collections import OrderedDict, Counter
 # -----------------------------------------------------------------------------
 base_path = "/home2/ihernand/Desktop/reach/complete_sequences" 
 
-def clean_name_for_match(name):
-    name = str(name).strip()
-    name = name.replace(" ", "")
-    name = name.replace("_", "")
-    name = name.lower()
-    return name
 
 def save_nightly_ldd(sequences, complete_sequences, tgt_info, 
                 pred_ldd, e_pred_ldd,
@@ -104,7 +98,7 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         # Note that several stars are observed multiple times under different
         # primary IDs, so we need to check HD and Bayer IDs as well
         for star in nights[night]:
-            tgt_info["Primary"] = tgt_info["Primary"].apply(clean_name_for_match)
+            tgt_info["Primary"] = tgt_info["Primary"]
     
             prim_id = tgt_info[tgt_info["Primary"]==star].index
             

@@ -127,12 +127,6 @@ else:
 # Load in the summarising data structures created in organise_obs.py
 
 complete_sequences, sequences = rutils.load_sequence_logs()
-print("\n--- COMPLETE SEQUENCES LOADED ---")
-for key in sorted(complete_sequences.keys()):
-    print(key, complete_sequences[key])
-
-print("\nTotal complete_sequences:", len(complete_sequences))
-print("Total sequences:", len(sequences))
 # Currently no proxima cen or gam pav data, so pop
 #sequences.pop((102, 'gamPav', 'faint'))
 #sequences.pop((102, 'gamPav', 'bright'))
@@ -143,16 +137,34 @@ print("Total sequences:", len(sequences))
 #sequences.pop((99, "HD187289", "bright"))
 #complete_sequences.pop((99, 'HD187289', 'faint'))
 #complete_sequences.pop((99, 'HD187289', 'bright'))
-sequences.pop((106, "bethyi", "bright"))
-sequences.pop((105, "hd142860", "bright"))
-complete_sequences.pop((106, "bethyi", "bright"))
-complete_sequences.pop((105, "hd142860", "bright"))
-print("\n--- COMPLETE SEQUENCES LOADED ---")
-for key in sorted(complete_sequences.keys()):
-    print(key, complete_sequences[key])
+sequences.pop((106, "bet_Hyi", "bright"))
+sequences.pop((105, "HD142860", "bright"))
+complete_sequences.pop((106, "bet_Hyi", "bright"))
+complete_sequences.pop((105, "HD142860", "bright"))
+sequences.pop((104, 'zet_Tuc', 'bright'))
+complete_sequences.pop((104, 'zet_Tuc', 'bright'))
 
-print("\nTotal complete_sequences:", len(complete_sequences))
-print("Total sequences:", len(sequences))
+target_star = "HR_2998"
+target_period = 104
+
+wanted_keys = [
+    (target_period, target_star, "bright"),
+    (target_period, target_star, "faint"),
+]
+
+sequences = {
+    key: value
+    for key, value in sequences.items()
+    if key in wanted_keys
+}
+
+complete_sequences = {
+    key: value
+    for key, value in complete_sequences.items()
+    if key in wanted_keys
+}
+print(sequences.keys())
+print(complete_sequences.keys())
 # -----------------------------------------------------------------------------
 # [Optional] Calibrate calibrators against each other
 # -----------------------------------------------------------------------------

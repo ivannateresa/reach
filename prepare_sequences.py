@@ -13,18 +13,20 @@ summary_file = "/home2/ihernand/Desktop/reach/concatenations_summary.csv"
 
 outdir = "data"
 
-def clean_name(x):
+outdir = "data"
+
+def keep_name(x):
     if pd.isna(x):
         return ""
 
-    x = str(x).strip()
-    x = x.replace(",", "")
-    x = x.replace(" ", "")
-    x = x.replace("_", "")
-    x = x.lower()
+    return str(x).strip()
 
-    return x
 
+def split_concatenation(x):
+    if pd.isna(x):
+        return []
+
+    return [keep_name(t) for t in str(x).split("->") if keep_name(t) != ""]
 
 def clean_bool(x):
     if pd.isna(x):
@@ -44,12 +46,6 @@ def clean_period(x):
 
     return np.nan
 
-
-def split_concatenation(x):
-    if pd.isna(x):
-        return []
-
-    return [clean_name(t) for t in str(x).split("->") if clean_name(t) != ""]
 
 
 def sequence_has_label(x, label):
@@ -78,7 +74,7 @@ def get_expected_targets(p, label):
     targets = []
 
     for _, row in p_label.iterrows():
-        target = clean_name(row["Primary"])
+        target = row["Primary_match"]
         if target != "":
             targets.append(target)
 
@@ -102,13 +98,13 @@ def science_calibrators_row(science_target, real_concat):
         sci, cal1, cal2, cal3
     """
 
-    science_targets = [clean_name(x) for x in str(science_target).split(";")]
+    science_targets = [x for x in str(science_target).split(";")]
     science_targets = [x for x in science_targets if x != ""]
 
     cals = []
 
     for target in real_concat:
-        target = clean_name(target)
+        target = target
 
         if target == "":
             continue
@@ -134,7 +130,7 @@ def science_first_rows(science_target, real_concat):
         cal3, FALSE
     """
 
-    science_target = clean_name(science_target)
+    science_target = science_target
 
     rows = []
 
@@ -143,7 +139,7 @@ def science_first_rows(science_target, real_concat):
     cals = []
 
     for target in real_concat:
-        target = clean_name(target)
+        target = target
 
         if target == "":
             continue
@@ -175,10 +171,11 @@ summary = summary[summary["period"].notna()].copy()
 summary["period"] = summary["period"].astype(int)
 
 # limpiar nombres
-df["Primary_clean"] = df["Primary"].apply(clean_name)
-df["Science_bool"] = df["Science"].apply(clean_bool)
+# mantener nombres originales, solo quitando espacios externos
+df["Primary_match"] = df["Primary"].apply(keep_name)
+df["Science_bool"] = df["Science"].astype(bool)
 
-summary["science_target_clean"] = summary["science_target"].apply(clean_name)
+summary["science_target_match"] = summary["science_target"].apply(keep_name)
 summary["concat_list"] = summary["concatenation"].apply(split_concatenation)
 
 periods = sorted(df["Period"].unique())
@@ -200,7 +197,7 @@ for period in periods:
 
     for _, row in summary_period.iterrows():
 
-        science_target = row["science_target_clean"]
+        science_target = row["science_target_match"]
         real_concat = row["concat_list"]
 
         if science_target == "" or science_target == "unknown":
@@ -210,7 +207,7 @@ for period in periods:
         # Buscamos desde la fila donde Science=True y Primary=science_target
         p_sci_index = p[
             (p["Science_bool"] == True) &
-            (p["Primary_clean"] == science_target)
+            (p["Primary_match"] == science_target)
         ].index
 
         if len(p_sci_index) == 0:

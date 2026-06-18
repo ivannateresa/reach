@@ -12,8 +12,8 @@ def clean_name(name):
 
 
 def same_target(a, b):
-    a = clean_name(a)
-    b = clean_name(b)
+    a = a
+    b = b
     return a == b or a in b or b in a
 
 
@@ -47,7 +47,7 @@ def parse_log(obs_log):
 
         elif row.startswith("Target:"):
             raw_target = row.split("Target:")[-1].strip()
-            target = clean_name(raw_target)
+            target = raw_target
 
         elif row.startswith("OB:"):
             OB = row.split(" ")[-1]
@@ -168,7 +168,7 @@ def main():
     base_path = sys.argv[1]
 
     if len(sys.argv) >= 3:
-        target_filter = clean_name(sys.argv[2])
+        target_filter = sys.argv[2]
     else:
         target_filter = None
 

@@ -16,12 +16,7 @@ from collections import OrderedDict
 # -----------------------------------------------------------------------------
 # Utilities Functions
 # -----------------------------------------------------------------------------
-def clean_name_for_match(name):
-    name = str(name).strip()
-    name = name.replace(" ", "")
-    name = name.replace("_", "")
-    name = name.lower()
-    return name
+
 def summarise_sequences():
     """Creates a dictionary summary of each sequence, specified with the unique
     key (period, science, bright/faint).
@@ -32,10 +27,14 @@ def summarise_sequences():
         Dict mapping key (period, science, bright/faint) with list of target 
         IDs in the sequence.
     """
-    bright_list_files = sorted(glob.glob("data/p106_bright.txt"))
 
-    faint_list_files  = sorted(glob.glob("data/p106_faint.txt"))
-    period = [106]
+
+
+    bright_list_files = (sorted(glob.glob("data/p106_bright.txt")) + sorted(glob.glob("data/p105_bright.txt")) + sorted(glob.glob("data/p104_bright.txt")))
+
+    faint_list_files = (sorted(glob.glob("data/p106_faint.txt")) +sorted(glob.glob("data/p105_faint.txt")) +sorted(glob.glob("data/p104_faint.txt")))
+
+    period = [106, 105, 104]
 
     target_list = []
 
@@ -94,8 +93,7 @@ def load_target_information(filepath="data/target_info.tsv",
     tgt_info = tgt_info[~tgt_info.index.duplicated(keep="first")]
 
     # Force primary and Bayer IDs to standard no-space format
-    tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
-                           for id in tgt_info["Primary"]]
+    tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
                            
     tgt_info["Bayer_ID"] = [id.replace(" ", "").replace("_","") 
                             if type(id)==str else None
@@ -237,15 +235,15 @@ def get_unique_key(tgt_info, id_list):
     # primary IDs, so we need to check HD and Bayer IDs as well
     for star in id_list:
         # Remove non-alpha-numeric characters 
-        print(star)
-        star = star.replace("_", "").replace(" ", "").replace(".", "")
-        tgt_info["Primary"] = tgt_info["Primary"].apply(clean_name_for_match)
+    
+        star = star
+        tgt_info["Primary"] = tgt_info["Primary"]
         prim_id = tgt_info[tgt_info["Primary"]==star].index
         
         if len(prim_id)==0:
             prim_id = tgt_info[tgt_info["Bayer_ID"]==star].index
         if len(prim_id)==0:
-            tgt_info["Ref_ID_1"] = tgt_info["Ref_ID_1"].apply(clean_name_for_match)
+            tgt_info["Ref_ID_1"] = tgt_info["Ref_ID_1"]
             prim_id = tgt_info[tgt_info["Ref_ID_1"]==star].index
 
             
@@ -589,7 +587,9 @@ def get_mean_delta_h(tgt_info, complete_sequences, sequences):
     for seq in complete_sequences.keys():
         # Get the science target id
    
-        print(get_unique_key(tgt_info, [seq[1]]))
+        print(seq)
+        if seq[1] != "HR_2998":
+            continue
         sci = get_unique_key(tgt_info, [seq[1]])[0]
         sci_h = tgt_info.loc[sci]["Hmag"]
         

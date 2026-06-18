@@ -20,13 +20,6 @@ class UnknownFittingRoutine(Exception):
     pass
 
 
-def clean_name_for_match(name):
-        name = str(name).strip()
-        name = name.replace(" ", "")
-        name = name.replace("_", "")
-        name = name.lower()
-        return name
-
 
 # -----------------------------------------------------------------------------
 # Predicting LDD
@@ -593,10 +586,9 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
     for sci in vis2.keys():
         # Only take the ID part of sci - could have " (Sequence)" after it
     
-        tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
-                       for id in tgt_info["Primary"]]
+        tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
 
-        tgt_info["Primary"] = [clean_name_for_match(x) for x in tgt_info["Primary"]]
+        tgt_info["Primary"] = [x for x in tgt_info["Primary"]]
 
         
         if type(sci) == tuple:
@@ -854,8 +846,9 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
     # diagnostic purposes, but still need to collate in the instance
     # that a star has duplicate sequences on the same night
     dates_obs = pd.read_csv("data/dates_observed.tsv", sep="\t")
+    print(dates_obs)
 
-    dates_obs["star"] = dates_obs["star"].apply(clean_name_for_match)
+    dates_obs["star"] = dates_obs["star"]
     dates_obs["b_night"] = dates_obs["b_night"].astype(str).str.strip()
     dates_obs["f_night"] = dates_obs["f_night"].astype(str).str.strip()
 
@@ -869,8 +862,9 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
         # inherently assumes a constant file length (which changes when we
         # begin bootstrapping)
         sci_raw = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
-        sci = clean_name_for_match(sci_raw)
-        print(sci, dates_obs["star"])
+        sci = sci_raw.replace("HR", "HR_")
+        print(sci)
+
         
         # Extract data from oifits file. If multiple sequences were observed
         # on the same night, each of the retuned lists will contain more than

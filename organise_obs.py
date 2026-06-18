@@ -26,8 +26,6 @@ from shutil import copyfile
 from collections import OrderedDict
 from datetime import datetime
 
-def clean_name(name):
-    return name.strip().replace(" ", "").replace("_", "").lower()
 
 # -----------------------------------------------------------------------------
 # Import and separate observation log into nights
@@ -72,7 +70,7 @@ for obs_log in all_logs:
             grade = row[-1]
         # Target name (uniform) AND target name (unaltered)
         elif row[:7] == "Target:":
-            target = clean_name(row.split("Target:")[-1])
+            target = row.split("Target:")[-1]
             
             ref_ids.add(row.split(" ")[-1])
             
@@ -248,7 +246,7 @@ def build_sequences(list_files):
                 if len(line) < 2:
                     continue
 
-                name = clean_name(line[0])
+                name = line[0]
                 is_science = line[1].strip().upper()
 
                 if is_science == "TRUE":

@@ -22,8 +22,8 @@ import xy_map
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
-combined_fit =False                 # Fit for LDD for multiple seq at once
-load_saved_results = False          # Load or do fitting fresh
+combined_fit =True                 # Fit for LDD for multiple seq at once
+load_saved_results = False         # Load or do fitting fresh
 assign_default_uncertainties = True # Give default errors to stars without
 force_claret_params = False         # Force use of Claret+11 limb d. params
 n_bootstraps = 2
@@ -40,7 +40,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-06-16_i2"       # Final run for 1st draft
+results_folder = "26-06-18_i2"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
@@ -161,13 +161,13 @@ rplt.plot_fbol_comp(tgt_info)
 rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
 rplt.plot_casagrande_teff_comp(tgt_info, xy_map.teff)
 #rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hd124850")  
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hd141004") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hd142860") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hr2998") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"iotpsc") 
+rplt.plot_sidelobe_vis2_fit(tgt_info, results,"HR_2998")  
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hd141004") 
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hd142860") 
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hr2998") 
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"iotpsc") 
 #rplt.plot_sidelobe_vis2_fit(tgt_info, results,"pi3ori") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"zettuc") 
+#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"zettuc") 
 
 
 rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)

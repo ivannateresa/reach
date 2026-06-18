@@ -1,0 +1,5 @@
+science_target,science_clean,date,folder,run,period,container,seq_type,seq_evidence,concatenation
+unknown,unknown,2019-11-28,2019-11-28,0104.D-0580(A),104,2552764,f,HD_218330:Faint,HD_218330
+unknown,unknown,2021-02-18,2021-02-18,106.21KX.001,106,2896562,f,HD_76437:Faint,HD_76437
+HD142860,HD142860,2022-08-10,2022-08-10,105.20N8.001,105,2769331,unknown,HD141589:Both; HD142860:Science,HD141589 -> HD142860
+unknown,unknown,2022-08-12,2022-08-12,105.20N8.001,105,2769331,b,HD140346:Bright,HD140346

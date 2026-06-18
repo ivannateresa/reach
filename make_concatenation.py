@@ -40,7 +40,7 @@ def parse_log(obs_log):
 
         elif row.startswith("Target:"):
             raw_target = row.split("Target:")[-1].strip()
-            target = clean_name(raw_target)
+            target = raw_target
 
         elif row.startswith("OB:"):
             OB = row.split(" ")[-1]
