@@ -20,6 +20,246 @@ from collections import OrderedDict, Counter
 # -----------------------------------------------------------------------------
 base_path = "/home2/ihernand/Desktop/reach/complete_sequences" 
 
+def clean_target_id(x):
+    """
+    Clean target names for robust matching.
+
+    Examples:
+    HD_79810  -> hd79810
+    HD  63734 -> hd63734
+    psi Vel A -> psivela
+    psi_Vel   -> psivel
+    HR_3729   -> hr3729
+    """
+
+    import pandas as pd
+
+    if pd.isnull(x):
+        return ""
+
+    x = str(x)
+
+    x = x.replace("_", "")
+    x = x.replace(" ", "")
+    x = x.replace(".", "")
+    x = x.replace("-", "")
+    x = x.replace("\t", "")
+    x = x.lower()
+
+    return x
+
+
+def match_target_name(tgt_info, name, verbose=False):
+    """
+    Match one target name to the tgt_info index using cleaned identifiers.
+    """
+
+    import pandas as pd
+
+    name_clean = clean_target_id(name)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Search inside columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_id)
+        this_match = tgt_info.index[col_clean == name_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Search also in dataframe index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_id(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == name_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("NO MATCH: %s  cleaned as  %s" % (name, name_clean))
+
+        return None
+
+    if len(matches_unique) > 1:
+        print("WARNING: multiple matches for %s:" % name)
+        print(matches_unique)
+        print("Using first match: %s" % matches_unique[0])
+
+    return matches_unique[0]
+
+def match_target_list(tgt_info, names, label="target", verbose=True):
+    """
+    Match a list of target names to tgt_info indices.
+    """
+
+    ids = []
+    failed = []
+
+    for name in names:
+
+        this_id = match_target_name(tgt_info, name, verbose=False)
+
+        if this_id is None:
+            failed.append(name)
+
+            if verbose:
+                print("WARNING: could not match %s name: %s" % (label, name))
+
+        else:
+            ids.append(this_id)
+
+    return ids, failed
+def safe_get_unique_keys(tgt_info_input, names, label):
+
+    ids, failed = match_target_list(
+        tgt_info_input,
+        names,
+        label=label,
+        verbose=True
+    )
+
+    return ids, failed
+
+def clean_target_id(x):
+    """
+    Clean target names for robust matching.
+
+    Examples:
+    HD_79810  -> hd79810
+    HD  63734 -> hd63734
+    psi Vel A -> psivela
+    psi_Vel   -> psivel
+    HR_3729   -> hr3729
+    """
+
+    import pandas as pd
+
+    if pd.isnull(x):
+        return ""
+
+    x = str(x)
+
+    x = x.replace("_", "")
+    x = x.replace(" ", "")
+    x = x.replace(".", "")
+    x = x.replace("-", "")
+    x = x.replace("\t", "")
+    x = x.lower()
+
+    return x
+
+
+def match_target_name(tgt_info, name, verbose=False):
+    """
+    Match one target name to the tgt_info index using cleaned identifiers.
+    """
+
+    import pandas as pd
+
+    name_clean = clean_target_id(name)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Search inside columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_id)
+        this_match = tgt_info.index[col_clean == name_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Search also in dataframe index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_id(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == name_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("NO MATCH: %s  cleaned as  %s" % (name, name_clean))
+
+        return None
+
+    if len(matches_unique) > 1:
+        print("WARNING: multiple matches for %s:" % name)
+        print(matches_unique)
+        print("Using first match: %s" % matches_unique[0])
+
+    return matches_unique[0]
+
+
+def match_target_list(tgt_info, names, label="target", verbose=True):
+    """
+    Match a list of target names to tgt_info indices.
+    """
+
+    ids = []
+    failed = []
+
+    for name in names:
+
+        this_id = match_target_name(tgt_info, name, verbose=False)
+
+        if this_id is None:
+            failed.append(name)
+
+            if verbose:
+                print("WARNING: could not match %s name: %s" % (label, name))
+
+        else:
+            ids.append(this_id)
+
+    return ids, failed
 
 def save_nightly_ldd(sequences, complete_sequences, tgt_info, 
                 pred_ldd, e_pred_ldd,
@@ -68,8 +308,7 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
     for seq in complete_sequences:
         night = complete_sequences[seq][0]
         
-        sequence = [star.replace("_", "").replace(".","").replace(" ", "") 
-                    for star in sequences[seq]]
+        sequence = [star for star in sequences[seq]]
         if night not in nights:
             nights[night] = set(sequence)
         else:
@@ -94,31 +333,33 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
         failed = False
         
         ids = []
+        failed_targets = []
         # Grab the primary IDs
         # Note that several stars are observed multiple times under different
         # primary IDs, so we need to check HD and Bayer IDs as well
         for star in nights[night]:
-            tgt_info["Primary"] = tgt_info["Primary"]
-    
-            prim_id = tgt_info[tgt_info["Primary"]==star].index
-            
-            if len(prim_id)==0:
-                prim_id = tgt_info[tgt_info["Bayer_ID"]==star].index
-                
-            if len(prim_id)==0:
-                prim_id = tgt_info[tgt_info["HD_ID"]==star].index
 
-            try:
-                assert len(prim_id) > 0
-            except:
+            prim_id = match_target_name(tgt_info, star, verbose=False)
+
+            if prim_id is None:
                 print("...failed on %s, %s" % (night, star))
+                failed_targets.append(star)
                 failed = True
-                break
-            ids.append(prim_id[0])    
+                continue
+            
+
+            ids.append(prim_id)    
             
         if failed:
+            print("Skipping night %s because these targets could not be matched:" % night)
+            for target in failed_targets:
+                print("  %s" % target)
             continue
-            
+        ids_unique = []
+        for this_id in ids:
+            if this_id not in ids_unique:
+                ids_unique.append(this_id)
+        ids = ids_unique
         # Sort the IDs
         ids.sort()   
         
@@ -140,13 +381,60 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
             # structure to facilitate potential bootstrapping. The variable
             # appropriate_ids are only those IDs found to have the given ref_id
             # since the ldd data structures don't know about this
+            rec["Ref_ID"] = rec[ref_id].astype(str)
+
+    # Remove the original reference column
+            rec.drop(ref_id, axis=1, inplace=True)
+
+    # Rename LDD_rel to INFO
+            rec.rename(columns={"LDD_rel": "INFO"}, inplace=True)
             appropriate_ids = rec.index.values
 
-            rec.insert(0,"pred_LDD", pred_ldd[appropriate_ids].values)    
-            rec.insert(1,"e_pred_LDD", e_pred_ldd[appropriate_ids].values[0])     
-                       
-            rec.rename(columns={ref_id:"Ref_ID"}, inplace=True)
-            rec.rename(columns={"LDD_rel":"INFO"}, inplace=True)
+        # -------------------------------------------------------------------------
+# Insert predicted LDD values
+# pred_ldd is usually a Series for the current bootstrap iteration
+# -------------------------------------------------------------------------
+            try:
+                pred_values = pred_ldd.loc[appropriate_ids].value
+            except Exception:
+                pred_values = pred_ldd[appropriate_ids].values
+
+            rec.insert(0, "pred_LDD", pred_values)
+
+# -------------------------------------------------------------------------
+# Insert predicted LDD uncertainties
+# e_pred_ldd can be either:
+#   1) a Series indexed by target IDs
+#   2) a DataFrame with target IDs as columns
+#   3) a DataFrame with target IDs as index
+# -------------------------------------------------------------------------
+            if isinstance(e_pred_ldd, pd.DataFrame):
+
+    # Case A: target IDs are columns
+                if set(appropriate_ids).issubset(set(e_pred_ldd.columns)):
+                    e_ldd_values = e_pred_ldd.loc[:, appropriate_ids].values.flatten()
+
+    # Case B: target IDs are index
+                elif set(appropriate_ids).issubset(set(e_pred_ldd.index)):
+                    e_ldd_values = e_pred_ldd.loc[appropriate_ids].values.flatten()
+                else:
+                    print("ERROR: e_pred_ldd does not contain the required target IDs.")
+                    print("appropriate_ids:")
+                    print(appropriate_ids)
+                    print("e_pred_ldd index:")
+                    print(e_pred_ldd.index)
+                    print("e_pred_ldd columns:")
+                    print(e_pred_ldd.columns)
+                    raise KeyError("Could not find target IDs in e_pred_ldd")
+
+            else:
+    # Series case
+                try:
+                    e_ldd_values = e_pred_ldd.loc[appropriate_ids].values
+                except Exception:
+                    e_ldd_values = e_pred_ldd[appropriate_ids].values
+
+            rec.insert(1, "e_pred_LDD", e_ldd_values)
             
             if len(rec) > 0:
                 recs.append(rec.copy(deep=True))
@@ -205,6 +493,9 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
             print("...directory '%s' does not exist" % dir)
     print("%i oiDiam.fits files written" % diam_files_written)    
     return nights
+
+
+
 
 def load_bad_baselines_log(bad_baseline_file="data/bad_baselines.txt"):
     """
@@ -347,6 +638,8 @@ def save_nightly_pndrs_script(complete_sequences, tgt_info,
     durations = calculate_target_durations(complete_sequences)
     bad_durations = select_only_bad_target_durations(durations, tgt_info)
     
+
+    
     for night in sequence_times:
         # Save the fits file to the night directory
         if not run_local:
@@ -482,7 +775,9 @@ def select_only_bad_target_durations(sequence_durations, tgt_info):
         for star in sequence_durations[night]:
 
             # star[0] es el nombre del target/calibrador
+           
             prim_id = rutils.get_unique_key(tgt_info, star[0])
+           
 
             # Si no encuentra el target en tgt_info, no debe romper el codigo
             if len(prim_id) == 0:
@@ -627,7 +922,7 @@ def move_sci_oifits_old(obs_path, results_path, bootstrap_i):
         # Make the folder if it doesn't exist
         if not os.path.exists(results_path):
             os.mkdir(results_path)
-        
+        print(oifits)
         # Update the filename to keep copies of all potential bootstraps
         fname = oifits.split("/")[-1].replace(".fits", 
                                               "_%02i.fits" % bootstrap_i)
@@ -919,8 +1214,8 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
     
     elif run_local and not already_calibrated:
         # Save oiDiam files for local inspection
-        nights = save_nightly_ldd(sequences, complete_sequences, tgt_info,
-                                  pred_ldd, e_pred_ldd,base_path, 
+        nights = save_nightly_ldd(sequences, complete_sequences, tgt_info, 
+                                  pred_ldd, e_pred_ldd, base_path,
                                   run_local=run_local)
     
     
@@ -990,7 +1285,6 @@ def run_n_bootstraps(sequences, complete_sequences, base_path, tgt_info,
         print("\n", "|"*79, "\n\tBootstrapping iteration %i\n" % bs_i, "|"*79)
         
         # Run a single calibration run
-    
         run_one_calibration_set(sequences, complete_sequences, base_path, 
                                 tgt_info, n_pred_ldd.iloc[bs_i], 
                                 e_pred_ldd, bs_i, results_path, 

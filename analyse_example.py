@@ -12,16 +12,17 @@ import reach.plotting as rplt
 import reach.photometry as rphot
 import reach.pndrs as rpndrs
 import reach.utils as rutils
+import os
 import pickle
-
+import diagnostics as dig
 # Import plotting xy offsets map
-import xy_map
+import xy_map_file
 
 # -----------------------------------------------------------------------------
 # Setup & Loading
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
-use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
+use_plx_systematic =  True          # Use Stassun & Torres 18 plx offset
 combined_fit =False                 # Fit for LDD for multiple seq at once
 load_saved_results = False         # Load or do fitting fresh
 assign_default_uncertainties = True # Give default errors to stars without
@@ -40,7 +41,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-06-18_i2"       # Final run for 1st draft
+results_folder = "26-06-23_i2"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
@@ -48,6 +49,7 @@ results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 bc_path =  "/home2/ihernand/Desktop/reach/bolometric-corrections"
 #bc_path =  "/home/arains/code/bolometric-corrections"
 band_mask = [1, 1, 1, 0, 0]
+
 
 # Load in files
 print("Loading in files...")
@@ -57,7 +59,10 @@ tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
 complete_sequences, sequences = rutils.load_sequence_logs()
 
 
+diagnostics_folder = os.path.join(results_folder, "analysis_diagnostics")
 
+if not os.path.exists(diagnostics_folder):
+    os.makedirs(diagnostics_folder)
 
 # -----------------------------------------------------------------------------
 # Loading Existing Results
@@ -78,6 +83,7 @@ if load_saved_results:
 # -----------------------------------------------------------------------------
 # Do two iterations of the fitting, one with literature teffs, and one with
 # interferometric teffs
+    
 else:
     # 1111111111111111111111111111111111111111111111111111111111111111111111111
     # Run through initially using **literature** teffs
@@ -100,6 +106,17 @@ else:
                                       e_wl_frac=e_wl_frac,
                                       add_e_wl_to_ldd_in_quad=\
                                           add_e_wl_to_ldd_in_quad)
+    
+    # -------------------------------------------------------------------------
+# Diagnostic for initial analysis
+# -----------------------------------------------------------------------
+    initial_diag = dig.diagnose_ldd_analysis_results(
+    label="initial_literature_teff",
+    tgt_info=tgt_info,
+    sampled_sci_params=sampled_sci_params,
+    bs_results=bs_results,
+    results=results,
+    outdir=diagnostics_folder)
     
     # Calculate **initial** fundamental parameters using literature values
     print("Determining **initial** fundamental parameters...")
@@ -128,6 +145,17 @@ else:
                                       e_wl_frac=e_wl_frac,
                                       add_e_wl_to_ldd_in_quad=\
                                           add_e_wl_to_ldd_in_quad)
+    # -------------------------------------------------------------------------
+# Diagnostic for final analysis
+# -------------------------------------------------------------------------
+    final_diag = rdiag.diagnose_ldd_analysis_results(
+    label="final_interferometric_teff",
+    tgt_info=tgt_info,
+    sampled_sci_params=sampled_sci_params,
+    bs_results=bs_results,
+    results=results,
+    outdir=diagnostics_folder)
+
     
     # Save results
     rutils.save_results(bs_results, results, results_folder)
@@ -137,46 +165,3 @@ else:
     rparam.calc_sample_and_final_params(tgt_info, sampled_sci_params, 
                                         bs_results, results)
 
-# Summarise C param fits
-rutils.summarise_cs(results)
-rutils.get_mean_delta_h(tgt_info, complete_sequences, sequences)
-                                        
-# -----------------------------------------------------------------------------
-# Table generation and plotting
-# -----------------------------------------------------------------------------
-print("-"*79, "\n", "\tTables and Plots (Literature Teff)\n", "-"*79)
-# Generate tables
-print("Generating tables...")
-rpaper.make_table_targets(tgt_info)
-rpaper.make_table_calibrators(tgt_info, sequences)
-rpaper.make_table_observation_log(tgt_info, complete_sequences, sequences)
-rpaper.make_table_fbol(tgt_info)
-rpaper.make_table_seq_results(results)
-rpaper.make_table_final_results(tgt_info)
-rpaper.make_table_limb_darkening(tgt_info)
-
-# Generate plots
-print("Generating plots...")
-rplt.plot_fbol_comp(tgt_info)
-rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
-rplt.plot_casagrande_teff_comp(tgt_info, xy_map.teff)
-#rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"HR_2998")  
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"HD141004") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"HD142860") 
-rplt.plot_sidelobe_vis2_fit(tgt_info, results,"HD124850")
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"ksi_Gem")
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"psi_Vel") 
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"hr2998") 
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"iot_Psc") 
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"pi3ori") 
-#rplt.plot_sidelobe_vis2_fit(tgt_info, results,"zettuc") 
-
-
-rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
-rplt.plot_colour_rel_diam_comp(tgt_info, 
-                               xy_maps=(xy_map.vw3, xy_map.vw4, xy_map.bv_feh))
-rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=False, 
-                                sequences=sequences, 
-                                complete_sequences=complete_sequences, 
-                                tgt_info=tgt_info)

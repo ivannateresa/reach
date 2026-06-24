@@ -302,7 +302,7 @@ def update_target_info_with_ldd_fits(tgt_info, results):
         tgt_info.loc[star, "e_udd_final"] = star_data["e_UDD_FIT"]
         
 
-def combine_u_s_lambda(tgt_info, sampled_sci_params):
+def combine_u_s_lambda_ols(tgt_info, sampled_sci_params):
     """Add the mean and standard deviation of each of the 6 u_lambda and 
     s_lambda parameters to tgt_info.
     """
@@ -333,6 +333,53 @@ def combine_u_s_lambda(tgt_info, sampled_sci_params):
         tgt_info.loc[sci, e_s_lambda_cols] = \
             np.nanstd(sampled_sci_params.loc[sci][s_lambda_cols].values, axis=0)
 
+def combine_u_s_lambda(tgt_info, sampled_sci_params):
+    """Add the mean and standard deviation of each of the 6 u_lambda and 
+    s_lambda parameters to tgt_info.
+    """
+
+    # Determine u_lld from its distribution
+    scis = tgt_info[np.logical_and(tgt_info["Science"], 
+                                   tgt_info["in_paper"])].index.values
+
+    # Initialise columns
+    u_lambda_cols = ["u_lambda_%i" % ui for ui in np.arange(0,6)]
+    e_u_lambda_cols = ["e_u_lambda_%i" % ui for ui in np.arange(0,6)]
+    s_lambda_cols = ["s_lambda_%i" % ui for ui in np.arange(0,6)]
+    e_s_lambda_cols = ["e_s_lambda_%i" % ui for ui in np.arange(0,6)]
+
+    all_cols = (u_lambda_cols + e_u_lambda_cols + s_lambda_cols 
+                + e_s_lambda_cols)
+
+    for col in all_cols:
+        tgt_info[col] = np.zeros(len(tgt_info))*np.nan
+
+    # Get stars that actually exist in sampled_sci_params
+    if isinstance(sampled_sci_params.index, pd.MultiIndex):
+        available_scis = sampled_sci_params.index.get_level_values(0).unique()
+    else:
+        available_scis = sampled_sci_params.index.unique()
+
+    # Populate tgt_info only for stars that were actually fitted
+    for sci in scis:
+
+        if sci not in available_scis:
+            print("Skipping %s: no bootstrap results found" % sci)
+            continue
+
+        sci_block = sampled_sci_params.loc[sci]
+
+        tgt_info.loc[sci, u_lambda_cols] = \
+            np.nanmean(sci_block[u_lambda_cols].values, axis=0)
+
+        tgt_info.loc[sci, e_u_lambda_cols] = \
+            np.nanstd(sci_block[u_lambda_cols].values, axis=0)
+
+        tgt_info.loc[sci, s_lambda_cols] = \
+            np.nanmean(sci_block[s_lambda_cols].values, axis=0)
+
+        tgt_info.loc[sci, e_s_lambda_cols] = \
+            np.nanstd(sci_block[s_lambda_cols].values, axis=0)
 
 # -----------------------------------------------------------------------------
 # Calculating physical parameters

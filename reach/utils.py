@@ -16,6 +16,228 @@ from collections import OrderedDict
 # -----------------------------------------------------------------------------
 # Utilities Functions
 # -----------------------------------------------------------------------------
+def get_unique_key(tgt_info, id_list):
+    """
+    Match target names to the unique index used by tgt_info.
+
+    This version is more robust than the original one because it cleans both
+    the input name and the identifier columns in tgt_info before comparing.
+
+    Examples
+    --------
+    HD_222919  -> HD222919
+    HD  63734  -> HD63734
+    psi Vel A  -> psiVel / HD82434
+    HR_3729    -> HD81134
+    """
+
+    import pandas as pd
+
+    def clean_id(x):
+        if pd.isnull(x):
+            return ""
+
+        x = str(x)
+
+        x = x.replace("_", "")
+        x = x.replace(" ", "")
+        x = x.replace(".", "")
+        x = x.replace("-", "")
+        x = x.replace("\t", "")
+        x = x.lower()
+
+        return x
+
+    # Python 2 compatible string check
+    try:
+        string_types = (basestring,)
+    except NameError:
+        string_types = (str,)
+
+    if isinstance(id_list, string_types):
+        id_list = [id_list]
+
+    unique_ids = []
+
+    # Columns where a target name may appear
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    # Pre-clean columns once
+    clean_cols = {}
+
+    for col in search_cols:
+        clean_cols[col] = tgt_info[col].apply(clean_id)
+
+    # Clean index too
+    clean_index = pd.Series(
+        [clean_id(idx) for idx in tgt_info.index],
+        index=tgt_info.index
+    )
+
+    for star in id_list:
+
+        star_clean = clean_id(star)
+
+        matches = []
+
+        # Search in columns
+        for col in search_cols:
+
+            this_match = tgt_info.index[clean_cols[col] == star_clean]
+
+            if len(this_match) > 0:
+                matches.extend(list(this_match))
+
+        # Search in index
+        index_match = tgt_info.index[clean_index == star_clean]
+
+        if len(index_match) > 0:
+            matches.extend(list(index_match))
+
+        # Remove duplicates while preserving order
+        matches_unique = []
+
+        for m in matches:
+            if m not in matches_unique:
+                matches_unique.append(m)
+
+        if len(matches_unique) == 0:
+            print("WARNING: could not match target name: %s" % star)
+            continue
+
+        if len(matches_unique) > 1:
+            print("WARNING: multiple matches for %s: %s" %
+                  (star, str(matches_unique)))
+            print("Using first match: %s" % matches_unique[0])
+
+        unique_ids.append(matches_unique[0])
+
+    return list(unique_ids)
+def clean_target_id(x):
+    """
+    Clean target names for robust matching.
+
+    Examples:
+    HD_79810  -> hd79810
+    HD  63734 -> hd63734
+    psi Vel A -> psivela
+    psi_Vel   -> psivel
+    HR_3729   -> hr3729
+    """
+
+    import pandas as pd
+
+    if pd.isnull(x):
+        return ""
+
+    x = str(x)
+
+    x = x.replace("_", "")
+    x = x.replace(" ", "")
+    x = x.replace(".", "")
+    x = x.replace("-", "")
+    x = x.replace("\t", "")
+    x = x.lower()
+
+    return x
+
+
+def match_target_name(tgt_info, name, verbose=False):
+    """
+    Match one target name to the tgt_info index using cleaned identifiers.
+    """
+
+    import pandas as pd
+
+    name_clean = clean_target_id(name)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Search inside columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_id)
+        this_match = tgt_info.index[col_clean == name_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Search also in dataframe index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_id(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == name_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("NO MATCH: %s  cleaned as  %s" % (name, name_clean))
+
+        return None
+
+    if len(matches_unique) > 1:
+        print("WARNING: multiple matches for %s:" % name)
+        print(matches_unique)
+        print("Using first match: %s" % matches_unique[0])
+
+    return matches_unique[0]
+
+def match_target_list(tgt_info, names, label="target", verbose=True):
+    """
+    Match a list of target names to tgt_info indices.
+    """
+
+    ids = []
+    failed = []
+
+    for name in names:
+
+        this_id = match_target_name(tgt_info, name, verbose=False)
+
+        if this_id is None:
+            failed.append(name)
+
+            if verbose:
+                print("WARNING: could not match %s name: %s" % (label, name))
+
+        else:
+            ids.append(this_id)
+
+    return ids, failed
+
 
 def summarise_sequences():
     """Creates a dictionary summary of each sequence, specified with the unique
@@ -72,7 +294,7 @@ def summarise_sequences():
     return sequences
     
     
-def load_target_information(filepath="data/target_info.tsv", 
+def load_target_information(filepath="/home2/ihernand/Desktop/reach/data/target_info.tsv", 
                             assign_default_uncertainties=True, def_e_logg=0.2,
                             def_e_teff=100, def_e_feh=0.1, 
                             remove_unused_targets=False):
@@ -93,7 +315,8 @@ def load_target_information(filepath="data/target_info.tsv",
     tgt_info = tgt_info[~tgt_info.index.duplicated(keep="first")]
 
     # Force primary and Bayer IDs to standard no-space format
-    tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
+    tgt_info["Primary"] = [id.replace(" ", "").replace(".", "").replace("_","")
+                           for id in tgt_info["Primary"]]
                            
     tgt_info["Bayer_ID"] = [id.replace(" ", "").replace("_","") 
                             if type(id)==str else None
@@ -203,9 +426,10 @@ def night_log_diagnostics(night_log):
         print(night, len(night_log[night]))
         for i, yy in enumerate(night_log[night]):
             print("%02i" % i, yy[2], yy[3], yy[-1])
-    
+
+
             
-def get_unique_key(tgt_info, id_list):
+def get_unique_key_old(tgt_info, id_list):
     """Some stars were observed multiple times under different names (e.g. a
     Bayer designation once, and a HD number another time). This complicates
     uniquely IDing each star, so this method serves to take an ID that we may
@@ -235,11 +459,11 @@ def get_unique_key(tgt_info, id_list):
     # primary IDs, so we need to check HD and Bayer IDs as well
     for star in id_list:
         # Remove non-alpha-numeric characters 
-    
-        star = star
-        tgt_info["Primary"] = tgt_info["Primary"]
-        prim_id = tgt_info[tgt_info["Primary"]==star].index
+        star = star.replace("_", "").replace(" ", "").replace(".", "")
         
+
+        prim_id = tgt_info[tgt_info["Primary"]==star].index
+
         if len(prim_id)==0:
             prim_id = tgt_info[tgt_info["Bayer_ID"]==star].index
         if len(prim_id)==0:
@@ -263,6 +487,65 @@ def get_unique_key(tgt_info, id_list):
     
     
 def compute_dist(tgt_info, use_plx_systematic=True):
+    """Calculate distances and distance errors for both stars with Gaia and HIP
+    parallaxes.
+
+    Incorporates the systematic offset in Gaia DR2 by subtracting the offset
+    from the parallax, then adding its uncertainty in quadrature. This makes 
+    the parallax bigger.
+    """
+
+    # Stassun & Torres systematic offsets
+    if use_plx_systematic:
+        plx_off = -0.082    # mas
+        e_plx_off = 0.033   # mas
+
+        # Incorporate the systematic offset
+        plx = tgt_info["Plx"] - plx_off
+        e_plx = np.sqrt(tgt_info["e_Plx"]**2 + e_plx_off**2)
+
+    else:
+        plx = tgt_info["Plx"]
+        e_plx = tgt_info["e_Plx"]
+
+    # ------------------------------------------------------------
+    # Compute distance
+    # ------------------------------------------------------------
+    # Main distance calculation using Plx
+    tgt_info["Dist"] = 1000.0 / plx
+
+    # If Dist is NaN, use the alternative parallax Plx_alt
+    missing_dist = tgt_info["Dist"].isnull()
+
+    tgt_info.loc[missing_dist, "Dist"] = (
+        1000.0 / tgt_info.loc[missing_dist, "Plx_alt"]
+    )
+
+    # ------------------------------------------------------------
+    # Compute distance error
+    # ------------------------------------------------------------
+    # Main uncertainty calculation using Plx
+    tgt_info["e_Dist"] = np.abs(tgt_info["Dist"] * e_plx / plx)
+
+    # If e_Dist is NaN, use the alternative parallax.
+    missing_e_dist = tgt_info["e_Dist"].isnull()
+
+    # If there is an uncertainty column for Plx_alt, use it.
+    if "e_Plx_alt" in tgt_info.columns:
+        tgt_info.loc[missing_e_dist, "e_Dist"] = np.abs(
+            tgt_info.loc[missing_e_dist, "Dist"]
+            * tgt_info.loc[missing_e_dist, "e_Plx_alt"]
+            / tgt_info.loc[missing_e_dist, "Plx_alt"]
+        )
+
+    # If not, use e_Plx as fallback.
+    else:
+        tgt_info.loc[missing_e_dist, "e_Dist"] = np.abs(
+            tgt_info.loc[missing_e_dist, "Dist"]
+            * tgt_info.loc[missing_e_dist, "e_Plx"]
+            / tgt_info.loc[missing_e_dist, "Plx_alt"]
+        )
+def compute_dist_old(tgt_info, use_plx_systematic=True):
     """Calculate distances and distance errors for both stars with Gaia and HIP
     parallaxes. 
     
@@ -309,6 +592,7 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
                 assign_default_uncertainties=assign_default_uncertainties)        
 
     # Calculate distances and distance errors
+
     compute_dist(tgt_info, use_plx_systematic)
 
     # -------------------------------------------------------------------------
@@ -323,6 +607,7 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
 
     # Convert VT and BT to V and B
     # TODO: proper treatment of magnitude errors
+
 
     Bmag, Vmag = rphot.convert_vtbt_to_vb(tgt_info["BTmag"], tgt_info["VTmag"])
 
@@ -587,9 +872,7 @@ def get_mean_delta_h(tgt_info, complete_sequences, sequences):
     for seq in complete_sequences.keys():
         # Get the science target id
    
-        print(seq)
-        if seq[1] != "HR_2998":
-            continue
+        
         sci = get_unique_key(tgt_info, [seq[1]])[0]
         sci_h = tgt_info.loc[sci]["Hmag"]
         

@@ -1365,7 +1365,8 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     plt.subplots_adjust(wspace=0.3, hspace=0.4)
     
     # Get the science target name
-    print(tgt_info["Primary"], results["STAR"])
+
+    print (results["STAR"])
  
     print(tgt_info[tgt_info["Primary"]==sci].index)
     hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]

@@ -1,0 +1,2706 @@
+Diagnostic file for initialise_tgt_info()
+======================================================================
+
+Number of targets with at least one NaN: 73
+
+----------------------------------------------------------------------
+HD_ID: HD1367
+Primary: HR67
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR67
+  Science: False
+  Sequence: Both
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.371
+  e_BTmag: 0.015
+  VTmag: 6.281
+  e_VTmag: 0.01
+  Jmag: 4.952
+  e_Jmag: 0.216
+  Kmag: 4.225
+  e_Kmag: 0.264
+  W1mag: 3.93
+  e_W1mag:  0.376
+  W3mag: 4.001
+  e_W3mag: 0.015
+  W4mag: 3.96
+  e_W4mag:  0.026
+  Plx: 8.813106762
+  e_Plx: 0.027938481
+  Plx_alt: 8.875022949
+  e_Plx_alt: 0.041939546
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD222919
+Primary: HD222919
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD222919
+  Science: False
+  Sequence: Bright
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.28
+  e_BTmag: 0.016
+  VTmag: 6.991
+  e_VTmag: 0.01
+  Jmag: 4.912
+  e_Jmag: 0.218
+  Kmag: 4.31
+  e_Kmag: 0.017
+  W1mag: 4.196
+  e_W1mag:  0.354
+  W3mag: 4.34
+  e_W3mag: 0.031
+  W4mag: 4.164
+  e_W4mag:  0.025
+  Plx: 7.250355863
+  e_Plx: 0.024114342
+  Plx_alt: 7.253779219
+  e_Plx_alt: 0.048690005
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD223292
+Primary: HD223292
+Science: False
+SpT_simple: G5
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD223292
+  Science: False
+  Sequence: Bright
+  SpT: G5
+  SpT_simple: G5
+  BTmag: 8.158
+  e_BTmag: 0.016
+  VTmag: 7.001
+  e_VTmag: 0.01
+  Jmag: 4.989
+  e_Jmag: 0.02
+  Kmag: 4.398
+  e_Kmag: 0.016
+  W1mag: 4.297
+  e_W1mag:  0.256
+  W3mag: 4.346
+  e_W3mag: 0.016
+  W4mag: 4.284
+  e_W4mag:  0.025
+  Plx: 6.194359366
+  e_Plx: 0.026786068
+  Plx_alt: 6.119617618
+  e_Plx_alt: 0.050110675
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD218330
+Primary: HD218330
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD218330
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 8.399
+  e_BTmag: 0.017
+  VTmag: 7.122
+  e_VTmag: 0.01
+  Jmag: 5.057
+  e_Jmag: 0.017
+  Kmag: 4.327
+  e_Kmag: 0.017
+  W1mag: 4.275
+  e_W1mag:  0.320
+  W3mag: 4.289
+  e_W3mag: 0.015
+  W4mag: 4.238
+  e_W4mag:  0.026
+  Plx: 6.086806092
+  e_Plx: 0.02290502
+  Plx_alt: 6.015569515
+  e_Plx_alt: 0.056321687
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD43
+Primary: HD43
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD43
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 8.347
+  e_BTmag: 0.017
+  VTmag: 7.017
+  e_VTmag: 0.01
+  Jmag: 5.073
+  e_Jmag: 0.017
+  Kmag: 4.416
+  e_Kmag: 0.036
+  W1mag: 4.207
+  e_W1mag:  0.239
+  W3mag: 4.418
+  e_W3mag: 0.015
+  W4mag: 4.366
+  e_W4mag:  0.028
+  Plx: 5.488711886
+  e_Plx: 0.035960328
+  Plx_alt: 5.495218573
+  e_Plx_alt: 0.051434775
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD68
+Primary: HD68
+Science: False
+SpT_simple: K3III
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD68
+  Science: False
+  Sequence: Both
+  SpT: K3III
+  SpT_simple: K3III
+  BTmag: 8.739
+  e_BTmag: 0.017
+  VTmag: 7.211
+  e_VTmag: 0.01
+  Jmag: 5.085
+  e_Jmag: 0.268
+  Kmag: 4.099
+  e_Kmag: 0.036
+  W1mag: 3.992
+  e_W1mag:  0.308
+  W3mag: 3.992
+  e_W3mag: 0.015
+  W4mag: 3.937
+  e_W4mag:  0.027
+  Plx: 4.062202905
+  e_Plx: 0.016993942
+  Plx_alt: 4.105758937
+  e_Plx_alt: 0.024479327
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD218558
+Primary: HR8809
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR8809
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.692
+  e_BTmag: 0.007
+  VTmag: 6.583
+  e_VTmag: 0.004
+  Jmag: 5.12
+  e_Jmag: 0.278
+  Kmag: 4.148
+  e_Kmag: 0.015
+  W1mag: 4.108
+  e_W1mag: 0.292
+  W3mag: 4.103
+  e_W3mag: 0.015
+  W4mag: 4.064
+  e_W4mag: 0.024
+  Plx: 15.75468658
+  e_Plx: 0.015970778
+  Plx_alt: 15.75468658
+  e_Plx_alt: 0.015970778
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD323
+Primary: HD323
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD323
+  Science: False
+  Sequence: Faint
+  SpT: K1/2III
+  SpT_simple: K1III
+  BTmag: 8.329
+  e_BTmag: 0.015
+  VTmag: 6.948
+  e_VTmag: 0.01
+  Jmag: 5.222
+  e_Jmag: 0.27
+  Kmag: 4.442
+  e_Kmag: 0.378
+  W1mag: 11.619
+  e_W1mag:  0.021
+  W3mag: 11.708
+  e_W3mag: 0.215
+  W4mag: 9.195
+  e_W4mag:       
+  Plx: 6.863113763
+  e_Plx: 0.023530008
+  Plx_alt: 6.925492115
+  e_Plx_alt: 0.022844367
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD220757
+Primary: HD220757
+Science: False
+SpT_simple: K3III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD220757
+  Science: False
+  Sequence: Bright
+  SpT: K3IIICNII
+  SpT_simple: K3III
+  BTmag: 8.77
+  e_BTmag: 0.016
+  VTmag: 7.271
+  e_VTmag: 0.01
+  Jmag: 5.105
+  e_Jmag: 0.02
+  Kmag: 4.403
+  e_Kmag: 0.026
+  W1mag: 4.277
+  e_W1mag:  0.290
+  W3mag: 4.295
+  e_W3mag: 0.016
+  W4mag: 4.259
+  e_W4mag:  0.030
+  Plx: 6.415963143
+  e_Plx: 0.015847173
+  Plx_alt: 6.37970125
+  e_Plx_alt: 0.032108541
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD8025
+Primary: HD8025
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD8025
+  Science: False
+  Sequence: Bright
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 8.813
+  e_BTmag: 0.017
+  VTmag: 7.415
+  e_VTmag: 0.01
+  Jmag: 5.321
+  e_Jmag: 0.024
+  Kmag: 4.59
+  e_Kmag: 0.02
+  W1mag: 4.537
+  e_W1mag:  0.297
+  W3mag: 4.559
+  e_W3mag: 0.015
+  W4mag: 4.5
+  e_W4mag:  0.028
+  Plx: 6.075469068
+  e_Plx: 0.013897473
+  Plx_alt: 6.0561789
+  e_Plx_alt: 0.019471926
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD32263
+Primary: HR1618
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR1618
+  Science: False
+  Sequence: Both
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 7.571
+  e_BTmag: 0.016
+  VTmag: 6.053
+  e_VTmag: 0.01
+  Jmag: 4.076
+  e_Jmag: 0.296
+  Kmag: 3.193
+  e_Kmag: 0.282
+  W1mag: 2.178
+  e_W1mag:       
+  W3mag: 2.987
+  e_W3mag: 0.015
+  W4mag: 2.958
+  e_W4mag:  0.025
+  Plx: 6.30699168
+  e_Plx: 0.03755106
+  Plx_alt: 6.374209313
+  e_Plx_alt: 0.063521473
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD30519
+Primary: HD30519
+Science: False
+SpT_simple: K2
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD30519
+  Science: False
+  Sequence: Faint
+  SpT: K2
+  SpT_simple: K2
+  BTmag: 10.014
+  e_BTmag: 0.03
+  VTmag: 8.076
+  e_VTmag: 0.013
+  Jmag: 4.96
+  e_Jmag: 0.021
+  Kmag: 3.831
+  e_Kmag: 0.264
+  W1mag: 3.872
+  e_W1mag:  0.331
+  W3mag: 3.859
+  e_W3mag: 0.014
+  W4mag: 3.741
+  e_W4mag:  0.026
+  Plx: 2.664009999
+  e_Plx: 0.020458207
+  Plx_alt: 2.65334951
+  e_Plx_alt: 0.0369246
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD30507
+Primary: HD30507
+Science: False
+SpT_simple: K5
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD30507
+  Science: False
+  Sequence: Faint
+  SpT: K5
+  SpT_simple: K5
+  BTmag: 9.074
+  e_BTmag: 0.018
+  VTmag: 7.268
+  e_VTmag: 0.011
+  Jmag: 4.75
+  e_Jmag: 0.24
+  Kmag: 3.697
+  e_Kmag: 0.256
+  W1mag: 3.451
+  e_W1mag:  0.457
+  W3mag: 3.369
+  e_W3mag: 0.012
+  W4mag: 3.321
+  e_W4mag:  0.022
+  Plx: 3.961297917
+  e_Plx: 0.019652126
+  Plx_alt: 3.926422034
+  e_Plx_alt: 0.038820403
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD30545
+Primary: HR1534
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR1534
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.58
+  e_BTmag: 0.015
+  VTmag: 6.163
+  e_VTmag: 0.01
+  Jmag: 3.956
+  e_Jmag: 0.228
+  Kmag: 3.138
+  e_Kmag: 0.218
+  W1mag: 2.609
+  e_W1mag:       
+  W3mag: 3.289
+  e_W3mag: 0.013
+  W4mag: 3.22
+  e_W4mag:  0.017
+  Plx: 3.648022252
+  e_Plx: 0.0374785
+  Plx_alt: 3.69194612
+  e_Plx_alt: 0.067819776
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD33419
+Primary: HR1681
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR1681
+  Science: False
+  Sequence: Bright
+  SpT: K1III
+  SpT_simple: K1III
+  BTmag: 7.515
+  e_BTmag: 0.016
+  VTmag: 6.225
+  e_VTmag: 0.01
+  Jmag: 4.389
+  e_Jmag: 0.232
+  Kmag: 3.692
+  e_Kmag: 0.284
+  W1mag: 3.654
+  e_W1mag:  0.381
+  W3mag: 3.602
+  e_W3mag: 0.013
+  W4mag: 3.539
+  e_W4mag:  0.024
+  Plx: 8.763768255
+  e_Plx: 0.04044942
+  Plx_alt: 8.740792691
+  e_Plx_alt: 0.055434316
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD38579
+Primary: HD38579
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD38579
+  Science: False
+  Sequence: Faint
+  SpT: K1/2III
+  SpT_simple: K1III
+  BTmag: 8.693
+  e_BTmag: 0.015
+  VTmag: 7.184
+  e_VTmag: 0.009
+  Jmag: 5.325
+  e_Jmag: 0.246
+  Kmag: 4.152
+  e_Kmag: 0.033
+  W1mag: 4.145
+  e_W1mag:  0.263
+  W3mag: 4.1
+  e_W3mag: 0.014
+  W4mag: 4.048
+  e_W4mag:  0.025
+  Plx: 3.355202839
+  e_Plx: 0.016746825
+  Plx_alt: 3.272296327
+  e_Plx_alt: 0.027246592
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD39913
+Primary: HD39913
+Science: False
+SpT_simple: K4III
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD39913
+  Science: False
+  Sequence: Faint
+  SpT: K4III
+  SpT_simple: K4III
+  BTmag: 9.798
+  e_BTmag: 0.021
+  VTmag: 7.967
+  e_VTmag: 0.011
+  Jmag: 5.402
+  e_Jmag: 0.256
+  Kmag: 4.057
+  e_Kmag: 0.036
+  W1mag: 4.014
+  e_W1mag:  0.296
+  W3mag: 3.971
+  e_W3mag: 0.013
+  W4mag: 3.883
+  e_W4mag:  0.021
+  Plx: 1.77082672
+  e_Plx: 0.016854461
+  Plx_alt: 1.705941886
+  e_Plx_alt: 0.039655579
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD40235
+Primary: HR2090
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2090
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.726
+  e_BTmag: 0.015
+  VTmag: 6.48
+  e_VTmag: 0.009
+  Jmag: 4.832
+  e_Jmag: 0.274
+  Kmag: 4.04
+  e_Kmag: 0.236
+  W1mag: 3.844
+  e_W1mag:  0.327
+  W3mag: 3.827
+  e_W3mag: 0.016
+  W4mag: 3.775
+  e_W4mag:  0.027
+  Plx: 6.861242602
+  e_Plx: 0.018749889
+  Plx_alt: 6.835059424
+  e_Plx_alt: 0.026005564
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD64181
+Primary: HR3069
+Science: False
+SpT_simple: G6III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR3069
+  Science: False
+  Sequence: Both
+  SpT: G6III
+  SpT_simple: G6III
+  BTmag: 7.588
+  e_BTmag: 0.015
+  VTmag: 6.557
+  e_VTmag: 0.01
+  Jmag: 4.911
+  e_Jmag: 0.216
+  Kmag: 4.346
+  e_Kmag: 0.026
+  W1mag: 4.309
+  e_W1mag:  0.370
+  W3mag: 4.314
+  e_W3mag: 0.016
+  W4mag: 4.274
+  e_W4mag:  0.027
+  Plx: 5.365693411
+  e_Plx: 0.13545476
+  Plx_alt: 4.197878119
+  e_Plx_alt: 0.168001584
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD61574
+Primary: HD61574
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD61574
+  Science: False
+  Sequence: Faint
+  SpT: K2/3III
+  SpT_simple: K2III
+  BTmag: 9.739
+  e_BTmag: 0.021
+  VTmag: 8.122
+  e_VTmag: 0.012
+  Jmag: 5.595
+  e_Jmag: 0.023
+  Kmag: 4.769
+  e_Kmag: 0.016
+  W1mag: 4.693
+  e_W1mag:  0.248
+  W3mag: 4.701
+  e_W3mag: 0.014
+  W4mag: 4.638
+  e_W4mag:  0.026
+  Plx: 1.968803535
+  e_Plx: 0.089352
+  Plx_alt: 2.225204624
+  e_Plx_alt: 0.113959747
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD65187
+Primary: HD65187
+Science: False
+SpT_simple: K3III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD65187
+  Science: False
+  Sequence: Faint
+  SpT: K3III
+  SpT_simple: K3III
+  BTmag: 9.619
+  e_BTmag: 0.02
+  VTmag: 7.956
+  e_VTmag: 0.011
+  Jmag: 5.532
+  e_Jmag: 0.041
+  Kmag: 4.681
+  e_Kmag: 0.018
+  W1mag: 4.57
+  e_W1mag:  0.263
+  W3mag: 4.618
+  e_W3mag: 0.015
+  W4mag: 4.537
+  e_W4mag:  0.027
+  Plx: 1.257883172
+  e_Plx: 0.015137916
+  Plx_alt: 1.207035703
+  e_Plx_alt: 0.030252847
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD65491
+Primary: HD65491
+Science: False
+SpT_simple: G8III
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD65491
+  Science: False
+  Sequence: Bright
+  SpT: G8III
+  SpT_simple: G8III
+  BTmag: 8.381
+  e_BTmag: 0.016
+  VTmag: 7.195
+  e_VTmag: 0.01
+  Jmag: 5.315
+  e_Jmag: 0.017
+  Kmag: 4.639
+  e_Kmag: 0.018
+  W1mag: 4.59
+  e_W1mag:  0.285
+  W3mag: 4.588
+  e_W3mag: 0.016
+  W4mag: 4.549
+  e_W4mag:  0.025
+  Plx: 4.755823848
+  e_Plx: 0.011632935
+  Plx_alt: 4.708385203
+  e_Plx_alt: 0.022995252
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD66162
+Primary: HD66162
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD66162
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 8.408
+  e_BTmag: 0.017
+  VTmag: 7.193
+  e_VTmag: 0.01
+  Jmag: 5.291
+  e_Jmag: 0.02
+  Kmag: 4.59
+  e_Kmag: 0.015
+  W1mag: 4.519
+  e_W1mag:  0.249
+  W3mag: 4.549
+  e_W3mag: 0.014
+  W4mag: 4.489
+  e_W4mag:  0.025
+  Plx: 4.640980631
+  e_Plx: 0.014589346
+  Plx_alt: 4.559059936
+  e_Plx_alt: 0.028819349
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD59936
+Primary: HD59936
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD59936
+  Science: False
+  Sequence: Faint
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 9.535
+  e_BTmag: 0.02
+  VTmag: 7.719
+  e_VTmag: 0.011
+  Jmag: 5.025
+  e_Jmag: 0.276
+  Kmag: 3.823
+  e_Kmag: 0.278
+  W1mag: 3.523
+  e_W1mag:  0.384
+  W3mag: 3.515
+  e_W3mag: 0.016
+  W4mag: 3.399
+  e_W4mag:  0.025
+  Plx: 0.717247949
+  e_Plx: 0.018735778
+  Plx_alt: 0.660932565
+  e_Plx_alt: 0.030582374
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD63734
+Primary: HD63734
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD63734
+  Science: False
+  Sequence: Faint
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 8.09
+  e_BTmag: 0.015
+  VTmag: 6.617
+  e_VTmag: 0.009
+  Jmag: 4.821
+  e_Jmag: 0.258
+  Kmag: 3.945
+  e_Kmag: 0.236
+  W1mag: 3.676
+  e_W1mag:  0.409
+  W3mag: 3.686
+  e_W3mag: 0.015
+  W4mag: 3.602
+  e_W4mag:  0.023
+  Plx: 8.455784732
+  e_Plx: 0.019284135
+  Plx_alt: 8.378753048
+  e_Plx_alt: 0.029850024
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD71231
+Primary: HR3317
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR3317
+  Science: False
+  Sequence: Faint
+  SpT: K1III
+  SpT_simple: K1III
+  BTmag: 8.055
+  e_BTmag: 0.016
+  VTmag: 6.56
+  e_VTmag: 0.01
+  Jmag: 4.571
+  e_Jmag: 0.232
+  Kmag: 3.782
+  e_Kmag: 0.23
+  W1mag: 3.631
+  e_W1mag:  0.465
+  W3mag: 3.621
+  e_W3mag: 0.014
+  W4mag: 3.554
+  e_W4mag:  0.025
+  Plx: 4.428635845
+  e_Plx: 0.023768242
+  Plx_alt: 4.341492767
+  e_Plx_alt: 0.033057157
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD121370
+Primary: HD121370
+Science: True
+SpT_simple: G0IV
+NaN outputs: Dist; e_Dist
+Probable reason: Missing Plx and Plx_alt: cannot compute Dist; Missing e_Plx and e_Plx_alt: cannot compute e_Dist
+
+Relevant inputs:
+  Primary: HD121370
+  Science: True
+  Sequence: Both
+  SpT: G0IV
+  SpT_simple: G0IV
+  BTmag: 3.38
+  e_BTmag: 0.014
+  VTmag: 2.719
+  e_VTmag: 0.009
+  Jmag: 1.793
+  e_Jmag: 0.306
+  Kmag: 1.485
+  e_Kmag: 0.17
+  W1mag: -0.845
+  e_W1mag:       
+  W3mag: 1.447
+  e_W3mag: 0.021
+  W4mag: 1.354
+  e_W4mag:  0.013
+  Plx: nan
+  e_Plx: nan
+  Plx_alt: nan
+  e_Plx_alt: nan
+  FeH_rel: 0.359
+  e_FeH_rel: 0.1
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD118839
+Primary: HD118839
+Science: False
+SpT_simple: K2II
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD118839
+  Science: False
+  Sequence: Faint
+  SpT: K2II-III
+  SpT_simple: K2II
+  BTmag: 8.046
+  e_BTmag: 0.016
+  VTmag: 6.596
+  e_VTmag: 0.01
+  Jmag: 4.845
+  e_Jmag: 0.218
+  Kmag: 4.037
+  e_Kmag: 0.232
+  W1mag: 3.667
+  e_W1mag:  0.448
+  W3mag: 3.654
+  e_W3mag: 0.015
+  W4mag: 3.574
+  e_W4mag:  0.020
+  Plx: 5.621966094
+  e_Plx: 0.021913556
+  Plx_alt: 5.648509787
+  e_Plx_alt: 0.035808263
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD120540
+Primary: HD120540
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD120540
+  Science: False
+  Sequence: Faint
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 9.337
+  e_BTmag: 0.018
+  VTmag: 7.765
+  e_VTmag: 0.01
+  Jmag: 5.501
+  e_Jmag: 0.017
+  Kmag: 4.773
+  e_Kmag: 0.017
+  W1mag: 4.671
+  e_W1mag:  0.282
+  W3mag: 4.753
+  e_W3mag: 0.015
+  W4mag: 4.665
+  e_W4mag:  0.027
+  Plx: 5.028511286
+  e_Plx: 0.024414243
+  Plx_alt: 5.017984949
+  e_Plx_alt: 0.049429804
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD125490
+Primary: HD125490
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD125490
+  Science: False
+  Sequence: Both
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.601
+  e_BTmag: 0.016
+  VTmag: 6.54
+  e_VTmag: 0.01
+  Jmag: 5.077
+  e_Jmag: 0.284
+  Kmag: 4.305
+  e_Kmag: 0.02
+  W1mag: 4.22
+  e_W1mag:  0.288
+  W3mag: 4.254
+  e_W3mag: 0.014
+  W4mag: 4.204
+  e_W4mag:  0.027
+  Plx: 6.189869029
+  e_Plx: 0.16800325
+  Plx_alt: 5.653941397
+  e_Plx_alt: 0.23268448
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD121981
+Primary: HD121981
+Science: False
+SpT_simple: G8IV
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD121981
+  Science: False
+  Sequence: Faint
+  SpT: G8IV/V
+  SpT_simple: G8IV
+  BTmag: 8.213
+  e_BTmag: 0.017
+  VTmag: 7.065
+  e_VTmag: 0.011
+  Jmag: 5.239
+  e_Jmag: 0.019
+  Kmag: 4.561
+  e_Kmag: 0.018
+  W1mag: 4.484
+  e_W1mag:  0.308
+  W3mag: 4.504
+  e_W3mag: 0.015
+  W4mag: 4.454
+  e_W4mag:  0.024
+  Plx: 7.049334162
+  e_Plx: 0.020664195
+  Plx_alt: 7.102646182
+  e_Plx_alt: 0.038505214
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD123255
+Primary: HD123255
+Science: False
+SpT_simple: F2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD123255
+  Science: False
+  Sequence: Faint
+  SpT: F2III
+  SpT_simple: F2III
+  BTmag: 5.876
+  e_BTmag: 0.014
+  VTmag: 5.496
+  e_VTmag: 0.009
+  Jmag: 4.84
+  e_Jmag: 0.037
+  Kmag: 4.599
+  e_Kmag: 0.016
+  W1mag: 4.536
+  e_W1mag:  0.309
+  W3mag: 4.597
+  e_W3mag: 0.015
+  W4mag: 4.485
+  e_W4mag:  0.029
+  Plx: 17.56269137
+  e_Plx: 0.09936776
+  Plx_alt: 17.50379603
+  e_Plx_alt: 0.147692693
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD122135
+Primary: HD122135
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD122135
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.911
+  e_BTmag: 0.016
+  VTmag: 6.678
+  e_VTmag: 0.01
+  Jmag: 4.993
+  e_Jmag: 0.246
+  Kmag: 4.156
+  e_Kmag: 0.036
+  W1mag: 4.066
+  e_W1mag:  0.391
+  W3mag: 4.094
+  e_W3mag: 0.014
+  W4mag: 4.032
+  e_W4mag:  0.026
+  Plx: 7.886117508
+  e_Plx: 0.0219353
+  Plx_alt: 7.84881795
+  e_Plx_alt: 0.039826707
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD125183
+Primary: HD125183
+Science: False
+SpT_simple: K3III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD125183
+  Science: False
+  Sequence: Bright
+  SpT: K3III
+  SpT_simple: K3III
+  BTmag: 9.662
+  e_BTmag: 0.023
+  VTmag: 7.912
+  e_VTmag: 0.012
+  Jmag: 5.301
+  e_Jmag: 0.019
+  Kmag: 4.403
+  e_Kmag: 0.017
+  W1mag: 4.337
+  e_W1mag:  0.321
+  W3mag: 4.369
+  e_W3mag: 0.015
+  W4mag: 4.27
+  e_W4mag:  0.021
+  Plx: 1.891444169
+  e_Plx: 0.022162585
+  Plx_alt: 1.945288572
+  e_Plx_alt: 0.047741031
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD142443
+Primary: HD142443
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD142443
+  Science: False
+  Sequence: Both
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.217
+  e_BTmag: 0.017
+  VTmag: 6.999
+  e_VTmag: 0.011
+  Jmag: 5.265
+  e_Jmag: 0.272
+  Kmag: 4.389
+  e_Kmag: 0.018
+  W1mag: 4.385
+  e_W1mag:  0.266
+  W3mag: 4.343
+  e_W3mag: 0.015
+  W4mag: 4.295
+  e_W4mag:  0.025
+  Plx: 10.6505704
+  e_Plx: 0.02043418
+  Plx_alt: 10.61550463
+  e_Plx_alt: 0.038236255
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD142639
+Primary: HD142639
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD142639
+  Science: False
+  Sequence: Bright
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.253
+  e_BTmag: 0.016
+  VTmag: 6.998
+  e_VTmag: 0.01
+  Jmag: 5.101
+  e_Jmag: 0.037
+  Kmag: 4.526
+  e_Kmag: 0.033
+  W1mag: 4.455
+  e_W1mag:  0.245
+  W3mag: 4.437
+  e_W3mag: 0.016
+  W4mag: 4.398
+  e_W4mag:  0.027
+  Plx: 5.409671036
+  e_Plx: 0.029379152
+  Plx_alt: 5.422626801
+  e_Plx_alt: 0.045731073
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD139610
+Primary: HD139610
+Science: False
+SpT_simple: G5
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD139610
+  Science: False
+  Sequence: Bright
+  SpT: G5
+  SpT_simple: G5
+  BTmag: 8.327
+  e_BTmag: 0.018
+  VTmag: 7.213
+  e_VTmag: 0.011
+  Jmag: 5.371
+  e_Jmag: 0.019
+  Kmag: 4.743
+  e_Kmag: 0.024
+  W1mag: 4.69
+  e_W1mag:  0.184
+  W3mag: 4.692
+  e_W3mag: 0.014
+  W4mag: 4.606
+  e_W4mag:  0.032
+  Plx: 5.392251129
+  e_Plx: 0.018418366
+  Plx_alt: 5.466195219
+  e_Plx_alt: 0.038617199
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD142862
+Primary: HD142862
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD142862
+  Science: False
+  Sequence: Faint
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.8
+  e_BTmag: 0.019
+  VTmag: 7.517
+  e_VTmag: 0.012
+  Jmag: 5.544
+  e_Jmag: 0.023
+  Kmag: 4.838
+  e_Kmag: 0.016
+  W1mag: 4.822
+  e_W1mag:  0.189
+  W3mag: 4.788
+  e_W3mag: 0.015
+  W4mag: 4.747
+  e_W4mag:  0.031
+  Plx: 5.13360298
+  e_Plx: 0.022294942
+  Plx_alt: 5.114797564
+  e_Plx_alt: 0.03963325
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD143129
+Primary: HD143129
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD143129
+  Science: False
+  Sequence: Faint
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.375
+  e_BTmag: 0.017
+  VTmag: 7.198
+  e_VTmag: 0.011
+  Jmag: 5.389
+  e_Jmag: 0.023
+  Kmag: 4.73
+  e_Kmag: 0.023
+  W1mag: 4.724
+  e_W1mag:  0.208
+  W3mag: 4.727
+  e_W3mag: 0.016
+  W4mag: 4.639
+  e_W4mag:  0.029
+  Plx: 4.206716431
+  e_Plx: 0.02719238
+  Plx_alt: 4.299961945
+  e_Plx_alt: 0.044190902
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD141589
+Primary: HD141589
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD141589
+  Science: False
+  Sequence: Both
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 7.946
+  e_BTmag: 0.017
+  VTmag: 6.808
+  e_VTmag: 0.011
+  Jmag: 5.044
+  e_Jmag: 0.018
+  Kmag: 4.455
+  e_Kmag: 0.024
+  W1mag: 4.417
+  e_W1mag:  0.220
+  W3mag: 4.419
+  e_W3mag: 0.015
+  W4mag: 4.388
+  e_W4mag:  0.032
+  Plx: 5.247872365
+  e_Plx: 0.03324873
+  Plx_alt: 5.143285054
+  e_Plx_alt: 0.039283
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD141827
+Primary: HD141827
+Science: False
+SpT_simple: K2
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD141827
+  Science: False
+  Sequence: Faint
+  SpT: K2
+  SpT_simple: K2
+  BTmag: 9.797
+  e_BTmag: 0.031
+  VTmag: 8.027
+  e_VTmag: 0.014
+  Jmag: 5.243
+  e_Jmag: 0.024
+  Kmag: 4.368
+  e_Kmag: 0.024
+  W1mag: 4.31
+  e_W1mag:  0.265
+  W3mag: 4.288
+  e_W3mag: 0.015
+  W4mag: 4.203
+  e_W4mag:  0.020
+  Plx: 1.920684078
+  e_Plx: 0.031011328
+  Plx_alt: 1.906834876
+  e_Plx_alt: 0.04990023
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD143896
+Primary: HD143896
+Science: False
+SpT_simple: K5
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD143896
+  Science: False
+  Sequence: Faint
+  SpT: K5
+  SpT_simple: K5
+  BTmag: 9.992
+  e_BTmag: 0.028
+  VTmag: 8.301
+  e_VTmag: 0.014
+  Jmag: 5.409
+  e_Jmag: 0.023
+  Kmag: 4.407
+  e_Kmag: 0.015
+  W1mag: 4.393
+  e_W1mag:  0.231
+  W3mag: 4.341
+  e_W3mag: 0.014
+  W4mag: 4.269
+  e_W4mag:  0.025
+  Plx: 2.085657701
+  e_Plx: 0.059285916
+  Plx_alt: 1.901365443
+  e_Plx_alt: 0.051610071
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD143257
+Primary: HD143257
+Science: False
+SpT_simple: K2
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD143257
+  Science: False
+  Sequence: Bright
+  SpT: K2
+  SpT_simple: K2
+  BTmag: 9.631
+  e_BTmag: 0.025
+  VTmag: 7.882
+  e_VTmag: 0.013
+  Jmag: 5.153
+  e_Jmag: 0.037
+  Kmag: 4.316
+  e_Kmag: 0.015
+  W1mag: 4.3
+  e_W1mag:  0.250
+  W3mag: 4.285
+  e_W3mag: 0.015
+  W4mag: 4.195
+  e_W4mag:  0.023
+  Plx: 3.04613768
+  e_Plx: 0.020008622
+  Plx_alt: 3.061191786
+  e_Plx_alt: 0.039361136
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD140346
+Primary: HD140346
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD140346
+  Science: False
+  Sequence: Bright
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.597
+  e_BTmag: 0.018
+  VTmag: 7.222
+  e_VTmag: 0.011
+  Jmag: 5.068
+  e_Jmag: 0.037
+  Kmag: 4.381
+  e_Kmag: 0.016
+  W1mag: 4.334
+  e_W1mag:  0.234
+  W3mag: 4.343
+  e_W3mag: 0.016
+  W4mag: 4.282
+  e_W4mag:  0.025
+  Plx: 6.916244887
+  e_Plx: 0.03937342
+  Plx_alt: 6.851514656
+  e_Plx_alt: 0.06460099
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD182572
+Primary: HD182572
+Science: True
+SpT_simple: G7IV
+NaN outputs: teff_casagrande; e_teff_casagrande
+Probable reason: Inputs look present; check data type, empty strings, or validity range of calibration
+
+Relevant inputs:
+  Primary: HD182572
+  Science: True
+  Sequence: Both
+  SpT: G7IVHdel1
+  SpT_simple: G7IV
+  BTmag: 6.1
+  e_BTmag: 0.014
+  VTmag: 5.243
+  e_VTmag: 0.009
+  Jmag: 3.553
+  e_Jmag: 0.206
+  Kmag: 3.037
+  e_Kmag: 0.32
+  W1mag: 2.696
+  e_W1mag:       
+  W3mag: 3.506
+  e_W3mag: 0.015
+  W4mag: 3.493
+  e_W4mag:  0.022
+  Plx: 67.01526888
+  e_Plx: 0.065657094
+  Plx_alt: 66.84801253
+  e_Plx_alt: 0.09133923
+  FeH_rel: 0.408
+  e_FeH_rel: 0.1
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD178665
+Primary: HD178665
+Science: False
+SpT_simple: K2
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD178665
+  Science: False
+  Sequence: Faint
+  SpT: K2
+  SpT_simple: K2
+  BTmag: 9.996
+  e_BTmag: 0.029
+  VTmag: 8.134
+  e_VTmag: 0.014
+  Jmag: 5.253
+  e_Jmag: 0.023
+  Kmag: 4.334
+  e_Kmag: 0.017
+  W1mag: 4.141
+  e_W1mag:  0.214
+  W3mag: 4.232
+  e_W3mag: 0.016
+  W4mag: 4.154
+  e_W4mag:  0.033
+  Plx: 3.728665043
+  e_Plx: 0.01908486
+  Plx_alt: 3.786788941
+  e_Plx_alt: 0.044568474
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD178596
+Primary: HD178596
+Science: False
+SpT_simple: F0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD178596
+  Science: False
+  Sequence: Faint
+  SpT: F0III-IV
+  SpT_simple: F0III
+  BTmag: 5.634
+  e_BTmag: 0.014
+  VTmag: 5.269
+  e_VTmag: 0.009
+  Jmag: 4.528
+  e_Jmag: 0.27
+  Kmag: 4.334
+  e_Kmag: 0.016
+  W1mag: 4.268
+  e_W1mag:  0.229
+  W3mag: 4.381
+  e_W3mag: 0.014
+  W4mag: 4.459
+  e_W4mag:  0.035
+  Plx: 21.0662393
+  e_Plx: 0.37026504
+  Plx_alt: 22.9562856
+  e_Plx_alt: 0.239676798
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD186202
+Primary: HD186202
+Science: False
+SpT_simple: K2
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD186202
+  Science: False
+  Sequence: Faint
+  SpT: K2
+  SpT_simple: K2
+  BTmag: 9.618
+  e_BTmag: 0.019
+  VTmag: 7.947
+  e_VTmag: 0.011
+  Jmag: 5.227
+  e_Jmag: 0.02
+  Kmag: 4.375
+  e_Kmag: 0.024
+  W1mag: 4.274
+  e_W1mag:  0.233
+  W3mag: 4.292
+  e_W3mag: 0.015
+  W4mag: 4.219
+  e_W4mag:  0.025
+  Plx: 2.112117142
+  e_Plx: 0.017904086
+  Plx_alt: 2.147068978
+  e_Plx_alt: 0.051471665
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD5457
+Primary: lamTuc
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: lamTuc
+  Science: False
+  Sequence: Both
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 6.838
+  e_BTmag: 0.015
+  VTmag: 5.574
+  e_VTmag: 0.009
+  Jmag: 3.699
+  e_Jmag: 0.276
+  Kmag: 2.975
+  e_Kmag: 0.254
+  W1mag: 1.786
+  e_W1mag:       
+  W3mag: 2.9
+  e_W3mag: 0.013
+  W4mag: 2.845
+  e_W4mag:  0.017
+  Plx: 14.47262113
+  e_Plx: 0.05503774
+  Plx_alt: 14.62135622
+  e_Plx_alt: 0.081737307
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD197635
+Primary: sigPav
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: sigPav
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 6.867
+  e_BTmag: 0.014
+  VTmag: 5.534
+  e_VTmag: 0.009
+  Jmag: 3.549
+  e_Jmag: 0.238
+  Kmag: 2.874
+  e_Kmag: 0.266
+  W1mag: 2.094
+  e_W1mag:       
+  W3mag: 2.815
+  e_W3mag: 0.012
+  W4mag: 2.793
+  e_W4mag:  0.022
+  Plx: 10.12513943
+  e_Plx: 0.061788227
+  Plx_alt: 10.06929363
+  e_Plx_alt: 0.088954199
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD4332
+Primary: HD4332
+Science: False
+SpT_simple: K4II
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD4332
+  Science: False
+  Sequence: Bright
+  SpT: K4II/IIICNIV/V
+  SpT_simple: K4II
+  BTmag: 8.913
+  e_BTmag: 0.016
+  VTmag: 7.112
+  e_VTmag: 0.01
+  Jmag: 4.198
+  e_Jmag: 0.23
+  Kmag: 3.171
+  e_Kmag: 0.244
+  W1mag: 2.286
+  e_W1mag:       
+  W3mag: 3.106
+  e_W3mag: 0.011
+  W4mag: 3.008
+  e_W4mag:  0.020
+  Plx: 2.36230936
+  e_Plx: 0.014780653
+  Plx_alt: 2.369013467
+  e_Plx_alt: 0.024462843
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD15248
+Primary: kapHyi
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: kapHyi
+  Science: False
+  Sequence: Faint
+  SpT: K1III
+  SpT_simple: K1III
+  BTmag: 7.391
+  e_BTmag: 0.015
+  VTmag: 6.109
+  e_VTmag: 0.01
+  Jmag: 4.213
+  e_Jmag: 0.278
+  Kmag: 3.55
+  e_Kmag: 0.21
+  W1mag: 3.499
+  e_W1mag:  0.503
+  W3mag: 3.488
+  e_W3mag: 0.012
+  W4mag: 3.433
+  e_W4mag:  0.021
+  Plx: 9.213282573
+  e_Plx: 0.020611668
+  Plx_alt: 9.252141346
+  e_Plx_alt: 0.041822028
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD210056
+Primary: HD210056
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD210056
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.413
+  e_BTmag: 0.015
+  VTmag: 6.239
+  e_VTmag: 0.009
+  Jmag: 4.669
+  e_Jmag: 0.224
+  Kmag: 3.877
+  e_Kmag: 0.286
+  W1mag: 3.808
+  e_W1mag:  0.367
+  W3mag: 3.74
+  e_W3mag: 0.014
+  W4mag: 3.686
+  e_W4mag:  0.020
+  Plx: 11.16561229
+  e_Plx: 0.02047939
+  Plx_alt: 11.19639614
+  e_Plx_alt: 0.024191072
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD38295
+Primary: HD38295
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD38295
+  Science: False
+  Sequence: Both
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.966
+  e_BTmag: 0.016
+  VTmag: 6.796
+  e_VTmag: 0.01
+  Jmag: 5.083
+  e_Jmag: 0.037
+  Kmag: 4.391
+  e_Kmag: 0.015
+  W1mag: 4.416
+  e_W1mag:  0.247
+  W3mag: 4.389
+  e_W3mag: 0.016
+  W4mag: 4.336
+  e_W4mag:  0.028
+  Plx: 5.449325734
+  e_Plx: 0.017038805
+  Plx_alt: 5.39615705
+  e_Plx_alt: 0.026485347
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD42747
+Primary: HD42747
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD42747
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.866
+  e_BTmag: 0.014
+  VTmag: 6.705
+  e_VTmag: 0.01
+  Jmag: 5.161
+  e_Jmag: 0.26
+  Kmag: 4.382
+  e_Kmag: 0.036
+  W1mag: 4.358
+  e_W1mag:  0.242
+  W3mag: 4.335
+  e_W3mag: 0.013
+  W4mag: 4.289
+  e_W4mag:  0.027
+  Plx: 5.011005145
+  e_Plx: 0.017906832
+  Plx_alt: 4.9431182
+  e_Plx_alt: 0.033734853
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD47156
+Primary: HR2426
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2426
+  Science: False
+  Sequence: Both
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.15
+  e_BTmag: 0.018
+  VTmag: 6.539
+  e_VTmag: 0.011
+  Jmag: 4.245
+  e_Jmag: 0.292
+  Kmag: 3.281
+  e_Kmag: 0.262
+  W1mag: 10.706
+  e_W1mag:  0.021
+  W3mag: 10.343
+  e_W3mag: 0.169
+  W4mag: 8.317
+  e_W4mag:       
+  Plx: 5.642167054
+  e_Plx: 0.034781992
+  Plx_alt: 5.585879088
+  e_Plx_alt: 0.061337886
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD46241
+Primary: 12Mon
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: 12Mon
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.113
+  e_BTmag: 0.016
+  VTmag: 5.953
+  e_VTmag: 0.01
+  Jmag: 4.327
+  e_Jmag: 0.282
+  Kmag: 3.689
+  e_Kmag: 0.208
+  W1mag: 3.581
+  e_W1mag:  0.402
+  W3mag: 3.542
+  e_W3mag: 0.014
+  W4mag: 3.529
+  e_W4mag:  0.031
+  Plx: 7.055284699
+  e_Plx: 0.03873951
+  Plx_alt: 6.996152135
+  e_Plx_alt: 0.076532978
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD51814
+Primary: HR2610
+Science: False
+SpT_simple: K0II
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2610
+  Science: False
+  Sequence: Bright
+  SpT: K0II/III
+  SpT_simple: K0II
+  BTmag: 7.293
+  e_BTmag: 0.015
+  VTmag: 6.064
+  e_VTmag: 0.009
+  Jmag: 4.364
+  e_Jmag: 0.234
+  Kmag: 3.644
+  e_Kmag: 0.272
+  W1mag: 3.592
+  e_W1mag:  0.309
+  W3mag: 3.58
+  e_W3mag: 0.017
+  W4mag: 3.494
+  e_W4mag:  0.026
+  Plx: 4.277604495
+  e_Plx: 0.03521116
+  Plx_alt: 4.214335984
+  e_Plx_alt: 0.058681531
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD45512
+Primary: HR2342
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2342
+  Science: False
+  Sequence: Faint
+  SpT: K2III-IV
+  SpT_simple: K2III
+  BTmag: 7.664
+  e_BTmag: 0.016
+  VTmag: 6.286
+  e_VTmag: 0.01
+  Jmag: 4.319
+  e_Jmag: 0.29
+  Kmag: 3.562
+  e_Kmag: 0.266
+  W1mag: 3.565
+  e_W1mag:  0.441
+  W3mag: 3.52
+  e_W3mag: 0.015
+  W4mag: 3.48
+  e_W4mag:  0.025
+  Plx: 11.87963351
+  e_Plx: 0.11674352
+  Plx_alt: 11.78830314
+  e_Plx_alt: 0.052480278
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD4849
+Primary: HR2391
+Science: False
+SpT_simple: A9III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2391
+  Science: False
+  Sequence: Faint
+  SpT: A9/F0III
+  SpT_simple: A9III
+  BTmag: 6.825
+  e_BTmag: 0.015
+  VTmag: 6.512
+  e_VTmag: 0.01
+  Jmag: 5.926
+  e_Jmag: 0.026
+  Kmag: 5.776
+  e_Kmag: 0.024
+  W1mag: 5.789
+  e_W1mag:  0.136
+  W3mag: 5.805
+  e_W3mag: 0.015
+  W4mag: 5.716
+  e_W4mag:  0.044
+  Plx: 10.29178869
+  e_Plx: 0.10426909
+  Plx_alt: 10.11409296
+  e_Plx_alt: 0.057814318
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD65181
+Primary: HD65181
+Science: False
+SpT_simple: K3III
+NaN outputs: Hpmag_dr; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD65181
+  Science: False
+  Sequence: Faint
+  SpT: K3III
+  SpT_simple: K3III
+  BTmag: 9.534
+  e_BTmag: 0.018
+  VTmag: 7.739
+  e_VTmag: 0.01
+  Jmag: 5.059
+  e_Jmag: 0.037
+  Kmag: 4.095
+  e_Kmag: 0.036
+  W1mag: 4.062
+  e_W1mag:  0.390
+  W3mag: 4.045
+  e_W3mag: 0.017
+  W4mag: 3.98
+  e_W4mag:  0.024
+  Plx: 1.838190386
+  e_Plx: 0.018077975
+  Plx_alt: 1.705138212
+  e_Plx_alt: 0.031990178
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD70942
+Primary: HD70942
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD70942
+  Science: False
+  Sequence: Faint
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 8.45
+  e_BTmag: 0.017
+  VTmag: 7.019
+  e_VTmag: 0.011
+  Jmag: 4.932
+  e_Jmag: 0.254
+  Kmag: 4.045
+  e_Kmag: 0.25
+  W1mag: 3.885
+  e_W1mag:  0.320
+  W3mag: 3.879
+  e_W3mag: 0.015
+  W4mag: 3.816
+  e_W4mag:  0.024
+  Plx: 4.343029766
+  e_Plx: 0.02149692
+  Plx_alt: 4.340368349
+  e_Plx_alt: 0.034539061
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD  63734
+Primary: HD63734
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD63734
+  Science: False
+  Sequence: Bright
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 8.09
+  e_BTmag: 0.015
+  VTmag: 6.617
+  e_VTmag: 0.009
+  Jmag: 4.821
+  e_Jmag: 0.258
+  Kmag: 3.945
+  e_Kmag: 0.236
+  W1mag: 3.676
+  e_W1mag:  0.409
+  W3mag: 3.686
+  e_W3mag: 0.015
+  W4mag: 3.602
+  e_W4mag:  0.023
+  Plx: 8.455784732
+  e_Plx: 0.019284135
+  Plx_alt: 8.378753048
+  e_Plx_alt: 0.029850024
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD82434
+Primary: psiVel
+Science: True
+SpT_simple: F3V
+NaN outputs: e_Dist; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing e_Plx and e_Plx_alt: cannot compute e_Dist; Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: psiVel
+  Science: True
+  Sequence: Both
+  SpT: F3VFe-0.7
+  SpT_simple: F3V
+  BTmag: 4.006
+  e_BTmag: 0.002
+  VTmag: 3.624
+  e_VTmag: 0.002
+  Jmag: 2.822
+  e_Jmag: 0.296
+  Kmag: 2.673
+  e_Kmag: 0.268
+  W1mag: 1.553
+  e_W1mag:       
+  W3mag: 2.682
+  e_W3mag: 0.02
+  W4mag: 2.613
+  e_W4mag:  0.023
+  Plx: 54.6059
+  e_Plx: nan
+  Plx_alt: nan
+  e_Plx_alt: nan
+  FeH_rel: nan
+  e_FeH_rel: 0.1
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD81134
+Primary: HR3729
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR3729
+  Science: False
+  Sequence: Both
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 7.984
+  e_BTmag: 0.016
+  VTmag: 6.642
+  e_VTmag: 0.009
+  Jmag: 4.92
+  e_Jmag: 0.3
+  Kmag: 4.205
+  e_Kmag: 0.298
+  W1mag: 3.946
+  e_W1mag:  0.366
+  W3mag: 3.981
+  e_W3mag: 0.015
+  W4mag: 3.912
+  e_W4mag:  0.024
+  Plx: 7.382725224
+  e_Plx: 0.01664867
+  Plx_alt: 7.320121081
+  e_Plx_alt: 0.028842634
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD76437
+Primary: HD76437
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD76437
+  Science: False
+  Sequence: Faint
+  SpT: K1III
+  SpT_simple: K1III
+  BTmag: 8.596
+  e_BTmag: 0.016
+  VTmag: 7.27
+  e_VTmag: 0.01
+  Jmag: 5.295
+  e_Jmag: 0.021
+  Kmag: 4.601
+  e_Kmag: 0.017
+  W1mag: 4.468
+  e_W1mag:  0.294
+  W3mag: 4.563
+  e_W3mag: 0.014
+  W4mag: 4.499
+  e_W4mag:  0.025
+  Plx: 8.012899024
+  e_Plx: 0.016646551
+  Plx_alt: 7.956334606
+  e_Plx_alt: 0.031634118
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD84369
+Primary: HD84369
+Science: False
+SpT_simple: K2III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD84369
+  Science: False
+  Sequence: Faint
+  SpT: K2III
+  SpT_simple: K2III
+  BTmag: 9.253
+  e_BTmag: 0.017
+  VTmag: 7.721
+  e_VTmag: 0.011
+  Jmag: 5.349
+  e_Jmag: 0.023
+  Kmag: 4.474
+  e_Kmag: 0.021
+  W1mag: 4.375
+  e_W1mag:  0.309
+  W3mag: 4.459
+  e_W3mag: 0.015
+  W4mag: 4.404
+  e_W4mag:  0.024
+  Plx: 3.567858639
+  e_Plx: 0.03289669
+  Plx_alt: 3.512212801
+  e_Plx_alt: 0.032303503
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD61421
+Primary: alfCMi
+Science: True
+SpT_simple: F5IV
+NaN outputs: Bmag; Vmag; eb_v; A_V; Bmag_dr; Vmag_dr; Hpmag_dr; BTmag_dr; VTmag_dr; BPmag_dr; RPmag_dr; V-K_calc; LDD_VK; e_LDD_VK; LDD_VW3; e_LDD_VW3; LDD_VW4; e_LDD_VW4; LDD_BV; e_LDD_BV; LDD_BV_feh; e_LDD_BV_feh; LDD_pred; e_LDD_pred; teff_casagrande; e_teff_casagrande
+Probable reason: Missing BTmag or VTmag: cannot compute Bmag/Vmag
+
+Relevant inputs:
+  Primary: alfCMi
+  Science: True
+  Sequence: Both
+  SpT: F5IV-V+DQZ
+  SpT_simple: F5IV
+  BTmag: nan
+  e_BTmag: nan
+  VTmag: 0.461
+  e_VTmag: 0.002
+  Jmag: -0.498
+  e_Jmag: 0.151
+  Kmag: -0.658
+  e_Kmag: 0.322
+  W1mag: -1.193
+  e_W1mag:       
+  W3mag: -0.425
+  e_W3mag: 0.427
+  W4mag: -0.637
+  e_W4mag:  0.005
+  Plx: 284.56
+  e_Plx: 1.26
+  Plx_alt: 284.56
+  e_Plx_alt: 1.26
+  FeH_rel: 0.011
+  e_FeH_rel: 0.1
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD55751
+Primary: HR2729
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HR2729
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 6.917
+  e_BTmag: 0.015
+  VTmag: 5.48
+  e_VTmag: 0.009
+  Jmag: 3.468
+  e_Jmag: 0.236
+  Kmag: 2.675
+  e_Kmag: 0.234
+  W1mag: 1.686
+  e_W1mag:       
+  W3mag: 2.645
+  e_W3mag: 0.012
+  W4mag: 2.58
+  e_W4mag:  0.020
+  Plx: 4.215075293
+  e_Plx: 0.14276962
+  Plx_alt: 5.186602542
+  e_Plx_alt: 0.170854692
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD63241
+Primary: HD63241
+Science: False
+SpT_simple: K0
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD63241
+  Science: False
+  Sequence: Bright
+  SpT: K0
+  SpT_simple: K0
+  BTmag: 8.728
+  e_BTmag: 0.021
+  VTmag: 6.787
+  e_VTmag: 0.011
+  Jmag: 3.983
+  e_Jmag: 0.264
+  Kmag: 2.85
+  e_Kmag: 0.258
+  W1mag: 1.514
+  e_W1mag:       
+  W3mag: 2.681
+  e_W3mag: 0.015
+  W4mag: 2.596
+  e_W4mag:  0.017
+  Plx: 2.350954669
+  e_Plx: 0.037575718
+  Plx_alt: 2.027000126
+  e_Plx_alt: 0.050595932
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD65695
+Primary: 27Mon
+Science: False
+SpT_simple: K1III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: 27Mon
+  Science: False
+  Sequence: Bright
+  SpT: K1III
+  SpT_simple: K1III
+  BTmag: 6.485
+  e_BTmag: 0.014
+  VTmag: 5.069
+  e_VTmag: 0.009
+  Jmag: 2.996
+  e_Jmag: 0.294
+  Kmag: 2.192
+  e_Kmag: 0.276
+  W1mag: 6.5
+  e_W1mag:  0.072
+  W3mag: 5.865
+  e_W3mag: 0.015
+  W4mag: 3.635
+  e_W4mag:  0.025
+  Plx: 10.36449175
+  e_Plx: 0.114399366
+  Plx_alt: 10.24243073
+  e_Plx_alt: 0.179076568
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD79810
+Primary: HD79810
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD79810
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 8.271
+  e_BTmag: 0.015
+  VTmag: 6.927
+  e_VTmag: 0.01
+  Jmag: 5.109
+  e_Jmag: 0.26
+  Kmag: 4.239
+  e_Kmag: 0.026
+  W1mag: 4.167
+  e_W1mag:  0.358
+  W3mag: 4.2
+  e_W3mag: 0.015
+  W4mag: 4.145
+  e_W4mag:  0.024
+  Plx: 6.830682303
+  e_Plx: 0.018078463
+  Plx_alt: 6.818906135
+  e_Plx_alt: 0.02576997
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+
+----------------------------------------------------------------------
+HD_ID: HD84900
+Primary: HD84900
+Science: False
+SpT_simple: K0III
+NaN outputs: LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
+Probable reason: Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+
+Relevant inputs:
+  Primary: HD84900
+  Science: False
+  Sequence: Bright
+  SpT: K0III
+  SpT_simple: K0III
+  BTmag: 7.897
+  e_BTmag: 0.014
+  VTmag: 6.741
+  e_VTmag: 0.009
+  Jmag: 5.103
+  e_Jmag: 0.278
+  Kmag: 4.499
+  e_Kmag: 0.27
+  W1mag: 4.252
+  e_W1mag:  0.320
+  W3mag: 4.298
+  e_W3mag: 0.014
+  W4mag: 4.229
+  e_W4mag:  0.026
+  Plx: 4.057056028
+  e_Plx: 0.017971074
+  Plx_alt: 4.009288536
+  e_Plx_alt: 0.035332207
+  FeH_rel: nan
+  e_FeH_rel: nan
+  Quality: GOOD
+  LDD_rel: LDD_VW3
+

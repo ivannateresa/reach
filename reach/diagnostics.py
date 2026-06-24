@@ -14,6 +14,134 @@ from decimal import Decimal
 from astropy.io import fits
 from matplotlib.backends.backend_pdf import PdfPages
 
+def clean_target_id(x):
+    """
+    Clean target names for robust matching.
+
+    Examples:
+    HD_79810  -> hd79810
+    HD  63734 -> hd63734
+    psi Vel A -> psivela
+    psi_Vel   -> psivel
+    HR_3729   -> hr3729
+    """
+
+    import pandas as pd
+
+    if pd.isnull(x):
+        return ""
+
+    x = str(x)
+
+    x = x.replace("_", "")
+    x = x.replace(" ", "")
+    x = x.replace(".", "")
+    x = x.replace("-", "")
+    x = x.replace("\t", "")
+    x = x.lower()
+
+    return x
+
+
+def match_target_name(tgt_info, name, verbose=False):
+    """
+    Match one target name to the tgt_info index using cleaned identifiers.
+    """
+
+    import pandas as pd
+
+    name_clean = clean_target_id(name)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Search inside columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_id)
+        this_match = tgt_info.index[col_clean == name_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Search also in dataframe index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_id(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == name_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("NO MATCH: %s  cleaned as  %s" % (name, name_clean))
+
+        return None
+
+    if len(matches_unique) > 1:
+        print("WARNING: multiple matches for %s:" % name)
+        print(matches_unique)
+        print("Using first match: %s" % matches_unique[0])
+
+    return matches_unique[0]
+
+
+def match_target_list(tgt_info, names, label="target", verbose=True):
+    """
+    Match a list of target names to tgt_info indices.
+    """
+
+    ids = []
+    failed = []
+
+    for name in names:
+
+        this_id = match_target_name(tgt_info, name, verbose=False)
+
+        if this_id is None:
+            failed.append(name)
+
+            if verbose:
+                print("WARNING: could not match %s name: %s" % (label, name))
+
+        else:
+            ids.append(this_id)
+
+    return ids, failed
+
+
+def safe_get_unique_keys(tgt_info_input, names, label):
+
+    ids, failed = match_target_list(
+        tgt_info_input,
+        names,
+        label=label,
+        verbose=True
+    )
+
+    return ids, failed
+
 def run_vis2_diagnostics(complete_sequences, base_path):
     """Inspect vis2 as a function of time for baseline dropouts.
     """
@@ -167,6 +295,258 @@ def plot_vis2_diagnostics_time_wl(vis2_per_bl):
 def calibrate_calibrators(sequences, complete_sequences, base_path, tgt_info,
                           n_pred_ldd, e_pred_ldd, test_all_cals=False):
     """
+    Diagnostic calibration of calibrators.
+
+    This version does not assume that all sequences have exactly three
+    calibrators. It works with sequences of length 5:
+
+        calibrator - science - calibrator - science - calibrator
+
+    and also with sequences of length 3:
+
+        calibrator - science - calibrator
+
+    The function treats calibrators as science targets, one calibrator position
+    at a time, in order to test whether the calibrators are internally
+    consistent.
+    """
+
+    import os
+    import glob
+    import numpy as np
+    import pandas as pd
+    from collections import OrderedDict
+
+    import reach.utils as rutils
+    import reach.pndrs as rpndrs
+
+    run_local = False
+    already_calibrated = False
+    do_random_ifg_sampling = False
+    n_bootstraps = 1
+
+    results_path = "/home2/ihernand/Desktop/reach/diagnostics/"
+
+    if not os.path.exists(results_path):
+        os.makedirs(results_path)
+
+    # Work on a copy, so the original tgt_info is not permanently modified
+    tgt_info_cal = tgt_info.copy()
+
+    # Reset any currently BAD quality targets if requested
+    if test_all_cals:
+        tgt_info_cal["Quality"] = [None] * len(tgt_info_cal)
+
+    # Remove existing diagnostic FITS files
+    existing_files = glob.glob(results_path + "*.fits")
+
+    for fits_file in existing_files:
+        os.remove(fits_file)
+
+    # -------------------------------------------------------------------------
+    # First inspect the sequence structure
+    # -------------------------------------------------------------------------
+    sequence_rows = []
+
+    all_science_names = []
+    max_n_calibrators = 0
+
+    for seq_key, seq_targets in sequences.items():
+
+        seq_targets = list(seq_targets)
+
+        # Calibrators are in positions 0, 2, 4, ...
+        # Science targets are in positions 1, 3, ...
+        calibrators_this_seq = seq_targets[::2]
+        science_this_seq = seq_targets[1::2]
+
+        if len(calibrators_this_seq) > max_n_calibrators:
+            max_n_calibrators = len(calibrators_this_seq)
+
+        for sci in science_this_seq:
+            all_science_names.append(sci)
+
+        row = {
+            "Period": seq_key[0],
+            "Science_target_key": seq_key[1],
+            "Sequence_type": seq_key[2],
+            "N_targets": len(seq_targets),
+            "N_calibrators": len(calibrators_this_seq),
+            "N_science_positions": len(science_this_seq),
+            "Full_sequence": " - ".join(seq_targets)
+        }
+
+        for i, target in enumerate(seq_targets):
+            row["target_%02d" % (i + 1)] = target
+
+        for i, cal in enumerate(calibrators_this_seq):
+            row["calibrator_%02d" % (i + 1)] = cal
+
+        for i, sci in enumerate(science_this_seq):
+            row["science_%02d" % (i + 1)] = sci
+
+        sequence_rows.append(row)
+
+    sequence_df = pd.DataFrame(sequence_rows)
+
+    sequence_csv = os.path.join(results_path, "calibrator_sequence_structure.csv")
+    sequence_df.to_csv(sequence_csv, index=False)
+
+    print("Saved sequence structure diagnostic:")
+    print(sequence_csv)
+
+    print("\nSequence length summary:")
+    print(sequence_df["N_targets"].value_counts())
+
+    short_sequences = sequence_df[sequence_df["N_targets"] != 5]
+
+    if len(short_sequences) > 0:
+        print("\nWARNING: Some sequences do not have 5 targets.")
+        print("These are not necessarily wrong, but they have fewer calibrators.")
+        print(short_sequences[[
+            "Period",
+            "Science_target_key",
+            "Sequence_type",
+            "N_targets",
+            "N_calibrators",
+            "Full_sequence"
+        ]])
+
+
+    # -------------------------------------------------------------------------
+    # Mark all real science targets as BAD, so they are ignored in this diagnostic
+    # -------------------------------------------------------------------------
+    all_science_names_unique = []
+
+    for name in all_science_names:
+        if name not in all_science_names_unique:
+            all_science_names_unique.append(name)
+
+    science_ids, failed_science = safe_get_unique_keys(
+        tgt_info_cal,
+        all_science_names_unique,
+        "science"
+    )
+
+    if len(science_ids) > 0:
+        tgt_info_cal.loc[science_ids, "Quality"] = ["BAD"] * len(science_ids)
+
+    print("\nNumber of real science targets marked as BAD:")
+    print(len(science_ids))
+
+    # -------------------------------------------------------------------------
+    # Run calibrator diagnostic position by position
+    # -------------------------------------------------------------------------
+    # Example:
+    # cal_i = 0 --> first calibrator in each sequence
+    # cal_i = 1 --> second calibrator in each sequence
+    # cal_i = 2 --> third calibrator, only for sequences that actually have one
+    # -------------------------------------------------------------------------
+
+    for cal_i in np.arange(0, max_n_calibrators):
+
+        print("\n" + "-" * 79)
+        print("Now running calibrator diagnostic for calibrator position %i" % cal_i)
+        print("-" * 79)
+
+        # Reset all Science flags
+        tgt_info_cal["Science"] = [False] * len(tgt_info_cal)
+
+        # Build subset of sequences that actually have this calibrator position
+        sequences_this_run = OrderedDict()
+        complete_sequences_this_run = OrderedDict()
+
+        cal_names_this_run = []
+
+        for seq_key, seq_targets in sequences.items():
+
+            seq_targets = list(seq_targets)
+            calibrators_this_seq = seq_targets[::2]
+
+            # Skip sequences that do not have this calibrator position
+            if len(calibrators_this_seq) <= cal_i:
+                continue
+
+            cal_name = calibrators_this_seq[cal_i]
+            cal_names_this_run.append(cal_name)
+
+            sequences_this_run[seq_key] = seq_targets
+
+            if seq_key in complete_sequences:
+                complete_sequences_this_run[seq_key] = complete_sequences[seq_key]
+
+        # Remove duplicate calibrator names while preserving order
+        cal_names_unique = []
+
+        for name in cal_names_this_run:
+            if name not in cal_names_unique:
+                cal_names_unique.append(name)
+
+        cal_ids, failed_cals = safe_get_unique_keys(
+            tgt_info_cal,
+            cal_names_unique,
+            "calibrator"
+        )
+
+        print("Number of sequences used in this run:")
+        print(len(sequences_this_run))
+
+        print("Number of calibrators treated as science:")
+        print(len(cal_ids))
+
+        # Save which calibrators are being tested in this run
+        cal_set_rows = []
+
+        for input_name, cal_id in zip(cal_names_unique, cal_ids):
+
+            cal_set_rows.append({
+                "calibrator_position": cal_i,
+                "input_name": input_name,
+                "HD_ID": cal_id,
+                "Primary": tgt_info_cal.loc[cal_id, "Primary"],
+                "Quality": tgt_info_cal.loc[cal_id, "Quality"],
+                "Science": True
+            })
+
+        cal_set_df = pd.DataFrame(cal_set_rows)
+
+        cal_set_csv = os.path.join(
+            results_path,
+            "calibrator_position_%i.csv" % cal_i
+        )
+
+        cal_set_df.to_csv(cal_set_csv, index=False)
+
+        print("Saved calibrator set:")
+        print(cal_set_csv)
+
+        # Skip if nothing was matched
+        if len(cal_ids) == 0:
+            print("No calibrators matched for position %i. Skipping." % cal_i)
+            continue
+
+        # Treat these calibrators as science targets
+        tgt_info_cal.loc[cal_ids, "Science"] = [True] * len(cal_ids)
+
+        # Run calibration only on the sequences that contain this calibrator position
+        rpndrs.run_n_bootstraps(
+            sequences_this_run,
+            complete_sequences_this_run,
+            base_path,
+            tgt_info_cal,
+            n_pred_ldd,
+            e_pred_ldd,
+            n_bootstraps,
+            run_local=run_local,
+            already_calibrated=already_calibrated,
+            do_random_ifg_sampling=do_random_ifg_sampling,
+            results_path=results_path
+        )
+
+    print("\nFinished calibrator diagnostic calibration")
+def calibrate_calibrators_old(sequences, complete_sequences, base_path, tgt_info,
+                          n_pred_ldd, e_pred_ldd, test_all_cals=False):
+    """
     Assume that every sequence has three calibrators - we can simply do three
     loops of the calibration routine, turning the science off each time, and 
     flipping each calibrator to science in order going through.
@@ -180,11 +560,12 @@ def calibrate_calibrators(sequences, complete_sequences, base_path, tgt_info,
     already_calibrated = False
     do_random_ifg_sampling = False
     n_bootstraps = 1
-    base_path = "/priv/mulga1/arains/pionier/complete_sequences/%s_v3.73_abcd/"
-    results_path = "/home/arains/code/reach/diagnostics/"
+    base_path = "/home2/ihernand/Desktop/reach/complete_sequences/%s_v3.94_abcd/"
+    results_path = "/home2/ihernand/Desktop/reach/diagnostics/"
     
     # Get a list of the calibrators, in order, turn one calibrator per sequence
     # to science per calibration run - should need three runs
+   
     calibrators = np.vstack(sequences.values())[:,::2]
     
     # Reset any currently "BAD" quality targets

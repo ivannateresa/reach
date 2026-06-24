@@ -1,0 +1,869 @@
+Readable summary of PIONIER sequence definitions
+======================================================================
+
+----------------------------------------------------------------------
+Period: 104
+Science target: psi Vel A
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_79810
+  02  psi Vel A
+  03  HR_3729
+  04  psi Vel A
+  05  HD_84900
+
+----------------------------------------------------------------------
+Period: 104
+Science target: alf_CMi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2729
+  02  alf_CMi
+  03  HD_63241
+  04  alf_CMi
+  05  27_Mon
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD124850
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD122135
+  02  HD124850
+  03  HD125183
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD142860
+Sequence type: bright
+Number of targets in sequence: 3
+Sequence:
+  01  HD141589
+  02  HD142860
+  03  HD143257
+
+----------------------------------------------------------------------
+Period: 104
+Science target: iot_Psc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_222919
+  02  iot_Psc
+  03  HD_223292
+  04  iot_Psc
+  05  HR_67
+
+----------------------------------------------------------------------
+Period: 104
+Science target: ksi_Gem
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  12_Mon
+  02  ksi_Gem
+  03  HR_2426
+  04  ksi_Gem
+  05  HR_2610
+
+----------------------------------------------------------------------
+Period: 104
+Science target: bet_Hyi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  sig_Pav
+  02  bet_Hyi
+  03  HD_4332
+  04  bet_Hyi
+  05  lam_Tuc
+
+----------------------------------------------------------------------
+Period: 104
+Science target: pi3_Ori
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_1534
+  02  pi3_Ori
+  03  HR_1618
+  04  pi3_Ori
+  05  HR_1681
+
+----------------------------------------------------------------------
+Period: 104
+Science target: rho_Pup
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_59936
+  02  rho_Pup
+  03  HD  63734
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD141004
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD142639
+  02  HD141004
+  03  HD139610
+  04  HD141004
+  05  HD142443
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HR_2998
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_3069
+  02  HR_2998
+  03  HD_65491
+  04  HR_2998
+  05  HD_66162
+
+----------------------------------------------------------------------
+Period: 104
+Science target: zet_Tuc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_220757
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_8025
+
+----------------------------------------------------------------------
+Period: 105
+Science target: psi Vel A
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_79810
+  02  psi Vel A
+  03  HR_3729
+  04  psi Vel A
+  05  HD_84900
+
+----------------------------------------------------------------------
+Period: 105
+Science target: alf_CMi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2729
+  02  alf_CMi
+  03  HD_63241
+  04  alf_CMi
+  05  27_Mon
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD124850
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD122135
+  02  HD124850
+  03  HD125183
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 105
+Science target: iot_Psc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_222919
+  02  iot_Psc
+  03  HD_223292
+  04  iot_Psc
+  05  HR_67
+
+----------------------------------------------------------------------
+Period: 105
+Science target: ksi_Gem
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  12_Mon
+  02  ksi_Gem
+  03  HR_2426
+  04  ksi_Gem
+  05  HR_2610
+
+----------------------------------------------------------------------
+Period: 105
+Science target: bet_Hyi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  sig_Pav
+  02  bet_Hyi
+  03  HD_4332
+  04  bet_Hyi
+  05  lam_Tuc
+
+----------------------------------------------------------------------
+Period: 105
+Science target: pi3_Ori
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_1534
+  02  pi3_Ori
+  03  HR_1618
+  04  pi3_Ori
+  05  HR_1681
+
+----------------------------------------------------------------------
+Period: 105
+Science target: rho_Pup
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_59936
+  02  rho_Pup
+  03  HD  63734
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD141004
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD142639
+  02  HD141004
+  03  HD139610
+  04  HD141004
+  05  HD142443
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HR_2998
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_3069
+  02  HR_2998
+  03  HD_65491
+  04  HR_2998
+  05  HD_66162
+
+----------------------------------------------------------------------
+Period: 105
+Science target: zet_Tuc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_220757
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_8025
+
+----------------------------------------------------------------------
+Period: 106
+Science target: psi Vel A
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_79810
+  02  psi Vel A
+  03  HR_3729
+  04  psi Vel A
+  05  HD_84900
+
+----------------------------------------------------------------------
+Period: 106
+Science target: alf_CMi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2729
+  02  alf_CMi
+  03  HD_63241
+  04  alf_CMi
+  05  27_Mon
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD124850
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD122135
+  02  HD124850
+  03  HD125183
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD142860
+Sequence type: bright
+Number of targets in sequence: 3
+Sequence:
+  01  HD141589
+  02  HD142860
+  03  HD143257
+
+----------------------------------------------------------------------
+Period: 106
+Science target: iot_Psc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_222919
+  02  iot_Psc
+  03  HD_223292
+  04  iot_Psc
+  05  HR_67
+
+----------------------------------------------------------------------
+Period: 106
+Science target: ksi_Gem
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  12_Mon
+  02  ksi_Gem
+  03  HR_2426
+  04  ksi_Gem
+  05  HR_2610
+
+----------------------------------------------------------------------
+Period: 106
+Science target: pi3_Ori
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_1534
+  02  pi3_Ori
+  03  HR_1618
+  04  pi3_Ori
+  05  HR_1681
+
+----------------------------------------------------------------------
+Period: 106
+Science target: rho_Pup
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_59936
+  02  rho_Pup
+  03  HD  63734
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD141004
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD142639
+  02  HD141004
+  03  HD139610
+  04  HD141004
+  05  HD142443
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HR_2998
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HR_3069
+  02  HR_2998
+  03  HD_65491
+  04  HR_2998
+  05  HD_66162
+
+----------------------------------------------------------------------
+Period: 106
+Science target: zet_Tuc
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  HD_220757
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_8025
+
+----------------------------------------------------------------------
+Period: 104
+Science target: gam_Lep
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_38295
+  02  gam_Lep
+  03  HR_2090
+  04  gam_Lep
+  05  HD_42747
+
+----------------------------------------------------------------------
+Period: 104
+Science target: psi_Vel
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_76437
+  02  psi_Vel
+  03  HR_3729
+  04  psi_Vel
+  05  HD_84369
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HR_2998
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_61574
+  02  HR_2998
+  03  HR_3069
+  04  HR_2998
+  05  HD_65187
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD124850
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD121981
+  02  HD124850
+  03  HD123255
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 104
+Science target: iot_Psc
+Sequence type: faint
+Number of targets in sequence: 3
+Sequence:
+  01  HD_43
+  02  iot_Psc
+  03  HR_67
+
+----------------------------------------------------------------------
+Period: 104
+Science target: ksi_Gem
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2342
+  02  ksi_Gem
+  03  HR_2391
+  04  ksi_Gem
+  05  HR_2426
+
+----------------------------------------------------------------------
+Period: 104
+Science target: bet_Hyi
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_210056
+  02  bet_Hyi
+  03  lam_Tuc
+  04  bet_Hyi
+  05  kap_Hyi
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD142860
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD141589
+  02  HD142860
+  03  HD141827
+  04  HD142860
+  05  HD143896
+
+----------------------------------------------------------------------
+Period: 104
+Science target: rho_Pup
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_65181
+  02  rho_Pup
+  03  HD_70942
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD182572
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD178665
+  02  HD182572
+  03  HD178596
+  04  HD182572
+  05  HD186202
+
+----------------------------------------------------------------------
+Period: 104
+Science target: HD141004
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD142443
+  02  HD141004
+  03  HD142862
+  04  HD141004
+  05  HD143129
+
+----------------------------------------------------------------------
+Period: 104
+Science target: pi3_Ori
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_30519
+  02  pi3_Ori
+  03  HD_30507
+  04  pi3_Ori
+  05  HR_1618
+
+----------------------------------------------------------------------
+Period: 104
+Science target: zet_Tuc
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_8809
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_323
+
+----------------------------------------------------------------------
+Period: 105
+Science target: gam_Lep
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_38295
+  02  gam_Lep
+  03  HR_2090
+  04  gam_Lep
+  05  HD_42747
+
+----------------------------------------------------------------------
+Period: 105
+Science target: psi_Vel
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_76437
+  02  psi_Vel
+  03  HR_3729
+  04  psi_Vel
+  05  HD_84369
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HR_2998
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_61574
+  02  HR_2998
+  03  HR_3069
+  04  HR_2998
+  05  HD_65187
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD124850
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD121981
+  02  HD124850
+  03  HD123255
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 105
+Science target: iot_Psc
+Sequence type: faint
+Number of targets in sequence: 3
+Sequence:
+  01  HD_43
+  02  iot_Psc
+  03  HR_67
+
+----------------------------------------------------------------------
+Period: 105
+Science target: ksi_Gem
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2342
+  02  ksi_Gem
+  03  HR_2391
+  04  ksi_Gem
+  05  HR_2426
+
+----------------------------------------------------------------------
+Period: 105
+Science target: bet_Hyi
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_210056
+  02  bet_Hyi
+  03  lam_Tuc
+  04  bet_Hyi
+  05  kap_Hyi
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD142860
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD141589
+  02  HD142860
+  03  HD141827
+  04  HD142860
+  05  HD143896
+
+----------------------------------------------------------------------
+Period: 105
+Science target: rho_Pup
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_65181
+  02  rho_Pup
+  03  HD_70942
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD182572
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD178665
+  02  HD182572
+  03  HD178596
+  04  HD182572
+  05  HD186202
+
+----------------------------------------------------------------------
+Period: 105
+Science target: HD141004
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD142443
+  02  HD141004
+  03  HD142862
+  04  HD141004
+  05  HD143129
+
+----------------------------------------------------------------------
+Period: 105
+Science target: pi3_Ori
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_30519
+  02  pi3_Ori
+  03  HD_30507
+  04  pi3_Ori
+  05  HR_1618
+
+----------------------------------------------------------------------
+Period: 105
+Science target: zet_Tuc
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_8809
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_323
+
+----------------------------------------------------------------------
+Period: 106
+Science target: gam_Lep
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_38295
+  02  gam_Lep
+  03  HR_2090
+  04  gam_Lep
+  05  HD_42747
+
+----------------------------------------------------------------------
+Period: 106
+Science target: psi_Vel
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_76437
+  02  psi_Vel
+  03  HR_3729
+  04  psi_Vel
+  05  HD_84369
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HR_2998
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_61574
+  02  HR_2998
+  03  HR_3069
+  04  HR_2998
+  05  HD_65187
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD124850
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD121981
+  02  HD124850
+  03  HD123255
+  04  HD124850
+  05  HD125490
+
+----------------------------------------------------------------------
+Period: 106
+Science target: iot_Psc
+Sequence type: faint
+Number of targets in sequence: 3
+Sequence:
+  01  HD_43
+  02  iot_Psc
+  03  HR_67
+
+----------------------------------------------------------------------
+Period: 106
+Science target: ksi_Gem
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_2342
+  02  ksi_Gem
+  03  HR_2391
+  04  ksi_Gem
+  05  HR_2426
+
+----------------------------------------------------------------------
+Period: 106
+Science target: bet_Hyi
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_210056
+  02  bet_Hyi
+  03  lam_Tuc
+  04  bet_Hyi
+  05  kap_Hyi
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD142860
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD141589
+  02  HD142860
+  03  HD141827
+  04  HD142860
+  05  HD143896
+
+----------------------------------------------------------------------
+Period: 106
+Science target: rho_Pup
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_65181
+  02  rho_Pup
+  03  HD_70942
+  04  rho_Pup
+  05  HR_3317
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD182572
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD178665
+  02  HD182572
+  03  HD178596
+  04  HD182572
+  05  HD186202
+
+----------------------------------------------------------------------
+Period: 106
+Science target: HD141004
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD142443
+  02  HD141004
+  03  HD142862
+  04  HD141004
+  05  HD143129
+
+----------------------------------------------------------------------
+Period: 106
+Science target: pi3_Ori
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HD_30519
+  02  pi3_Ori
+  03  HD_30507
+  04  pi3_Ori
+  05  HR_1618
+
+----------------------------------------------------------------------
+Period: 106
+Science target: zet_Tuc
+Sequence type: faint
+Number of targets in sequence: 5
+Sequence:
+  01  HR_8809
+  02  zet_Tuc
+  03  HD_68
+  04  zet_Tuc
+  05  HD_323
+

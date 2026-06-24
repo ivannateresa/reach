@@ -588,7 +588,9 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
     
         tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
 
-        tgt_info["Primary"] = [x for x in tgt_info["Primary"]]
+        print(sci)
+
+
 
         
         if type(sci) == tuple:
@@ -863,6 +865,7 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
         # begin bootstrapping)
         sci_raw = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
         sci = sci_raw.replace("HR", "HR_")
+        
         print(sci)
 
         
