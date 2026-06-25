@@ -41,7 +41,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-06-24_i2"       # Final run for 1st draft
+results_folder = "26-06-25_i2"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
