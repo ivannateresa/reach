@@ -23,7 +23,7 @@ import xy_map_file
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  True          # Use Stassun & Torres 18 plx offset
-combined_fit =False                 # Fit for LDD for multiple seq at once
+combined_fit =True                # Fit for LDD for multiple seq at once
 load_saved_results = False         # Load or do fitting fresh
 assign_default_uncertainties = True # Give default errors to stars without
 force_claret_params = False         # Force use of Claret+11 limb d. params
@@ -41,7 +41,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-06-23_i2"       # Final run for 1st draft
+results_folder = "26-06-24_i2"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
@@ -148,7 +148,7 @@ else:
     # -------------------------------------------------------------------------
 # Diagnostic for final analysis
 # -------------------------------------------------------------------------
-    final_diag = rdiag.diagnose_ldd_analysis_results(
+    final_diag = dig.diagnose_ldd_analysis_results(
     label="final_interferometric_teff",
     tgt_info=tgt_info,
     sampled_sci_params=sampled_sci_params,
@@ -165,3 +165,39 @@ else:
     rparam.calc_sample_and_final_params(tgt_info, sampled_sci_params, 
                                         bs_results, results)
 
+# Summarise C param fits
+rutils.summarise_cs(results)
+rutils.get_mean_delta_h(tgt_info, complete_sequences, sequences)
+                                        
+# -----------------------------------------------------------------------------
+# Table generation and plotting
+# -----------------------------------------------------------------------------
+print("-"*79, "\n", "\tTables and Plots (Literature Teff)\n", "-"*79)
+# Generate tables
+print("Generating tables...")
+rpaper.make_table_targets(tgt_info)
+rpaper.make_table_calibrators(tgt_info, sequences)
+rpaper.make_table_observation_log(tgt_info, complete_sequences, sequences)
+rpaper.make_table_fbol(tgt_info)
+rpaper.make_table_seq_results(results)
+rpaper.make_table_final_results(tgt_info)
+rpaper.make_table_limb_darkening(tgt_info)
+
+print("Generating plots...")
+rplt.plot_fbol_comp(tgt_info)
+rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
+rplt.plot_casagrande_teff_comp(tgt_info, xy_map_file.teff)
+#rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
+rplt.plot_all_sidelobe_vis2_fits(
+    tgt_info,
+    results,
+    output_dir="paper/sidelobes"
+)
+
+rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
+rplt.plot_colour_rel_diam_comp(tgt_info, 
+                               xy_maps=(xy_map_file.vw3, xy_map_file.vw4, xy_map_file.bv_feh))
+rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=False, 
+                                sequences=sequences, 
+                                complete_sequences=complete_sequences, 
+                                tgt_info=tgt_info)

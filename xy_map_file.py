@@ -27,7 +27,6 @@ from sys import exit as sys_exit
 
 tgt_info = pd.read_csv("data/tgt_info.csv", header=0, sep=',')
 
-print(tgt_info)
 
 targets = np.unique(tgt_info[tgt_info["Science"] == "TRUE"]["HD_ID"])
 

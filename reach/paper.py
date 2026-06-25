@@ -605,9 +605,14 @@ def make_table_targets(tgt_info):
         refs = [star["teff_bib_ref"], star["logg_bib_ref"], 
                 star["feh_bib_ref"], star["vsini_bib_ref"]]
          
-        for ref in refs:   
-            if ref == "":
-                table_row += "-,"   
+        for ref in refs:  
+            if pd.isnull(ref):
+                table_row += "-,"
+                continue
+            ref = str(ref).strip()
+            if ref == "" or ref.lower() == "nan":
+                table_row += "-,"
+                continue
                   
             elif ref not in references:
                 references.append(ref)

@@ -856,8 +856,9 @@ def reduce_all_observations(base_path):
         os.system("cd %s; pndrsReduce" % folder)
         
 
-def calibrate_all_observations(reduced_data_folders, bootstrap_i, 
-                               results_path):
+def calibrate_all_observations(reduced_data_folders, bootstrap_i,
+                               results_path, complete_sequences=None,
+                               tgt_info=None):
     """Calls the PIONIER data reduction pipeline for each folder of reduced
     data from within Python.
     
@@ -890,7 +891,7 @@ def calibrate_all_observations(reduced_data_folders, bootstrap_i,
               % (int(np.floor(cal_time/60.)), cal_time % 60.))
         
         # Move oifits files back to central location (reach/results by default)
-        move_sci_oifits(ob_folder, results_path, bootstrap_i)
+        move_sci_oifits(ob_folder,results_path,bootstrap_i,tgt_info=tgt_info)
     
     # All nights finished, print summary          
     total_time = (times[-1] - times[0]).total_seconds()    
@@ -935,36 +936,237 @@ def move_sci_oifits_old(obs_path, results_path, bootstrap_i):
     print("%i files copied" % files_copied)
     
 
-def move_sci_oifits(obs_path, results_path, bootstrap_i):
 
-    sci_oi_fits = glob.glob(obs_path + "/*SCI*oidataCalibrated.fits")
-    sci_oi_fits.sort()
+
+
+def build_allowed_science_names(complete_sequences, tgt_info):
+    """
+    Build a set of cleaned names corresponding only to the real science targets.
+
+    The real science target is taken from complete_sequences keys:
+        seq = (period, science_target, bright/faint)
+
+    Then we add all aliases from tgt_info for that same science target.
+    """
+
+    allowed = set()
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    for seq in complete_sequences.keys():
+
+        sci_name = seq[1]
+        sci_clean = clean_target_id(sci_name)
+
+        if sci_clean != "":
+            allowed.add(sci_clean)
+
+        matched_id = match_target_name(tgt_info, sci_name, verbose=False)
+
+        if matched_id is None:
+            print("WARNING: science target from complete_sequences not found:")
+            print("  %s" % sci_name)
+            continue
+
+        # Add dataframe index / HD ID
+        allowed.add(clean_target_id(matched_id))
+
+        # Add aliases
+        for col in search_cols:
+            allowed.add(clean_target_id(tgt_info.loc[matched_id, col]))
+
+    return allowed
+
+def force_science_prefix(fname):
+    """
+    Change only the CAL/SCI label in the output filename.
+
+    Examples
+    --------
+    2022-01-01_CAL_iot_Psc_oidataCalibrated.fits
+    -> 2022-01-01_SCI_iot_Psc_oidataCalibrated.fits
+
+    2022-01-01_SCI_iot_Psc_oidataCalibrated.fits
+    -> unchanged
+    """
+
+    if "_CAL_" in fname:
+        fname = fname.replace("_CAL_", "_SCI_", 1)
+
+    elif fname.startswith("CAL_"):
+        fname = fname.replace("CAL_", "SCI_", 1)
+
+    return fname
+
+def get_target_from_calibrated_filename(oifits):
+    """
+    Extract target name from calibrated pndrs filename.
+
+    Works for:
+    2022-01-01_SCI_iot_Psc_oidataCalibrated.fits
+    2022-01-01_CAL_iot_Psc_oidataCalibrated.fits
+    """
+
+    import os
+
+    base = os.path.basename(oifits)
+
+    if "_SCI_" in base:
+        target = base.split("_SCI_")[-1].split("_oidata")[0]
+
+    elif "_CAL_" in base:
+        target = base.split("_CAL_")[-1].split("_oidata")[0]
+
+    elif "SCI_" in base:
+        target = base.split("SCI_")[-1].split("_oidata")[0]
+
+    elif "CAL_" in base:
+        target = base.split("CAL_")[-1].split("_oidata")[0]
+
+    else:
+        target = base.split("_oidata")[0]
+
+    target = target.strip("_")
+
+    if target.endswith("_bad"):
+        target = target.replace("_bad", "")
+
+    return target
+
+
+def force_correct_science_calibrator_prefix(fname, is_science):
+    """
+    Force output filename to have the correct SCI/CAL prefix.
+
+    If is_science=True:
+        *_CAL_target_* -> *_SCI_target_*
+
+    If is_science=False:
+        *_SCI_target_* -> *_CAL_target_*
+    """
+
+    if is_science:
+        correct_prefix = "_SCI_"
+        wrong_prefix = "_CAL_"
+    else:
+        correct_prefix = "_CAL_"
+        wrong_prefix = "_SCI_"
+
+    # Case with date prefix: 2022-01-01_CAL_target...
+    if wrong_prefix in fname:
+        fname = fname.replace(wrong_prefix, correct_prefix, 1)
+
+    # Case starting directly with CAL_target or SCI_target
+    elif is_science and fname.startswith("CAL_"):
+        fname = fname.replace("CAL_", "SCI_", 1)
+
+    elif (not is_science) and fname.startswith("SCI_"):
+        fname = fname.replace("SCI_", "CAL_", 1)
+
+    # If filename has neither SCI nor CAL, insert prefix before target is harder.
+    # Usually pndrs filenames already contain SCI/CAL, so we leave it unchanged.
+
+    return fname
+
+
+def move_sci_oifits(obs_path, results_path, bootstrap_i, tgt_info=None):
+    """
+    Copy all calibrated OIFITS files, but force the correct SCI/CAL prefix
+    using tgt_info["Science"].
+
+    Important:
+    pndrs may save calibrators as SCI_* or science targets as CAL_*.
+    Therefore, the filename prefix is not trusted.
+    """
+
+    import os
+    import glob
+    from shutil import copyfile
+
+    # Look for all calibrated files, not only SCI.
+    all_oi_fits = glob.glob(obs_path + "/*oidataCalibrated.fits")
+    all_oi_fits.sort()
 
     files_copied = 0
-    if len(sci_oi_fits) == 0:
-     
-        print(obs_path + "/*SCI*oidataCalibrated.fits")
+    files_skipped = 0
+
+    if not os.path.exists(results_path):
+        os.mkdir(results_path)
+
+    if len(all_oi_fits) == 0:
+
+        print("No calibrated OIFITS found in:")
+        print(obs_path)
+
         all_fits = glob.glob(obs_path + "/*.fits")
         for f in all_fits[:10]:
-            print("  ", f)
+            print("  %s" % f)
 
         print("%i files copied" % files_copied)
         return files_copied
 
-    for oifits in sci_oi_fits:
-        if not os.path.exists(results_path):
-            os.mkdir(results_path)
+    for oifits in all_oi_fits:
 
-        fname = oifits.split("/")[-1].replace(
+        original_fname = os.path.basename(oifits)
+        target_raw = get_target_from_calibrated_filename(oifits)
+
+        # ------------------------------------------------------------
+        # Decide if target is science or calibrator from tgt_info
+        # ------------------------------------------------------------
+        if tgt_info is not None:
+
+            matched_id = match_target_name(tgt_info, target_raw, verbose=False)
+
+            if matched_id is None:
+                print("Skipping calibrated file because target was not found in tgt_info:")
+                print("  file: %s" % oifits)
+                print("  target_raw: %s" % target_raw)
+                files_skipped += 1
+                continue
+
+            is_science = bool(tgt_info.loc[matched_id]["Science"])
+
+        else:
+            # Fallback: if no tgt_info is provided, keep original prefix
+            matched_id = "UNKNOWN"
+            is_science = None
+
+        # ------------------------------------------------------------
+        # Force correct prefix in copied filename
+        # ------------------------------------------------------------
+        if is_science is not None:
+            output_fname = force_correct_science_calibrator_prefix(
+                original_fname,
+                is_science
+            )
+        else:
+            output_fname = original_fname
+
+        fname = output_fname.replace(
             ".fits",
-            "_%02i.fits" % bootstrap_i)
+            "_%02i.fits" % bootstrap_i
+        )
 
-        print("...copying %s as %s" % (oifits.split("/")[-1], fname))
+        print("...copying %s as %s" % (original_fname, fname))
+        print("   target_raw: %s" % target_raw)
+        print("   matched_id: %s" % matched_id)
+        print("   Science: %s" % str(is_science))
 
         copyfile(oifits, results_path + fname)
         files_copied += 1
 
     print("%i files copied" % files_copied)
+    print("%i files skipped" % files_skipped)
 
     return files_copied
 
@@ -1208,9 +1410,8 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
               % (len(nights), bs_i), "-"*79)
         
         # Run Calibration
-        obs_folders = [base_path % night + "%s/" % night 
-                       for night in nights.keys()]
-        calibrate_all_observations(obs_folders, bs_i, results_path)
+        obs_folders = [base_path % night + "%s/" % night for night in nights.keys()]
+        calibrate_all_observations(obs_folders,bs_i,results_path,complete_sequences=complete_sequences,tgt_info=tgt_info)
     
     elif run_local and not already_calibrated:
         # Save oiDiam files for local inspection

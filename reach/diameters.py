@@ -13,6 +13,7 @@ from scipy.optimize import curve_fit, fmin
 from scipy.interpolate import LinearNDInterpolator
 from scipy.odr import ODR, Model, Data, RealData
 
+
 class UnknownOIFitsFileFormat(Exception):
     pass
 
@@ -21,6 +22,105 @@ class UnknownFittingRoutine(Exception):
 
 
 
+
+def clean_target_id(x):
+    """
+    Clean target names for robust matching.
+
+    Examples:
+    HD_79810  -> hd79810
+    HD  63734 -> hd63734
+    psi Vel A -> psivela
+    psi_Vel   -> psivel
+    HR_3729   -> hr3729
+    """
+
+    import pandas as pd
+
+    if pd.isnull(x):
+        return ""
+
+    x = str(x)
+
+    x = x.replace("_", "")
+    x = x.replace(" ", "")
+    x = x.replace(".", "")
+    x = x.replace("-", "")
+    x = x.replace("\t", "")
+    x = x.lower()
+
+    return x
+
+
+  
+
+
+
+
+
+
+def match_target_name(tgt_info, name, verbose=False):
+    """
+    Match one target name to the tgt_info index using cleaned identifiers.
+    """
+
+    import pandas as pd
+
+    name_clean = clean_target_id(name)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Search inside columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_id)
+        this_match = tgt_info.index[col_clean == name_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Search also in dataframe index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_id(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == name_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("NO MATCH: %s  cleaned as  %s" % (name, name_clean))
+
+        return None
+
+    if len(matches_unique) > 1:
+        print("WARNING: multiple matches for %s:" % name)
+        print(matches_unique)
+        print("Using first match: %s" % matches_unique[0])
+
+    return matches_unique[0]
 # -----------------------------------------------------------------------------
 # Predicting LDD
 # -----------------------------------------------------------------------------
@@ -586,22 +686,41 @@ def fit_all_ldd(vis2, e_vis2, baselines, wavelengths, tgt_info, pred_ldd_col,
     for sci in vis2.keys():
         # Only take the ID part of sci - could have " (Sequence)" after it
     
-        tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
+        #tgt_info["Primary"] = [id for id in tgt_info["Primary"]]
+    
 
         print(sci)
 
-
-
-        
+    # ------------------------------------------------------------
+    # Get the science name.
+    # If sci is a tuple, it has the form:
+    #     (star, sequence, period)
+    # e.g.
+    #     ("ksi_Gem", "faint", 106)
+    # ------------------------------------------------------------
         if type(sci) == tuple:
-
-            sci_data = tgt_info[tgt_info["Primary"]==sci[0]]
+            sci_name = sci[0]
         else:
-            sci_data = tgt_info[tgt_info["Primary"]==sci]
+            sci_name = sci
 
+    # ------------------------------------------------------------
+    # Robust match against tgt_info.
+    # This avoids exact-format problems like:
+    # ksi_Gem vs ksi Gem vs HD48737
+    # psi Vel A vs psi_Vel_A vs HD82434
+    # ------------------------------------------------------------
+        matched_id = match_target_name(tgt_info, sci_name, verbose=True)
 
-        id = sci_data.index.values[0]
-        
+        if matched_id is None:
+           print("WARNING: could not match science target in tgt_info:")
+           print("  sci: %s" % str(sci))
+           print("  sci_name: %s" % str(sci_name))
+           print("  Skipping this fit.")
+           continue
+
+        id = matched_id
+        sci_data = tgt_info.loc[[id]]
+
         # Print depending on what diameter we're fitting, and if not science
         if not sci_data["Science"].values:
             print("%s is not science target, aborting fit" % str(sci))
@@ -795,9 +914,182 @@ def extract_vis2(oi_fits_file):
         wavelengths = oifits[2].data["EFF_WAVE"]
     
     return mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths
+def clean_name_for_match(name):
+    """
+    Clean names so different formats can be compared.
+
+    Examples
+    --------
+    HR_2998  -> hr2998
+    HD65187  -> hd65187
+    iot_Psc  -> iotpsc
+    iot Psc  -> iotpsc
+    psi Vel A -> psivela
+    """
+
+    import pandas as pd
+
+    if pd.isnull(name):
+        return ""
+
+    name = str(name)
+
+    name = name.replace("_", "")
+    name = name.replace(" ", "")
+    name = name.replace(".", "")
+    name = name.replace("-", "")
+    name = name.replace("\t", "")
+    name = name.lower()
+
+    return name
 
 
-def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
+def get_sci_from_oifits_filename(oifits):
+    """
+    Extract science target name from OIFITS filename.
+
+    Example
+    -------
+    2019-11-25_SCI_HD65187_oidataCalibrated_00.fits
+    returns HD65187
+    """
+
+    import os
+
+    base = os.path.basename(oifits)
+
+    if "_SCI_" in base:
+        sci = base.split("_SCI_")[-1].split("_oidata")[0]
+    elif "SCI" in base:
+        sci = base.split("SCI")[-1].split("oidata")[0]
+    else:
+        sci = base.split("_oidata")[0]
+
+    sci = sci.strip("_")
+
+    return sci
+
+
+def resolve_sci_name_for_dates_obs(sci, dates_obs, tgt_info=None,
+                                   verbose=True):
+    """
+    Convert the science name from the FITS filename to the name used in
+    dates_observed.tsv.
+
+    For example:
+    HD65187 -> HR_2998
+    HD222368 -> iot_Psc
+
+    This first tries an exact match, then a cleaned-name match, then uses
+    tgt_info aliases if tgt_info is provided.
+    """
+
+    import pandas as pd
+
+    sci_clean = clean_name_for_match(sci)
+
+    # ---------------------------------------------------------------------
+    # 1. Exact match
+    # ---------------------------------------------------------------------
+    exact = dates_obs[dates_obs["star"] == sci]
+
+    if len(exact) > 0:
+        return sci
+
+    # ---------------------------------------------------------------------
+    # 2. Cleaned match against dates_observed.tsv
+    # ---------------------------------------------------------------------
+    dates_star_clean = dates_obs["star"].apply(clean_name_for_match)
+
+    clean_match = dates_obs[dates_star_clean == sci_clean]
+
+    if len(clean_match) > 0:
+        resolved = clean_match["star"].values[0]
+
+        if verbose and resolved != sci:
+            print("Resolved sci name by cleaned match: %s -> %s" %
+                  (sci, resolved))
+
+        return resolved
+
+    # ---------------------------------------------------------------------
+    # 3. Use tgt_info aliases
+    # ---------------------------------------------------------------------
+    if tgt_info is not None:
+
+        search_cols = [
+            "Primary",
+            "Bayer_ID",
+            "Ref_ID_1",
+            "Ref_ID_2",
+            "Ref_ID_3",
+            "HD_ID",
+            "HP"
+        ]
+
+        search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+        candidate_rows = []
+
+        # Search in columns
+        for col in search_cols:
+
+            col_clean = tgt_info[col].apply(clean_name_for_match)
+            rows = tgt_info.index[col_clean == sci_clean]
+
+            for row in rows:
+                if row not in candidate_rows:
+                    candidate_rows.append(row)
+
+        # Search in index
+        index_clean = []
+
+        for idx in tgt_info.index:
+            index_clean.append(clean_name_for_match(idx))
+
+        for i, idx_clean in enumerate(index_clean):
+            if idx_clean == sci_clean:
+                row = tgt_info.index[i]
+                if row not in candidate_rows:
+                    candidate_rows.append(row)
+
+        # Now compare all aliases of the matched row with dates_observed.tsv
+        for row in candidate_rows:
+
+            aliases = [row]
+
+            for col in search_cols:
+                aliases.append(tgt_info.loc[row, col])
+
+            for alias in aliases:
+
+                alias_clean = clean_name_for_match(alias)
+
+                if alias_clean == "":
+                    continue
+
+                alias_match = dates_obs[dates_star_clean == alias_clean]
+
+                if len(alias_match) > 0:
+
+                    resolved = alias_match["star"].values[0]
+
+                    if verbose and resolved != sci:
+                        print("Resolved sci name using tgt_info: %s -> %s" %
+                              (sci, resolved))
+
+                    return resolved
+
+    # ---------------------------------------------------------------------
+    # 4. If nothing works, return original
+    # ---------------------------------------------------------------------
+    if verbose:
+        print("WARNING: could not resolve sci name for dates_observed:")
+        print("  sci from FITS: %s" % sci)
+
+    return sci
+
+def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False, tgt_info= None):
     """Collates calibrated squared visibilities, errors, baselines, and 
     wavelengths for each science target in the specified results folder.
     
@@ -848,7 +1140,6 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
     # diagnostic purposes, but still need to collate in the instance
     # that a star has duplicate sequences on the same night
     dates_obs = pd.read_csv("data/dates_observed.tsv", sep="\t")
-    print(dates_obs)
 
     dates_obs["star"] = dates_obs["star"]
     dates_obs["b_night"] = dates_obs["b_night"].astype(str).str.strip()
@@ -863,57 +1154,201 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False):
         # robust than the former method of slicing using static indices which
         # inherently assumes a constant file length (which changes when we
         # begin bootstrapping)
-        sci_raw = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
-        sci = sci_raw.replace("HR", "HR_")
-        
-        print(sci)
+        #sci = oifits.split("SCI")[1].split("oidata")[0].replace("_", "")
+        # Get science target name from filename
+        sci_raw = get_sci_from_oifits_filename(oifits)
+        # ------------------------------------------------------------
+# Skip calibrated files that are not real science targets
+# ------------------------------------------------------------
+        matched_id = None
 
+        if tgt_info is not None:
+            matched_id = match_target_name(tgt_info, sci_raw, verbose=False)
+
+        if matched_id is not None:
+
+            is_science = bool(tgt_info.loc[matched_id]["Science"])
+
+            if not is_science:
+                print("Skipping non-science target file:")
+                print("  file: %s" % oifits)
+                print("  sci_raw: %s" % sci_raw)
+                print("  matched_id: %s" % matched_id)
+                continue
+
+# Convert FITS name to the format used in dates_observed.tsv
         
+        sci = resolve_sci_name_for_dates_obs(
+            sci_raw,
+            dates_obs,
+            tgt_info=tgt_info,
+            verbose=True)
+
+        print("SCI from FITS: %s  -->  SCI used for dates_obs: %s" % (sci_raw, sci))
+
         # Extract data from oifits file. If multiple sequences were observed
         # on the same night, each of the retuned lists will contain more than
         # one list of results
         mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths = \
             extract_vis2(oifits)
         
+        
         for seq_i in np.arange(0, len(mjds)):
-            # Figure out what sequence we're dealing with
+
+        # Figure out what sequence we're dealing with
             night = oifits.split("/")[-1].split("_SCI")[0]
-        
-            faint_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
-                                            dates_obs["f_night"]==night)]
-        
-            bright_entry = dates_obs[np.logical_and(dates_obs["star"]==sci, 
-                                            dates_obs["b_night"]==night)]
-            
-            # If returning both a faint and bright entry, need to define 
-            # which is which - create a tuple of form (id, seq, period)
-            print(faint_entry, bright_entry)
+
+        # IMPORTANT: initialise seq_tup, so it always exists
+            seq_tup = None
+
+    # ------------------------------------------------------------
+    # First try exact match: same star name and same night
+    # ------------------------------------------------------------
+            faint_entry = dates_obs[
+                np.logical_and(
+            dates_obs["star"] == sci,
+            dates_obs["f_night"] == night
+                )]
+
+            bright_entry = dates_obs[
+                np.logical_and(
+            dates_obs["star"] == sci,
+            dates_obs["b_night"] == night)]
+
+    # ------------------------------------------------------------
+    # If no match, the FITS name and dates_observed name differ.
+    # Example:
+    # FITS name: HD65187
+    # dates_observed.tsv name: HR_2998
+    #
+    # So try to identify the target using only the night.
+    # ------------------------------------------------------------
+            if len(bright_entry) == 0 and len(faint_entry) == 0:
+
+                same_night_entry = dates_obs[
+                    np.logical_or(
+                        dates_obs["b_night"] == night,
+                        dates_obs["f_night"] == night
+                    )
+                ]
+
+                print("WARNING: no exact dates_observed match")
+                print("  FITS sci name: %s" % sci_raw)
+                print("  current sci used: %s" % sci)
+                print("  night: %s" % night)
+                print("  possible entries for this night:")
+                print(same_night_entry)
+
+        # If there is only one science target for that night,
+        # use that name from dates_observed.tsv.
+                unique_stars = list(same_night_entry["star"].dropna().unique())
+
+                if len(unique_stars) == 1:
+
+                    sci_from_dates = unique_stars[0]
+
+                    print("  Remapping by night: %s -> %s" %
+                          (sci, sci_from_dates))
+
+                    sci = sci_from_dates
+
+                    faint_entry = dates_obs[
+                        np.logical_and(
+                            dates_obs["star"] == sci,
+                            dates_obs["f_night"] == night
+                        )
+                    ]
+
+                    bright_entry = dates_obs[
+                        np.logical_and(
+                            dates_obs["star"] == sci,
+                            dates_obs["b_night"] == night
+                        )
+                    ]
+
+                else:
+                    print("ERROR: could not uniquely identify target from night")
+                    print("  Skipping this file/sequence")
+                    print("  file: %s" % oifits)
+                    print("  night: %s" % night)
+                    print("  possible stars:")
+                    print(unique_stars)
+                    continue
+
+    # ------------------------------------------------------------
+    # Now define seq_tup = (star, bright/faint, period)
+    # ------------------------------------------------------------
             if len(bright_entry) > 0 and len(faint_entry) > 0:
-                # Bright
-                if seq_i == bright_entry["b_order"].values[0]:
-                    seq_tup = (sci, "bright", 
-                               bright_entry["period"].values[0])
-                
-                elif seq_i == faint_entry["f_order"].values[0]:
-                    seq_tup = (sci, "faint", 
-                              faint_entry["period"].values[0])
-                                
+
+                b_order = int(bright_entry["b_order"].values[0])
+                f_order = int(faint_entry["f_order"].values[0])
+
+                if seq_i == b_order:
+                    seq_tup = (
+                        sci,
+                        "bright",
+                        bright_entry["period"].values[0]
+                    )
+
+                elif seq_i == f_order:
+                    seq_tup = (
+                        sci,
+                        "faint",
+                        faint_entry["period"].values[0]
+                    )
+
+                else:
+                    print("WARNING: seq_i does not match bright/faint order")
+                    print("  sci: %s" % sci)
+                    print("  night: %s" % night)
+                    print("  seq_i: %i" % seq_i)
+                    print("  b_order: %i" % b_order)
+                    print("  f_order: %i" % f_order)
+                    print("  Skipping this sequence")
+                    continue
+
             elif len(bright_entry) > 0 and len(faint_entry) == 0:
-                seq_tup = (sci, "bright", bright_entry["period"].values[0])
-            
+
+                seq_tup = (
+                    sci,
+                    "bright",
+                    bright_entry["period"].values[0]
+                )
+
             elif len(bright_entry) == 0 and len(faint_entry) > 0:
-                seq_tup = (sci, "faint", faint_entry["period"].values[0])
-            
-            # If keeping the sequences separate, the ID we use will be the 
-            # sequence tuple (star, bright/faint, period) as the ID, otherwise
-            # just the star ID
-            
+        
+                seq_tup = (
+                    sci,
+                    "faint",
+                    faint_entry["period"].values[0]
+                )
+
+    # ------------------------------------------------------------
+    # Final safety check
+    # ------------------------------------------------------------
+            if seq_tup is None:
+
+                print("ERROR: seq_tup could not be assigned")
+                print("  file: %s" % oifits)
+                print("  sci_raw from FITS: %s" % sci_raw)
+                print("  sci used: %s" % sci)
+                print("  night: %s" % night)
+                print("  seq_i: %i" % seq_i)
+                print("  bright_entry:")
+                print(bright_entry)
+                print("  faint_entry:")
+                print(faint_entry)
+                print("  Skipping this sequence")
+                continue
+
+    # ------------------------------------------------------------
+    # Define dictionary ID
+    # ------------------------------------------------------------
             if separate_sequences:
                 seq_id = seq_tup
-                
-            # Just use the science target    
             else:
                 seq_id = sci
+  
                 
         # Extract data from oifits file and stack as appropriate
         #mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths = \
@@ -1066,7 +1501,7 @@ def fit_ldd_for_all_bootstraps(tgt_info, n_bootstraps, results_path,
     #oifits_files = glob.glob(results_path + "*SCI*.fits")
     #oifits_files.sort()
     mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths, seq_order = \
-            collate_vis2_from_file(results_path, 0, separate_sequences)
+            collate_vis2_from_file(results_path, 0, separate_sequences, tgt_info)
     
     #stars = set([file.split("SCI")[-1].split("oidata")[0].replace("_","")
                  #for file in oifits_files])
@@ -1114,7 +1549,7 @@ def fit_ldd_for_all_bootstraps(tgt_info, n_bootstraps, results_path,
     for bs_i in np.arange(0, n_bootstraps):
         # Collate the information
         mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths, seq_order = \
-            collate_vis2_from_file(results_path, bs_i, separate_sequences)
+            collate_vis2_from_file(results_path, bs_i, separate_sequences, tgt_info)
         
         # If doing combined fit, combine (stack in new dimension) data from the 
         # same star
@@ -1272,21 +1707,35 @@ def summarise_results(bs_results, tgt_info, e_wl_frac, add_e_wl_to_ldd_in_quad,
     for star_i, star in enumerate(star_ids):
         # Set the common ID, and get the primary ID
         if type(star) == tuple:
-            results.iloc[star_i]["STAR"] = star[0]
-            pid = tgt_info[tgt_info["Primary"]==star[0]].index.values[0]
-            
+            star_name = star[0]
             sequence = star[1]
             period = int(star[2])
         else:
-            results.iloc[star_i]["STAR"] = star
-            pid = tgt_info[tgt_info["Primary"]==star].index.values[0]
-            
+            star_name = star
             sequence = "combined"
             period = ""
-        
+
+    # ------------------------------------------------------------
+    # Robust match to tgt_info
+    # ------------------------------------------------------------
+        pid = match_target_name(
+            tgt_info,
+            star_name,
+            verbose=True
+        )
+
+        if pid is None:
+            print("WARNING: could not match star in summarise_results:")
+            print("  star: %s" % str(star))
+            print("  star_name: %s" % str(star_name))
+            print("  Skipping this result row.")
+            continue
+
+        results.iloc[star_i]["STAR"] = star_name
         results.iloc[star_i]["HD"] = pid
         results.iloc[star_i]["PERIOD"] = period
         results.iloc[star_i]["SEQUENCE"] = sequence
+       
         
         # Stack and compute mean and standard deviations 
         ldds = np.nanmean(np.hstack(bs_results[star]["LDD_FIT"]), axis=0)

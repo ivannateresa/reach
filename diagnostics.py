@@ -2354,7 +2354,7 @@ def diagnose_ldd_analysis_results(label,
         if not os.path.exists(path):
             os.makedirs(path)
 
-    def safe_dataframe(obj, name="object"):
+    def safe_dataframe_old(obj, name="object"):
         """
         Try to convert an object into a pandas DataFrame.
 
@@ -2822,3 +2822,177 @@ def diagnose_ldd_analysis_results(label,
         "results_numeric_csv": results_num_csv,
         "bs_numeric_csv": bs_num_csv
     }
+def safe_dataframe(obj, name="object"):
+    """
+    Try to convert an object into a pandas DataFrame.
+
+    Works for:
+    - DataFrame
+    - Series
+    - dict of DataFrames
+    - dict of Series
+    - dict of arrays/lists/scalars
+
+    This version is safe when dictionary keys are tuples, e.g.
+    ("ksi_Gem", "faint", 106).
+    """
+
+    import numpy as np
+    import pandas as pd
+
+    if isinstance(obj, pd.DataFrame):
+        df = obj.copy()
+        df.reset_index(inplace=True)
+        return df
+
+    if isinstance(obj, pd.Series):
+        df = obj.to_frame(name)
+        df.reset_index(inplace=True)
+        return df
+
+    if isinstance(obj, dict):
+
+        rows = []
+
+        for key in obj.keys():
+
+            value = obj[key]
+
+            # ------------------------------------------------------------
+            # Prepare safe key columns
+            # ------------------------------------------------------------
+            key_string = str(key)
+
+            key_extra_cols = {}
+
+            if type(key) == tuple:
+
+                key_extra_cols["dict_star"] = key[0]
+
+                if len(key) > 1:
+                    key_extra_cols["dict_sequence"] = key[1]
+
+                if len(key) > 2:
+                    key_extra_cols["dict_period"] = key[2]
+
+            # ------------------------------------------------------------
+            # Case 1: dict value is DataFrame
+            # ------------------------------------------------------------
+            if isinstance(value, pd.DataFrame):
+
+                df = value.copy()
+                df.reset_index(inplace=True)
+
+                df.insert(0, "dict_key", [key_string] * len(df))
+
+                insert_pos = 1
+
+                for col in ["dict_star", "dict_sequence", "dict_period"]:
+                    if col in key_extra_cols:
+                        df.insert(insert_pos, col,
+                                  [key_extra_cols[col]] * len(df))
+                        insert_pos += 1
+
+                rows.append(df)
+
+            # ------------------------------------------------------------
+            # Case 2: dict value is Series
+            # ------------------------------------------------------------
+            elif isinstance(value, pd.Series):
+
+                df = value.to_frame("value")
+                df.reset_index(inplace=True)
+
+                df.insert(0, "dict_key", [key_string] * len(df))
+
+                insert_pos = 1
+
+                for col in ["dict_star", "dict_sequence", "dict_period"]:
+                    if col in key_extra_cols:
+                        df.insert(insert_pos, col,
+                                  [key_extra_cols[col]] * len(df))
+                        insert_pos += 1
+
+                rows.append(df)
+
+            # ------------------------------------------------------------
+            # Case 3: dict value is array/list/tuple
+            # ------------------------------------------------------------
+            elif isinstance(value, (list, tuple, np.ndarray)):
+
+                arr = np.asarray(value)
+
+                if arr.ndim == 1:
+
+                    df = pd.DataFrame({
+                        "dict_key": [key_string] * len(arr),
+                        "array_index": np.arange(len(arr)),
+                        "value": arr
+                    })
+
+                    for col in ["dict_star", "dict_sequence", "dict_period"]:
+                        if col in key_extra_cols:
+                            df[col] = key_extra_cols[col]
+
+                    rows.append(df)
+
+                elif arr.ndim == 2:
+
+                    df = pd.DataFrame(arr)
+                    df.insert(0, "dict_key", [key_string] * len(df))
+
+                    insert_pos = 1
+
+                    for col in ["dict_star", "dict_sequence", "dict_period"]:
+                        if col in key_extra_cols:
+                            df.insert(insert_pos, col,
+                                      [key_extra_cols[col]] * len(df))
+                            insert_pos += 1
+
+                    rows.append(df)
+
+                else:
+
+                    row = {
+                        "dict_key": key_string,
+                        "value": str(value)
+                    }
+
+                    for col in key_extra_cols:
+                        row[col] = key_extra_cols[col]
+
+                    rows.append(pd.DataFrame([row]))
+
+            # ------------------------------------------------------------
+            # Case 4: scalar
+            # ------------------------------------------------------------
+            else:
+
+                row = {
+                    "dict_key": key_string,
+                    "value": value
+                }
+
+                for col in key_extra_cols:
+                    row[col] = key_extra_cols[col]
+
+                rows.append(pd.DataFrame([row]))
+
+        if len(rows) > 0:
+            return pd.concat(rows, ignore_index=True, sort=False)
+
+        return pd.DataFrame()
+
+    # ---------------------------------------------------------------------
+    # Fallback
+    # ---------------------------------------------------------------------
+    try:
+        return pd.DataFrame(obj)
+
+    except Exception:
+
+        return pd.DataFrame({
+            "object_name": [name],
+            "type": [str(type(obj))],
+            "value": [str(obj)]
+        })

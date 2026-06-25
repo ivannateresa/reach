@@ -13,7 +13,115 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.ticker as plticker
 import matplotlib.cm as cm
 import matplotlib.transforms as transforms
+import os
 
+def clean_target_name_for_plot(name):
+    """
+    Clean target names for robust matching.
+
+    Examples
+    --------
+    HR_2998    -> hr2998
+    HR2998     -> hr2998
+    alf_CMi    -> alfcmi
+    psi Vel A  -> psivela
+    HD  63734  -> hd63734
+    """
+
+    import pandas as pd
+
+    if pd.isnull(name):
+        return ""
+
+    name = str(name)
+    name = name.replace("_", "")
+    name = name.replace(" ", "")
+    name = name.replace(".", "")
+    name = name.replace("-", "")
+    name = name.replace("\t", "")
+    name = name.lower()
+
+    return name
+
+
+def match_target_for_plot(tgt_info, sci, verbose=True):
+    """
+    Robustly match a science target name from results to the corresponding
+    index in tgt_info.
+
+    It searches in:
+    - tgt_info index
+    - Primary
+    - Bayer_ID
+    - Ref_ID_1
+    - Ref_ID_2
+    - Ref_ID_3
+    - HD_ID
+    - HP
+    """
+
+    sci_clean = clean_target_name_for_plot(sci)
+
+    search_cols = [
+        "Primary",
+        "Bayer_ID",
+        "Ref_ID_1",
+        "Ref_ID_2",
+        "Ref_ID_3",
+        "HD_ID",
+        "HP"
+    ]
+
+    search_cols = [col for col in search_cols if col in tgt_info.columns]
+
+    matches = []
+
+    # Match columns
+    for col in search_cols:
+
+        col_clean = tgt_info[col].apply(clean_target_name_for_plot)
+        this_match = tgt_info.index[col_clean == sci_clean]
+
+        if len(this_match) > 0:
+            matches.extend(list(this_match))
+
+    # Match index
+    index_clean = []
+
+    for idx in tgt_info.index:
+        index_clean.append(clean_target_name_for_plot(idx))
+
+    for i, idx_clean in enumerate(index_clean):
+        if idx_clean == sci_clean:
+            matches.append(tgt_info.index[i])
+
+    # Remove duplicates
+    matches_unique = []
+
+    for m in matches:
+        if m not in matches_unique:
+            matches_unique.append(m)
+
+    if len(matches_unique) == 0:
+
+        if verbose:
+            print("Could not match target in tgt_info:")
+            print("  sci: %s" % sci)
+            print("  cleaned: %s" % sci_clean)
+
+        return None
+
+    if len(matches_unique) > 1:
+
+        if verbose:
+            print("WARNING: multiple matches for %s:" % sci)
+            print(matches_unique)
+            print("Using first match: %s" % matches_unique[0])
+
+    if verbose:
+        print("Matched %s -> %s" % (sci, matches_unique[0]))
+
+    return matches_unique[0]
 #
 def plot_diameter_comparison(diam_rel_1, diam_rel_2, diam_rel_1_dr, 
                             diam_rel_2_dr, diam_rel_1_label, diam_rel_2_label):
@@ -1355,8 +1463,27 @@ def plot_joint_seq_paper_vis2_fits_old(tgt_info, results, n_rows=3, n_cols=2,
             pdf.savefig(dpi=200)
             plt.close()    
 
+def clean_filename(name):
+    """
+    Clean a string so it can be safely used as a filename.
+    """
 
-def plot_sidelobe_vis2_fit(tgt_info, results, sci):
+    name = str(name)
+
+    name = name.replace(" ", "_")
+    name = name.replace("/", "_")
+    name = name.replace("\\", "_")
+    name = name.replace("(", "")
+    name = name.replace(")", "")
+    name = name.replace(",", "")
+    name = name.replace("'", "")
+    name = name.replace('"', "")
+    name = name.replace("__", "_")
+
+    return name
+
+def plot_sidelobe_vis2_fit(tgt_info, results, sci=None, row_i=None,
+                           output_dir="paper"):
     """Plot the zoomed in fitted sidelobe
     """
     plt.close("all")
@@ -1366,13 +1493,33 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     
     # Get the science target name
 
-    print (results["STAR"])
- 
-    print(tgt_info[tgt_info["Primary"]==sci].index)
-    hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]
-    
-    # And the science target results
-    sci_results = results[results["STAR"]==sci].iloc[0]
+    # -----------------------------------------------------------------
+# Get the science target result
+# -----------------------------------------------------------------
+    if row_i is not None:
+
+        sci_results = results.iloc[row_i]
+        sci = sci_results["STAR"]
+
+    else:
+
+        if sci is None:
+            raise ValueError("You must provide either sci or row_i")
+
+        if len(results[results["STAR"] == sci]) == 0:
+            print("WARNING: %s not found in results" % sci)
+            return None
+
+        sci_results = results[results["STAR"] == sci].iloc[0]
+
+# -----------------------------------------------------------------
+# Match science target to tgt_info
+# -----------------------------------------------------------------
+
+    hd_id = match_target_for_plot(tgt_info, sci, verbose=True)
+    if hd_id is None:
+        print("Skipping plot because target could not be matched: %s" % sci)
+        return None
     
     # Get the C params, and u_lambda values
     u_lambda_cols = ["u_lambda_%i" % ui for ui in np.arange(0,6)]
@@ -1497,9 +1644,107 @@ def plot_sidelobe_vis2_fit(tgt_info, results, sci):
     res_ax.yaxis.offsetText.set_fontsize("x-large")
         
     plt.tight_layout(pad=1.0)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
-    plt.savefig("paper/%s_sidelobe.pdf" % sci)
-    plt.savefig("paper/%s_sidelobe.png" % sci, dpi=200)
+    sequence = sci_results["SEQUENCE"]
+    period = sci_results["PERIOD"]
+
+    outname = "%s_%s_P%s_sidelobe" % (
+       clean_filename(sci),
+        clean_filename(sequence),
+        clean_filename(period)
+    )
+
+    pdf_name = os.path.join(output_dir, "%s.pdf" % outname)
+    png_name = os.path.join(output_dir, "%s.png" % outname)
+
+    plt.savefig(pdf_name)
+    plt.savefig(png_name, dpi=200)
+
+    print("Saved:")
+    print(pdf_name)
+    print(png_name)
+
+    return pdf_name
+
+def plot_all_sidelobe_vis2_fits(tgt_info, results, output_dir="paper/sidelobes"):
+    """
+    Plot sidelobe visibility fits for all science targets in results.
+
+    This loops over each row of results, so it works for bright/faint
+    sequences separately.
+    """
+
+    import os
+    import pandas as pd
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    saved_files = []
+    failed_rows = []
+
+    print("\nPlotting sidelobe visibility fits for all science targets")
+    print("Number of rows in results: %i" % len(results))
+
+    for row_i in range(len(results)):
+
+        sci = results.iloc[row_i]["STAR"]
+
+        if pd.isnull(sci):
+            print("Skipping row %i because STAR is NaN" % row_i)
+            failed_rows.append((row_i, "NaN STAR"))
+            continue
+
+        sequence = results.iloc[row_i]["SEQUENCE"]
+        period = results.iloc[row_i]["PERIOD"]
+
+        print("\nPlotting row %i: %s, %s, P%s" %
+              (row_i, sci, sequence, period))
+
+        try:
+
+            saved = plot_sidelobe_vis2_fit(
+                tgt_info,
+                results,
+                row_i=row_i,
+                output_dir=output_dir
+            )
+
+            if saved is not None:
+                saved_files.append(saved)
+            else:
+                failed_rows.append((row_i, "Returned None"))
+
+        except Exception as err:
+
+            print("FAILED on row %i: %s" % (row_i, sci))
+            print(str(err))
+
+            failed_rows.append((row_i, str(err)))
+
+    # -----------------------------------------------------------------
+    # Save failed rows
+    # -----------------------------------------------------------------
+
+    failed_path = os.path.join(output_dir, "failed_sidelobe_plots.txt")
+
+    with open(failed_path, "w") as f:
+
+        f.write("Failed sidelobe plots\n")
+        f.write("=" * 70 + "\n\n")
+
+        for row_i, reason in failed_rows:
+            f.write("row %s: %s\n" % (str(row_i), str(reason)))
+
+    print("\nFinished sidelobe plotting")
+    print("Saved %i plots" % len(saved_files))
+    print("Failed %i plots" % len(failed_rows))
+    print("Failed log:")
+    print(failed_path)
+
+    return saved_files, failed_rows
  
 
 def plot_lit_diam_comp(tgt_info, xy_map=None, markers=["s","v","D","o","*"]):
