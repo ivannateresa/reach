@@ -38,7 +38,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD222919
@@ -75,7 +75,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD223292
@@ -112,7 +112,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD218330
@@ -149,7 +149,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD43
@@ -186,7 +186,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD68
@@ -223,7 +223,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD218558
@@ -260,7 +260,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD323
@@ -297,7 +297,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD220757
@@ -334,7 +334,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD8025
@@ -371,7 +371,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD32263
@@ -408,7 +408,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD30519
@@ -445,7 +445,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD30507
@@ -482,7 +482,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD30545
@@ -519,7 +519,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD33419
@@ -556,7 +556,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD38579
@@ -593,7 +593,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD39913
@@ -630,7 +630,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD40235
@@ -667,7 +667,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD64181
@@ -704,7 +704,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD61574
@@ -741,7 +741,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD65187
@@ -778,7 +778,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD65491
@@ -815,7 +815,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD66162
@@ -852,7 +852,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD59936
@@ -889,7 +889,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD63734
@@ -926,7 +926,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD71231
@@ -963,7 +963,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD121370
@@ -1000,7 +1000,7 @@ Relevant inputs:
   FeH_rel: 0.359
   e_FeH_rel: 0.1
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD118839
@@ -1037,7 +1037,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD120540
@@ -1074,7 +1074,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD125490
@@ -1111,7 +1111,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD121981
@@ -1148,7 +1148,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD123255
@@ -1185,7 +1185,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD122135
@@ -1222,7 +1222,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD125183
@@ -1259,7 +1259,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD142443
@@ -1296,7 +1296,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD142639
@@ -1333,7 +1333,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD139610
@@ -1370,7 +1370,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD142862
@@ -1407,7 +1407,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD143129
@@ -1444,7 +1444,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD141589
@@ -1481,7 +1481,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD141827
@@ -1518,7 +1518,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD143896
@@ -1555,7 +1555,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD143257
@@ -1592,7 +1592,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD140346
@@ -1629,7 +1629,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD182572
@@ -1666,7 +1666,7 @@ Relevant inputs:
   FeH_rel: 0.408
   e_FeH_rel: 0.1
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD178665
@@ -1703,7 +1703,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD178596
@@ -1740,7 +1740,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD186202
@@ -1777,7 +1777,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD5457
@@ -1814,7 +1814,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD197635
@@ -1851,7 +1851,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD4332
@@ -1888,7 +1888,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD15248
@@ -1925,7 +1925,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD210056
@@ -1962,7 +1962,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD38295
@@ -1999,7 +1999,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD42747
@@ -2036,7 +2036,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD47156
@@ -2073,7 +2073,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD46241
@@ -2110,7 +2110,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD51814
@@ -2147,7 +2147,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD45512
@@ -2184,7 +2184,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD4849
@@ -2221,7 +2221,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD65181
@@ -2258,7 +2258,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD70942
@@ -2295,7 +2295,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD  63734
@@ -2332,7 +2332,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD82434
@@ -2369,7 +2369,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: 0.1
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD81134
@@ -2406,7 +2406,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD76437
@@ -2443,7 +2443,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD84369
@@ -2480,7 +2480,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD61421
@@ -2517,7 +2517,7 @@ Relevant inputs:
   FeH_rel: 0.011
   e_FeH_rel: 0.1
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD55751
@@ -2554,7 +2554,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD63241
@@ -2591,7 +2591,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD65695
@@ -2628,7 +2628,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD79810
@@ -2665,7 +2665,7 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
 ----------------------------------------------------------------------
 HD_ID: HD84900
@@ -2702,5 +2702,5 @@ Relevant inputs:
   FeH_rel: nan
   e_FeH_rel: nan
   Quality: GOOD
-  LDD_rel: LDD_VW3
+  LDD_rel: LDD_VK
 
