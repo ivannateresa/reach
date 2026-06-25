@@ -2339,8 +2339,8 @@ HD_ID: HD82434
 Primary: psiVel
 Science: True
 SpT_simple: F3V
-NaN outputs: e_Dist; LDD_BV_feh; e_LDD_BV_feh; teff_casagrande; e_teff_casagrande
-Probable reason: Missing e_Plx and e_Plx_alt: cannot compute e_Dist; Missing FeH_rel: Casagrande Teff or FeH-dependent LDD may be NaN
+NaN outputs: e_Dist
+Probable reason: Missing e_Plx and e_Plx_alt: cannot compute e_Dist
 
 Relevant inputs:
   Primary: psiVel
@@ -2366,7 +2366,7 @@ Relevant inputs:
   e_Plx: nan
   Plx_alt: nan
   e_Plx_alt: nan
-  FeH_rel: nan
+  FeH_rel: 0.03
   e_FeH_rel: 0.1
   Quality: GOOD
   LDD_rel: LDD_VK
