@@ -1,0 +1,269 @@
+LDD analysis diagnostic
+======================================================================
+
+Label: initial_literature_teff
+Output directory: 26-06-25_i100/analysis_diagnostics/initial_literature_teff
+
+tgt_info
+----------------------------------------------------------------------
+Type: <class 'pandas.core.frame.DataFrame'>
+Shape: (84, 159)
+Columns:
+  Period
+  Science
+  Sequence
+  Dup_tar
+  Primary
+  Ref_ID_1
+  Ref_ID_2
+  Ref_ID_3
+  Bayer_ID
+  Tycho_ID
+  2MASS_ID
+  ALLWISE
+  GaiaDR2_ID
+  GaiaDR3_ID
+  HP
+  Unnamed: 16
+  SpT
+  SpT_q
+  SpT_simple
+  Teff
+  e_teff
+  logg
+  e_logg
+  FeH_abs
+  FeH_rel
+  e_FeH_rel
+  vtur
+  e_vtur
+  vsini
+  teff_source
+  teff_bib_ref
+  logg_source
+  logg_bib_ref
+  feh_source
+  feh_bib_ref
+  vsini_source
+  vsini_bib_ref
+  Hpmag
+  e_Hpmag
+  BTmag
+  e_BTmag
+  VTmag
+  e_VTmag
+  tyc_notes
+  Jmag
+  Jcmsig
+  e_Jmag
+  Jsnr
+  Hmag
+  Hcmsig
+  e_Hmag
+  Hsnr
+  Kmag
+  Kcmsig
+  e_Kmag
+  Ksnr
+  Qflg
+  Cflg
+  Prox
+  2MASS_notes
+  ALLWISE_ID
+  W1mag
+  e_W1mag
+  W2mag
+  e_W2mag
+  W3mag
+  e_W3mag
+  W4mag
+  e_W4mag
+  snr1
+  snr2
+  snr3
+  snr4
+  sat1
+  sat2
+  sat3
+  sat4
+  ccf
+  qph
+  ALLWISE_confidence
+  J-K
+  BT-VT
+  W1-W4
+  W3-W4
+  RA
+  DEC
+  Plx
+  e_Plx
+  PmRA
+  PmDEC
+  Dup
+  Gmag
+  e_Gmag
+  BPmag
+  e_BPmag
+  RPmag
+  e_RPmag
+  Dist
+  Gaia_comment
+  Plx_alt
+  e_Plx_alt
+  alt_plx_source
+  JSDC_LDD
+  e_JSDC_LDD
+  LDDCHI
+  CAlFlag
+  LDD_rel
+  Quality
+  Quality_reason
+  exclusion_reason
+  in_paper
+  Comments
+  Unnamed: 113
+  Unnamed: 114
+  Unnamed: 115
+  Unnamed: 116
+  Unnamed: 117
+  Unnamed: 118
+  Unnamed: 119
+  Unnamed: 120
+  Unnamed: 121
+  Unnamed: 122
+  Unnamed: 123
+  Unnamed: 124
+  Unnamed: 125
+  Unnamed: 126
+  Unnamed: 127
+  Unnamed: 128
+  Unnamed: 129
+  HD_ID
+  e_Dist
+  Bmag
+  e_Bmag
+  Vmag
+  e_Vmag
+  eb_v
+  A_V
+  Bmag_dr
+  Vmag_dr
+  Hpmag_dr
+  BTmag_dr
+  VTmag_dr
+  BPmag_dr
+  RPmag_dr
+  V-K_calc
+  LDD_VK
+  e_LDD_VK
+  LDD_VW3
+  e_LDD_VW3
+  LDD_VW4
+  e_LDD_VW4
+  LDD_BV
+  e_LDD_BV
+  LDD_BV_feh
+  e_LDD_BV_feh
+  LDD_pred
+  e_LDD_pred
+  teff_casagrande
+  e_teff_casagrande
+Index sample:
+['HD222368', 'HD1367', 'HD222919', 'HD223292', 'HD218330', 'HD43', 'HD1581', 'HD68', 'HD218558', 'HD323']
+
+sampled_sci_params
+----------------------------------------------------------------------
+Type: <class 'pandas.core.frame.DataFrame'>
+Shape: (1500, 33)
+Columns:
+  logg
+  teff
+  feh
+  u_lambda_0
+  u_lambda_1
+  u_lambda_2
+  u_lambda_3
+  u_lambda_4
+  u_lambda_5
+  s_lambda_0
+  s_lambda_1
+  s_lambda_2
+  s_lambda_3
+  s_lambda_4
+  s_lambda_5
+  Dist
+  Hpmag_dr
+  BTmag_dr
+  VTmag_dr
+  BPmag_dr
+  RPmag_dr
+  BC_Hp
+  BC_BT
+  BC_VT
+  BC_BP
+  BC_RP
+  f_bol_Hp
+  f_bol_BT
+  f_bol_VT
+  f_bol_BP
+  f_bol_RP
+  f_bol_final
+  L_star_final
+Index sample:
+[('HD222368', 0), ('HD222368', 1), ('HD222368', 2), ('HD222368', 3), ('HD222368', 4), ('HD222368', 5), ('HD222368', 6), ('HD222368', 7), ('HD222368', 8), ('HD222368', 9)]
+
+bs_results
+----------------------------------------------------------------------
+Type: <type 'dict'>
+Number of keys: 14
+Key sample:
+  gam_Lep : <class 'pandas.core.frame.DataFrame'>
+  HR_2998 : <class 'pandas.core.frame.DataFrame'>
+  psi_Vel : <class 'pandas.core.frame.DataFrame'>
+  psi Vel A : <class 'pandas.core.frame.DataFrame'>
+  pi3_Ori : <class 'pandas.core.frame.DataFrame'>
+  iot_Psc : <class 'pandas.core.frame.DataFrame'>
+  ksi_Gem : <class 'pandas.core.frame.DataFrame'>
+  alf_CMi : <class 'pandas.core.frame.DataFrame'>
+  bet_Hyi : <class 'pandas.core.frame.DataFrame'>
+  HD142860 : <class 'pandas.core.frame.DataFrame'>
+
+results
+----------------------------------------------------------------------
+Type: <class 'pandas.core.frame.DataFrame'>
+Shape: (14, 21)
+Columns:
+  STAR
+  HD
+  PERIOD
+  SEQUENCE
+  VIS2
+  e_VIS2
+  BASELINE
+  WAVELENGTH
+  LDD_FIT
+  e_LDD_FIT
+  C_SCALE
+  e_C_SCALE
+  SEQ_ORDER
+  U_LAMBDA
+  e_U_LAMBDA
+  S_LAMBDA
+  e_S_LAMBDA
+  UDD_FIT
+  e_UDD_FIT
+  C_SCALE_UDD
+  e_C_SCALE_UDD
+Index sample:
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Saved files
+----------------------------------------------------------------------
+results_csv: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_results.csv
+bs_results_csv: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_bs_results_flat.csv
+sampled_sci_params_csv: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_sampled_sci_params_flat.csv
+results_nan_summary: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_results_nan_summary.csv
+bs_results_nan_summary: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_bs_results_nan_summary.csv
+sampled_params_nan_summary: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_sampled_params_nan_summary.csv
+results_numeric_summary: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_results_numeric_summary.csv
+bs_results_numeric_summary: 26-06-25_i100/analysis_diagnostics/initial_literature_teff/initial_literature_teff_bs_results_numeric_summary.csv

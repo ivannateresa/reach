@@ -1,0 +1,66 @@
+Bootstrap summary with visibility plots
+======================================================================
+
+Number of bootstraps requested: 50
+Number of bootstraps completed/logged: 50
+
+Status counts:
+  OK: 50
+
+Failed bootstraps:
+  None
+
+Visibility PDFs:
+  bootstrap 0: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_000.pdf
+  bootstrap 1: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_001.pdf
+  bootstrap 2: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_002.pdf
+  bootstrap 3: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_003.pdf
+  bootstrap 4: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_004.pdf
+  bootstrap 5: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_005.pdf
+  bootstrap 6: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_006.pdf
+  bootstrap 7: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_007.pdf
+  bootstrap 8: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_008.pdf
+  bootstrap 9: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_009.pdf
+  bootstrap 10: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_010.pdf
+  bootstrap 11: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_011.pdf
+  bootstrap 12: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_012.pdf
+  bootstrap 13: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_013.pdf
+  bootstrap 14: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_014.pdf
+  bootstrap 15: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_015.pdf
+  bootstrap 16: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_016.pdf
+  bootstrap 17: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_017.pdf
+  bootstrap 18: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_018.pdf
+  bootstrap 19: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_019.pdf
+  bootstrap 20: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_020.pdf
+  bootstrap 21: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_021.pdf
+  bootstrap 22: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_022.pdf
+  bootstrap 23: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_023.pdf
+  bootstrap 24: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_024.pdf
+  bootstrap 25: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_025.pdf
+  bootstrap 26: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_026.pdf
+  bootstrap 27: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_027.pdf
+  bootstrap 28: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_028.pdf
+  bootstrap 29: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_029.pdf
+  bootstrap 30: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_030.pdf
+  bootstrap 31: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_031.pdf
+  bootstrap 32: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_032.pdf
+  bootstrap 33: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_033.pdf
+  bootstrap 34: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_034.pdf
+  bootstrap 35: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_035.pdf
+  bootstrap 36: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_036.pdf
+  bootstrap 37: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_037.pdf
+  bootstrap 38: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_038.pdf
+  bootstrap 39: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_039.pdf
+  bootstrap 40: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_040.pdf
+  bootstrap 41: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_041.pdf
+  bootstrap 42: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_042.pdf
+  bootstrap 43: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_043.pdf
+  bootstrap 44: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_044.pdf
+  bootstrap 45: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_045.pdf
+  bootstrap 46: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_046.pdf
+  bootstrap 47: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_047.pdf
+  bootstrap 48: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_048.pdf
+  bootstrap 49: /home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_049.pdf
+
+CSV summary:
+/home2/ihernand/Desktop/reach/results/26-06-26_i50/bootstrap_diagnostics_run_000/bootstrap_summary.csv
