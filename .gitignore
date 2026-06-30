@@ -9,16 +9,16 @@ all_data/
 /complete_sequences/*
 
 # Allow v3.95_abcd folders
-!/complete_sequences/*_v3.95_abcd/
+!/complete_sequences/*_v3.94_abcd/
 
 # Ignore everything inside v3.95_abcd first
-/complete_sequences/*_v3.95_abcd/*
+/complete_sequences/*_v3.94_abcd/*
 
 # Allow only date folders inside v3.95_abcd
-!/complete_sequences/*_v3.95_abcd/20*/
+!/complete_sequences/*_v3.94_abcd/20*/
 
 # Allow all files inside those date folders
-!/complete_sequences/*_v3.95_abcd/20*/**
+!/complete_sequences/*_v3.94_abcd/20*/**
 
 *.fits.Z
 *.oifits
