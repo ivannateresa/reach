@@ -1,11 +1,18 @@
 
-complete_sequences/
+
 all_sequences/
 bolometric-corrections/
 extinction/
 all_data/
 
-*.fits
+# Ignore everything inside complete_sequences
+/complete_sequences/*
+
+# Keep only folders ending in v3.95_abcd
+!/complete_sequences/*_v3.95_abcd/
+!/complete_sequences/*_v3.95_abcd/**
+
+
 *.fits.Z
 *.oifits
 *.pkl
