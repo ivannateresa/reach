@@ -14,6 +14,13 @@ import matplotlib.ticker as plticker
 import matplotlib.cm as cm
 import matplotlib.transforms as transforms
 import os
+from scipy.special import jv
+import matplotlib.cm as cm
+import traceback
+
+from datetime import datetime, timedelta
+from matplotlib.backends.backend_pdf import PdfPages
+
 
 def clean_target_name_for_plot(name):
     """
@@ -4419,8 +4426,866 @@ def plot_claret_vs_stagger_diam_comp():
     #plt.savefig("paper/teff_comp_casagrande.pdf")  
     #plt.savefig("paper/teff_comp_casagrande.png", dpi=500)  
 
+def plot_hr_diagram(
+        tgt_info,
+        plot_isochrones_basti=False,
+        plot_isochrones_padova=False,
+        feh=0.062,
+        basti_folder="data/basti",
+        basti_ages_myr=None):
+    """
+    Plot an absolute Johnson colour-magnitude diagram:
 
-def plot_hr_diagram(tgt_info, plot_isochrones_basti=False, 
+        x = B - V
+        y = absolute V magnitude
+
+    BaSTI Johnson-Cousins files are expected to contain:
+
+        M_ini, M_fin, logL, logTe,
+        U, BX, B, V, R, I, J, H, K, Lprime, L, M
+
+    For the BaSTI isochrones:
+
+        B-V = B - V
+        Mv  = V
+
+    Parameters
+    ----------
+    tgt_info : pandas.DataFrame
+        Target information.
+
+    plot_isochrones_basti : bool
+        Plot BaSTI Johnson-Cousins isochrones.
+
+    plot_isochrones_padova : bool
+        Plot the previous Padova isochrones.
+
+    feh : float
+        Requested BaSTI [M/H]. A tolerance of 0.02 dex is used.
+
+    basti_folder : str
+        Folder containing the extracted .isc_john files.
+
+    basti_ages_myr : list or None
+        Specific ages to plot. The nearest available isochrone is used.
+
+        Example:
+            [60, 100, 500, 1000, 2000, 5000, 10000, 14000]
+
+        When None, every available isochrone is plotted.
+    """
+
+    plt.close("all")
+
+    fig, ax = plt.subplots()
+
+    fig.set_size_inches(
+        10,
+        8
+    )
+
+    # =====================================================================
+    # Science-star photometry
+    # =====================================================================
+
+    mask = np.logical_and(
+        np.asarray(
+            tgt_info["Science"],
+            dtype=bool
+        ),
+        np.asarray(
+            tgt_info["in_paper"],
+            dtype=bool
+        )
+    )
+
+    selected_targets = tgt_info.loc[
+        mask
+    ].copy()
+
+    apparent_vmag = np.asarray(
+        selected_targets["Vmag_dr"],
+        dtype=float
+    )
+
+    apparent_bmag = np.asarray(
+        selected_targets["Bmag_dr"],
+        dtype=float
+    )
+
+    distance_pc = np.asarray(
+        selected_targets["Dist"],
+        dtype=float
+    )
+
+    metallicity = np.asarray(
+        selected_targets["FeH_rel"],
+        dtype=float
+    )
+
+    # Absolute V magnitude.
+    abs_vmag = (
+        apparent_vmag
+        - 5.0
+        * np.log10(
+            distance_pc / 10.0
+        )
+    )
+
+    # Johnson B-V colour.
+    b_minus_v = (
+        apparent_bmag
+        - apparent_vmag
+    )
+
+    valid_stars = (
+        np.isfinite(
+            abs_vmag
+        )
+        & np.isfinite(
+            b_minus_v
+        )
+        & np.isfinite(
+            metallicity
+        )
+    )
+
+    star_scatter = ax.scatter(
+        b_minus_v[
+            valid_stars
+        ],
+        abs_vmag[
+            valid_stars
+        ],
+        s=100,
+        c=metallicity[
+            valid_stars
+        ],
+        marker="o",
+        zorder=5
+    )
+
+    # =====================================================================
+    # Annotate the star names
+    # =====================================================================
+
+    primary_values = selected_targets[
+        "Primary"
+    ].values
+
+    star_ids = rutils.format_id(
+        primary_values
+    )
+
+    for star_i, star in enumerate(
+            star_ids):
+
+        if not valid_stars[
+                star_i]:
+
+            continue
+
+        primary_name = str(
+            primary_values[
+                star_i
+            ]
+        )
+
+        if primary_name in (
+                "epsInd",
+                "chiEri"):
+
+            yy = -0.05
+            xx = 0.1
+
+        elif primary_name in (
+                "37Lib",):
+
+            yy = 0.3
+            xx = 0.0
+
+        else:
+
+            yy = 0.2
+            xx = 0.0
+
+        ax.annotate(
+            star,
+            xy=(
+                b_minus_v[
+                    star_i
+                ],
+                abs_vmag[
+                    star_i
+                ]
+            ),
+            xytext=(
+                b_minus_v[
+                    star_i
+                ] - xx,
+                abs_vmag[
+                    star_i
+                ] - yy
+            ),
+            fontsize="medium",
+            horizontalalignment="center"
+        )
+
+    # =====================================================================
+    # Padova isochrones
+    # =====================================================================
+
+    if plot_isochrones_padova:
+
+        isochrones_file = (
+            "data/padova_isochrone_age.dat"
+        )
+
+        names = [
+            "Zini",
+            "Age",
+            "Mini",
+            "Mass",
+            "logL",
+            "logTe",
+            "logg",
+            "label",
+            "McoreTP",
+            "C_O",
+            "period0",
+            "period1",
+            "pmode",
+            "Mloss",
+            "tau1m",
+            "X",
+            "Y",
+            "Xc",
+            "Xn",
+            "Xo",
+            "Cexcess",
+            "Z",
+            "mbolmag",
+            "Gmag",
+            "G_BPbrmag",
+            "G_BPftmag",
+            "G_RPmag",
+            "B_Tmag",
+            "V_Tmag",
+            "Jmag",
+            "Hmag",
+            "Ksmag"
+        ]
+
+        isochrones = pd.read_csv(
+            isochrones_file,
+            delim_whitespace=True,
+            names=names,
+            comment="#",
+            dtype="float"
+        )
+
+        ages = sorted(
+            list(
+                set(
+                    isochrones[
+                        "Age"
+                    ]
+                )
+            )
+        )
+
+        isochrones[
+            "BtVt"
+        ] = (
+            isochrones[
+                "B_Tmag"
+            ]
+            - isochrones[
+                "V_Tmag"
+            ]
+        )
+
+        for age in ages[
+                20:]:
+
+            age_mask = (
+                isochrones[
+                    "Age"
+                ]
+                == age
+            )
+
+            ax.plot(
+                isochrones.loc[
+                    age_mask,
+                    "BtVt"
+                ].values[:-3],
+                isochrones.loc[
+                    age_mask,
+                    "V_Tmag"
+                ].values[:-3],
+                linestyle="--",
+                label=(
+                    "%.3f Gyr"
+                    % (
+                        age / 1.0E9
+                    )
+                ),
+                alpha=0.5,
+                zorder=2
+            )
+
+    # =====================================================================
+    # BaSTI Johnson-Cousins isochrones
+    # =====================================================================
+
+    if plot_isochrones_basti:
+
+        # -------------------------------------------------------------
+        # Actual columns in your .isc_john files
+        # -------------------------------------------------------------
+
+        basti_names = [
+            "M_ini",
+            "M_fin",
+            "logL",
+            "logTe",
+            "U",
+            "BX",
+            "B",
+            "V",
+            "R",
+            "I",
+            "J",
+            "H",
+            "K",
+            "Lprime",
+            "L",
+            "M"
+        ]
+
+        # -------------------------------------------------------------
+        # Find files recursively
+        # -------------------------------------------------------------
+
+        iso_files = []
+
+        for root_directory, directory_names, filenames in os.walk(
+                basti_folder):
+
+            for filename in filenames:
+
+                if filename.endswith(
+                        ".isc_john"):
+
+                    iso_files.append(
+                        os.path.join(
+                            root_directory,
+                            filename
+                        )
+                    )
+
+        iso_files = sorted(
+            list(
+                set(
+                    iso_files
+                )
+            )
+        )
+
+        if len(iso_files) == 0:
+
+            raise IOError(
+                "No .isc_john files found inside %s"
+                % basti_folder
+            )
+
+        print("")
+        print("=" * 79)
+        print(
+            "Found %i BaSTI Johnson-Cousins files"
+            % len(iso_files)
+        )
+        print("=" * 79)
+
+        basti_isochrones = []
+
+        # -------------------------------------------------------------
+        # Read each file
+        # -------------------------------------------------------------
+
+        for iso_file in iso_files:
+
+            age_myr = np.nan
+            file_mh = np.nan
+            n_columns = None
+
+            # Read age and composition from header.
+            with open(
+                    iso_file,
+                    "r") as input_handle:
+
+                for line in input_handle:
+
+                    stripped_line = line.strip()
+
+                    if stripped_line == "":
+                        continue
+
+                    if "Age (Myr)" in stripped_line:
+
+                        try:
+
+                            age_text = (
+                                stripped_line
+                                .split(
+                                    "Age (Myr) ="
+                                )[1]
+                                .strip()
+                                .split()[0]
+                            )
+
+                            age_myr = float(
+                                age_text
+                            )
+
+                        except Exception:
+
+                            age_myr = np.nan
+
+                    if "[M/H]" in stripped_line:
+
+                        try:
+
+                            metallicity_text = (
+                                stripped_line
+                                .split(
+                                    "[M/H] ="
+                                )[1]
+                                .split(
+                                    "Z ="
+                                )[0]
+                                .strip()
+                            )
+
+                            file_mh = float(
+                                metallicity_text
+                            )
+
+                        except Exception:
+
+                            file_mh = np.nan
+
+                    # Count columns in the first numerical row.
+                    if not stripped_line.startswith(
+                            "#"):
+
+                        n_columns = len(
+                            stripped_line.split()
+                        )
+
+                        break
+
+            if n_columns is None:
+
+                print(
+                    "WARNING: no numerical data in %s"
+                    % iso_file
+                )
+
+                continue
+
+            if n_columns != len(
+                    basti_names):
+
+                print("")
+                print(
+                    "WARNING: skipping %s"
+                    % iso_file
+                )
+
+                print(
+                    "It contains %i columns; expected %i"
+                    % (
+                        n_columns,
+                        len(
+                            basti_names
+                        )
+                    )
+                )
+
+                continue
+
+            # Filter by metallicity using the header rather than filename.
+            if (
+                feh is not None
+                and np.isfinite(
+                    file_mh
+                )
+                and abs(
+                    file_mh - float(feh)
+                ) > 0.02
+            ):
+
+                print(
+                    "Skipping %s: [M/H] = %.3f"
+                    % (
+                        iso_file,
+                        file_mh
+                    )
+                )
+
+                continue
+
+            track = pd.read_csv(
+                iso_file,
+                delim_whitespace=True,
+                names=basti_names,
+                comment="#",
+                dtype="float"
+            )
+
+            # ---------------------------------------------------------
+            # Calculate the quantities needed by the diagram
+            # ---------------------------------------------------------
+
+            track[
+                "B-V"
+            ] = (
+                track[
+                    "B"
+                ]
+                - track[
+                    "V"
+                ]
+            )
+
+            # BaSTI photometric magnitudes are absolute magnitudes.
+            track[
+                "Mv"
+            ] = track[
+                "V"
+            ]
+
+            valid_track = (
+                np.isfinite(
+                    track[
+                        "B-V"
+                    ]
+                )
+                & np.isfinite(
+                    track[
+                        "Mv"
+                    ]
+                )
+            )
+
+            track = track.loc[
+                valid_track
+            ].copy()
+
+            if len(track) == 0:
+
+                print(
+                    "WARNING: no valid B-V/V points in %s"
+                    % iso_file
+                )
+
+                continue
+
+            basti_isochrones.append({
+                "age_myr": age_myr,
+                "mh": file_mh,
+                "filename": iso_file,
+                "track": track
+            })
+
+        if len(basti_isochrones) == 0:
+
+            raise RuntimeError(
+                "No valid BaSTI Johnson isochrones were read"
+            )
+
+        # -------------------------------------------------------------
+        # Sort by age
+        # -------------------------------------------------------------
+
+        basti_isochrones.sort(
+            key=lambda entry: (
+                entry[
+                    "age_myr"
+                ]
+                if np.isfinite(
+                    entry[
+                        "age_myr"
+                    ]
+                )
+                else 1.0E99
+            )
+        )
+
+        # -------------------------------------------------------------
+        # Select requested ages
+        # -------------------------------------------------------------
+
+        if basti_ages_myr is not None:
+
+                selected_isochrones = []
+
+                # Store filenames rather than comparing dictionaries containing
+                # pandas DataFrames.
+                selected_filenames = set()
+
+                finite_age_isochrones = [
+                    entry
+                    for entry in basti_isochrones
+                    if np.isfinite(
+                        entry[
+                            "age_myr"
+                        ]
+                    )
+                ]
+
+                if len(
+                        finite_age_isochrones) == 0:
+
+                    raise RuntimeError(
+                        "No BaSTI isochrones have a valid age"
+                    )
+
+                for requested_age in basti_ages_myr:
+
+                    requested_age = float(
+                        requested_age
+                    )
+
+                    closest_isochrone = min(
+                        finite_age_isochrones,
+                        key=lambda entry: abs(
+                            float(
+                                entry[
+                                    "age_myr"
+                                ]
+                            )
+                            - requested_age
+                        )
+                    )
+
+                    closest_filename = str(
+                        closest_isochrone[
+                            "filename"
+                        ]
+                    )
+
+                    # Do not compare the complete dictionary because it contains
+                    # a pandas DataFrame in closest_isochrone["track"].
+                    if closest_filename not in selected_filenames:
+
+                        selected_isochrones.append(
+                            closest_isochrone
+                        )
+
+                        selected_filenames.add(
+                            closest_filename
+                        )
+
+                        print(
+                            "Requested %.0f Myr -> using %.0f Myr"
+                            % (
+                                requested_age,
+                                closest_isochrone[
+                                    "age_myr"
+                                ]
+                            )
+                        )
+
+                    else:
+
+                        print(
+                            "Requested %.0f Myr -> %.0f Myr already selected"
+                            % (
+                                requested_age,
+                                closest_isochrone[
+                                    "age_myr"
+                                ]
+                            )
+                        )
+
+                basti_isochrones = sorted(
+                    selected_isochrones,
+                    key=lambda entry: float(
+                        entry[
+                            "age_myr"
+                        ]
+                    )
+                )
+        # -------------------------------------------------------------
+        # Colour map
+        # -------------------------------------------------------------
+
+        try:
+
+            colour_map = cm.get_cmap(
+                "viridis"
+            )
+
+        except Exception:
+
+            colour_map = cm.get_cmap(
+                "jet"
+            )
+
+        n_isochrones = len(
+            basti_isochrones
+        )
+
+        # -------------------------------------------------------------
+        # Plot each constant-age isochrone
+        # -------------------------------------------------------------
+
+        for iso_i, entry in enumerate(
+                basti_isochrones):
+
+            track = entry[
+                "track"
+            ]
+
+            age_myr = entry[
+                "age_myr"
+            ]
+
+            if n_isochrones == 1:
+
+                curve_colour = colour_map(
+                    0.5
+                )
+
+            else:
+
+                curve_colour = colour_map(
+                    float(
+                        iso_i
+                    )
+                    / float(
+                        n_isochrones - 1
+                    )
+                )
+
+            if np.isfinite(
+                    age_myr):
+
+                if age_myr >= 1000.0:
+
+                    age_label = (
+                        "%.1f Gyr"
+                        % (
+                            age_myr
+                            / 1000.0
+                        )
+                    )
+
+                else:
+
+                    age_label = (
+                        "%.0f Myr"
+                        % age_myr
+                    )
+
+            else:
+
+                age_label = os.path.basename(
+                    entry[
+                        "filename"
+                    ]
+                )
+
+            ax.plot(
+                track[
+                    "B-V"
+                ],
+                track[
+                    "Mv"
+                ],
+                linestyle="--",
+                color=curve_colour,
+                label=age_label,
+                alpha=0.65,
+                zorder=2,
+                linewidth=0.8
+            )
+
+        ax.legend(
+            loc="best",
+            fontsize=7,
+            ncol=2
+        )
+
+    # =====================================================================
+    # Final formatting
+    # =====================================================================
+
+    colour_bar = fig.colorbar(
+        star_scatter,
+        ax=ax
+    )
+
+    colour_bar.set_label(
+        r"[Fe/H]",
+        fontsize="x-large"
+    )
+
+    colour_bar.ax.tick_params(
+        labelsize="x-large"
+    )
+
+    ax.tick_params(
+        axis="both",
+        labelsize="x-large"
+    )
+
+    ax.set_xlim(
+        [0.0, 1.5]
+    )
+
+    # Magnitudes increase downward.
+    ax.set_ylim(
+        [7.5, 0.0]
+    )
+
+    ax.set_xlabel(
+        r"$(B-V)$",
+        fontsize="x-large"
+    )
+
+    ax.set_ylabel(
+        r"$M_V$",
+        fontsize="x-large"
+    )
+
+    fig.tight_layout()
+
+    output_file = (
+        "paper/hr_diagram.pdf"
+    )
+
+    fig.savefig(
+        output_file
+    )
+
+    plt.close(
+        fig
+    )
+
+    print(
+        "Saved HR diagram:"
+    )
+
+    print(
+        output_file
+    )
+
+    return output_file
+def plot_hr_diagram_old(tgt_info, plot_isochrones_basti=False, 
                     plot_isochrones_padova=False, feh=0.058):
     """Plots the Vt, (Bt-Vt) colour magnitude diagram for all science targets.
     """
@@ -4747,4 +5612,4687 @@ def presentation_vis2_plot():
     plt.tight_layout()
     plt.savefig("plots/presentation_vis2_vs_ldd.pdf")
     plt.savefig("plots/presentation_vis2_vs_ldd_c.png")
-    
+
+
+def limb_darkened_fourier_amplitude(
+        spatial_frequency,
+        theta_ld_mas,
+        u_lambda):
+    """
+    Calculate the normalized signed Fourier amplitude V(q) of a
+    linearly limb-darkened circular stellar disc.
+
+    Parameters
+    ----------
+    spatial_frequency : array
+        Spatial frequency B/lambda in rad^-1.
+
+    theta_ld_mas : float
+        Limb-darkened angular diameter in milliarcseconds.
+
+    u_lambda : float
+        Linear limb-darkening coefficient.
+
+    Returns
+    -------
+    visibility : array
+        Signed normalized visibility amplitude V(q).
+
+    Notes
+    -----
+    The squared visibility measured by the interferometer is V(q)^2.
+    The sign of V(q) changes after each null, but this sign is lost
+    in V^2.
+    """
+
+    spatial_frequency = np.asarray(
+        spatial_frequency,
+        dtype=float
+    )
+
+    theta_ld_mas = float(
+        theta_ld_mas
+    )
+
+    u_lambda = float(
+        u_lambda
+    )
+
+    # Convert milliarcseconds to radians.
+    theta_rad = (
+        theta_ld_mas
+        / 1000.0
+        / 3600.0
+        / 180.0
+        * np.pi
+    )
+
+    x = (
+        np.pi
+        * spatial_frequency
+        * theta_rad
+    )
+
+    visibility = np.ones(
+        x.shape,
+        dtype=float
+    )
+
+    # Avoid division by zero at q=0.
+    nonzero = (
+        np.abs(x) > 1.0E-10
+    )
+
+    xx = x[
+        nonzero
+    ]
+
+    normalization = (
+        (1.0 - u_lambda) / 2.0
+        + u_lambda / 3.0
+    )
+
+    visibility[nonzero] = (
+        (
+            (1.0 - u_lambda)
+            * jv(1.0, xx)
+            / xx
+        )
+        +
+        (
+            u_lambda
+            * np.sqrt(np.pi / 2.0)
+            * jv(1.5, xx)
+            / xx**1.5
+        )
+    ) / normalization
+
+    # By definition, normalized visibility is one at zero baseline.
+    visibility[~nonzero] = 1.0
+
+    return visibility
+
+def plot_science_fourier_transforms(
+        tgt_info,
+        results,
+        output_file="plots/science_fourier_transforms.pdf",
+        q_max=2.5E8,
+        n_model_points=20000,
+        use_predicted_if_missing=True):
+    """
+    Plot the Fourier transform of every science target.
+
+    For every science target, the function plots:
+
+        upper panel:
+            signed Fourier amplitude V(q)
+
+        lower panel:
+            squared visibility V(q)^2, together with the observed
+            VIS2 points corrected by their fitted C_SCALE values
+
+    The six PIONIER wavelength channels are shown separately.
+
+    Parameters
+    ----------
+    tgt_info : pandas.DataFrame
+        Target information table containing Science, LDD_pred,
+        e_LDD_pred, u_lambda_i and s_lambda_i.
+
+    results : pandas.DataFrame
+        Final diameter-fitting results.
+
+    output_file : str
+        Multipage output PDF.
+
+    q_max : float
+        Maximum spatial frequency in rad^-1.
+
+    n_model_points : int
+        Number of points in the theoretical Fourier-transform curves.
+
+    use_predicted_if_missing : bool
+        Use LDD_pred when LDD_FIT is invalid.
+
+    Returns
+    -------
+    output_file : str
+        Path to the generated multipage PDF.
+    """
+
+    plt.close("all")
+
+    # ============================================================
+    # Output directories
+    # ============================================================
+
+    output_directory = os.path.dirname(
+        output_file
+    )
+
+    if output_directory == "":
+        output_directory = "."
+
+    if not os.path.exists(
+            output_directory):
+
+        os.makedirs(
+            output_directory
+        )
+
+    individual_directory = os.path.join(
+        output_directory,
+        "science_fourier"
+    )
+
+    if not os.path.exists(
+            individual_directory):
+
+        os.makedirs(
+            individual_directory
+        )
+
+    # ============================================================
+    # Model spatial-frequency grid
+    # ============================================================
+
+    q_model = np.linspace(
+        0.0,
+        q_max,
+        int(n_model_points)
+    )
+
+    plotted_targets = set()
+
+    n_created = 0
+    n_skipped = 0
+
+    print("")
+    print("=" * 79)
+    print("Creating Fourier transforms for science stars")
+    print("Output:")
+    print(output_file)
+    print("=" * 79)
+
+    # ============================================================
+    # Multipage PDF
+    # ============================================================
+
+    with PdfPages(output_file) as pdf:
+
+        for result_i in xrange(
+                len(results)):
+
+            row = results.iloc[
+                result_i
+            ]
+
+            sci = str(
+                row["STAR"]
+            )
+
+            # Avoid plotting the same science target more than once.
+            sci_clean = clean_target_name_for_plot(
+                sci
+            )
+
+            if sci_clean in plotted_targets:
+                continue
+
+            # ----------------------------------------------------
+            # Match against tgt_info
+            # ----------------------------------------------------
+
+            hd_id = match_target_for_plot(
+                tgt_info,
+                sci,
+                verbose=True
+            )
+
+            if hd_id is None:
+
+                print(
+                    "WARNING: could not match %s; skipping"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            # ----------------------------------------------------
+            # Keep science targets only
+            # ----------------------------------------------------
+
+            if "Science" in tgt_info.columns:
+
+                try:
+
+                    is_science = bool(
+                        tgt_info.loc[
+                            hd_id,
+                            "Science"
+                        ]
+                    )
+
+                except Exception:
+
+                    is_science = False
+
+                if not is_science:
+
+                    print(
+                        "Skipping calibrator/non-science target: %s"
+                        % sci
+                    )
+
+                    continue
+
+            plotted_targets.add(
+                sci_clean
+            )
+
+            # ----------------------------------------------------
+            # Select angular diameter
+            # ----------------------------------------------------
+
+            try:
+                ldd_fit = float(
+                    row["LDD_FIT"]
+                )
+            except Exception:
+                ldd_fit = np.nan
+
+            try:
+                e_ldd_fit = float(
+                    row["e_LDD_FIT"]
+                )
+            except Exception:
+                e_ldd_fit = np.nan
+
+            valid_fit = (
+                np.isfinite(ldd_fit)
+                and ldd_fit > 0
+            )
+
+            if valid_fit:
+
+                theta_base = ldd_fit
+                theta_error = e_ldd_fit
+                theta_source = "fitted"
+
+            elif use_predicted_if_missing:
+
+                try:
+
+                    theta_base = float(
+                        tgt_info.loc[
+                            hd_id,
+                            "LDD_pred"
+                        ]
+                    )
+
+                    theta_error = float(
+                        tgt_info.loc[
+                            hd_id,
+                            "e_LDD_pred"
+                        ]
+                    )
+
+                except Exception:
+
+                    theta_base = np.nan
+                    theta_error = np.nan
+
+                if (
+                    not np.isfinite(theta_base)
+                    or theta_base <= 0
+                ):
+
+                    print(
+                        "WARNING: no valid diameter for %s; skipping"
+                        % sci
+                    )
+
+                    n_skipped += 1
+                    continue
+
+                theta_source = "predicted"
+
+            else:
+
+                print(
+                    "WARNING: no valid fitted diameter for %s; skipping"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            # ====================================================
+            # Visibility data
+            # ====================================================
+
+            baselines = np.asarray(
+                row["BASELINE"],
+                dtype=float
+            ).ravel()
+
+            wavelengths = np.asarray(
+                row["WAVELENGTH"],
+                dtype=float
+            ).ravel()
+
+            vis2_matrix = np.asarray(
+                row["VIS2"],
+                dtype=float
+            )
+
+            e_vis2_matrix = np.asarray(
+                row["e_VIS2"],
+                dtype=float
+            )
+
+            n_bl = len(
+                baselines
+            )
+
+            n_wl = len(
+                wavelengths
+            )
+
+            expected_size = (
+                n_bl * n_wl
+            )
+
+            if vis2_matrix.ndim == 1:
+
+                if vis2_matrix.size != expected_size:
+
+                    print(
+                        "WARNING: invalid VIS2 dimensions for %s"
+                        % sci
+                    )
+
+                    n_skipped += 1
+                    continue
+
+                vis2_matrix = vis2_matrix.reshape(
+                    n_bl,
+                    n_wl
+                )
+
+            if e_vis2_matrix.ndim == 1:
+
+                if e_vis2_matrix.size != expected_size:
+
+                    print(
+                        "WARNING: invalid e_VIS2 dimensions for %s"
+                        % sci
+                    )
+
+                    n_skipped += 1
+                    continue
+
+                e_vis2_matrix = e_vis2_matrix.reshape(
+                    n_bl,
+                    n_wl
+                )
+
+            if (
+                vis2_matrix.shape
+                != e_vis2_matrix.shape
+            ):
+
+                print(
+                    "WARNING: VIS2/e_VIS2 shape mismatch for %s"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            # ====================================================
+            # Apply fitted C values to the observations
+            # ====================================================
+
+            try:
+
+                c_values = np.asarray(
+                    row["C_SCALE"],
+                    dtype=float
+                ).ravel()
+
+            except Exception:
+
+                c_values = np.array(
+                    [1.0],
+                    dtype=float
+                )
+
+            if len(c_values) == 0:
+
+                c_values = np.array(
+                    [1.0],
+                    dtype=float
+                )
+
+            bad_c = (
+                ~np.isfinite(c_values)
+                | (c_values <= 0)
+            )
+
+            c_values[bad_c] = 1.0
+
+            if n_bl % len(c_values) == 0:
+
+                n_bl_per_c = int(
+                    n_bl / len(c_values)
+                )
+
+                c_per_baseline = np.repeat(
+                    c_values,
+                    n_bl_per_c
+                )
+
+                vis2_corrected = (
+                    vis2_matrix
+                    / c_per_baseline[:, np.newaxis]
+                )
+
+                e_vis2_corrected = (
+                    e_vis2_matrix
+                    / c_per_baseline[:, np.newaxis]
+                )
+
+            else:
+
+                print(
+                    "WARNING: cannot map C values to %s; "
+                    "observed points will not be shown"
+                    % sci
+                )
+
+                vis2_corrected = None
+                e_vis2_corrected = None
+
+            # ====================================================
+            # Limb-darkening and wavelength scaling
+            # ====================================================
+
+            u_lambdas = []
+            s_lambdas = []
+
+            for wl_i in xrange(
+                    n_wl):
+
+                u_column = (
+                    "u_lambda_%i"
+                    % wl_i
+                )
+
+                s_column = (
+                    "s_lambda_%i"
+                    % wl_i
+                )
+
+                if u_column in tgt_info.columns:
+
+                    try:
+
+                        u_value = float(
+                            tgt_info.loc[
+                                hd_id,
+                                u_column
+                            ]
+                        )
+
+                    except Exception:
+
+                        u_value = np.nan
+
+                else:
+
+                    u_value = np.nan
+
+                if (
+                    not np.isfinite(u_value)
+                    or u_value < 0
+                    or u_value > 1
+                ):
+
+                    u_value = 0.3
+
+                if s_column in tgt_info.columns:
+
+                    try:
+
+                        s_value = float(
+                            tgt_info.loc[
+                                hd_id,
+                                s_column
+                            ]
+                        )
+
+                    except Exception:
+
+                        s_value = np.nan
+
+                else:
+
+                    s_value = np.nan
+
+                if (
+                    not np.isfinite(s_value)
+                    or s_value <= 0
+                ):
+
+                    s_value = 1.0
+
+                u_lambdas.append(
+                    u_value
+                )
+
+                s_lambdas.append(
+                    s_value
+                )
+
+            u_lambdas = np.asarray(
+                u_lambdas,
+                dtype=float
+            )
+
+            s_lambdas = np.asarray(
+                s_lambdas,
+                dtype=float
+            )
+
+            # ====================================================
+            # Create figure
+            # ====================================================
+
+            fig, axes = plt.subplots(
+                2,
+                1,
+                sharex=True
+            )
+
+            fig.set_size_inches(
+                10,
+                9
+            )
+
+            colour_map = cm.get_cmap(
+                "viridis"
+            )
+
+            if n_wl == 1:
+
+                colours = [
+                    colour_map(0.5)
+                ]
+
+            else:
+
+                colours = [
+                    colour_map(
+                        float(wl_i)
+                        / float(n_wl - 1)
+                    )
+                    for wl_i in xrange(n_wl)
+                ]
+
+            all_observed_vis2 = []
+
+            # ====================================================
+            # Transform for each wavelength channel
+            # ====================================================
+
+            for wl_i in xrange(
+                    n_wl):
+
+                wavelength_m = wavelengths[
+                    wl_i
+                ]
+
+                wavelength_um = (
+                    wavelength_m * 1.0E6
+                )
+
+                u_lambda = u_lambdas[
+                    wl_i
+                ]
+
+                s_lambda = s_lambdas[
+                    wl_i
+                ]
+
+                # Apply the wavelength scaling exactly once.
+                theta_lambda = (
+                    theta_base
+                    * s_lambda
+                )
+
+                fourier_amplitude = (
+                    limb_darkened_fourier_amplitude(
+                        q_model,
+                        theta_lambda,
+                        u_lambda
+                    )
+                )
+
+                model_vis2 = (
+                    fourier_amplitude**2
+                )
+
+                wavelength_label = (
+                    r"$%.3f\,\mu{\rm m}$"
+                    % wavelength_um
+                )
+
+                # Signed Fourier amplitude.
+                axes[0].plot(
+                    q_model,
+                    fourier_amplitude,
+                    label=wavelength_label,
+                    color=colours[wl_i]
+                )
+
+                # Squared Fourier amplitude.
+                axes[1].plot(
+                    q_model,
+                    model_vis2,
+                    color=colours[wl_i]
+                )
+
+                # ------------------------------------------------
+                # Corrected observed points
+                # ------------------------------------------------
+
+                if vis2_corrected is not None:
+
+                    observed_sfreq = (
+                        baselines
+                        / wavelength_m
+                    )
+
+                    observed_vis2 = (
+                        vis2_corrected[
+                            :,
+                            wl_i
+                        ]
+                    )
+
+                    observed_e_vis2 = (
+                        e_vis2_corrected[
+                            :,
+                            wl_i
+                        ]
+                    )
+
+                    valid = (
+                        np.isfinite(observed_sfreq)
+                        & np.isfinite(observed_vis2)
+                        & np.isfinite(observed_e_vis2)
+                        & (observed_e_vis2 > 0)
+                    )
+
+                    if np.any(valid):
+
+                        axes[1].errorbar(
+                            observed_sfreq[valid],
+                            observed_vis2[valid],
+                            yerr=observed_e_vis2[valid],
+                            fmt=".",
+                            color=colours[wl_i],
+                            elinewidth=0.3,
+                            capsize=0.5,
+                            capthick=0.3,
+                            markersize=3
+                        )
+
+                        all_observed_vis2.extend(
+                            observed_vis2[
+                                valid
+                            ].tolist()
+                        )
+
+            # ====================================================
+            # Figure formatting
+            # ====================================================
+
+            axes[0].axhline(
+                0.0,
+                linestyle=":",
+                linewidth=0.7
+            )
+
+            axes[0].set_ylabel(
+                r"Fourier amplitude $V(q)$"
+            )
+
+            axes[0].set_ylim(
+                [-0.40, 1.05]
+            )
+
+            axes[0].grid()
+
+            axes[0].legend(
+                loc="best",
+                fontsize="small",
+                ncol=2
+            )
+
+            axes[1].set_xlabel(
+                r"Spatial frequency $q=B/\lambda$ (rad$^{-1}$)"
+            )
+
+            axes[1].set_ylabel(
+                r"Squared visibility $V^2(q)$"
+            )
+
+            axes[1].set_xlim(
+                [0.0, q_max]
+            )
+
+            if len(all_observed_vis2) > 0:
+
+                finite_observed = np.asarray(
+                    all_observed_vis2,
+                    dtype=float
+                )
+
+                finite_observed = finite_observed[
+                    np.isfinite(finite_observed)
+                ]
+
+                if len(finite_observed) > 0:
+
+                    vis2_max = max(
+                        1.1,
+                        np.nanpercentile(
+                            finite_observed,
+                            99
+                        ) + 0.05
+                    )
+
+                    vis2_max = min(
+                        vis2_max,
+                        1.5
+                    )
+
+                else:
+
+                    vis2_max = 1.1
+
+            else:
+
+                vis2_max = 1.1
+
+            axes[1].set_ylim(
+                [0.0, vis2_max]
+            )
+
+            axes[1].grid()
+
+            if np.isfinite(theta_error):
+
+                title = (
+                    "%s: %s "
+                    r"$\theta_{\rm LDD}=%.4f\pm%.4f$ mas"
+                    % (
+                        sci,
+                        theta_source,
+                        theta_base,
+                        theta_error
+                    )
+                )
+
+            else:
+
+                title = (
+                    "%s: %s "
+                    r"$\theta_{\rm LDD}=%.4f$ mas"
+                    % (
+                        sci,
+                        theta_source,
+                        theta_base
+                    )
+                )
+
+            fig.suptitle(
+                title
+            )
+
+            fig.tight_layout(
+                rect=[0.0, 0.0, 1.0, 0.96]
+            )
+
+            # ====================================================
+            # Save page and individual image
+            # ====================================================
+
+            pdf.savefig(
+                fig
+            )
+
+            safe_name = (
+                clean_target_name_for_plot(
+                    sci
+                )
+            )
+
+            individual_file = os.path.join(
+                individual_directory,
+                "%s_fourier.png"
+                % safe_name
+            )
+
+            fig.savefig(
+                individual_file,
+                dpi=200
+            )
+
+            plt.close(
+                fig
+            )
+
+            n_created += 1
+
+            print(
+                "Saved Fourier transform for %s"
+                % sci
+            )
+
+    print("")
+    print("=" * 79)
+    print("Science-star Fourier transforms finished")
+    print("Created: %i" % n_created)
+    print("Skipped: %i" % n_skipped)
+    print("Saved:")
+    print(output_file)
+    print("=" * 79)
+
+    if n_created == 0:
+
+        raise RuntimeError(
+            "No science-star Fourier transforms were generated"
+        )
+
+    return output_file
+
+def limb_darkened_intensity_map(
+        
+        theta_ld_mas,
+        u_lambda,
+        n_pixels=400,
+        field_factor=1.4):
+    """
+    Create a two-dimensional linearly limb-darkened stellar disc.
+
+    Parameters
+    ----------
+    theta_ld_mas : float
+        Limb-darkened angular diameter in mas.
+
+    u_lambda : float
+        Linear limb-darkening coefficient.
+
+    n_pixels : int
+        Number of pixels along each image dimension.
+
+    field_factor : float
+        Image half-width in units of the stellar radius.
+
+    Returns
+    -------
+    delta_ra : ndarray
+        Delta RA grid in mas.
+
+    delta_dec : ndarray
+        Delta Dec grid in mas.
+
+    intensity : ndarray
+        Intensity normalized to the central intensity.
+        Pixels outside the stellar disc are NaN.
+    """
+
+    theta_ld_mas = float(
+        theta_ld_mas
+    )
+
+    u_lambda = float(
+        u_lambda
+    )
+
+    radius_mas = (
+        theta_ld_mas / 2.0
+    )
+
+    field_radius_mas = (
+        field_factor * radius_mas
+    )
+
+    coordinate = np.linspace(
+        -field_radius_mas,
+        field_radius_mas,
+        int(n_pixels)
+    )
+
+    delta_ra, delta_dec = np.meshgrid(
+        coordinate,
+        coordinate
+    )
+
+    radial_distance = np.sqrt(
+        delta_ra**2
+        + delta_dec**2
+    )
+
+    normalized_radius = (
+        radial_distance / radius_mas
+    )
+
+    inside_disc = (
+        normalized_radius <= 1.0
+    )
+
+    intensity = np.empty(
+        normalized_radius.shape,
+        dtype=float
+    )
+
+    intensity[:] = np.nan
+
+    # mu = cos(theta) on the projected stellar surface.
+    mu = np.sqrt(
+        np.clip(
+            1.0
+            - normalized_radius[inside_disc]**2,
+            0.0,
+            1.0
+        )
+    )
+
+    # Linear limb-darkening law:
+    #
+    # I(mu) / I(1) = 1 - u * (1 - mu)
+    intensity[inside_disc] = (
+        1.0
+        - u_lambda
+        * (1.0 - mu)
+    )
+
+    return (
+        delta_ra,
+        delta_dec,
+        intensity
+    )
+
+def plot_science_intensity_maps(
+        tgt_info,
+        results,
+        output_file="plots/science_intensity_maps.pdf",
+        wavelength_index=2,
+        n_pixels=400,
+        field_factor=1.4,
+        use_predicted_if_missing=True):
+    """
+    Create RA-Dec intensity maps for all science targets.
+
+    Each page contains a linearly limb-darkened model image based on
+    the fitted LDD. When the fitted LDD is unavailable, LDD_pred can
+    optionally be used.
+
+    Parameters
+    ----------
+    tgt_info : pandas.DataFrame
+        Target information table.
+
+    results : pandas.DataFrame
+        Final interferometric fitting results.
+
+    output_file : str
+        Multipage PDF output path.
+
+    wavelength_index : int
+        PIONIER wavelength-channel index.
+        Valid values are normally 0 through 5.
+
+    n_pixels : int
+        Image resolution along each dimension.
+
+    field_factor : float
+        Image half-width in stellar-radius units.
+
+    use_predicted_if_missing : bool
+        Use LDD_pred when LDD_FIT is invalid.
+
+    Returns
+    -------
+    output_file : str
+        Path to the generated PDF.
+    """
+
+    plt.close("all")
+
+    output_directory = os.path.dirname(
+        output_file
+    )
+
+    if output_directory == "":
+        output_directory = "."
+
+    if not os.path.exists(
+            output_directory):
+
+        os.makedirs(
+            output_directory
+        )
+
+    individual_directory = os.path.join(
+        output_directory,
+        "science_intensity"
+    )
+
+    if not os.path.exists(
+            individual_directory):
+
+        os.makedirs(
+            individual_directory
+        )
+
+    plotted_targets = set()
+
+    n_created = 0
+    n_skipped = 0
+
+    print("")
+    print("=" * 79)
+    print("Creating science-star RA-Dec intensity maps")
+    print("Output:")
+    print(output_file)
+    print("=" * 79)
+
+    with PdfPages(output_file) as pdf:
+
+        for result_i in xrange(
+                len(results)):
+
+            row = results.iloc[
+                result_i
+            ]
+
+            sci = str(
+                row["STAR"]
+            )
+
+            clean_name = clean_target_name_for_plot(
+                sci
+            )
+
+            # Avoid plotting the same target more than once.
+            if clean_name in plotted_targets:
+                continue
+
+            target_id = match_target_for_plot(
+                tgt_info,
+                sci,
+                verbose=True
+            )
+
+            if target_id is None:
+
+                print(
+                    "WARNING: target match not found for %s"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            # Keep science stars only.
+            if "Science" in tgt_info.columns:
+
+                try:
+
+                    is_science = bool(
+                        tgt_info.loc[
+                            target_id,
+                            "Science"
+                        ]
+                    )
+
+                except Exception:
+
+                    is_science = False
+
+                if not is_science:
+                    continue
+
+            plotted_targets.add(
+                clean_name
+            )
+
+            # ====================================================
+            # Select fitted or predicted angular diameter
+            # ====================================================
+
+            try:
+
+                theta_base = float(
+                    row["LDD_FIT"]
+                )
+
+            except Exception:
+
+                theta_base = np.nan
+
+            valid_fitted_theta = (
+                np.isfinite(theta_base)
+                and theta_base > 0
+            )
+
+            if valid_fitted_theta:
+
+                theta_source = "fitted"
+
+                try:
+
+                    theta_error = float(
+                        row["e_LDD_FIT"]
+                    )
+
+                except Exception:
+
+                    theta_error = np.nan
+
+            elif use_predicted_if_missing:
+
+                try:
+
+                    theta_base = float(
+                        tgt_info.loc[
+                            target_id,
+                            "LDD_pred"
+                        ]
+                    )
+
+                except Exception:
+
+                    theta_base = np.nan
+
+                try:
+
+                    theta_error = float(
+                        tgt_info.loc[
+                            target_id,
+                            "e_LDD_pred"
+                        ]
+                    )
+
+                except Exception:
+
+                    theta_error = np.nan
+
+                theta_source = "predicted"
+
+            else:
+
+                theta_base = np.nan
+                theta_error = np.nan
+                theta_source = "unavailable"
+
+            if (
+                not np.isfinite(theta_base)
+                or theta_base <= 0
+            ):
+
+                print(
+                    "WARNING: no valid diameter for %s"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            # ====================================================
+            # Select wavelength channel
+            # ====================================================
+
+            wavelengths = np.asarray(
+                row["WAVELENGTH"],
+                dtype=float
+            ).ravel()
+
+            if len(wavelengths) == 0:
+
+                print(
+                    "WARNING: no wavelengths for %s"
+                    % sci
+                )
+
+                n_skipped += 1
+                continue
+
+            channel_index = int(
+                wavelength_index
+            )
+
+            if channel_index < 0:
+                channel_index = 0
+
+            if channel_index >= len(wavelengths):
+                channel_index = len(wavelengths) - 1
+
+            wavelength_m = wavelengths[
+                channel_index
+            ]
+
+            wavelength_um = (
+                wavelength_m * 1.0E6
+            )
+
+            # ====================================================
+            # Limb-darkening coefficient
+            # ====================================================
+
+            u_column = (
+                "u_lambda_%i"
+                % channel_index
+            )
+
+            try:
+
+                u_lambda = float(
+                    tgt_info.loc[
+                        target_id,
+                        u_column
+                    ]
+                )
+
+            except Exception:
+
+                u_lambda = np.nan
+
+            if (
+                not np.isfinite(u_lambda)
+                or u_lambda < 0
+                or u_lambda > 1
+            ):
+
+                print(
+                    "WARNING: invalid %s for %s; using u=0.3"
+                    % (
+                        u_column,
+                        sci
+                    )
+                )
+
+                u_lambda = 0.3
+
+            # ====================================================
+            # Wavelength-dependent diameter scaling
+            # ====================================================
+
+            s_column = (
+                "s_lambda_%i"
+                % channel_index
+            )
+
+            try:
+
+                s_lambda = float(
+                    tgt_info.loc[
+                        target_id,
+                        s_column
+                    ]
+                )
+
+            except Exception:
+
+                s_lambda = np.nan
+
+            if (
+                not np.isfinite(s_lambda)
+                or s_lambda <= 0
+            ):
+
+                s_lambda = 1.0
+
+            theta_lambda = (
+                theta_base
+                * s_lambda
+            )
+
+            # ====================================================
+            # Build intensity map
+            # ====================================================
+
+            delta_ra, delta_dec, intensity = (
+                limb_darkened_intensity_map(
+                    theta_lambda,
+                    u_lambda,
+                    n_pixels=n_pixels,
+                    field_factor=field_factor
+                )
+            )
+
+            image_limit = np.nanmax(
+                np.abs(delta_ra)
+            )
+
+            # ====================================================
+            # Plot
+            # ====================================================
+
+            fig, ax = plt.subplots()
+
+            fig.set_size_inches(
+                8,
+                7
+            )
+
+            image = ax.imshow(
+                intensity,
+                origin="lower",
+                extent=[
+                    -image_limit,
+                    image_limit,
+                    -image_limit,
+                    image_limit
+                ],
+                interpolation="bilinear",
+                vmin=0.0,
+                vmax=1.0,
+                cmap="inferno"
+            )
+
+            colorbar = fig.colorbar(
+                image,
+                ax=ax
+            )
+
+            colorbar.set_label(
+                r"Normalized intensity $I/I_{\rm center}$"
+            )
+
+            ax.set_xlabel(
+                r"$\Delta$RA (mas)"
+            )
+
+            ax.set_ylabel(
+                r"$\Delta$Dec (mas)"
+            )
+
+            ax.set_aspect(
+                "equal"
+            )
+
+            # Astronomical convention:
+            # RA increases toward the left.
+            ax.invert_xaxis()
+
+            if np.isfinite(theta_error):
+
+                title = (
+                    "%s\n"
+                    r"%s $\theta_{\rm LDD}=%.4f\pm%.4f$ mas, "
+                    r"$\lambda=%.3f\,\mu$m, $u=%.3f$"
+                    % (
+                        sci,
+                        theta_source,
+                        theta_lambda,
+                        theta_error,
+                        wavelength_um,
+                        u_lambda
+                    )
+                )
+
+            else:
+
+                title = (
+                    "%s\n"
+                    r"%s $\theta_{\rm LDD}=%.4f$ mas, "
+                    r"$\lambda=%.3f\,\mu$m, $u=%.3f$"
+                    % (
+                        sci,
+                        theta_source,
+                        theta_lambda,
+                        wavelength_um,
+                        u_lambda
+                    )
+                )
+
+            ax.set_title(
+                title
+            )
+
+            fig.tight_layout()
+
+            # Save page in multipage PDF.
+            pdf.savefig(
+                fig
+            )
+
+            # Save one PNG per science target.
+            individual_file = os.path.join(
+                individual_directory,
+                "%s_intensity.png"
+                % clean_name
+            )
+
+            fig.savefig(
+                individual_file,
+                dpi=200
+            )
+
+            plt.close(
+                fig
+            )
+
+            n_created += 1
+
+            print(
+                "Saved intensity image for %s"
+                % sci
+            )
+
+
+    print("")
+    print("=" * 79)
+    print("Science intensity maps finished")
+    print("Created: %i" % n_created)
+    print("Skipped: %i" % n_skipped)
+    print("Saved:")
+    print(output_file)
+    print("=" * 79)
+
+    if n_created == 0:
+
+        raise RuntimeError(
+            "No science intensity maps were generated"
+        )
+
+    return output_file
+
+
+def plot_visibility_diagnostic_summary(
+        results,
+        bs_results,
+        tgt_info,
+        output_file=(
+            "plots/visibility_diagnostics/"
+            "visibility_diagnostic_summary.pdf"
+        ),
+        bootstrap_index=0,
+        sigma_threshold=3.0,
+        raw_residual_threshold=0.05,
+        e_wl_frac=0.0035,
+        star_filter=None,
+        highlight_night=None,
+        highlight_pair=None,
+        highlight_baseline_range=None,
+        highlight_wavelength_index=None,
+        max_annotations=10,
+        use_predicted_if_missing=True):
+    """
+    Create point-by-point visibility diagnostics.
+
+    The four panels are:
+
+        1. Corrected VIS2 coloured by observing night.
+        2. Corrected VIS2 coloured by telescope pair.
+        3. Raw residual:
+               VIS2_observed - VIS2_model
+           coloured by wavelength channel.
+        4. Standardized residual:
+               (VIS2_observed - VIS2_model) / e_VIS2
+           versus projected baseline.
+
+    A point is marked as a removal candidate when:
+
+        - it has an OIFITS flag; or
+        - abs(standardized residual) >= sigma_threshold
+          AND
+          abs(raw residual) >= raw_residual_threshold.
+
+    No data are removed by this function.
+    """
+
+    # ====================================================================
+    # Compatibility
+    # ====================================================================
+
+    try:
+        string_types = (basestring,)
+    except NameError:
+        string_types = (str,)
+
+    # ====================================================================
+    # Helper functions
+    # ====================================================================
+
+    def safe_float(value):
+
+        try:
+            return float(value)
+        except Exception:
+            return np.nan
+
+
+    def pair_to_string(value):
+        """
+        Convert a telescope-pair representation to a readable string.
+        """
+
+        try:
+
+            if isinstance(
+                    value,
+                    (tuple, list, np.ndarray)):
+
+                values = list(
+                    value
+                )
+
+                if len(values) >= 2:
+
+                    return "%s-%s" % (
+                        str(values[0]),
+                        str(values[1])
+                    )
+
+        except Exception:
+            pass
+
+        return str(
+            value
+        )
+
+
+    def resize_numeric_metadata(
+            values,
+            required_length):
+        """
+        Resize numerical metadata to the number of baseline rows.
+        """
+
+        output = np.empty(
+            required_length,
+            dtype=float
+        )
+
+        output[:] = np.nan
+
+        try:
+
+            values = np.asarray(
+                values,
+                dtype=float
+            ).ravel()
+
+        except Exception:
+
+            values = np.array(
+                [],
+                dtype=float
+            )
+
+        n_copy = min(
+            len(values),
+            required_length
+        )
+
+        if n_copy > 0:
+
+            output[:n_copy] = values[
+                :n_copy
+            ]
+
+        return output
+
+
+    def resize_pair_metadata(
+            values,
+            required_length):
+        """
+        Preserve telescope pairs without flattening tuple pairs.
+        """
+
+        output = np.empty(
+            required_length,
+            dtype=object
+        )
+
+        output[:] = "unknown"
+
+        try:
+
+            values = list(
+                values
+            )
+
+        except Exception:
+
+            values = []
+
+        n_copy = min(
+            len(values),
+            required_length
+        )
+
+        for value_i in xrange(
+                n_copy):
+
+            output[value_i] = pair_to_string(
+                values[value_i]
+            )
+
+        return output
+
+
+    def mjd_to_night(mjd_value):
+        """
+        Convert MJD to an observing-night string.
+
+        Subtracting half a day keeps observations made after midnight
+        associated with the evening on which the night began.
+        """
+
+        mjd_value = safe_float(
+            mjd_value
+        )
+
+        if not np.isfinite(
+                mjd_value):
+
+            return "unknown"
+
+        try:
+
+            mjd_epoch = datetime(
+                1858,
+                11,
+                17
+            )
+
+            date_value = (
+                mjd_epoch
+                + timedelta(
+                    days=mjd_value - 0.5
+                )
+            )
+
+            return date_value.strftime(
+                "%Y-%m-%d"
+            )
+
+        except Exception:
+
+            return "unknown"
+
+
+    def resolve_bs_key(
+            science_name,
+            sequence_name,
+            period_value):
+        """
+        Match one results row to the corresponding bs_results key.
+        """
+
+        science_clean = clean_target_name_for_plot(
+            science_name
+        )
+
+        sequence_clean = str(
+            sequence_name
+        ).strip().lower()
+
+        period_clean = str(
+            period_value
+        ).strip()
+
+        # Direct lookup for combined fits.
+        if science_name in bs_results:
+
+            return science_name
+
+        # Direct tuple possibilities.
+        direct_keys = [
+            (
+                science_name,
+                sequence_name,
+                period_value
+            ),
+            (
+                science_name,
+                str(sequence_name),
+                period_value
+            ),
+        ]
+
+        for direct_key in direct_keys:
+
+            if direct_key in bs_results:
+
+                return direct_key
+
+        # Robust matching.
+        for candidate_key in bs_results.keys():
+
+            if isinstance(
+                    candidate_key,
+                    tuple):
+
+                candidate_star = candidate_key[0]
+
+                candidate_sequence = ""
+
+                candidate_period = ""
+
+                if len(candidate_key) > 1:
+
+                    candidate_sequence = str(
+                        candidate_key[1]
+                    ).strip().lower()
+
+                if len(candidate_key) > 2:
+
+                    candidate_period = str(
+                        candidate_key[2]
+                    ).strip()
+
+                same_star = (
+                    clean_target_name_for_plot(
+                        candidate_star
+                    )
+                    == science_clean
+                )
+
+                same_sequence = (
+                    candidate_sequence
+                    == sequence_clean
+                )
+
+                same_period = (
+                    candidate_period
+                    == period_clean
+                )
+
+                if (
+                    same_star
+                    and same_sequence
+                    and same_period
+                ):
+
+                    return candidate_key
+
+            else:
+
+                same_star = (
+                    clean_target_name_for_plot(
+                        candidate_key
+                    )
+                    == science_clean
+                )
+
+                if same_star:
+
+                    return candidate_key
+
+        return None
+
+
+    def get_wavelength_coefficients(
+            result_row,
+            target_id,
+            coefficient_name,
+            n_wavelengths,
+            default_value):
+        """
+        Obtain U_LAMBDA or S_LAMBDA from results, falling back to
+        wavelength-specific columns in tgt_info.
+        """
+
+        if coefficient_name == "u":
+
+            result_column = "U_LAMBDA"
+            target_prefix = "u_lambda_"
+
+        else:
+
+            result_column = "S_LAMBDA"
+            target_prefix = "s_lambda_"
+
+        coefficient_values = np.empty(
+            n_wavelengths,
+            dtype=float
+        )
+
+        coefficient_values[:] = np.nan
+
+        # First use the final values stored in results.
+        if result_column in result_row.index:
+
+            try:
+
+                result_values = np.asarray(
+                    result_row[
+                        result_column
+                    ],
+                    dtype=float
+                ).ravel()
+
+                n_copy = min(
+                    len(result_values),
+                    n_wavelengths
+                )
+
+                coefficient_values[
+                    :n_copy
+                ] = result_values[
+                    :n_copy
+                ]
+
+            except Exception:
+                pass
+
+        # Fill missing values from tgt_info.
+        for wavelength_i in xrange(
+                n_wavelengths):
+
+            if np.isfinite(
+                    coefficient_values[
+                        wavelength_i
+                    ]):
+
+                continue
+
+            column_name = (
+                target_prefix
+                + str(wavelength_i)
+            )
+
+            if column_name in tgt_info.columns:
+
+                try:
+
+                    coefficient_values[
+                        wavelength_i
+                    ] = float(
+                        tgt_info.loc[
+                            target_id,
+                            column_name
+                        ]
+                    )
+
+                except Exception:
+                    pass
+
+        invalid_values = (
+            ~np.isfinite(
+                coefficient_values
+            )
+        )
+
+        coefficient_values[
+            invalid_values
+        ] = float(
+            default_value
+        )
+
+        return coefficient_values
+
+
+    def plot_grouped_visibilities(
+            axis,
+            group_values,
+            group_label,
+            spatial_frequency,
+            vis2_values,
+            e_vis2_values,
+            valid_mask,
+            colour_map):
+        """
+        Plot visibility measurements grouped by night or telescope pair.
+        """
+
+        unique_groups = sorted(
+            set(
+                group_values.tolist()
+            )
+        )
+
+        group_colours = {}
+
+        for group_i, group_value in enumerate(
+                unique_groups):
+
+            denominator = max(
+                1.0,
+                float(
+                    len(unique_groups) - 1
+                )
+            )
+
+            group_colour = colour_map(
+                float(group_i)
+                / denominator
+            )
+
+            group_colours[
+                group_value
+            ] = group_colour
+
+            group_mask = (
+                valid_mask
+                & (
+                    group_values
+                    == group_value
+                )
+            )
+
+            if not np.any(
+                    group_mask):
+
+                continue
+
+            finite_error = (
+                group_mask
+                & np.isfinite(
+                    e_vis2_values
+                )
+                & (
+                    e_vis2_values > 0
+                )
+            )
+
+            no_error = (
+                group_mask
+                & ~finite_error
+            )
+
+            if np.any(
+                    finite_error):
+
+                axis.errorbar(
+                    spatial_frequency[
+                        finite_error
+                    ],
+                    vis2_values[
+                        finite_error
+                    ],
+                    xerr=(
+                        spatial_frequency[
+                            finite_error
+                        ]
+                        * e_wl_frac
+                    ),
+                    yerr=e_vis2_values[
+                        finite_error
+                    ],
+                    fmt=".",
+                    color=group_colour,
+                    label=str(
+                        group_value
+                    ),
+                    elinewidth=0.3,
+                    capsize=0.5,
+                    capthick=0.3,
+                    markersize=4,
+                    zorder=3
+                )
+
+            if np.any(
+                    no_error):
+
+                axis.scatter(
+                    spatial_frequency[
+                        no_error
+                    ],
+                    vis2_values[
+                        no_error
+                    ],
+                    s=12,
+                    color=group_colour,
+                    label=(
+                        str(group_value)
+                        if not np.any(finite_error)
+                        else None
+                    ),
+                    zorder=3
+                )
+
+        axis.set_title(
+            group_label
+        )
+
+        axis.set_xlabel(
+            r"Spatial frequency (rad$^{-1}$)"
+        )
+
+        axis.set_ylabel(
+            r"Corrected visibility$^2$"
+        )
+
+        axis.set_xlim(
+            [0.0, 2.5E8]
+        )
+
+        axis.set_ylim(
+            [0.0, 1.5]
+        )
+
+        axis.grid()
+
+        handles, labels = (
+            axis.get_legend_handles_labels()
+        )
+
+        if len(handles) > 0:
+
+            axis.legend(
+                loc="best",
+                fontsize=7,
+                ncol=2
+            )
+
+        return group_colours
+
+
+    # ====================================================================
+    # Validate inputs
+    # ====================================================================
+
+    if results is None or len(
+            results) == 0:
+
+        raise ValueError(
+            "results is empty"
+        )
+
+    if bs_results is None or len(
+            bs_results) == 0:
+
+        raise ValueError(
+            "bs_results is empty"
+        )
+
+    if tgt_info is None:
+
+        raise ValueError(
+            "tgt_info must be provided"
+        )
+
+    # ====================================================================
+    # Output directories
+    # ====================================================================
+
+    output_directory = os.path.dirname(
+        output_file
+    )
+
+    if output_directory == "":
+
+        output_directory = "."
+
+    if not os.path.exists(
+            output_directory):
+
+        os.makedirs(
+            output_directory
+        )
+
+    individual_directory = os.path.join(
+        output_directory,
+        "individual"
+    )
+
+    if not os.path.exists(
+            individual_directory):
+
+        os.makedirs(
+            individual_directory
+        )
+
+    all_points_csv = os.path.join(
+        output_directory,
+        "visibility_point_diagnostics.csv"
+    )
+
+    candidate_csv = os.path.join(
+        output_directory,
+        "visibility_removal_candidates.csv"
+    )
+
+    # ====================================================================
+    # Star filtering
+    # ====================================================================
+
+    if star_filter is None:
+
+        selected_star_names = None
+
+    else:
+
+        if isinstance(
+                star_filter,
+                string_types):
+
+            star_filter = [
+                star_filter
+            ]
+
+        selected_star_names = set([
+            clean_target_name_for_plot(
+                target_name
+            )
+            for target_name in star_filter
+        ])
+
+    diagnostic_rows = []
+
+    n_created = 0
+    n_failed = 0
+
+    plt.close(
+        "all"
+    )
+
+    print("")
+    print("=" * 79)
+    print("Creating visibility diagnostics")
+    print("Output:")
+    print(output_file)
+    print("=" * 79)
+
+    # ====================================================================
+    # Multipage PDF
+    # ====================================================================
+
+    with PdfPages(
+            output_file) as pdf:
+
+        for result_i in xrange(
+                len(results)):
+
+            result_row = results.iloc[
+                result_i
+            ]
+
+            science_name = str(
+                result_row[
+                    "STAR"
+                ]
+            )
+
+            sequence_name = str(
+                result_row.get(
+                    "SEQUENCE",
+                    "combined"
+                )
+            )
+
+            period_value = result_row.get(
+                "PERIOD",
+                ""
+            )
+
+            science_clean = (
+                clean_target_name_for_plot(
+                    science_name
+                )
+            )
+
+            if (
+                selected_star_names is not None
+                and science_clean
+                not in selected_star_names
+            ):
+
+                continue
+
+            print("")
+            print(
+                "Diagnostic for %s, %s, %s"
+                % (
+                    science_name,
+                    sequence_name,
+                    str(period_value)
+                )
+            )
+
+            try:
+
+                # ============================================================
+                # Match target information
+                # ============================================================
+
+                target_id = result_row.get(
+                    "HD",
+                    None
+                )
+
+                if target_id not in tgt_info.index:
+
+                    target_id = match_target_for_plot(
+                        tgt_info,
+                        science_name,
+                        verbose=True
+                    )
+
+                if target_id is None:
+
+                    raise ValueError(
+                        "Could not match target in tgt_info"
+                    )
+
+                # ============================================================
+                # Match bootstrap metadata
+                # ============================================================
+
+                bootstrap_key = resolve_bs_key(
+                    science_name,
+                    sequence_name,
+                    period_value
+                )
+
+                if bootstrap_key is None:
+
+                    raise ValueError(
+                        "Could not find matching bs_results key"
+                    )
+
+                bootstrap_table = bs_results[
+                    bootstrap_key
+                ]
+
+                if len(bootstrap_table) == 0:
+
+                    raise ValueError(
+                        "Bootstrap table is empty"
+                    )
+
+                metadata_index = int(
+                    bootstrap_index
+                )
+
+                if metadata_index < 0:
+
+                    metadata_index = (
+                        len(bootstrap_table)
+                        + metadata_index
+                    )
+
+                metadata_index = max(
+                    0,
+                    min(
+                        metadata_index,
+                        len(bootstrap_table) - 1
+                    )
+                )
+
+                metadata_row = bootstrap_table.iloc[
+                    metadata_index
+                ]
+
+                # ============================================================
+                # Final VIS2 arrays
+                # ============================================================
+
+                baselines = np.asarray(
+                    result_row[
+                        "BASELINE"
+                    ],
+                    dtype=float
+                ).ravel()
+
+                wavelengths = np.asarray(
+                    result_row[
+                        "WAVELENGTH"
+                    ],
+                    dtype=float
+                ).ravel()
+
+                vis2_matrix = np.asarray(
+                    result_row[
+                        "VIS2"
+                    ],
+                    dtype=float
+                )
+
+                e_vis2_matrix = np.asarray(
+                    result_row[
+                        "e_VIS2"
+                    ],
+                    dtype=float
+                )
+
+                n_baselines = len(
+                    baselines
+                )
+
+                n_wavelengths = len(
+                    wavelengths
+                )
+
+                if n_baselines == 0:
+
+                    raise ValueError(
+                        "No baseline values"
+                    )
+
+                if n_wavelengths == 0:
+
+                    raise ValueError(
+                        "No wavelength values"
+                    )
+
+                expected_size = (
+                    n_baselines
+                    * n_wavelengths
+                )
+
+                if vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "VIS2 size=%i, expected=%i"
+                        % (
+                            vis2_matrix.size,
+                            expected_size
+                        )
+                    )
+
+                if e_vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "e_VIS2 size=%i, expected=%i"
+                        % (
+                            e_vis2_matrix.size,
+                            expected_size
+                        )
+                    )
+
+                vis2_matrix = vis2_matrix.reshape(
+                    n_baselines,
+                    n_wavelengths
+                )
+
+                e_vis2_matrix = e_vis2_matrix.reshape(
+                    n_baselines,
+                    n_wavelengths
+                )
+
+                # ============================================================
+                # Recover MJD, observing night and telescope pair
+                # ============================================================
+
+                mjds = resize_numeric_metadata(
+                    metadata_row[
+                        "MJD"
+                    ],
+                    n_baselines
+                )
+
+                telescope_pairs = resize_pair_metadata(
+                    metadata_row[
+                        "TEL_PAIR"
+                    ],
+                    n_baselines
+                )
+
+                night_labels = np.asarray([
+                    mjd_to_night(
+                        mjd_value
+                    )
+                    for mjd_value in mjds
+                ])
+
+                # ============================================================
+                # Recover flags
+                # ============================================================
+
+                try:
+
+                    flag_matrix = np.asarray(
+                        metadata_row[
+                            "FLAG"
+                        ]
+                    )
+
+                    if flag_matrix.size == expected_size:
+
+                        flag_matrix = flag_matrix.reshape(
+                            n_baselines,
+                            n_wavelengths
+                        )
+
+                        bad_flag_matrix = (
+                            flag_matrix.astype(
+                                bool
+                            )
+                        )
+
+                    else:
+
+                        print(
+                            "WARNING: FLAG shape does not match VIS2"
+                        )
+
+                        bad_flag_matrix = np.zeros(
+                            vis2_matrix.shape,
+                            dtype=bool
+                        )
+
+                except Exception:
+
+                    bad_flag_matrix = np.zeros(
+                        vis2_matrix.shape,
+                        dtype=bool
+                    )
+
+                # ============================================================
+                # Map C_SCALE to baseline rows
+                # ============================================================
+
+                try:
+
+                    c_values = np.asarray(
+                        result_row[
+                            "C_SCALE"
+                        ],
+                        dtype=float
+                    ).ravel()
+
+                except Exception:
+
+                    c_values = np.array(
+                        [1.0],
+                        dtype=float
+                    )
+
+                if len(c_values) == 0:
+
+                    c_values = np.array(
+                        [1.0],
+                        dtype=float
+                    )
+
+                invalid_c = (
+                    ~np.isfinite(
+                        c_values
+                    )
+                    | (
+                        c_values <= 0
+                    )
+                )
+
+                c_values[
+                    invalid_c
+                ] = 1.0
+
+                if len(c_values) == 1:
+
+                    c_per_baseline = np.repeat(
+                        c_values[0],
+                        n_baselines
+                    )
+
+                elif (
+                    n_baselines
+                    % len(c_values)
+                    == 0
+                ):
+
+                    baselines_per_c = int(
+                        n_baselines
+                        / len(c_values)
+                    )
+
+                    c_per_baseline = np.repeat(
+                        c_values,
+                        baselines_per_c
+                    )
+
+                else:
+
+                    print(
+                        "WARNING: cannot map C_SCALE to baselines; "
+                        "using C=1 for %s"
+                        % science_name
+                    )
+
+                    c_per_baseline = np.ones(
+                        n_baselines,
+                        dtype=float
+                    )
+
+                c_matrix = np.repeat(
+                    c_per_baseline[
+                        :, np.newaxis
+                    ],
+                    n_wavelengths,
+                    axis=1
+                )
+
+                vis2_corrected_matrix = (
+                    vis2_matrix
+                    / c_matrix
+                )
+
+                e_vis2_corrected_matrix = (
+                    e_vis2_matrix
+                    / c_matrix
+                )
+
+                # ============================================================
+                # Spatial-frequency arrays
+                # ============================================================
+
+                baseline_matrix = np.repeat(
+                    baselines[
+                        :, np.newaxis
+                    ],
+                    n_wavelengths,
+                    axis=1
+                )
+
+                wavelength_matrix = np.repeat(
+                    wavelengths[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                spatial_frequency_matrix = (
+                    baseline_matrix
+                    / wavelength_matrix
+                )
+
+                # ============================================================
+                # Angular diameter
+                # ============================================================
+
+                fitted_ldd = safe_float(
+                    result_row[
+                        "LDD_FIT"
+                    ]
+                )
+
+                fitted_ldd_error = safe_float(
+                    result_row[
+                        "e_LDD_FIT"
+                    ]
+                )
+
+                if (
+                    np.isfinite(fitted_ldd)
+                    and fitted_ldd > 0
+                ):
+
+                    model_ldd = fitted_ldd
+                    diameter_source = "fitted"
+
+                elif use_predicted_if_missing:
+
+                    model_ldd = safe_float(
+                        tgt_info.loc[
+                            target_id,
+                            "LDD_pred"
+                        ]
+                    )
+
+                    diameter_source = "predicted"
+
+                else:
+
+                    model_ldd = np.nan
+                    diameter_source = "unavailable"
+
+                if (
+                    not np.isfinite(model_ldd)
+                    or model_ldd <= 0
+                ):
+
+                    raise ValueError(
+                        "No valid angular diameter"
+                    )
+
+                # ============================================================
+                # Wavelength-dependent model coefficients
+                # ============================================================
+
+                u_lambdas = get_wavelength_coefficients(
+                    result_row,
+                    target_id,
+                    "u",
+                    n_wavelengths,
+                    0.3
+                )
+
+                s_lambdas = get_wavelength_coefficients(
+                    result_row,
+                    target_id,
+                    "s",
+                    n_wavelengths,
+                    1.0
+                )
+
+                u_matrix = np.repeat(
+                    u_lambdas[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                s_matrix = np.repeat(
+                    s_lambdas[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                # ============================================================
+                # Flatten arrays
+                # ============================================================
+
+                spatial_frequency = (
+                    spatial_frequency_matrix.flatten()
+                )
+
+                baseline_per_point = (
+                    baseline_matrix.flatten()
+                )
+
+                wavelength_per_point = (
+                    wavelength_matrix.flatten()
+                )
+
+                vis2_corrected = (
+                    vis2_corrected_matrix.flatten()
+                )
+
+                e_vis2_corrected = (
+                    e_vis2_corrected_matrix.flatten()
+                )
+
+                u_per_point = (
+                    u_matrix.flatten()
+                )
+
+                s_per_point = (
+                    s_matrix.flatten()
+                )
+
+                bad_flag = (
+                    bad_flag_matrix.flatten()
+                )
+
+                wavelength_indices = np.tile(
+                    np.arange(
+                        n_wavelengths
+                    ),
+                    n_baselines
+                )
+
+                night_per_point = np.repeat(
+                    night_labels,
+                    n_wavelengths
+                )
+
+                pair_per_point = np.repeat(
+                    telescope_pairs,
+                    n_wavelengths
+                )
+
+                mjd_per_point = np.repeat(
+                    mjds,
+                    n_wavelengths
+                )
+
+                c_per_point = np.repeat(
+                    c_per_baseline,
+                    n_wavelengths
+                )
+
+                point_indices = np.arange(
+                    expected_size
+                )
+
+                # ============================================================
+                # Model VIS2
+                # ============================================================
+
+                model_vis2 = rdiam.calc_vis2(
+                    spatial_frequency,
+                    model_ldd,
+                    1.0,
+                    (
+                        len(spatial_frequency),
+                    ),
+                    u_per_point,
+                    s_per_point
+                )
+
+                # ============================================================
+                # Raw and standardized residuals
+                # ============================================================
+
+                raw_residual = (
+                    vis2_corrected
+                    - model_vis2
+                )
+
+                standardized_residual = np.empty(
+                    len(raw_residual),
+                    dtype=float
+                )
+
+                standardized_residual[:] = np.nan
+
+                valid_uncertainty = (
+                    np.isfinite(
+                        e_vis2_corrected
+                    )
+                    & (
+                        e_vis2_corrected > 0
+                    )
+                )
+
+                standardized_residual[
+                    valid_uncertainty
+                ] = (
+                    raw_residual[
+                        valid_uncertainty
+                    ]
+                    / e_vis2_corrected[
+                        valid_uncertainty
+                    ]
+                )
+
+                valid_data = (
+                    np.isfinite(
+                        spatial_frequency
+                    )
+                    & np.isfinite(
+                        vis2_corrected
+                    )
+                    & np.isfinite(
+                        model_vis2
+                    )
+                )
+
+                large_sigma_residual = (
+                    np.isfinite(
+                        standardized_residual
+                    )
+                    & (
+                        np.abs(
+                            standardized_residual
+                        )
+                        >= sigma_threshold
+                    )
+                )
+
+                large_raw_residual = (
+                    np.isfinite(
+                        raw_residual
+                    )
+                    & (
+                        np.abs(
+                            raw_residual
+                        )
+                        >= raw_residual_threshold
+                    )
+                )
+
+                combined_outlier = (
+                    large_sigma_residual
+                    & large_raw_residual
+                )
+
+                removal_candidate = (
+                    bad_flag
+                    | combined_outlier
+                )
+
+                # ============================================================
+                # Optional highlight mask
+                # ============================================================
+
+                highlight_mask = np.ones(
+                    expected_size,
+                    dtype=bool
+                )
+
+                has_highlight_filter = False
+
+                if highlight_night is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        night_per_point
+                        == str(highlight_night)
+                    )
+
+                if highlight_pair is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        pair_per_point
+                        == str(highlight_pair)
+                    )
+
+                if highlight_baseline_range is not None:
+
+                    has_highlight_filter = True
+
+                    baseline_min = float(
+                        highlight_baseline_range[0]
+                    )
+
+                    baseline_max = float(
+                        highlight_baseline_range[1]
+                    )
+
+                    highlight_mask &= (
+                        baseline_per_point
+                        >= baseline_min
+                    )
+
+                    highlight_mask &= (
+                        baseline_per_point
+                        <= baseline_max
+                    )
+
+                if highlight_wavelength_index is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        wavelength_indices
+                        == int(
+                            highlight_wavelength_index
+                        )
+                    )
+
+                if not has_highlight_filter:
+
+                    highlight_mask[:] = False
+
+                # ============================================================
+                # Add rows to output CSV
+                # ============================================================
+
+                for point_i in xrange(
+                        expected_size):
+
+                    diagnostic_rows.append({
+                        "star": science_name,
+                        "sequence": sequence_name,
+                        "period": period_value,
+                        "point_id": int(point_i),
+                        "night": str(
+                            night_per_point[
+                                point_i
+                            ]
+                        ),
+                        "mjd": mjd_per_point[
+                            point_i
+                        ],
+                        "telescope_pair": str(
+                            pair_per_point[
+                                point_i
+                            ]
+                        ),
+                        "baseline_m": baseline_per_point[
+                            point_i
+                        ],
+                        "wavelength_index": int(
+                            wavelength_indices[
+                                point_i
+                            ]
+                        ),
+                        "wavelength_um": (
+                            wavelength_per_point[
+                                point_i
+                            ]
+                            * 1.0E6
+                        ),
+                        "spatial_frequency_rad_inv":
+                            spatial_frequency[
+                                point_i
+                            ],
+                        "c_scale": c_per_point[
+                            point_i
+                        ],
+                        "vis2_corrected": vis2_corrected[
+                            point_i
+                        ],
+                        "e_vis2_corrected":
+                            e_vis2_corrected[
+                                point_i
+                            ],
+                        "model_vis2": model_vis2[
+                            point_i
+                        ],
+                        "raw_residual": raw_residual[
+                            point_i
+                        ],
+                        "standardized_residual":
+                            standardized_residual[
+                                point_i
+                            ],
+                        "oifits_flag": bool(
+                            bad_flag[
+                                point_i
+                            ]
+                        ),
+                        "large_raw_residual": bool(
+                            large_raw_residual[
+                                point_i
+                            ]
+                        ),
+                        "large_sigma_residual": bool(
+                            large_sigma_residual[
+                                point_i
+                            ]
+                        ),
+                        "candidate_remove": bool(
+                            removal_candidate[
+                                point_i
+                            ]
+                        ),
+                        "highlighted": bool(
+                            highlight_mask[
+                                point_i
+                            ]
+                        )
+                    })
+
+                # ============================================================
+                # Figure
+                # ============================================================
+
+                fig, axes = plt.subplots(
+                    2,
+                    2
+                )
+
+                fig.set_size_inches(
+                    16,
+                    11
+                )
+
+                axes = axes.flatten()
+
+                # ------------------------------------------------------------
+                # Smooth visibility model curves
+                # ------------------------------------------------------------
+
+                model_frequency = np.linspace(
+                    1.0E6,
+                    2.5E8,
+                    10000
+                )
+
+                for wavelength_i in xrange(
+                        n_wavelengths):
+
+                    model_curve = rdiam.calc_vis2(
+                        model_frequency,
+                        model_ldd,
+                        1.0,
+                        (
+                            len(model_frequency),
+                        ),
+                        u_lambdas[
+                            wavelength_i
+                        ],
+                        s_lambdas[
+                            wavelength_i
+                        ]
+                    )
+
+                    axes[0].plot(
+                        model_frequency,
+                        model_curve,
+                        color="0.75",
+                        linewidth=0.7,
+                        zorder=1
+                    )
+
+                    axes[1].plot(
+                        model_frequency,
+                        model_curve,
+                        color="0.75",
+                        linewidth=0.7,
+                        zorder=1
+                    )
+
+                # ------------------------------------------------------------
+                # Top-left: colour by night
+                # ------------------------------------------------------------
+
+                night_colours = plot_grouped_visibilities(
+                    axes[0],
+                    night_per_point,
+                    "Visibility points coloured by night",
+                    spatial_frequency,
+                    vis2_corrected,
+                    e_vis2_corrected,
+                    valid_data,
+                    cm.get_cmap(
+                        "jet"
+                    )
+                )
+
+                # ------------------------------------------------------------
+                # Top-right: colour by telescope pair
+                # ------------------------------------------------------------
+
+                pair_colours = plot_grouped_visibilities(
+                    axes[1],
+                    pair_per_point,
+                    "Visibility points coloured by telescope pair",
+                    spatial_frequency,
+                    vis2_corrected,
+                    e_vis2_corrected,
+                    valid_data,
+                    cm.get_cmap(
+                        "jet"
+                    )
+                )
+
+                # ------------------------------------------------------------
+                # Bottom-left: raw residual by wavelength channel
+                # ------------------------------------------------------------
+
+                wavelength_colour_map = cm.get_cmap(
+                    "viridis"
+                )
+
+                for wavelength_i in xrange(
+                        n_wavelengths):
+
+                    wavelength_mask = (
+                        np.isfinite(
+                            raw_residual
+                        )
+                        & (
+                            wavelength_indices
+                            == wavelength_i
+                        )
+                    )
+
+                    if not np.any(
+                            wavelength_mask):
+
+                        continue
+
+                    denominator = max(
+                        1.0,
+                        float(
+                            n_wavelengths - 1
+                        )
+                    )
+
+                    wavelength_colour = (
+                        wavelength_colour_map(
+                            float(wavelength_i)
+                            / denominator
+                        )
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            wavelength_mask
+                        ],
+                        raw_residual[
+                            wavelength_mask
+                        ],
+                        s=18,
+                        color=wavelength_colour,
+                        label=(
+                            "ch %i: %.3f um"
+                            % (
+                                wavelength_i,
+                                wavelengths[
+                                    wavelength_i
+                                ] * 1.0E6
+                            )
+                        )
+                    )
+
+                axes[2].axhline(
+                    0.0,
+                    linestyle="-",
+                    linewidth=0.7,
+                    color="0.3"
+                )
+
+                axes[2].axhline(
+                    raw_residual_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[2].axhline(
+                    -raw_residual_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[2].set_title(
+                    "Raw visibility residual by wavelength channel"
+                )
+
+                axes[2].set_xlabel(
+                    r"Spatial frequency (rad$^{-1}$)"
+                )
+
+                axes[2].set_ylabel(
+                    r"$V^2_{\rm obs}-V^2_{\rm model}$"
+                )
+
+                axes[2].grid()
+
+                axes[2].legend(
+                    loc="best",
+                    fontsize=7,
+                    ncol=2
+                )
+
+                # ------------------------------------------------------------
+                # Bottom-right: standardized residual versus baseline
+                # ------------------------------------------------------------
+
+                unique_pairs = sorted(
+                    set(
+                        pair_per_point.tolist()
+                    )
+                )
+
+                for pair_value in unique_pairs:
+
+                    pair_mask = (
+                        np.isfinite(
+                            standardized_residual
+                        )
+                        & (
+                            pair_per_point
+                            == pair_value
+                        )
+                    )
+
+                    if not np.any(
+                            pair_mask):
+
+                        continue
+
+                    pair_colour = pair_colours.get(
+                        pair_value,
+                        "0.4"
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            pair_mask
+                        ],
+                        standardized_residual[
+                            pair_mask
+                        ],
+                        s=20,
+                        color=pair_colour,
+                        label=str(
+                            pair_value
+                        )
+                    )
+
+                axes[3].axhline(
+                    0.0,
+                    linestyle="-",
+                    linewidth=0.7,
+                    color="0.3"
+                )
+
+                axes[3].axhline(
+                    sigma_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[3].axhline(
+                    -sigma_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[3].set_title(
+                    "Standardized residual versus projected baseline"
+                )
+
+                axes[3].set_xlabel(
+                    "Projected baseline (m)"
+                )
+
+                axes[3].set_ylabel(
+                    r"$(V^2_{\rm obs}-V^2_{\rm model})/\sigma$"
+                )
+
+                axes[3].grid()
+
+                axes[3].legend(
+                    loc="best",
+                    fontsize=7,
+                    ncol=2
+                )
+
+                # ============================================================
+                # Mark flagged measurements
+                # ============================================================
+
+                flagged_valid = (
+                    bad_flag
+                    & valid_data
+                )
+
+                if np.any(
+                        flagged_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            flagged_valid
+                        ],
+                        vis2_corrected[
+                            flagged_valid
+                        ],
+                        marker="x",
+                        s=50,
+                        color="black",
+                        zorder=7
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            flagged_valid
+                        ],
+                        vis2_corrected[
+                            flagged_valid
+                        ],
+                        marker="x",
+                        s=50,
+                        color="black",
+                        zorder=7
+                    )
+
+                # ============================================================
+                # Mark removal candidates
+                # ============================================================
+
+                candidate_valid = (
+                    removal_candidate
+                    & valid_data
+                )
+
+                if np.any(
+                        candidate_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        vis2_corrected[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        vis2_corrected[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        raw_residual[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    candidate_with_sigma = (
+                        candidate_valid
+                        & np.isfinite(
+                            standardized_residual
+                        )
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            candidate_with_sigma
+                        ],
+                        standardized_residual[
+                            candidate_with_sigma
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                # ============================================================
+                # Highlight requested subset
+                # ============================================================
+
+                highlighted_valid = (
+                    highlight_mask
+                    & valid_data
+                )
+
+                if np.any(
+                        highlighted_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        vis2_corrected[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        vis2_corrected[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        raw_residual[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    highlighted_sigma = (
+                        highlighted_valid
+                        & np.isfinite(
+                            standardized_residual
+                        )
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            highlighted_sigma
+                        ],
+                        standardized_residual[
+                            highlighted_sigma
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                # ============================================================
+                # Annotate strongest candidates
+                # ============================================================
+
+                candidate_indices = np.where(
+                    removal_candidate
+                )[0]
+
+                if len(candidate_indices) > 0:
+
+                    candidate_strength = np.abs(
+                        raw_residual[
+                            candidate_indices
+                        ]
+                    )
+
+                    finite_sigma_candidate = np.isfinite(
+                        standardized_residual[
+                            candidate_indices
+                        ]
+                    )
+
+                    candidate_strength[
+                        finite_sigma_candidate
+                    ] *= np.maximum(
+                        1.0,
+                        np.abs(
+                            standardized_residual[
+                                candidate_indices[
+                                    finite_sigma_candidate
+                                ]
+                            ]
+                        )
+                    )
+
+                    sorted_candidate_indices = (
+                        candidate_indices[
+                            np.argsort(
+                                candidate_strength
+                            )[::-1]
+                        ]
+                    )
+
+                    sorted_candidate_indices = (
+                        sorted_candidate_indices[
+                            :int(max_annotations)
+                        ]
+                    )
+
+                    for point_i in sorted_candidate_indices:
+
+                        point_label = (
+                            "P%i"
+                            % point_i
+                        )
+
+                        axes[2].annotate(
+                            point_label,
+                            xy=(
+                                spatial_frequency[
+                                    point_i
+                                ],
+                                raw_residual[
+                                    point_i
+                                ]
+                            ),
+                            xytext=(3, 3),
+                            textcoords="offset points",
+                            fontsize=6
+                        )
+
+                        if np.isfinite(
+                                standardized_residual[
+                                    point_i
+                                ]):
+
+                            axes[3].annotate(
+                                point_label,
+                                xy=(
+                                    baseline_per_point[
+                                        point_i
+                                    ],
+                                    standardized_residual[
+                                        point_i
+                                    ]
+                                ),
+                                xytext=(3, 3),
+                                textcoords="offset points",
+                                fontsize=6
+                            )
+
+                # ============================================================
+                # Candidate text
+                # ============================================================
+
+                candidate_text = []
+
+                candidate_text.append(
+                    "Candidate rule: FLAG or "
+                    "(|raw residual| >= %.3f and |residual/sigma| >= %.1f)"
+                    % (
+                        raw_residual_threshold,
+                        sigma_threshold
+                    )
+                )
+
+                if len(candidate_indices) == 0:
+
+                    candidate_text.append(
+                        "No removal candidates."
+                    )
+
+                else:
+
+                    candidate_text.append(
+                        "ID | night | pair | B(m) | channel | raw | sigma"
+                    )
+
+                    for point_i in sorted_candidate_indices[
+                            :8]:
+
+                        candidate_text.append(
+                            "P%i | %s | %s | %.1f | %i | %.3f | %s"
+                            % (
+                                point_i,
+                                night_per_point[
+                                    point_i
+                                ],
+                                pair_per_point[
+                                    point_i
+                                ],
+                                baseline_per_point[
+                                    point_i
+                                ],
+                                wavelength_indices[
+                                    point_i
+                                ],
+                                raw_residual[
+                                    point_i
+                                ],
+                                (
+                                    "%.2f"
+                                    % standardized_residual[
+                                        point_i
+                                    ]
+                                    if np.isfinite(
+                                        standardized_residual[
+                                            point_i
+                                        ]
+                                    )
+                                    else "nan"
+                                )
+                            )
+                        )
+
+                # ============================================================
+                # Final figure formatting
+                # ============================================================
+
+                if np.isfinite(
+                        fitted_ldd_error):
+
+                    diameter_text = (
+                        "%.4f +/- %.4f mas"
+                        % (
+                            model_ldd,
+                            fitted_ldd_error
+                        )
+                    )
+
+                else:
+
+                    diameter_text = (
+                        "%.4f mas"
+                        % model_ldd
+                    )
+
+                fig.suptitle(
+                    (
+                        "%s, %s, %s\n"
+                        "%s LDD = %s; "
+                        "%i measurements; %i removal candidates"
+                    )
+                    % (
+                        science_name,
+                        sequence_name,
+                        str(period_value),
+                        diameter_source,
+                        diameter_text,
+                        expected_size,
+                        int(
+                            np.sum(
+                                removal_candidate
+                            )
+                        )
+                    ),
+                    fontsize=14
+                )
+
+                fig.text(
+                    0.5,
+                    0.01,
+                    "\n".join(
+                        candidate_text
+                    ),
+                    horizontalalignment="center",
+                    verticalalignment="bottom",
+                    fontsize=7,
+                    family="monospace"
+                )
+
+                fig.tight_layout(
+                    rect=[
+                        0.0,
+                        0.11,
+                        1.0,
+                        0.93
+                    ]
+                )
+
+                # ============================================================
+                # Save page and PNG
+                # ============================================================
+
+                pdf.savefig(
+                    fig
+                )
+
+                safe_sequence = (
+                    clean_target_name_for_plot(
+                        sequence_name
+                    )
+                )
+
+                individual_filename = (
+                    "%s_%s_%s_visibility_diagnostic.png"
+                    % (
+                        science_clean,
+                        safe_sequence,
+                        str(period_value)
+                    )
+                )
+
+                individual_output = os.path.join(
+                    individual_directory,
+                    individual_filename
+                )
+
+                fig.savefig(
+                    individual_output,
+                    dpi=200
+                )
+
+                plt.close(
+                    fig
+                )
+
+                n_created += 1
+
+                print(
+                    "Saved diagnostic for %s"
+                    % science_name
+                )
+
+            except Exception as error:
+
+                n_failed += 1
+
+                print("")
+                print(
+                    "FAILED visibility diagnostic for %s"
+                    % science_name
+                )
+
+                print(
+                    "Error: %s"
+                    % str(error)
+                )
+
+                traceback.print_exc()
+
+                plt.close(
+                    "all"
+                )
+
+    # ====================================================================
+    # Save diagnostic CSV files
+    # ====================================================================
+
+    diagnostic_table = pd.DataFrame(
+        diagnostic_rows
+    )
+
+    diagnostic_table.to_csv(
+        all_points_csv,
+        index=False
+    )
+
+    if (
+        len(diagnostic_table) > 0
+        and "candidate_remove"
+        in diagnostic_table.columns
+    ):
+
+        candidate_table = diagnostic_table[
+            diagnostic_table[
+                "candidate_remove"
+            ]
+        ].copy()
+
+    else:
+
+        candidate_table = pd.DataFrame()
+
+    candidate_table.to_csv(
+        candidate_csv,
+        index=False
+    )
+
+    print("")
+    print("=" * 79)
+    print("Visibility diagnostics finished")
+    print(
+        "Created pages: %i"
+        % n_created
+    )
+    print(
+        "Failed pages: %i"
+        % n_failed
+    )
+    print("PDF:")
+    print(output_file)
+    print("Complete point table:")
+    print(all_points_csv)
+    print("Removal-candidate table:")
+    print(candidate_csv)
+    print("=" * 79)
+
+    if n_created == 0:
+
+        raise RuntimeError(
+            "No visibility diagnostic pages were generated"
+        )
+
+    return output_file
+
+
+
+
+def extract_constant_mass_points(
+        basti_folder,
+        masses_to_follow=None):
+
+    """
+    Extract the point nearest to each requested initial mass
+    from every BaSTI constant-age isochrone.
+
+    This approximates constant-initial-mass evolutionary sequences
+    using the available isochrones.
+    """
+
+    if masses_to_follow is None:
+
+        masses_to_follow = [
+            0.6,
+            0.8,
+            1.0,
+            1.2,
+            1.5,
+            2.0,
+            3.0,
+            5.0
+        ]
+
+    column_names = [
+        "M_ini",
+        "M_fin",
+        "logL",
+        "logTe",
+        "U",
+        "BX",
+        "B",
+        "V",
+        "R",
+        "I",
+        "J",
+        "H",
+        "K",
+        "Lprime",
+        "L",
+        "M"
+    ]
+
+    iso_files = []
+
+    for root, directories, filenames in os.walk(
+            basti_folder):
+
+        for filename in filenames:
+
+            if filename.endswith(
+                    ".isc_john"):
+
+                iso_files.append(
+                    os.path.join(
+                        root,
+                        filename
+                    )
+                )
+
+    iso_files.sort()
+
+    output_rows = []
+
+    for iso_file in iso_files:
+
+        age_myr = np.nan
+
+        with open(
+                iso_file,
+                "r") as handle:
+
+            for line in handle:
+
+                if "Age (Myr)" in line:
+
+                    try:
+
+                        age_myr = float(
+                            line.split(
+                                "Age (Myr) ="
+                            )[1]
+                            .strip()
+                            .split()[0]
+                        )
+
+                    except Exception:
+
+                        age_myr = np.nan
+
+                    break
+
+        track = pd.read_csv(
+            iso_file,
+            delim_whitespace=True,
+            names=column_names,
+            comment="#",
+            dtype=float
+        )
+
+        track["B-V"] = (
+            track["B"]
+            - track["V"]
+        )
+
+        for requested_mass in masses_to_follow:
+
+            valid = (
+                np.isfinite(
+                    track["M_ini"]
+                )
+                & np.isfinite(
+                    track["B-V"]
+                )
+                & np.isfinite(
+                    track["V"]
+                )
+            )
+
+            valid_track = track.loc[
+                valid
+            ]
+
+            if len(valid_track) == 0:
+
+                continue
+
+            differences = np.abs(
+                valid_track["M_ini"]
+                - float(requested_mass)
+            )
+
+            nearest_index = differences.idxmin()
+
+            nearest_row = valid_track.loc[
+                nearest_index
+            ]
+
+            output_rows.append({
+                "age_myr": age_myr,
+                "requested_mass": float(
+                    requested_mass
+                ),
+                "actual_M_ini": float(
+                    nearest_row["M_ini"]
+                ),
+                "M_fin": float(
+                    nearest_row["M_fin"]
+                ),
+                "logL": float(
+                    nearest_row["logL"]
+                ),
+                "logTe": float(
+                    nearest_row["logTe"]
+                ),
+                "B-V": float(
+                    nearest_row["B-V"]
+                ),
+                "Mv": float(
+                    nearest_row["V"]
+                ),
+                "filename": iso_file
+            })
+
+    output_table = pd.DataFrame(
+        output_rows
+    )
+
+    return output_table
+
+def plot_basti_constant_mass_evolution(
+        basti_folder="data/basti",
+        masses_to_plot=None,
+        feh=0.062,
+        feh_tolerance=0.02,
+        absolute_mass_tolerance=0.03,
+        relative_mass_tolerance=0.02,
+        minimum_points=3,
+        output_csv="paper/basti_constant_mass_tracks.csv",
+        axis=None):
+    """
+    Reconstruct approximately constant-initial-mass evolutionary
+    sequences from a collection of BaSTI constant-age isochrones.
+
+    Each .isc_john file corresponds to one age and contains many
+    initial masses. For every requested mass, this function finds
+    the nearest M_ini value in every available isochrone.
+
+    Parameters
+    ----------
+    basti_folder : str
+        Directory containing the BaSTI .isc_john files.
+
+    masses_to_plot : list
+        Initial stellar masses in solar masses.
+
+    feh : float or None
+        Requested [M/H]. Set to None to accept all metallicities.
+
+    feh_tolerance : float
+        Allowed difference between requested and file [M/H].
+
+    absolute_mass_tolerance : float
+        Minimum allowed difference in initial mass, in solar masses.
+
+    relative_mass_tolerance : float
+        Relative mass tolerance. The final tolerance is:
+
+            max(
+                absolute_mass_tolerance,
+                relative_mass_tolerance * requested_mass
+            )
+
+    minimum_points : int
+        Minimum number of ages required to draw a mass sequence.
+
+    output_csv : str or None
+        CSV containing every selected mass-age point.
+
+    axis : matplotlib axis or None
+        Axis where the tracks are drawn. Uses plt.gca() when None.
+
+    Returns
+    -------
+    mass_track_table : pandas.DataFrame
+        Table containing all accepted points.
+    """
+
+    if masses_to_plot is None:
+
+        masses_to_plot = [
+            0.6,
+            0.8,
+            1.0,
+            1.2,
+            1.5,
+            2.0,
+            3.0,
+            5.0
+        ]
+
+    if axis is None:
+
+        axis = plt.gca()
+
+    # =====================================================================
+    # Actual BaSTI Johnson-Cousins columns
+    # =====================================================================
+
+    column_names = [
+        "M_ini",
+        "M_fin",
+        "logL",
+        "logTe",
+        "U",
+        "BX",
+        "B",
+        "V",
+        "R",
+        "I",
+        "J",
+        "H",
+        "K",
+        "Lprime",
+        "L",
+        "M"
+    ]
+
+    # =====================================================================
+    # Find all isochrone files recursively
+    # =====================================================================
+
+    iso_files = []
+
+    for root_directory, directory_names, filenames in os.walk(
+            basti_folder):
+
+        for filename in filenames:
+
+            if filename.endswith(
+                    ".isc_john"):
+
+                iso_files.append(
+                    os.path.join(
+                        root_directory,
+                        filename
+                    )
+                )
+
+    iso_files = sorted(
+        list(
+            set(
+                iso_files
+            )
+        )
+    )
+
+    if len(iso_files) == 0:
+
+        raise IOError(
+            "No .isc_john files found inside %s"
+            % basti_folder
+        )
+
+    print("")
+    print("=" * 79)
+    print("Reading BaSTI isochrones for constant-mass evolution")
+    print(
+        "Found %i .isc_john files"
+        % len(iso_files)
+    )
+    print("=" * 79)
+
+    # =====================================================================
+    # Read all constant-age isochrones
+    # =====================================================================
+
+    isochrone_entries = []
+
+    for iso_file in iso_files:
+
+        age_myr = np.nan
+        file_mh = np.nan
+        number_of_columns = None
+
+        # -----------------------------------------------------------------
+        # Read header information
+        # -----------------------------------------------------------------
+
+        with open(
+                iso_file,
+                "r") as input_handle:
+
+            for line in input_handle:
+
+                stripped_line = line.strip()
+
+                if stripped_line == "":
+
+                    continue
+
+                if "Age (Myr)" in stripped_line:
+
+                    try:
+
+                        age_text = (
+                            stripped_line
+                            .split(
+                                "Age (Myr) ="
+                            )[1]
+                            .strip()
+                            .split()[0]
+                        )
+
+                        age_myr = float(
+                            age_text
+                        )
+
+                    except Exception:
+
+                        age_myr = np.nan
+
+                if "[M/H]" in stripped_line:
+
+                    try:
+
+                        metallicity_text = (
+                            stripped_line
+                            .split(
+                                "[M/H] ="
+                            )[1]
+                            .split(
+                                "Z ="
+                            )[0]
+                            .strip()
+                        )
+
+                        file_mh = float(
+                            metallicity_text
+                        )
+
+                    except Exception:
+
+                        file_mh = np.nan
+
+                # First numerical row.
+                if not stripped_line.startswith(
+                        "#"):
+
+                    number_of_columns = len(
+                        stripped_line.split()
+                    )
+
+                    break
+
+        if not np.isfinite(
+                age_myr):
+
+            print(
+                "WARNING: age not found in %s"
+                % iso_file
+            )
+
+            continue
+
+        if number_of_columns is None:
+
+            print(
+                "WARNING: no numerical data in %s"
+                % iso_file
+            )
+
+            continue
+
+        if number_of_columns != len(
+                column_names):
+
+            print(
+                "WARNING: skipping %s"
+                % iso_file
+            )
+
+            print(
+                "Found %i columns; expected %i"
+                % (
+                    number_of_columns,
+                    len(column_names)
+                )
+            )
+
+            continue
+
+        # -----------------------------------------------------------------
+        # Filter the chemical composition
+        # -----------------------------------------------------------------
+
+        if (
+            feh is not None
+            and np.isfinite(
+                file_mh
+            )
+            and abs(
+                file_mh - float(feh)
+            ) > float(feh_tolerance)
+        ):
+
+            continue
+
+        # -----------------------------------------------------------------
+        # Read numerical data
+        # -----------------------------------------------------------------
+
+        isochrone = pd.read_csv(
+            iso_file,
+            delim_whitespace=True,
+            names=column_names,
+            comment="#",
+            dtype=float
+        )
+
+        # Required colour-magnitude quantities.
+        isochrone[
+            "B-V"
+        ] = (
+            isochrone[
+                "B"
+            ]
+            - isochrone[
+                "V"
+            ]
+        )
+
+        isochrone[
+            "Mv"
+        ] = isochrone[
+            "V"
+        ]
+
+        valid_rows = (
+            np.isfinite(
+                isochrone[
+                    "M_ini"
+                ]
+            )
+            & np.isfinite(
+                isochrone[
+                    "M_fin"
+                ]
+            )
+            & np.isfinite(
+                isochrone[
+                    "B-V"
+                ]
+            )
+            & np.isfinite(
+                isochrone[
+                    "Mv"
+                ]
+            )
+        )
+
+        isochrone = isochrone.loc[
+            valid_rows
+        ].copy()
+
+        if len(isochrone) == 0:
+
+            continue
+
+        # Sort by initial mass.
+        isochrone = isochrone.sort_values(
+            "M_ini"
+        )
+
+        isochrone_entries.append({
+            "age_myr": float(
+                age_myr
+            ),
+            "mh": float(
+                file_mh
+            ),
+            "filename": iso_file,
+            "isochrone": isochrone
+        })
+
+    if len(isochrone_entries) == 0:
+
+        raise RuntimeError(
+            "No valid BaSTI isochrones were read"
+        )
+
+    # Sort files chronologically.
+    isochrone_entries.sort(
+        key=lambda entry: entry[
+            "age_myr"
+        ]
+    )
+
+    print(
+        "Accepted %i BaSTI ages"
+        % len(isochrone_entries)
+    )
+
+    print(
+        "Age range: %.1f - %.1f Myr"
+        % (
+            isochrone_entries[0][
+                "age_myr"
+            ],
+            isochrone_entries[-1][
+                "age_myr"
+            ]
+        )
+    )
+
+    # =====================================================================
+    # Extract equal-initial-mass points
+    # =====================================================================
+
+    output_rows = []
+
+    for requested_mass in masses_to_plot:
+
+        requested_mass = float(
+            requested_mass
+        )
+
+        allowed_mass_difference = max(
+            float(
+                absolute_mass_tolerance
+            ),
+            float(
+                relative_mass_tolerance
+            )
+            * requested_mass
+        )
+
+        for entry in isochrone_entries:
+
+            isochrone = entry[
+                "isochrone"
+            ]
+
+            masses_available = np.asarray(
+                isochrone[
+                    "M_ini"
+                ],
+                dtype=float
+            )
+
+            if len(masses_available) == 0:
+
+                continue
+
+            mass_differences = np.abs(
+                masses_available
+                - requested_mass
+            )
+
+            nearest_position = int(
+                np.argmin(
+                    mass_differences
+                )
+            )
+
+            nearest_difference = float(
+                mass_differences[
+                    nearest_position
+                ]
+            )
+
+            # Do not associate a completely different mass when
+            # the requested star no longer exists in an old isochrone.
+            if (
+                nearest_difference
+                > allowed_mass_difference
+            ):
+
+                continue
+
+            nearest_row = isochrone.iloc[
+                nearest_position
+            ]
+
+            output_rows.append({
+                "requested_M_ini": requested_mass,
+                "actual_M_ini": float(
+                    nearest_row[
+                        "M_ini"
+                    ]
+                ),
+                "mass_difference": nearest_difference,
+                "M_fin": float(
+                    nearest_row[
+                        "M_fin"
+                    ]
+                ),
+                "age_myr": float(
+                    entry[
+                        "age_myr"
+                    ]
+                ),
+                "age_gyr": float(
+                    entry[
+                        "age_myr"
+                    ]
+                ) / 1000.0,
+                "B-V": float(
+                    nearest_row[
+                        "B-V"
+                    ]
+                ),
+                "Mv": float(
+                    nearest_row[
+                        "Mv"
+                    ]
+                ),
+                "logL": float(
+                    nearest_row[
+                        "logL"
+                    ]
+                ),
+                "logTe": float(
+                    nearest_row[
+                        "logTe"
+                    ]
+                ),
+                "mh": entry[
+                    "mh"
+                ],
+                "filename": entry[
+                    "filename"
+                ]
+            })
+
+    mass_track_table = pd.DataFrame(
+        output_rows
+    )
+
+    if len(mass_track_table) == 0:
+
+        raise RuntimeError(
+            "No constant-mass points passed the mass tolerance"
+        )
+
+    # =====================================================================
+    # Save selected points
+    # =====================================================================
+
+    if output_csv is not None:
+
+        output_directory = os.path.dirname(
+            output_csv
+        )
+
+        if (
+            output_directory != ""
+            and not os.path.exists(
+                output_directory
+            )
+        ):
+
+            os.makedirs(
+                output_directory
+            )
+
+        mass_track_table.to_csv(
+            output_csv,
+            index=False
+        )
+
+        print(
+            "Saved constant-mass table:"
+        )
+
+        print(
+            output_csv
+        )
+
+    # =====================================================================
+    # Plot one evolutionary sequence per initial mass
+    # =====================================================================
+
+    unique_masses = sorted(
+        mass_track_table[
+            "requested_M_ini"
+        ].unique()
+    )
+
+    try:
+
+        colour_map = cm.get_cmap(
+            "viridis"
+        )
+
+    except Exception:
+
+        colour_map = cm.get_cmap(
+            "jet"
+        )
+
+    plotted_masses = 0
+
+    for mass_i, requested_mass in enumerate(
+            unique_masses):
+
+        mass_data = mass_track_table[
+            mass_track_table[
+                "requested_M_ini"
+            ]
+            == requested_mass
+        ].copy()
+
+        mass_data = mass_data.sort_values(
+            "age_myr"
+        )
+
+        if len(mass_data) < int(
+                minimum_points):
+
+            print(
+                "Skipping %.2f M_sun: only %i valid ages"
+                % (
+                    requested_mass,
+                    len(mass_data)
+                )
+            )
+
+            continue
+
+        if len(unique_masses) == 1:
+
+            curve_colour = colour_map(
+                0.5
+            )
+
+        else:
+
+            curve_colour = colour_map(
+                float(
+                    mass_i
+                )
+                / float(
+                    len(unique_masses) - 1
+                )
+            )
+
+        axis.plot(
+            mass_data[
+                "B-V"
+            ],
+            mass_data[
+                "Mv"
+            ],
+            linestyle="-",
+            linewidth=1.2,
+            color=curve_colour,
+            label=(
+                r"$M_{\rm ini}=%.2f\,M_{\odot}$"
+                % requested_mass
+            ),
+            zorder=2
+        )
+
+        # Show individual age points.
+        marker_step = max(
+            1,
+            int(
+                len(mass_data) / 20
+            )
+        )
+
+        axis.plot(
+            mass_data[
+                "B-V"
+            ].values[
+                ::marker_step
+            ],
+            mass_data[
+                "Mv"
+            ].values[
+                ::marker_step
+            ],
+            linestyle="None",
+            marker=".",
+            markersize=3,
+            color=curve_colour,
+            zorder=3
+        )
+
+        plotted_masses += 1
+
+        print(
+            "%.2f M_sun: %i ages, %.1f-%.1f Myr"
+            % (
+                requested_mass,
+                len(mass_data),
+                mass_data[
+                    "age_myr"
+                ].min(),
+                mass_data[
+                    "age_myr"
+                ].max()
+            )
+        )
+
+    if plotted_masses == 0:
+
+        raise RuntimeError(
+            "No constant-mass tracks had enough points"
+        )
+
+    return mass_track_table

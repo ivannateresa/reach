@@ -22,6 +22,11 @@ import traceback
 import shutil
 import itertools
 
+import matplotlib.cm as cm
+
+from datetime import datetime, timedelta
+from matplotlib.backends.backend_pdf import PdfPages
+
 # -----------------------------------------------------------------------------
 # Setup & Loading
 # -----------------------------------------------------------------------------
@@ -310,12 +315,23 @@ run_plot(
 
 
 run_plot(
-    "HR diagram with BaSTI tracks",
+    "HR diagram with BaSTI isochrones",
     rplt.plot_hr_diagram,
     tgt_info,
     plot_isochrones_basti=True,
-    plot_isochrones_padova=False
-)
+    plot_isochrones_padova=False,
+    feh=0.062,
+    basti_folder="data/basti",
+    basti_ages_myr=[
+        60,
+        100,
+        500,
+        1000,
+        2000,
+        5000,
+        10000,
+        14000
+    ])
 
 copy_plot(
     "paper/hr_diagram.pdf",
@@ -693,6 +709,52 @@ run_plot(
 
 
 # =============================================================================
+# 4. Fourier transforms of science targets
+# =============================================================================
+
+run_plot(
+    "Fourier transforms for science stars",
+    rplt.plot_science_fourier_transforms,
+    tgt_info,
+    results,
+    output_file="plots/science_fourier_transforms.pdf",
+    q_max=2.5E8,
+    n_model_points=20000,
+    use_predicted_if_missing=True
+)
+
+run_plot(
+    "RA-Dec intensity maps for science stars",
+    rplt.plot_science_intensity_maps,
+    tgt_info,
+    results,
+    output_file="plots/science_intensity_maps.pdf",
+    wavelength_index=2,
+    n_pixels=400,
+    field_factor=1.4,
+    use_predicted_if_missing=True
+)
+
+
+
+# =============================================================================
+# 5. Bootstrap plots
+# =============================================================================
+
+run_plot(
+    "Bootstrap summary",
+    rplt.plot_bootstrapping_summary,
+    results,
+    bs_results,
+    n_bins=20,
+    plot_cal_info=False,
+    sequences=sequences,
+    complete_sequences=complete_sequences,
+    tgt_info=tgt_info,
+    e_wl_frac=e_wl_frac
+)
+
+# =============================================================================
 # 4. Bootstrap plots
 # =============================================================================
 
@@ -970,3 +1032,33 @@ print("Finished generating plots")
 print("Plot failure log:")
 print(plot_failure_log)
 print("=" * 79)
+
+# =============================================================================
+# Point-by-point visibility diagnostics
+# =============================================================================
+visibility_diagnostic_output = os.path.join(
+    results_path,
+    "analysis_diagnostics",
+    "visibility_diagnostic_summary.pdf"
+)
+
+run_plot(
+    "Visibility diagnostics by night and baseline",
+    rplt.plot_visibility_diagnostic_summary,
+    results,
+    bs_results,
+    tgt_info,
+    output_file=visibility_diagnostic_output,
+    bootstrap_index=0,
+    sigma_threshold=3.0,
+    raw_residual_threshold=0.05,
+    e_wl_frac=e_wl_frac,
+    star_filter=None,
+    highlight_night=None,
+    highlight_pair=None,
+    highlight_baseline_range=None,
+    highlight_wavelength_index=None,
+    max_annotations=10,
+    use_predicted_if_missing=True
+)
+
