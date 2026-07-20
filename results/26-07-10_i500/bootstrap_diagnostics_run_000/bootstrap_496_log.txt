@@ -1,0 +1,51 @@
+Bootstrap diagnostic with visibility plots
+======================================================================
+
+Bootstrap index: 496
+Start time: 2026-07-14 07:16:15.288554
+Number of sequences: 22
+Number of nights: 16
+
+Nights:
+  2019-11-25
+  2019-11-26
+  2019-11-27
+  2019-11-28
+  2019-11-29
+  2021-02-17
+  2021-02-18
+  2021-02-26
+  2021-03-05
+  2021-09-11
+  2022-01-06
+  2022-02-26
+  2022-03-01
+  2022-03-31
+  2022-04-02
+  2022-04-03
+
+n_pred_ldd shape: (500, 84)
+e_pred_ldd shape: (1, 84)
+e_pred_ldd index sample: [0]
+e_pred_ldd columns sample: ['HD222368', 'HD1367', 'HD222919', 'HD223292', 'HD218330', 'HD43', 'HD1581', 'HD68', 'HD218558', 'HD323']
+
+Number of LDD targets: 84
+Number of NaN pred_LDD: 1
+Number of NaN e_pred_LDD: 1
+
+LDD diagnostic CSV:
+/home2/ihernand/Desktop/reach/results/26-07-10_i500/bootstrap_diagnostics_run_000/bootstrap_496_ldd_inputs.csv
+
+End time: 2026-07-14 07:22:06.573959
+Duration seconds: 351.285
+Status: OK
+
+Result files before: 87
+Result files after: 87
+Result files created: 0
+
+Visibility PDF:
+/home2/ihernand/Desktop/reach/results/26-07-10_i500/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_496.pdf
+Visibility summary CSV:
+/home2/ihernand/Desktop/reach/results/26-07-10_i500/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_496_summary.csv
+Number of files plotted: 87

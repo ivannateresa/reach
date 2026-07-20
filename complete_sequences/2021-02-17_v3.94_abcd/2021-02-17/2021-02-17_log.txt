@@ -113,19 +113,19 @@
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:12:27.973_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:11:11.991_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:19:44.947_i15_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:19:44.947_i16_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:26:44.852_i23_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T06:26:44.852_i22_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -134,7 +134,7 @@
  2021-02-17_TF_vis2_setup01_bin03.pdf 2021-02-17_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T05:54:41.149_i04_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-02-17_v3.94_abcd/2021-02-17//PIONI.2021-02-17T05:54:41.149_i03_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header

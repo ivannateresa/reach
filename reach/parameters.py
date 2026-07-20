@@ -666,7 +666,76 @@ def sample_casagrande_bc(sampled_sci_params, bc_path):
         
        
         n_bs = len(sampled_sci_params.loc[star])
+        # ------------------------------------------------------------
+        # Reject logg samples outside the usable Casagrande grid
+        # ------------------------------------------------------------
+        logg_samples = np.asarray(
+            sampled_sci_params.loc[star]["logg"],
+            dtype=float
+        ).copy()
 
+        finite_logg = np.isfinite(logg_samples)
+
+        if not np.any(finite_logg):
+            raise ValueError(
+                "No finite logg samples available for %s" % star
+            )
+
+        # Estimate the original sampling distribution from the samples.
+        logg_centre = np.nanmedian(logg_samples)
+        logg_sigma = np.nanstd(logg_samples, ddof=1)
+
+        # The nominal tables may formally extend above 5.0 for some
+        # temperatures, but logg > 5.0 is not available everywhere.
+        bad_logg = (
+            ~np.isfinite(logg_samples)
+            | (logg_samples < -0.5)
+            | (logg_samples > 5.0)
+        )
+
+        if np.any(bad_logg):
+            print(
+                "Resampling %i invalid logg samples for %s"
+                % (np.sum(bad_logg), star)
+            )
+
+            print("Invalid samples before resampling:")
+            print(logg_samples[bad_logg])
+
+            if not np.isfinite(logg_sigma) or logg_sigma <= 0:
+                raise ValueError(
+                    "Cannot resample logg for %s: invalid sigma=%s"
+                    % (star, logg_sigma)
+                )
+
+            # Rejection sampling: redraw until all samples lie inside
+            # the usable interval.
+            while np.any(bad_logg):
+                n_bad = int(np.sum(bad_logg))
+
+                logg_samples[bad_logg] = np.random.normal(
+                    logg_centre,
+                    logg_sigma,
+                    n_bad
+                )
+
+                bad_logg = (
+                    ~np.isfinite(logg_samples)
+                    | (logg_samples < -0.5)
+                    | (logg_samples > 5.0)
+                )
+
+            # Important: update the dataframe, not only the BC input array.
+            sampled_sci_params.loc[star, "logg"] = logg_samples
+
+            print(
+                "New logg range for %s: %.5f to %.5f"
+                % (
+                    star,
+                    np.min(logg_samples),
+                    np.max(logg_samples),
+                )
+            )
         id_fmt = star + "_%0" + str(int(np.log10(n_bs)) + 1) + "i"
         ids = [id_fmt % s for s in np.arange(0, n_bs)]
         #ids = np.arange(n_bs)

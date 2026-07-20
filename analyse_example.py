@@ -17,6 +17,10 @@ import pickle
 import diagnostics as dig
 # Import plotting xy offsets map
 import xy_map_file
+import matplotlib.pyplot as plt
+import traceback
+import shutil
+import itertools
 
 # -----------------------------------------------------------------------------
 # Setup & Loading
@@ -24,10 +28,10 @@ import xy_map_file
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  True          # Use Stassun & Torres 18 plx offset
 combined_fit =True                # Fit for LDD for multiple seq at once
-load_saved_results = False         # Load or do fitting fresh
+load_saved_results = True         # Load or do fitting fresh
 assign_default_uncertainties = True # Give default errors to stars without
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 50
+n_bootstraps = 500
 fitting_method = "ls"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -41,7 +45,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-06-26_i50"       # Final run for 1st draft
+results_folder = "26-07-10_i500"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
@@ -183,21 +187,786 @@ rpaper.make_table_seq_results(results)
 rpaper.make_table_final_results(tgt_info)
 rpaper.make_table_limb_darkening(tgt_info)
 
-print("Generating plots...")
-rplt.plot_fbol_comp(tgt_info)
-rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
-rplt.plot_casagrande_teff_comp(tgt_info, xy_map_file.teff)
+#print("Generating plots...")
+#rplt.plot_fbol_comp(tgt_info)
+#rplt.plot_hr_diagram(tgt_info, plot_isochrones_basti=True)
+#rplt.plot_casagrande_teff_comp(tgt_info, xy_map_file.teff)
 #rplt.plot_lit_diam_comp(tgt_info, xy_map.lit_diam)
-rplt.plot_all_sidelobe_vis2_fits(
+#rplt.plot_all_sidelobe_vis2_fits(
+#    tgt_info,
+#    results,
+#    output_dir="paper/sidelobes"
+#)
+
+#rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
+#rplt.plot_colour_rel_diam_comp(tgt_info, 
+#                               xy_maps=(xy_map_file.vw3, xy_map_file.vw4, xy_map_file.bv_feh))
+#rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=True, 
+#                                sequences=sequences, 
+#                                complete_sequences=complete_sequences, 
+#                                tgt_info=tgt_info)
+
+# =============================================================================
+# GENERATE ALL AVAILABLE PLOTS
+# =============================================================================
+
+print("Generating all plots...")
+
+# -------------------------------------------------------------------------
+# Create output directories
+# -------------------------------------------------------------------------
+plot_directories = [
+    "plots",
+    "plots/single_vis2",
+    "plots/raw_vis2",
+    "plots/diameter_comparisons",
+    "paper",
+    "paper/sidelobes",
+]
+
+for directory in plot_directories:
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+
+# -------------------------------------------------------------------------
+# Plot failure log
+# -------------------------------------------------------------------------
+plot_failure_log = os.path.join(
+    diagnostics_folder,
+    "plot_failures.txt"
+)
+
+with open(plot_failure_log, "w") as handle:
+    handle.write("Failures while generating plots\n")
+    handle.write("=" * 79 + "\n\n")
+
+
+def run_plot(label, function, *args, **kwargs):
+    """
+    Execute one plotting function.
+
+    Returns
+    -------
+    success : bool
+        True if the function finished without an exception.
+    """
+
+    print("\n" + "=" * 79)
+    print("Generating plot: %s" % label)
+    print("=" * 79)
+
+    try:
+
+        function(*args, **kwargs)
+
+        print("SUCCESS: %s" % label)
+
+        return True
+
+    except Exception as error:
+
+        print("FAILED: %s" % label)
+        print("Error: %s" % str(error))
+
+        with open(plot_failure_log, "a") as handle:
+
+            handle.write("Plot: %s\n" % label)
+            handle.write("Error: %s\n" % str(error))
+            handle.write(traceback.format_exc())
+            handle.write("\n" + "-" * 79 + "\n\n")
+
+        traceback.print_exc()
+
+        return False
+
+    finally:
+
+        plt.close("all")
+
+def copy_plot(source, destination):
+    """
+    Copy a plot when two plotting functions use the same output filename.
+    """
+
+    if os.path.exists(source):
+        shutil.copyfile(source, destination)
+        print("Copied:")
+        print("  %s" % destination)
+    else:
+        print("Could not copy missing plot:")
+        print("  %s" % source)
+
+
+# =============================================================================
+# 1. Fundamental parameters
+# =============================================================================
+
+run_plot(
+    "Bolometric flux comparison",
+    rplt.plot_fbol_comp,
+    tgt_info
+)
+
+
+run_plot(
+    "HR diagram with BaSTI tracks",
+    rplt.plot_hr_diagram,
+    tgt_info,
+    plot_isochrones_basti=True,
+    plot_isochrones_padova=False
+)
+
+copy_plot(
+    "paper/hr_diagram.pdf",
+    "paper/hr_diagram_basti.pdf"
+)
+
+
+
+padova_file = "data/padova_isochrone_age.dat"
+
+if os.path.exists(padova_file):
+
+    source_plot = "paper/hr_diagram.pdf"
+
+    if os.path.exists(source_plot):
+        os.remove(source_plot)
+
+    success = run_plot(
+        "HR diagram with Padova isochrones",
+        rplt.plot_hr_diagram,
+        tgt_info,
+        plot_isochrones_basti=False,
+        plot_isochrones_padova=True
+    )
+
+    if success:
+        copy_plot(
+            source_plot,
+            "paper/hr_diagram_padova.pdf"
+        )
+
+else:
+
+    print("Skipping Padova HR diagram")
+    print("Missing file: %s" % padova_file)
+
+run_plot(
+    "HR diagram without isochrones",
+    rplt.plot_hr_diagram,
+    tgt_info,
+    plot_isochrones_basti=False,
+    plot_isochrones_padova=False
+)
+
+copy_plot(
+    "paper/hr_diagram.pdf",
+    "paper/hr_diagram_no_isochrones.pdf"
+)
+
+
+run_plot(
+    "PIONIER versus Casagrande temperatures",
+    rplt.plot_casagrande_teff_comp,
+    tgt_info,
+    xy_map_file.teff
+)
+
+
+run_plot(
+    "Temperature comparison with literature",
+    rplt.plot_lit_teff_comp,
+    tgt_info
+)
+
+
+# =============================================================================
+# 2. Angular-diameter comparisons
+# =============================================================================
+
+run_plot(
+    "Colour-relation diameters coloured by metallicity",
+    rplt.plot_colour_rel_diam_comp,
+    tgt_info,
+    colour_rels=["V-W3", "V-W4", "B-V_feh"],
+    cbar="feh",
+    xy_maps=(
+        xy_map_file.vw3,
+        xy_map_file.vw4,
+        xy_map_file.bv_feh
+    )
+)
+
+
+run_plot(
+    "Colour-relation diameters coloured by Teff",
+    rplt.plot_colour_rel_diam_comp,
+    tgt_info,
+    colour_rels=["V-W3", "V-W4", "B-V_feh"],
+    cbar="teff",
+    xy_maps=(
+        xy_map_file.vw3,
+        xy_map_file.vw4,
+        xy_map_file.bv_feh
+    )
+)
+
+
+run_plot(
+    "Predicted versus JSDC diameters",
+    rplt.plot_jsdc_ldd_comp,
+    tgt_info
+)
+
+
+# -------------------------------------------------------------------------
+# Literature diameter comparison
+# -------------------------------------------------------------------------
+# Start with zero offsets for every target. If xy_map_file.lit_diam exists,
+# replace the default offsets with those defined by the user.
+
+literature_xy_map = {}
+
+if "Primary" in tgt_info.columns:
+
+    for primary_name in tgt_info["Primary"].values:
+
+        if pd.notnull(primary_name):
+            literature_xy_map[str(primary_name)] = (0.0, 0.0)
+
+if hasattr(xy_map_file, "lit_diam"):
+    literature_xy_map.update(xy_map_file.lit_diam)
+
+
+run_plot(
+    "PIONIER versus literature diameters",
+    rplt.plot_lit_diam_comp,
+    tgt_info,
+    xy_map=literature_xy_map
+)
+# =============================================================================
+# Compatibility copy for legacy plotting functions
+# =============================================================================
+
+legacy_results = results.copy(deep=True)
+
+legacy_c_scale = []
+legacy_u_lld = []
+
+u_lambda_columns = [
+    "u_lambda_0",
+    "u_lambda_1",
+    "u_lambda_2",
+    "u_lambda_3",
+    "u_lambda_4",
+    "u_lambda_5",
+]
+
+
+for row_i in range(len(legacy_results)):
+
+    # -------------------------------------------------------------------------
+    # Convert C_SCALE array to one representative scalar.
+    # This is only for the old plotting functions.
+    # -------------------------------------------------------------------------
+    c_values = np.asarray(
+        legacy_results.iloc[row_i]["C_SCALE"],
+        dtype=float
+    ).ravel()
+
+    c_values = c_values[np.isfinite(c_values)]
+
+    if len(c_values) > 0:
+        legacy_c_scale.append(float(np.nanmean(c_values)))
+    else:
+        legacy_c_scale.append(1.0)
+
+    # -------------------------------------------------------------------------
+    # Calculate a scalar mean limb-darkening coefficient.
+    # -------------------------------------------------------------------------
+    sci = str(legacy_results.iloc[row_i]["STAR"])
+
+    pid = rplt.match_target_for_plot(
+        tgt_info,
+        sci,
+        verbose=False
+    )
+
+    if pid is None:
+
+        print("Could not determine u_LLD for %s" % sci)
+
+        # Used only for old diagnostic plots.
+        legacy_u_lld.append(0.3)
+
+        continue
+
+    available_u_columns = [
+        column
+        for column in u_lambda_columns
+        if column in tgt_info.columns
+    ]
+
+    u_values = np.asarray(
+        tgt_info.loc[pid, available_u_columns].values,
+        dtype=float
+    )
+
+    u_values = u_values[np.isfinite(u_values)]
+
+    if len(u_values) > 0:
+        legacy_u_lld.append(float(np.nanmean(u_values)))
+    else:
+        print("No finite limb-darkening coefficients for %s" % sci)
+        legacy_u_lld.append(0.3)
+
+
+legacy_results["C_SCALE"] = legacy_c_scale
+legacy_results["u_LLD"] = legacy_u_lld
+
+# -------------------------------------------------------------------------
+# All available reddened/dereddened diameter comparisons
+# -------------------------------------------------------------------------
+# Search automatically for columns such as:
+#
+# LDD_VW3      and LDD_VW3_dr
+# LDD_VW4      and LDD_VW4_dr
+#
+# Then compare every available pair.
+
+diameter_relations = []
+
+for column in tgt_info.columns:
+
+    if not str(column).startswith("LDD_"):
+        continue
+
+    if str(column).endswith("_dr"):
+        continue
+
+    dereddened_column = str(column) + "_dr"
+
+    if dereddened_column in tgt_info.columns:
+        diameter_relations.append(str(column))
+
+
+print("\nDiameter relations with reddened and corrected values:")
+print(diameter_relations)
+
+
+for relation_1, relation_2 in itertools.combinations(
+        diameter_relations, 2):
+
+    corrected_1 = relation_1 + "_dr"
+    corrected_2 = relation_2 + "_dr"
+
+    label_1 = relation_1.replace("LDD_", "")
+    label_2 = relation_2.replace("LDD_", "")
+
+    plot_label = (
+        "Diameter comparison: %s versus %s"
+        % (label_1, label_2)
+    )
+
+    run_plot(
+        plot_label,
+        rplt.plot_diameter_comparison,
+        np.asarray(tgt_info[relation_1], dtype=float),
+        np.asarray(tgt_info[relation_2], dtype=float),
+        np.asarray(tgt_info[corrected_1], dtype=float),
+        np.asarray(tgt_info[corrected_2], dtype=float),
+        label_1,
+        label_2
+    )
+
+    safe_label_1 = label_1.replace("/", "_").replace(" ", "_")
+    safe_label_2 = label_2.replace("/", "_").replace(" ", "_")
+
+    copy_plot(
+        "plots/angular_diameter_comp.pdf",
+        os.path.join(
+            "plots/diameter_comparisons",
+            "angular_diameter_%s_vs_%s.pdf"
+            % (safe_label_1, safe_label_2)
+        )
+    )
+
+
+# =============================================================================
+# 3. Visibility plots
+# =============================================================================
+
+# -------------------------------------------------------------------------
+# Multi-page PDF using the older visibility plotting function
+# -------------------------------------------------------------------------
+run_plot(
+    "All visibility fits",
+    rplt.plot_all_vis2_fits,
+    legacy_results,
+    tgt_info
+)
+
+
+# -------------------------------------------------------------------------
+# One file per target/sequence
+# -------------------------------------------------------------------------
+run_plot(
+    "Single visibility plots",
+    rplt.plot_single_vis2,
+    legacy_results,
+    e_wl_frac=e_wl_frac
+)
+
+
+# -------------------------------------------------------------------------
+# Old paper visibility grid
+# -------------------------------------------------------------------------
+run_plot(
+    "Paper visibility grid",
+    rplt.plot_paper_vis2_fits,
+    legacy_results,
+    n_rows=8,
+    n_cols=2
+)
+
+
+# -------------------------------------------------------------------------
+# New joint-sequence visibility plot
+# -------------------------------------------------------------------------
+run_plot(
+    "Joint sequence visibility plots new",
+    rplt.plot_joint_seq_paper_vis2_fits,
+    tgt_info,
+    results,
+    n_rows=4,
+    n_cols=2,
+    rasterize=False
+)
+
+copy_plot(
+    "paper/joint_seq_vis2_plots.pdf",
+    "paper/joint_seq_vis2_plots_new.pdf"
+)
+
+
+# -------------------------------------------------------------------------
+# Old joint-sequence function
+# -------------------------------------------------------------------------
+# This is redundant but is intentionally included.
+
+run_plot(
+    "Joint sequence visibility plots old",
+    rplt.plot_joint_seq_paper_vis2_fits_old,
+    tgt_info,
+    results,
+    n_rows=4,
+    n_cols=2,
+    rasterize=False
+)
+
+copy_plot(
+    "paper/joint_seq_vis2_plots.pdf",
+    "paper/joint_seq_vis2_plots_old.pdf"
+)
+
+
+# Restore the new version as the default joint-sequence PDF.
+if os.path.exists("paper/joint_seq_vis2_plots_new.pdf"):
+
+    shutil.copyfile(
+        "paper/joint_seq_vis2_plots_new.pdf",
+        "paper/joint_seq_vis2_plots.pdf"
+    )
+
+
+# -------------------------------------------------------------------------
+# Sidelobe plots for every results row
+# -------------------------------------------------------------------------
+run_plot(
+    "All sidelobe visibility plots",
+    rplt.plot_all_sidelobe_vis2_fits,
     tgt_info,
     results,
     output_dir="paper/sidelobes"
 )
 
-rplt.plot_joint_seq_paper_vis2_fits(tgt_info, results, n_rows=4, n_cols=2)
-rplt.plot_colour_rel_diam_comp(tgt_info, 
-                               xy_maps=(xy_map_file.vw3, xy_map_file.vw4, xy_map_file.bv_feh))
-rplt.plot_bootstrapping_summary(results, bs_results, plot_cal_info=False, 
-                                sequences=sequences, 
-                                complete_sequences=complete_sequences, 
-                                tgt_info=tgt_info)
+
+# =============================================================================
+# 4. Bootstrap plots
+# =============================================================================
+
+run_plot(
+    "Bootstrap summary",
+    rplt.plot_bootstrapping_summary,
+    results,
+    bs_results,
+    n_bins=20,
+    plot_cal_info=True,
+    sequences=sequences,
+    complete_sequences=complete_sequences,
+    tgt_info=tgt_info,
+    e_wl_frac=e_wl_frac
+)
+
+
+# -------------------------------------------------------------------------
+# Build the dictionary expected by plot_ldd_hists
+# -------------------------------------------------------------------------
+n_ldd_fit = {}
+
+for star_id in bs_results.keys():
+
+    try:
+        values = np.asarray(
+            bs_results[star_id]["LDD_FIT"].values,
+            dtype=float
+        )
+
+        values = values[np.isfinite(values)]
+
+        if len(values) > 0:
+            n_ldd_fit[str(star_id)] = values
+
+    except Exception as error:
+        print(
+            "Could not extract LDD bootstrap values for %s: %s"
+            % (str(star_id), str(error))
+        )
+
+
+if len(n_ldd_fit) > 0:
+
+    run_plot(
+        "LDD bootstrap histograms",
+        rplt.plot_ldd_hists,
+        n_ldd_fit,
+        n_bins=20
+    )
+
+else:
+    print("Skipping plot_ldd_hists: no valid LDD bootstrap values")
+
+
+# =============================================================================
+# 5. C scale distribution
+# =============================================================================
+
+run_plot(
+    "C scale histogram",
+    rplt.plot_c_hist,
+    results,
+    n_bins=10
+)
+
+
+# =============================================================================
+# 6. Distance distribution
+# =============================================================================
+
+def plot_and_save_distance_histogram():
+
+    rplt.plot_distance_hists(tgt_info)
+
+    plt.tight_layout()
+
+    plt.savefig(
+        "plots/distance_histogram.pdf"
+    )
+
+    plt.savefig(
+        "plots/distance_histogram.png",
+        dpi=200
+    )
+
+
+run_plot(
+    "Distance histogram",
+    plot_and_save_distance_histogram
+)
+
+
+# =============================================================================
+# 7. Intrinsic-colour grid
+# =============================================================================
+
+# plot_bv_intrinsic requires a variable called grid.
+# It is only run when that grid has already been loaded or calculated.
+
+if "grid" in globals():
+
+    run_plot(
+        "Intrinsic B-V colour grid",
+        rplt.plot_bv_intrinsic,
+        grid
+    )
+
+else:
+
+    print(
+        "Skipping plot_bv_intrinsic: "
+        "the variable 'grid' has not been defined"
+    )
+
+
+# =============================================================================
+# 8. Extinction plots
+# =============================================================================
+
+# plot_extinction_hists requires a two-dimensional array called a_mags
+# containing extinction for B, V, J, H, K, W1, W2, W3 and W4.
+
+if "a_mags" in globals():
+
+    run_plot(
+        "Extinction histograms and extinction versus distance",
+        rplt.plot_extinction_hists,
+        a_mags,
+        tgt_info
+    )
+
+else:
+
+    print(
+        "Skipping plot_extinction_hists: "
+        "the variable 'a_mags' has not been defined"
+    )
+
+
+# =============================================================================
+# 9. Claret versus STAGGER comparison
+# =============================================================================
+
+claret_file = "results/paper_results/diams_claret.csv"
+stagger_file = "results/paper_results/diams_stagger.csv"
+
+
+def plot_and_save_claret_stagger():
+
+    rplt.plot_claret_vs_stagger_diam_comp()
+
+    plt.tight_layout()
+
+    plt.savefig(
+        "paper/claret_vs_stagger_diam_comp.pdf"
+    )
+
+    plt.savefig(
+        "paper/claret_vs_stagger_diam_comp.png",
+        dpi=200
+    )
+
+
+if os.path.exists(claret_file) and os.path.exists(stagger_file):
+
+    run_plot(
+        "Claret versus STAGGER diameters",
+        plot_and_save_claret_stagger
+    )
+
+else:
+
+    print("Skipping Claret versus STAGGER comparison")
+    print("Missing one or both files:")
+    print("  %s" % claret_file)
+    print("  %s" % stagger_file)
+
+
+# =============================================================================
+# 10. Raw visibility plots from the last bootstrap
+# =============================================================================
+
+def plot_last_bootstrap_oifits():
+    """
+    Plot the OIFITS files associated with the last bootstrap only.
+
+    This avoids producing plots for all 500 copies of every observation.
+    """
+
+    output_dir = "plots/raw_vis2"
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    final_bootstrap_index = n_bootstraps - 1
+    expected_suffix = "_%i.fits" % final_bootstrap_index
+
+    n_created = 0
+
+    for root, directories, filenames in os.walk(results_path):
+
+        for filename in filenames:
+
+            if not filename.endswith(expected_suffix):
+                continue
+
+            if "oidataCalibrated" not in filename:
+                continue
+
+            input_file = os.path.join(root, filename)
+
+            star_label = os.path.splitext(filename)[0]
+
+            try:
+                rplt.plot_vis2(
+                    input_file,
+                    star_label
+                )
+
+                plt.tight_layout()
+
+                output_name = os.path.join(
+                    output_dir,
+                    "%s.pdf" % star_label
+                )
+
+                plt.savefig(output_name)
+
+                print("Saved raw visibility plot:")
+                print(output_name)
+
+                n_created += 1
+
+            except Exception as error:
+
+                print(
+                    "Failed raw visibility plot for %s: %s"
+                    % (input_file, str(error))
+                )
+
+            finally:
+                plt.close("all")
+    if n_created == 0:
+        raise RuntimeError(
+        "No raw OIFITS plots were successfully created")
+    print(
+        "Created %i raw OIFITS visibility plots"
+        % n_created
+    )
+
+
+run_plot(
+    "Raw visibility plots from final bootstrap",
+    plot_last_bootstrap_oifits
+)
+
+
+# =============================================================================
+# 11. Presentation visibility curves
+# =============================================================================
+
+run_plot(
+    "Presentation PIONIER and PAVO visibility curves",
+    rplt.presentation_vis2_plot
+)
+
+
+# =============================================================================
+# Final plotting summary
+# =============================================================================
+
+print("\n" + "=" * 79)
+print("Finished generating plots")
+print("Plot failure log:")
+print(plot_failure_log)
+print("=" * 79)

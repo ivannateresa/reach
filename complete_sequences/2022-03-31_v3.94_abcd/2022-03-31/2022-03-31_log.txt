@@ -121,31 +121,31 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:21:33.337_i00_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:21:33.337_i03_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:28:06.893_i08_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:28:45.004_i08_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:38:18.785_i14_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:38:56.919_i13_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:44:54.495_i15_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:43:00.036_i17_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:51:00.305_i22_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T07:51:00.305_i21_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -200,31 +200,31 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:02:46.894_i00_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:03:24.881_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:11:46.517_i05_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:11:08.388_i07_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:19:32.409_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:19:32.409_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:23:49.526_i19_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:25:43.456_i15_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:32:36.341_i23_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31//PIONI.2022-03-31T08:31:20.017_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header

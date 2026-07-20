@@ -102,19 +102,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:22:36.217_i03_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:21:58.139_i03_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:41:11.868_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:41:11.868_i11_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:53:22.722_i24_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:53:22.722_i23_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -123,13 +123,13 @@
  2022-01-06_TF_vis2_setup01_bin03.pdf 2022-01-06_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:32:33.885_i07_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:32:33.885_i08_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:46:29.601_i18_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:47:07.753_i18_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
