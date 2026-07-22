@@ -25,6 +25,7 @@ import reach.parameters as rparam
 import platform
 from sys import exit as sys_exit
 import diagnostics as dig
+from colte import colte
 
 # -----------------------------------------------------------------------------
 # Define Bootstrapping Parameters
@@ -45,11 +46,12 @@ import diagnostics as dig
 
 
 lb_pc = 70                          # The size of the local bubble in pc
-use_plx_systematic = True           # Use Stassun & Torres 18 plx offset
+use_plx_systematic = False           # Use Stassun & Torres 18 plx offset --> don't use, was a Gaia DR1 thing. We should probably use Bailer-Jones distances
+
 do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
-force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
+force_claret_params = True         # Force Claret & Bloemen 2011 u_lambda
 n_bootstraps = 500              # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
@@ -80,6 +82,11 @@ if not os.path.exists(save_data_path):
 # and filters to use when calculating fbol_final from [Hp, Bt, Vt, Bp, Rp]
 bc_path =  "/home2/ihernand/Desktop/reach/bolometric-corrections"
 band_mask = [1, 1, 1, 0, 0]
+
+#lo que hace colte es a apartir de Gaia DR3 y 2MASS, utiliza este codigo para calcular la temperatura fotometrica 
+
+colte_path = "/home2/ihernand/Desktop/reach/colte"
+
 
 # Set these if investigating the quality of calibrators
 calibrate_calibrators = False
@@ -289,7 +296,7 @@ if n_calib_runs != 1:
     # Run only on the sequences associated with these nights
     valid_nights = nights[min_night_i:max_night_i]
     valid_seqs = [seq for seq in complete_sequences.keys()
-                  if complete_sequences[seq][0] in valid_nights]                
+                  if complete_sequences[seq][0] in valid_nights]
 
     complete_sequences = {seq:complete_sequences[seq] for seq in valid_seqs}
     

@@ -4,7 +4,7 @@ Failures while generating plots
 Plot: PIONIER versus literature diameters
 Error: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/literature_diameters.tsv'
 Traceback (most recent call last):
-  File "analyse_example.py", line 266, in run_plot
+  File "analyse_example.py", line 372, in run_plot
     function(*args, **kwargs)
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 3284, in plot_lit_diam_comp
     lit_diam_info = pd.read_csv(lit_diam_file, sep="\t", header=0)
@@ -27,24 +27,13 @@ IOError: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/lite
 Plot: All visibility fits
 Error: 'module' object has no attribute 'calculate_vis2'
 Traceback (most recent call last):
-  File "analyse_example.py", line 266, in run_plot
+  File "analyse_example.py", line 372, in run_plot
     function(*args, **kwargs)
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 338, in plot_all_vis2_fits
     sci)
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 265, in plot_vis2_fit
     y_fit = rdiam.calculate_vis2(x, ldd_fit, u_lld)
 AttributeError: 'module' object has no attribute 'calculate_vis2'
-
--------------------------------------------------------------------------------
-
-Plot: Joint sequence visibility plots old
-Error: index 0 is out of bounds for axis 0 with size 0
-Traceback (most recent call last):
-  File "analyse_example.py", line 266, in run_plot
-    function(*args, **kwargs)
-  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 2825, in plot_joint_seq_paper_vis2_fits_old
-    hd_id = tgt_info[tgt_info["Primary"]==sci].index.values[0]
-IndexError: index 0 is out of bounds for axis 0 with size 0
 
 -------------------------------------------------------------------------------
 

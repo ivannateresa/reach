@@ -31,13 +31,13 @@ from matplotlib.backends.backend_pdf import PdfPages
 # Setup & Loading
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
-use_plx_systematic =  True          # Use Stassun & Torres 18 plx offset
+use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
 combined_fit =True                # Fit for LDD for multiple seq at once
 load_saved_results = True         # Load or do fitting fresh
-assign_default_uncertainties = True # Give default errors to stars without
+assign_default_uncertainties = True # Give default errors to stars without ???
 force_claret_params = False         # Force use of Claret+11 limb d. params
 n_bootstraps = 500
-fitting_method = "ls"               # Fitting method to use: ls or odr
+fitting_method = "odr"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
 # If using least squares fitting, the wavelength uncertainty is added in 
@@ -215,6 +215,63 @@ rpaper.make_table_limb_darkening(tgt_info)
 # GENERATE ALL AVAILABLE PLOTS
 # =============================================================================
 
+
+def run_plot(label, function, *args, **kwargs):
+    """
+    Execute one plotting function.
+
+    Returns
+    -------
+    success : bool
+        True if the function finished without an exception.
+    """
+
+    print("\n" + "=" * 79)
+    print("Generating plot: %s" % label)
+    print("=" * 79)
+
+    try:
+
+        function(*args, **kwargs)
+
+        print("SUCCESS: %s" % label)
+
+        return True
+
+    except Exception as error:
+
+        print("FAILED: %s" % label)
+        print("Error: %s" % str(error))
+
+        with open(plot_failure_log, "a") as handle:
+
+            handle.write("Plot: %s\n" % label)
+            handle.write("Error: %s\n" % str(error))
+            handle.write(traceback.format_exc())
+            handle.write("\n" + "-" * 79 + "\n\n")
+
+        traceback.print_exc()
+
+        return False
+
+    finally:
+
+        plt.close("all")
+
+def copy_plot(source, destination):
+    """
+    Copy a plot when two plotting functions use the same output filename.
+    """
+
+    if os.path.exists(source):
+        shutil.copyfile(source, destination)
+        print("Copied:")
+        print("  %s" % destination)
+    else:
+        print("Could not copy missing plot:")
+        print("  %s" % source)
+
+
 print("Generating all plots...")
 
 # -------------------------------------------------------------------------
@@ -222,18 +279,67 @@ print("Generating all plots...")
 # -------------------------------------------------------------------------
 plot_directories = [
     "plots",
-    "plots/single_vis2",
-    "plots/raw_vis2",
-    "plots/diameter_comparisons",
+    "plots/{}/single_vis2".format(results_folder),
+    "plots/{}/raw_vis2".format(results_folder),
+    "plots/{}/diameter_comparisons".format(results_folder),
     "paper",
-    "paper/sidelobes",
+    "paper".format(results_folder),
+    "paper/{}/sidelobes".format(results_folder),
 ]
 
-for directory in plot_directories:
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+# -------------------------------------------------------------------------
+# New joint-sequence visibility plot
+# -------------------------------------------------------------------------
 
+joint_plot_success = run_plot(
+    "Joint sequence visibility plots new",
+    rplt.plot_joint_seq_paper_vis2_fits,
+    tgt_info,
+    results,
+    n_rows=4,
+    n_cols=2,
+    rasterize=False
+)
 
+# The plotting function writes its default output here.
+generated_joint_plot = os.path.join(
+    "paper",
+    "joint_seq_vis2_plots.pdf"
+)
+
+# Permanent copies inside the results folder.
+saved_joint_plot = os.path.join(
+    "paper",
+    results_folder,
+    "joint_seq_vis2_plots.pdf"
+)
+
+saved_joint_plot_new = os.path.join(
+    "paper",
+    results_folder,
+    "joint_seq_vis2_plots_new.pdf"
+)
+
+if joint_plot_success and os.path.exists(generated_joint_plot):
+
+    shutil.copyfile(
+        generated_joint_plot,
+        saved_joint_plot
+    )
+
+    shutil.copyfile(
+        generated_joint_plot,
+        saved_joint_plot_new
+    )
+
+    print("Saved joint visibility plots:")
+    print("  %s" % saved_joint_plot)
+    print("  %s" % saved_joint_plot_new)
+
+else:
+
+    print("Joint visibility plot was not found:")
+    print("  %s" % generated_joint_plot)
 # -------------------------------------------------------------------------
 # Plot failure log
 # -------------------------------------------------------------------------
@@ -334,8 +440,8 @@ run_plot(
     ])
 
 copy_plot(
-    "paper/hr_diagram.pdf",
-    "paper/hr_diagram_basti.pdf"
+    "paper/{}/hr_diagram.pdf".format(results_folder),
+    "paper/{}/hr_diagram_basti.pdf".format(results_folder)
 )
 
 
@@ -344,7 +450,7 @@ padova_file = "data/padova_isochrone_age.dat"
 
 if os.path.exists(padova_file):
 
-    source_plot = "paper/hr_diagram.pdf"
+    source_plot = "paper/{}/hr_diagram.pdf".format(results_folder)
 
     if os.path.exists(source_plot):
         os.remove(source_plot)
@@ -360,7 +466,7 @@ if os.path.exists(padova_file):
     if success:
         copy_plot(
             source_plot,
-            "paper/hr_diagram_padova.pdf"
+            "paper/{}/hr_diagram_padova.pdf".format(results_folder)
         )
 
 else:
@@ -377,8 +483,8 @@ run_plot(
 )
 
 copy_plot(
-    "paper/hr_diagram.pdf",
-    "paper/hr_diagram_no_isochrones.pdf"
+    "paper/{}/hr_diagram.pdf".format(results_folder),
+    "paper/{}/hr_diagram_no_isochrones.pdf".format(results_folder)
 )
 
 
@@ -600,9 +706,9 @@ for relation_1, relation_2 in itertools.combinations(
     safe_label_2 = label_2.replace("/", "_").replace(" ", "_")
 
     copy_plot(
-        "plots/angular_diameter_comp.pdf",
+        "plots/{}/angular_diameter_comp.pdf".format(results_folder),
         os.path.join(
-            "plots/diameter_comparisons",
+            "plots/{}/diameter_comparisons".format(results_folder),
             "angular_diameter_%s_vs_%s.pdf"
             % (safe_label_1, safe_label_2)
         )
@@ -661,38 +767,22 @@ run_plot(
 )
 
 copy_plot(
-    "paper/joint_seq_vis2_plots.pdf",
-    "paper/joint_seq_vis2_plots_new.pdf"
+    "paper/{}/joint_seq_vis2_plots.pdf".format(results_folder),
+    "paper/{}/joint_seq_vis2_plots_new.pdf".format(results_folder)
 )
 
 
 # -------------------------------------------------------------------------
 # Old joint-sequence function
 # -------------------------------------------------------------------------
-# This is redundant but is intentionally included.
-
-run_plot(
-    "Joint sequence visibility plots old",
-    rplt.plot_joint_seq_paper_vis2_fits_old,
-    tgt_info,
-    results,
-    n_rows=4,
-    n_cols=2,
-    rasterize=False
-)
-
-copy_plot(
-    "paper/joint_seq_vis2_plots.pdf",
-    "paper/joint_seq_vis2_plots_old.pdf"
-)
-
+# This is redundant but is intentionally included
 
 # Restore the new version as the default joint-sequence PDF.
 if os.path.exists("paper/joint_seq_vis2_plots_new.pdf"):
 
     shutil.copyfile(
-        "paper/joint_seq_vis2_plots_new.pdf",
-        "paper/joint_seq_vis2_plots.pdf"
+        "paper/{}/joint_seq_vis2_plots_new.pdf".format(results_folder),
+        "paper/{}/joint_seq_vis2_plots.pdf".format(results_folder)
     )
 
 
@@ -704,7 +794,7 @@ run_plot(
     rplt.plot_all_sidelobe_vis2_fits,
     tgt_info,
     results,
-    output_dir="paper/sidelobes"
+    output_dir="paper/{}/sidelobes".format(results_folder)
 )
 
 
@@ -717,7 +807,7 @@ run_plot(
     rplt.plot_science_fourier_transforms,
     tgt_info,
     results,
-    output_file="plots/science_fourier_transforms.pdf",
+    output_file="plots/{}/science_fourier_transforms.pdf".format(results_folder),
     q_max=2.5E8,
     n_model_points=20000,
     use_predicted_if_missing=True
@@ -728,7 +818,7 @@ run_plot(
     rplt.plot_science_intensity_maps,
     tgt_info,
     results,
-    output_file="plots/science_intensity_maps.pdf",
+    output_file="plots/{}/science_intensity_maps.pdf".format(results_folder),
     wavelength_index=2,
     n_pixels=400,
     field_factor=1.4,
@@ -833,11 +923,11 @@ def plot_and_save_distance_histogram():
     plt.tight_layout()
 
     plt.savefig(
-        "plots/distance_histogram.pdf"
+        "plots/{}/distance_histogram.pdf".format(results_folder)
     )
 
     plt.savefig(
-        "plots/distance_histogram.png",
+        "plots/{}/distance_histogram.png".format(results_folder),
         dpi=200
     )
 
@@ -899,8 +989,8 @@ else:
 # 9. Claret versus STAGGER comparison
 # =============================================================================
 
-claret_file = "results/paper_results/diams_claret.csv"
-stagger_file = "results/paper_results/diams_stagger.csv"
+claret_file = "results/{}/paper_results/diams_claret.csv".format(results_folder)
+stagger_file = "results/{}/paper_results/diams_stagger.csv".format(results_folder)
 
 
 def plot_and_save_claret_stagger():
@@ -910,11 +1000,11 @@ def plot_and_save_claret_stagger():
     plt.tight_layout()
 
     plt.savefig(
-        "paper/claret_vs_stagger_diam_comp.pdf"
+        "paper/{}/claret_vs_stagger_diam_comp.pdf".format(results_folder)
     )
 
     plt.savefig(
-        "paper/claret_vs_stagger_diam_comp.png",
+        "paper/{}/claret_vs_stagger_diam_comp.png".format(results_folder),
         dpi=200
     )
 
@@ -945,7 +1035,7 @@ def plot_last_bootstrap_oifits():
     This avoids producing plots for all 500 copies of every observation.
     """
 
-    output_dir = "plots/raw_vis2"
+    output_dir = "plots/{}/raw_vis2".format(results_folder)
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -1038,7 +1128,7 @@ print("=" * 79)
 # =============================================================================
 visibility_diagnostic_output = os.path.join(
     results_path,
-    "analysis_diagnostics",
+    "plot/{}/analysis_diagnostics".format(results_folder),
     "visibility_diagnostic_summary.pdf"
 )
 
