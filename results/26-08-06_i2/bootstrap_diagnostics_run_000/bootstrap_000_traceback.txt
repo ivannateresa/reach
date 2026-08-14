@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home2/ihernand/Desktop/reach/diagnostics.py", line 2124, in run_n_bootstraps_diagnostic_with_visibility_plots
+    do_random_ifg_sampling=do_random_ifg_sampling
+  File "/home2/ihernand/Desktop/reach/reach/pndrs.py", line 1402, in run_one_calibration_set
+    do_random_ifg_sampling=do_random_ifg_sampling)
+  File "/home2/ihernand/Desktop/reach/reach/pndrs.py", line 1250, in initialise_interferograms
+    copyfile(night_folder + old_fn, bootstrapping_folder + new_fn)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/shutil.py", line 96, in copyfile
+    with open(src, 'rb') as fsrc:
+IOError: [Errno 2] No such file or directory: '/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/PIONI.2021-09-05T06:04:30.054_oidata.fits'

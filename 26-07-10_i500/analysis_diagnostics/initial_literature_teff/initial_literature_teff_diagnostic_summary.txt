@@ -215,23 +215,23 @@ Index sample:
 bs_results
 ----------------------------------------------------------------------
 Type: <type 'dict'>
-Number of keys: 14
+Number of keys: 22
 Key sample:
-  gam_Lep : <class 'pandas.core.frame.DataFrame'>
-  HR_2998 : <class 'pandas.core.frame.DataFrame'>
-  psi_Vel : <class 'pandas.core.frame.DataFrame'>
-  psi Vel A : <class 'pandas.core.frame.DataFrame'>
-  pi3_Ori : <class 'pandas.core.frame.DataFrame'>
-  iot_Psc : <class 'pandas.core.frame.DataFrame'>
-  ksi_Gem : <class 'pandas.core.frame.DataFrame'>
-  alf_CMi : <class 'pandas.core.frame.DataFrame'>
-  bet_Hyi : <class 'pandas.core.frame.DataFrame'>
-  HD142860 : <class 'pandas.core.frame.DataFrame'>
+  ('rho_Pup', 'faint', 106) : <class 'pandas.core.frame.DataFrame'>
+  ('zet_Tuc', 'bright', 104) : <class 'pandas.core.frame.DataFrame'>
+  ('bet_Hyi', 'faint', 106) : <class 'pandas.core.frame.DataFrame'>
+  ('HD141004', 'faint', 105) : <class 'pandas.core.frame.DataFrame'>
+  ('HR_2998', 'faint', 104) : <class 'pandas.core.frame.DataFrame'>
+  ('HR_2998', 'bright', 104) : <class 'pandas.core.frame.DataFrame'>
+  ('psi_Vel', 'faint', 106) : <class 'pandas.core.frame.DataFrame'>
+  ('ksi_Gem', 'faint', 106) : <class 'pandas.core.frame.DataFrame'>
+  ('psi Vel A', 'bright', 106) : <class 'pandas.core.frame.DataFrame'>
+  ('HD141004', 'bright', 105) : <class 'pandas.core.frame.DataFrame'>
 
 results
 ----------------------------------------------------------------------
 Type: <class 'pandas.core.frame.DataFrame'>
-Shape: (14, 21)
+Shape: (22, 21)
 Columns:
   STAR
   HD

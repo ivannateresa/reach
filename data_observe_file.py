@@ -6,7 +6,7 @@ import glob
 import csv
 import re
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 # ============================================================
@@ -16,6 +16,7 @@ from datetime import datetime
 OUTPUT_TSV = "dates_observed.tsv"
 SUMMARY_CSV = "concatenations_summary_with_type.csv"
 UNKNOWN_CSV = "unknown_sequences.csv"
+MAX_SEQUENCE_GAP_MINUTES = 90
 
 
 # ============================================================
@@ -24,17 +25,21 @@ UNKNOWN_CSV = "unknown_sequences.csv"
 
 def clean_name(name):
     """
-    Limpia nombres para comparar.
+    Normaliza nombres para compararlos sin depender de espacios,
+    guiones bajos, mayusculas o caracteres invisibles.
 
     Ejemplos:
-    iot_Psc  -> iotpsc
-    iot Psc  -> iotpsc
-    HD_222919 -> hd222919
+    iot_Psc    -> iotpsc
+    iot Psc    -> iotpsc
+    HD_222919  -> hd222919
+    HD  63734  -> hd63734
     """
     if name is None:
         return "unknown"
 
-    return name
+    value = str(name).replace("\ufeff", "").strip().lower()
+    value = re.sub(r"[^a-z0-9]+", "", value)
+    return value or "unknown"
 
 
 def output_star_name(name):
@@ -207,49 +212,42 @@ def parse_log(obs_log):
 
 def compact_targets(obs_list):
     """
-    Elimina targets consecutivos repetidos.
-
-    Ejemplo:
-    hr3069 hr3069 hr2998 hr2998 hd65491
-
-    queda:
-    hr3069 -> hr2998 -> hd65491
+    Elimina targets consecutivos repetidos usando nombres normalizados,
+    pero conserva el nombre original para escribir la concatenacion.
     """
 
     compact = []
+    last_clean = None
 
     for ob in obs_list:
-        target = clean_name(ob["target"])
+        target_display = str(ob["target"]).strip()
+        target_clean = clean_name(target_display)
 
-        if len(compact) == 0:
-            compact.append(target)
-
-        elif compact[-1] != target:
-            compact.append(target)
+        if target_clean != last_clean:
+            compact.append(target_display)
+            last_clean = target_clean
 
     return compact
 
 
 def infer_science_target(compact_sequence, period, target_info):
     """
-    Detecta la estrella cientifica usando la columna Science=True
-    del archivo Bright/Faint.
-
-    Si no la encuentra, usa el metodo anterior:
-    buscar el target que aparece mas de una vez.
+    Detecta la estrella cientifica usando Science=True.
+    Si no la encuentra, usa como fallback el target repetido.
     """
 
     period = str(period)
 
-    # Primero: usar tabla Bright/Faint
     science_found = []
+    display_names = {}
 
     for target in compact_sequence:
-        key = (period, clean_name(target))
+        target_clean = clean_name(target)
+        display_names.setdefault(target_clean, target)
+        key = (period, target_clean)
 
-        if key in target_info:
-            if target_info[key]["science"]:
-                science_found.append(target)
+        if key in target_info and target_info[key]["science"]:
+            science_found.append(target_clean)
 
     science_found = list(OrderedDict.fromkeys(science_found))
 
@@ -258,21 +256,19 @@ def infer_science_target(compact_sequence, period, target_info):
         key = (period, sci_clean)
         return sci_clean, target_info[key]["output_name"]
 
-    elif len(science_found) > 1:
-        names = []
-        for sci in science_found:
-            key = (period, sci)
-            names.append(target_info[key]["output_name"])
-
+    if len(science_found) > 1:
+        names = [
+            target_info[(period, sci)]["output_name"]
+            for sci in science_found
+        ]
         return ";".join(science_found), ";".join(names)
 
-    # Segundo: fallback por repeticion
     counts = OrderedDict()
 
     for target in compact_sequence:
-        if target not in counts:
-            counts[target] = 0
-        counts[target] += 1
+        target_clean = clean_name(target)
+        display_names.setdefault(target_clean, target)
+        counts[target_clean] = counts.get(target_clean, 0) + 1
 
     repeated = [target for target in counts if counts[target] > 1]
 
@@ -280,18 +276,18 @@ def infer_science_target(compact_sequence, period, target_info):
         return "unknown", "unknown"
 
     if len(repeated) == 1:
-        return repeated[0], repeated[0]
+        target_clean = repeated[0]
+        return target_clean, display_names[target_clean]
 
-    # Si hay varios repetidos, evitar elegir el calibrador inicial/final
-    first_target = compact_sequence[0]
-    last_target = compact_sequence[-1]
+    first_target = clean_name(compact_sequence[0])
+    last_target = clean_name(compact_sequence[-1])
 
-    for target in repeated:
-        if not (target == first_target and target == last_target):
-            return target, target
+    for target_clean in repeated:
+        if not (target_clean == first_target and target_clean == last_target):
+            return target_clean, display_names[target_clean]
 
-    return repeated[0], repeated[0]
-
+    target_clean = repeated[0]
+    return target_clean, display_names[target_clean]
 
 def infer_bright_faint_from_table(compact_sequence, period, science_target, target_info):
     """
@@ -417,23 +413,52 @@ def main():
         sys.exit(1)
 
     # ========================================================
-    # Agrupar por folder + container
+    # Agrupar por run + container y separar por pausas largas.
+    #
+    # Esto permite unir una concatenacion que cruza medianoche,
+    # aunque los logs esten en dos carpetas de fecha distintas.
+    # Al mismo tiempo evita unir reutilizaciones del mismo
+    # container en noches separadas.
     # ========================================================
 
-    containers = OrderedDict()
+    observations_by_container = OrderedDict()
 
     for obs_log in all_logs:
-
         ob = parse_log(obs_log)
 
-        key = (ob["folder"], ob["container"])
+        if ob["container"] == "unknown":
+            base_key = (
+                ob["run"],
+                "unknown",
+                ob["folder"],
+                ob["OB"],
+            )
+        else:
+            base_key = (ob["run"], ob["container"])
 
-        if key not in containers:
-            containers[key] = []
+        observations_by_container.setdefault(base_key, []).append(ob)
 
-        containers[key].append(ob)
+    containers = OrderedDict()
+    max_gap = timedelta(minutes=MAX_SEQUENCE_GAP_MINUTES)
 
-    print("Number of containers found:", len(containers))
+    for base_key, observations in observations_by_container.items():
+        observations = sorted(observations, key=lambda item: item["time"])
+
+        chunk = []
+        chunk_number = 0
+
+        for ob in observations:
+            if chunk and (ob["time"] - chunk[-1]["time"]) > max_gap:
+                containers[(base_key, chunk_number)] = chunk
+                chunk = []
+                chunk_number += 1
+
+            chunk.append(ob)
+
+        if chunk:
+            containers[(base_key, chunk_number)] = chunk
+
+    print("Number of concatenations found:", len(containers))
 
     # ========================================================
     # Crear resumen de secuencias
@@ -443,10 +468,14 @@ def main():
 
     for key in containers:
 
-        folder, container = key
+        base_key, chunk_number = key
+        obs_list = sorted(containers[key], key=lambda x: x["time"])
 
-        obs_list = containers[key]
-        obs_list = sorted(obs_list, key=lambda x: x["time"])
+        container = obs_list[0]["container"]
+        folders = list(OrderedDict.fromkeys(
+            ob["folder"] for ob in obs_list
+        ))
+        folder = "|".join(folders)
 
         first_time = obs_list[0]["time"]
         last_time = obs_list[-1]["time"]

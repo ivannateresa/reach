@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//2021-09-11_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,22 +33,11 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD210056 has diameter of 0.73+-0.15mas (isCal=1) from values
- 0.73+-0.15 (3.1") in II_300_jsdc	
- WARNING : bet_Hyi_bad has no diameter found with 5', enlarge to 10'
- WARNING : bet_Hyi_bad has no diameter found with 10'
- kap_Hyi has diameter of 0.95+-0.01mas (isCal=1) from values
- 0.95+-0.01 (3.4") in J_AA_433_1155	 0.89+-0.18 (3.4") in II_300_jsdc	
- 0.94+-0.01 (3.4") in J_AA_434_1201	 0.95+-0.01 (3.4") in J_AA_434_1201	
- 0.96+-0.01 (3.4") in J_AA_434_1201	 1.90+-0.57 (3.4") in J_AA_434_1201	
- lam_Tuc has diameter of 1.29+-0.02mas (isCal=1) from values
- 1.29+-0.02 (2.0") in J_AA_433_1155	 1.21+-0.25 (2.0") in II_300_jsdc	
- 1.27+-0.02 (2.0") in J_AA_434_1201	 1.29+-0.02 (2.0") in J_AA_434_1201	
- 1.29+-0.02 (2.0") in J_AA_434_1201	 1.50+-0.45 (1.8") in J_AA_434_1201	
+ HD210056 is already in oiDiam with diam=0.93mas and isCal=1
+ bet_Hyi_bad is already in oiDiam with diam=1.80mas and isCal=0
+ kap_Hyi is already in oiDiam with diam=1.04mas and isCal=1
+ lam_Tuc is already in oiDiam with diam=1.42mas and isCal=1
  pndrsUpdateOiDiamFromGetStar()
- pndrsGetstarFromJMMC()
-  Cannot find diameter for bet_Hyi_bad
- pndrsGetstarFromJMMC done
  oiFitsWriteOiDiam()
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//2021-09-11_oiDiam.fits
@@ -108,19 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:03:28.385_i03_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:04:06.472_i00_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:17:58.507_i10_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:18:36.699_i11_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:30:40.662_i20_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:31:18.748_i20_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -129,13 +117,13 @@
  2021-09-11_TF_vis2_setup01_bin03.pdf 2021-09-11_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:10:45.763_i05_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:10:45.763_i08_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:24:21.602_i18_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11//PIONI.2021-09-11T04:24:59.498_i18_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header

@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//2022-04-02_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,16 +33,10 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- WARNING : HD141004 has no diameter found with 5', enlarge to 10'
- HD141004 has diameter of 1.06+-0.22mas (isCal=1) from values
- 1.06+-0.22 (6.1") in II_300_jsdc	 1.10+-0.33 (5.9") in J_AA_434_1201	
- 1.60+-0.48 (5.9") in J_AA_434_1201	
- HD142443 has diameter of 0.63+-0.13mas (isCal=1) from values
- 0.63+-0.13 (1.5") in II_300_jsdc	
- HD142862 has diameter of 0.53+-0.11mas (isCal=1) from values
- 0.53+-0.11 (2.0") in II_300_jsdc	
- HD143129 has diameter of 0.54+-0.11mas (isCal=1) from values
- 0.54+-0.11 (2.3") in II_300_jsdc	
+ HD141004 is already in oiDiam with diam=1.16mas and isCal=0
+ HD142443 is already in oiDiam with diam=0.67mas and isCal=1
+ HD142862 is already in oiDiam with diam=0.56mas and isCal=1
+ HD143129 is already in oiDiam with diam=0.60mas and isCal=1
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -103,31 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:30:46.519_i04_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:31:24.763_i03_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:37:00.103_i05_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:45:15.896_i13_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:45:15.896_i11_oidataTf.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T08:05:27.806_i17_oidataTf.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T08:11:42.025_i20_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T08:11:42.025_i22_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -135,14 +116,25 @@
  AssFiles:
  2022-04-02_TF_vis2_setup01_bin03.pdf 2022-04-02_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
- No data to write
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T07:37:00.103_i07_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//PIONI.2022-04-02T08:06:05.881_i18_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//2022-04-02_ALL_oidataTf.fits
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//2022-04-02_ALL_oidataCalibrated.fits
- Cannot write summaryScience.txt: no calibrated science stars
+ oiFitsListObs()
  oiFitsPlotCalibratedNight()
  Plot the oiT3
  Plot the oiVisPhi
@@ -152,7 +144,7 @@
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//2022-04-02_CAL_HD141004_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02//2022-04-02_SCI_HD141004_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: HD142443 (2 over 4)
  oiFitsKeepTargets()

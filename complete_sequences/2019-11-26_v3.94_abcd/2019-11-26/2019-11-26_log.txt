@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//2019-11-26_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,19 +33,11 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- WARNING : HD65491 has no diameter found with 5', enlarge to 10'
- WARNING : HD65491 has no diameter found with 10'
- HD66162 has diameter of 0.59+-0.12mas (isCal=1) from values
- 0.59+-0.12 (3.2") in II_300_jsdc	
- HR2998 has diameter of 0.91+-0.27mas (isCal=0) from values
- 0.91+-0.27 (3.4") in J_AA_434_1201	 1.10+-0.33 (3.4") in J_AA_434_1201	
- HR3069 has diameter of 0.54+-0.11mas (isCal=1) from values
- 0.54+-0.11 (2.2") in II_300_jsdc	
+ HD65491 is already in oiDiam with diam=0.56mas and isCal=1
+ HD66162 is already in oiDiam with diam=0.64mas and isCal=1
+ HR2998 is already in oiDiam with diam=1.10mas and isCal=0
+ HR3069 is already in oiDiam with diam=0.63mas and isCal=1
  pndrsUpdateOiDiamFromGetStar()
- pndrsGetstarFromJMMC()
- Use e_LDD for uncertainty
- pndrsGetstarFromJMMC done
-  Find diameter for HD65491: 0.537248mas
  oiFitsWriteOiDiam()
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//2019-11-26_oiDiam.fits
@@ -105,13 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T04:38:31.518_i03_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T04:37:53.378_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:43:36.204_i22_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:13:48.211_i13_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:42:57.976_i20_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -120,19 +117,13 @@
  2019-11-26_TF_vis2_setup01_bin03.pdf 2019-11-26_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T04:59:25.910_i06_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T04:59:25.910_i07_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:14:26.369_i12_oidataCalibrated.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:26:10.506_i17_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//PIONI.2019-11-26T05:25:32.320_i15_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -153,7 +144,7 @@
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//2019-11-26_SCI_HD65491_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-26_v3.94_abcd/2019-11-26//2019-11-26_CAL_HD65491_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: HD66162 (2 over 4)
  oiFitsKeepTargets()

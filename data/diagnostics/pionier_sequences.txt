@@ -41,11 +41,13 @@ Sequence:
 Period: 104
 Science target: HD142860
 Sequence type: bright
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
   01  HD141589
   02  HD142860
   03  HD143257
+  04  HD142860
+  05  HD140346
 
 ----------------------------------------------------------------------
 Period: 104
@@ -315,11 +317,13 @@ Sequence:
 Period: 106
 Science target: HD142860
 Sequence type: bright
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
   01  HD141589
   02  HD142860
   03  HD143257
+  04  HD142860
+  05  HD140346
 
 ----------------------------------------------------------------------
 Period: 106
@@ -344,6 +348,18 @@ Sequence:
   03  HR_2426
   04  ksi_Gem
   05  HR_2610
+
+----------------------------------------------------------------------
+Period: 106
+Science target: bet_Hyi
+Sequence type: bright
+Number of targets in sequence: 5
+Sequence:
+  01  sig_Pav
+  02  bet_Hyi
+  03  HD_4332
+  04  bet_Hyi
+  05  lam_Tuc
 
 ----------------------------------------------------------------------
 Period: 106
@@ -457,11 +473,13 @@ Sequence:
 Period: 104
 Science target: iot_Psc
 Sequence type: faint
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
-  01  HD_43
+  01  HD_218330
   02  iot_Psc
-  03  HR_67
+  03  HD_43
+  04  iot_Psc
+  05  HR_67
 
 ----------------------------------------------------------------------
 Period: 104
@@ -505,9 +523,9 @@ Science target: rho_Pup
 Sequence type: faint
 Number of targets in sequence: 5
 Sequence:
-  01  HD_65181
+  01  HD_59936
   02  rho_Pup
-  03  HD_70942
+  03  HD_63734
   04  rho_Pup
   05  HR_3317
 
@@ -611,11 +629,13 @@ Sequence:
 Period: 105
 Science target: iot_Psc
 Sequence type: faint
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
-  01  HD_43
+  01  HD_218330
   02  iot_Psc
-  03  HR_67
+  03  HD_43
+  04  iot_Psc
+  05  HR_67
 
 ----------------------------------------------------------------------
 Period: 105
@@ -659,9 +679,9 @@ Science target: rho_Pup
 Sequence type: faint
 Number of targets in sequence: 5
 Sequence:
-  01  HD_65181
+  01  HD_59936
   02  rho_Pup
-  03  HD_70942
+  03  HD_63734
   04  rho_Pup
   05  HR_3317
 
@@ -765,11 +785,13 @@ Sequence:
 Period: 106
 Science target: iot_Psc
 Sequence type: faint
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
-  01  HD_43
+  01  HD_218330
   02  iot_Psc
-  03  HR_67
+  03  HD_43
+  04  iot_Psc
+  05  HR_67
 
 ----------------------------------------------------------------------
 Period: 106
@@ -813,9 +835,9 @@ Science target: rho_Pup
 Sequence type: faint
 Number of targets in sequence: 5
 Sequence:
-  01  HD_65181
+  01  HD_59936
   02  rho_Pup
-  03  HD_70942
+  03  HD_63734
   04  rho_Pup
   05  HR_3317
 

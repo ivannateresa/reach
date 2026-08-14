@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//2019-11-25_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,20 +33,11 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD61574 has diameter of 0.59+-0.12mas (isCal=1) from values
- 0.59+-0.12 (4.1") in II_300_jsdc	
- WARNING : HD65187 has no diameter found with 5', enlarge to 10'
- WARNING : HD65187 has no diameter found with 10'
- WARNING : HR2998 has no diameter found with 5', enlarge to 10'
- HR2998 has diameter of 0.91+-0.27mas (isCal=0) from values
- 0.91+-0.27 (5.4") in J_AA_434_1201	 1.10+-0.33 (5.4") in J_AA_434_1201	
- HR3069 has diameter of 0.54+-0.11mas (isCal=1) from values
- 0.54+-0.11 (4.2") in II_300_jsdc	
+ HD61574 is already in oiDiam with diam=0.49mas and isCal=1
+ HD65187 is already in oiDiam with diam=0.57mas and isCal=1
+ HR2998 is already in oiDiam with diam=1.10mas and isCal=0
+ HR3069 is already in oiDiam with diam=0.63mas and isCal=1
  pndrsUpdateOiDiamFromGetStar()
- pndrsGetstarFromJMMC()
- Use e_LDD for uncertainty
- pndrsGetstarFromJMMC done
-  Find diameter for HD65187: 0.574149mas
  oiFitsWriteOiDiam()
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//2019-11-25_oiDiam.fits
@@ -106,13 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T04:11:22.537_i00_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T04:12:00.835_i01_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:06:55.728_i11_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:07:33.530_i12_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:39:54.825_i23_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -121,19 +117,13 @@
  2019-11-25_TF_vis2_setup01_bin03.pdf 2019-11-25_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T04:36:59.479_i07_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T04:36:59.479_i06_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:21:00.940_i15_oidataCalibrated.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:40:32.969_i23_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//PIONI.2019-11-25T05:20:22.807_i16_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -160,7 +150,7 @@
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//2019-11-25_SCI_HD65187_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-25_v3.94_abcd/2019-11-25//2019-11-25_CAL_HD65187_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: HR2998 (3 over 4)
  oiFitsKeepTargets()

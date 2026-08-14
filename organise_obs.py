@@ -24,14 +24,70 @@ import numpy as np
 from sys import exit
 from shutil import copyfile
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timedelta
 
+
+def normalize_target_name(name):
+    """
+    Normaliza nombres como:
+        HD_63734
+        HD 63734
+        HD  63734
+        '   HD 63734   '
+
+    Todos se convierten en:
+        hd63734
+    """
+    if name is None:
+        return ""
+
+    return "".join(
+        name.replace("_", " ").split()
+    ).lower()
+
+
+def find_fits_file(obs_log):
+    """
+    Find the raw FITS file corresponding to a .NL.txt log.
+
+    Supports several possible ESO/raw-file extensions.
+    Returns None when no matching FITS file exists.
+    """
+
+    if not obs_log.endswith(".NL.txt"):
+        return None
+
+    stem = obs_log[:-len(".NL.txt")]
+
+    candidates = [
+        stem + ".fits.Z",
+        stem + ".fits",
+        stem + ".fits.fz",
+        stem + ".FITS",
+        stem + ".FITS.Z",
+        stem + ".fits.gz",
+    ]
+
+    for candidate in candidates:
+        if os.path.isfile(candidate):
+            return candidate
+
+    # Last fallback: search anything beginning with the same exposure name.
+    matches = sorted(
+        glob.glob(stem + ".fits*") +
+        glob.glob(stem + ".FITS*")
+    )
+
+    if matches:
+        return matches[0]
+
+    return None
 
 # -----------------------------------------------------------------------------
 # Import and separate observation log into nights
 # -----------------------------------------------------------------------------
 # Find of the text logsa
-all_logs = glob.glob("/home2/ihernand/Desktop/reach/all_sequences/*/PIONI*.NL.txt")
+all_logs = glob.glob("/home2/ihernand/Desktop/reach/all_data/*/PIONI*.NL.txt")
 all_logs.sort()
 
 # Initialise dictionary to store observations
@@ -54,8 +110,9 @@ for obs_log in all_logs:
     # Remove newline characters from the 
     content = [row.strip() for row in content]
     
-    # Get the night of observation by way of subfolder
-    night = obs_log.split("/")[-2]
+    # Use the astronomical night rather than the calendar folder.
+    # Subtracting 12 hours keeps sequences together when they cross midnight.
+    night = (ob_time - timedelta(hours=12)).strftime("%Y-%m-%d")
     
     # 
     ob_type = None
@@ -120,8 +177,7 @@ for obs_log in all_logs:
             
             
     # In addition to the text file, grab the fits file of the data itself, 
-    # which has the same path bar ".fits.Z" instead of ".NL.txt"
-    ob_fits = obs_log.replace("NL.txt", "fits.Z")
+    ob_fits = find_fits_file(obs_log)
     
     # Strip the final dash of the station IDs
     station_ids = station_ids[:-1]
@@ -351,19 +407,21 @@ for night in night_log.keys():
             ob_i = 0            # The ith observation that night
             tgt_i = 0           # The ith target in the CAL-SCI sequence
             concatenation = []  # Current list of obs from CAL-SCI sequence
-            print(sci)
+            expected_sequence = sequence[sci]
+            expected_sequence_norm = [normalize_target_name(target_name) for target_name in expected_sequence]
             # For every observation in the night...
             while ob_i < len(night_log[night]):
                 # Get the grade of the observation to be considered
                 grade = night_log[night][ob_i][3]
                 obs_tar = night_log[night][ob_i][2] 
+                obs_tar_norm = normalize_target_name(obs_tar)
 
                 
                 sequence_added_to = True
                 
                 # First element of sequence
                 # - Add to concatenation and increment to next observation
-                if (len(concatenation) == 0 and sequence[sci][tgt_i] in obs_tar
+                if (len(concatenation) == 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
                     and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
@@ -371,18 +429,16 @@ for night in night_log.keys():
                 
                 # Continuation of current target
                 # - Add to concatenation and increment to next observation
-                elif (len(concatenation) > 0 
-                    and sequence[sci][tgt_i] in obs_tar
-                    and is_good_grade(grade)):
+                elif (len(concatenation) > 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
+                      and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
                     print("1", end="")
                     
                 # No more obs for current target, check next in sequence
                 # - If not at last ob, add to concatenation and increment ob
-                elif (len(concatenation) > 0 and tgt_i + 1 < len(sequence[sci])
-                    and sequence[sci][tgt_i+1] in obs_tar
-                    and is_good_grade(grade)):
+                elif (len(concatenation) > 0 and tgt_i + 1 < len(expected_sequence_norm) and expected_sequence_norm[tgt_i + 1] == obs_tar_norm
+                      and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
                     tgt_i += 1
@@ -397,7 +453,7 @@ for night in night_log.keys():
                 # can properly handle the final observation of the night 
                 # (typically a dark)
                 if (len(concatenation) > 0 
-                    and sequence[sci][tgt_i] in obs_tar
+                    and expected_sequence_norm[tgt_i] == obs_tar_norm
                     and is_good_grade(grade)
                     and ob_i + 1 == len(night_log[night])):
                     # No need to increment here, as we'll exit straight away
@@ -427,7 +483,12 @@ for night in night_log.keys():
                     
                     end_time = concatenation[-1][4].isoformat()
                     key = (period, sci, seq_label[seq_i])
-                    complete_sequences[key] = (night, grade, concatenation)
+                    sequence_date = concatenation[0][4].strftime("%Y-%m-%d")
+                    complete_sequences[key] = (
+                        sequence_date,
+                        grade,
+                        concatenation,
+                    )
                     print(" [DONE, %s, # Obs: %i]" % (grade, len(grade)))
                     
                     if (sci, seq_label[seq_i]) in missing_sequences:
@@ -475,8 +536,8 @@ for night in night_log.keys():
                         
                         if len(concatenation) > 0:
                             print("A")
-                    elif (len(concatenation) > 0 
-                        and night_log[night][ob_i][2] in sequence[sci]):
+                    elif (len(concatenation) > 0
+                          and obs_tar_norm in expected_sequence_norm):
                         tgt_i = 0
                         
                         if len(concatenation) > 0:
@@ -611,8 +672,7 @@ for night in night_log.keys():
 # -----------------------------------------------------------------------------
 # Summarise keys for easy inspection
 # -----------------------------------------------------------------------------
-obs_keys = complete_sequences.keys()
-obs_keys.sort()
+obs_keys = sorted(complete_sequences.keys())
 
 print("\n\n-------------------------\nSummary\n-------------------------")
 print("%i/%i Unique Complete Sequences\n" % (len(obs_keys), 
@@ -660,31 +720,64 @@ bytes_copied = 0
 all_complete_obs = set()
 duplicates = []
 
+missing_fits = []
+
 for sequence in complete_sequences:
-    print("Copying data for: %s, %s, %s, %s" % (sequence[0], sequence[1],
-                                            sequence[2], 
-                                            complete_sequences[sequence][0]))
-                                            
+    sequence_night = complete_sequences[sequence][0]
+    destination_dir = os.path.join(new_path, sequence_night)
+
+    if not os.path.isdir(destination_dir):
+        os.makedirs(destination_dir)
+
+    print("Copying data for: %s, %s, %s, %s" % (
+        sequence[0],
+        sequence[1],
+        sequence[2],
+        sequence_night,
+    ))
+
     for observation in complete_sequences[sequence][2]:
-        # Create the new file paths for the logs and data
-        new_nl = observation[5].replace("all_sequences", "complete_sequences")
-        new_fits = observation[7].replace("all_sequences", 
-                                          "complete_sequences")
-        
-        if new_nl in all_complete_obs or new_fits in all_complete_obs:
-            duplicates.append( (sequence[:4]) )
+        source_nl = observation[5]
+        source_fits = observation[7]
+
+        # Keep every file from the same concatenation in one astronomical-night
+        # folder, including files observed shortly after midnight.
+        new_nl = os.path.join(destination_dir, os.path.basename(source_nl))
+
+        if new_nl in all_complete_obs:
+            duplicates.append(sequence)
         all_complete_obs.add(new_nl)
-        all_complete_obs.add(new_fits)
-        
+
         if not os.path.exists(new_nl):
-            copyfile(observation[5], new_nl)
+            copyfile(source_nl, new_nl)
             n_files_copied += 1
             bytes_copied += os.path.getsize(new_nl)
-        
+
+        # source_fits can be None. Check it before using basename/replace/copyfile.
+        if source_fits is None:
+            missing_fits.append(source_nl)
+            print("\nWARNING: no FITS file found for log:", source_nl)
+            continue
+
+        if not os.path.isfile(source_fits):
+            missing_fits.append(source_fits)
+            print("\nWARNING: FITS path does not exist:", source_fits)
+            continue
+
+        new_fits = os.path.join(destination_dir, os.path.basename(source_fits))
+
+        if new_fits in all_complete_obs:
+            duplicates.append(sequence)
+        all_complete_obs.add(new_fits)
+
         if not os.path.exists(new_fits):
-            copyfile(observation[7], new_fits)
+            copyfile(source_fits, new_fits)
             n_files_copied += 1
             bytes_copied += os.path.getsize(new_fits)
+
+if missing_fits:
+    print("\nWARNING: %i raw FITS files were not found." % len(missing_fits))
+    print("The corresponding .NL.txt files were copied, but PNDRS will need the raw FITS files.")
 
 print("Finished! %i files (%0.2f GB) copied" % (n_files_copied, 
                                                 bytes_copied/1024**3))
@@ -707,4 +800,3 @@ sequences.update(build_sequences_for_pickle(faint_sequences, faint_list_files, "
 pkl_sequences = open("data/sequences.pkl", "wb")
 pickle.dump(sequences, pkl_sequences)
 pkl_sequences.close()
-

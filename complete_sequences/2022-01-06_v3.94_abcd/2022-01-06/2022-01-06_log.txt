@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//2022-01-06_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,15 +33,10 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD79810 has diameter of 0.69+-0.14mas (isCal=1) from values
- 0.69+-0.14 (2.7") in II_300_jsdc	
- HD84900 has diameter of 0.55+-0.11mas (isCal=1) from values
- 0.55+-0.11 (1.4") in II_300_jsdc	
- HR3729 has diameter of 0.76+-0.16mas (isCal=1) from values
- 0.76+-0.16 (3.5") in II_300_jsdc	 1.00+-0.30 (3.8") in J_AA_434_1201	
- WARNING : psi_Vel_A has no diameter found with 5', enlarge to 10'
- psi_Vel_A has diameter of 1.10+-0.33mas (isCal=0) from values
- 1.10+-0.33 (6.1") in J_AA_434_1201	
+ HD79810 is already in oiDiam with diam=0.68mas and isCal=1
+ HD84900 is already in oiDiam with diam=0.71mas and isCal=1
+ HR3729 is already in oiDiam with diam=0.80mas and isCal=1
+ psi_Vel_A is already in oiDiam with diam=1.21mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -102,19 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:21:58.139_i03_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:22:36.217_i01_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:41:11.868_i11_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:41:11.868_i12_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:53:22.722_i23_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:53:22.722_i21_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -123,13 +117,13 @@
  2022-01-06_TF_vis2_setup01_bin03.pdf 2022-01-06_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:32:33.885_i08_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:33:12.054_i05_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:47:07.753_i18_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06//PIONI.2022-01-06T07:45:51.482_i16_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header

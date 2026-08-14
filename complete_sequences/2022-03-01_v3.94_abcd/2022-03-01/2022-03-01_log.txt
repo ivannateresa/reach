@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//2022-03-01_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,20 +33,11 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HR2342 has diameter of 0.97+-0.20mas (isCal=1) from values
- 0.97+-0.20 (1.7") in II_300_jsdc	
- HR2391 has diameter of 1.20+-0.25mas (isCal=1) from values
- 1.20+-0.25 (2.7") in II_300_jsdc	
- WARNING : HR2426 has no diameter found with 5', enlarge to 10'
- WARNING : HR2426 has no diameter found with 10'
- ksi_Gem has diameter of 1.40+-0.42mas (isCal=0) from values
- 1.40+-0.42 (4.2") in J_AA_434_1201	 1.40+-0.42 (4.2") in J_AA_434_1201	
- 2.00+-0.60 (4.2") in J_AA_434_1201	
+ HR2342 is already in oiDiam with diam=1.12mas and isCal=1
+ HR2391 is already in oiDiam with diam=0.26mas and isCal=1
+ HR2426 is already in oiDiam with diam=1.26mas and isCal=1
+ ksi_Gem is already in oiDiam with diam=1.47mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
- pndrsGetstarFromJMMC()
- Use e_LDD for uncertainty
- pndrsGetstarFromJMMC done
-  Find diameter for HR2426: 1.08108mas
  oiFitsWriteOiDiam()
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//2022-03-01_oiDiam.fits
@@ -55,7 +45,13 @@
  oiFitsListObs()
  oiFitsListObs()
  oiFitsListObs()
- No script to load
+ Include script file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//2022-03-01_pndrsScript.i
+ Ignore bad baseline AT2-AT3 for ksi_Gem block 1
+ oiFitsFlagOiData()
+ Ignore bad baseline AT2-AT3 for ksi_Gem block 2
+ oiFitsFlagOiData()
+ Script done.
  Remove obs of INTERNAL source
  oiFitsKeepTargets()
  oiFitsGroupOiData()
@@ -106,13 +102,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T01:41:40.023_i01_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T01:42:17.959_i02_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:00:43.237_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:00:43.237_i11_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:16:00.191_i21_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -121,19 +123,13 @@
  2022-03-01_TF_vis2_setup01_bin03.pdf 2022-03-01_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T01:50:45.745_i09_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T01:51:23.589_i08_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:07:04.053_i15_oidataCalibrated.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:16:00.191_i20_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//PIONI.2022-03-01T02:06:26.064_i18_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -166,7 +162,7 @@
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//2022-03-01_SCI_HR2426_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01//2022-03-01_CAL_HR2426_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: ksi_Gem (4 over 4)
  oiFitsKeepTargets()

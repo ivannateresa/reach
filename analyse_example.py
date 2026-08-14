@@ -32,11 +32,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
-combined_fit =True                # Fit for LDD for multiple seq at once
-load_saved_results = True         # Load or do fitting fresh
+combined_fit =False                # Fit for LDD for multiple seq at once
+load_saved_results = False        # Load or do fitting fresha
 assign_default_uncertainties = True # Give default errors to stars without ???
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 500
+n_bootstraps = 3
 fitting_method = "odr"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -50,7 +50,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-07-10_i500"       # Final run for 1st draft
+results_folder = "26-08-13_i3"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
@@ -277,15 +277,33 @@ print("Generating all plots...")
 # -------------------------------------------------------------------------
 # Create output directories
 # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# Create output directories
+# -------------------------------------------------------------------------
+
 plot_directories = [
     "plots",
+    "plots/{}".format(results_folder),
     "plots/{}/single_vis2".format(results_folder),
     "plots/{}/raw_vis2".format(results_folder),
     "plots/{}/diameter_comparisons".format(results_folder),
+
     "paper",
-    "paper".format(results_folder),
+    "paper/{}".format(results_folder),
     "paper/{}/sidelobes".format(results_folder),
 ]
+
+
+for directory in plot_directories:
+
+    if not os.path.exists(directory):
+
+        os.makedirs(directory)
+
+        print(
+            "Created directory: %s"
+            % directory
+        )
 
 # -------------------------------------------------------------------------
 # New joint-sequence visibility plot

@@ -25,7 +25,7 @@ import reach.parameters as rparam
 import platform
 from sys import exit as sys_exit
 import diagnostics as dig
-from colte import colte
+
 
 # -----------------------------------------------------------------------------
 # Define Bootstrapping Parameters
@@ -51,8 +51,8 @@ use_plx_systematic = False           # Use Stassun & Torres 18 plx offset --> do
 do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
-force_claret_params = True         # Force Claret & Bloemen 2011 u_lambda
-n_bootstraps = 500              # Number of bootstrapping iterations
+force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
+n_bootstraps = 3             # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
 n_calib_runs = 1                   # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
@@ -82,12 +82,6 @@ if not os.path.exists(save_data_path):
 # and filters to use when calculating fbol_final from [Hp, Bt, Vt, Bp, Rp]
 bc_path =  "/home2/ihernand/Desktop/reach/bolometric-corrections"
 band_mask = [1, 1, 1, 0, 0]
-
-#lo que hace colte es a apartir de Gaia DR3 y 2MASS, utiliza este codigo para calcular la temperatura fotometrica 
-
-colte_path = "/home2/ihernand/Desktop/reach/colte"
-
-
 # Set these if investigating the quality of calibrators
 calibrate_calibrators = False
 test_all_cals = False
@@ -206,12 +200,40 @@ else:
 
 complete_sequences, sequences = rutils.load_sequence_logs() 
 
-
-sequences.pop((106, "bet_Hyi", "bright"))
 sequences.pop((105, "HD142860", "bright"))
-complete_sequences.pop((106, "bet_Hyi", "bright"))
 complete_sequences.pop((105, "HD142860", "bright"))
 
+
+print("\n" + "=" * 79)
+print("ALL COMPLETE SEQUENCES TO TEST")
+print("=" * 79)
+
+for seq in sorted(complete_sequences.keys()):
+
+    print(
+        "%s  night=%s"
+        % (
+            seq,
+            complete_sequences[seq][0]
+        )
+    )
+
+
+print("\nTOTAL COMPLETE SEQUENCES: %i"
+      % len(complete_sequences))
+
+
+all_nights = sorted(
+    set(
+        complete_sequences[seq][0]
+        for seq in complete_sequences
+    )
+)
+
+print("TOTAL NIGHTS: %i"
+      % len(all_nights))
+
+print("=" * 79)
 
 sequences_df = dig.save_sequence_logs_diagnostics(
     complete_sequences,
@@ -321,7 +343,7 @@ print("Bootstrapping run %i/%i" % (calib_run_i + 1, n_calib_runs))
 print("Running on %i/%i sequences over %i/%i nights" 
       % (len(complete_sequences), n_init_seq, len(valid_nights), len(nights)))
 
-run_bootstrap_diagnostics = True
+run_bootstrap_diagnostics = False
 
 if run_bootstrap_diagnostics:
 

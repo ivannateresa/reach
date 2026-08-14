@@ -1,0 +1,19 @@
+Bootstrap summary with visibility plots
+======================================================================
+
+Number of bootstraps requested: 2
+Number of bootstraps completed/logged: 2
+
+Status counts:
+  FAILED: 1
+  OK: 1
+
+Failed bootstraps:
+  bootstrap 0: IOError - [Errno 2] No such file or directory: '/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/PIONI.2021-09-05T06:04:30.054_oidata.fits'
+
+Visibility PDFs:
+  bootstrap 0: /home2/ihernand/Desktop/reach/results/26-08-06_i2/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_000.pdf
+  bootstrap 1: /home2/ihernand/Desktop/reach/results/26-08-06_i2/bootstrap_diagnostics_run_000/visibility_plots/bootstrap_visibility_001.pdf
+
+CSV summary:
+/home2/ihernand/Desktop/reach/results/26-08-06_i2/bootstrap_diagnostics_run_000/bootstrap_summary.csv

@@ -24,26 +24,35 @@ def clean_target_id(x):
     """
     Clean target names for robust matching.
 
-    Examples:
-    HD_79810  -> hd79810
-    HD  63734 -> hd63734
-    psi Vel A -> psivela
-    psi_Vel   -> psivel
-    HR_3729   -> hr3729
+    Examples
+    --------
+    HR_2426       -> hr2426
+    HD  63734     -> hd63734
+    psi Vel A     -> psivela
+    psi_Vel       -> psivel
+    bet_Hyi_bad   -> bethyi
     """
-
-    import pandas as pd
 
     if pd.isnull(x):
         return ""
 
-    x = str(x)
+    x = str(x).strip()
+
+
+    # --------------------------------------------------------
+    # Remove suffix used for manually flagged/bad observations
+    # --------------------------------------------------------
+
+    if x.lower().endswith("_bad"):
+        x = x[:-4]
+
 
     x = x.replace("_", "")
     x = x.replace(" ", "")
     x = x.replace(".", "")
     x = x.replace("-", "")
     x = x.replace("\t", "")
+
     x = x.lower()
 
     return x
@@ -261,241 +270,1031 @@ def match_target_list(tgt_info, names, label="target", verbose=True):
 
     return ids, failed
 
-def save_nightly_ldd(sequences, complete_sequences, tgt_info, 
-                pred_ldd, e_pred_ldd,
-                base_path,
-                dir_suffix="_v3.94_abcd", run_local=False):
-    """This is a function to create and save the oiDiam.fits files referenced
-    by pndrs during calibration. Each night of observations has a single such
-    file with the name formatted per YYYY-MM-DD_oiDiam.fits containing an
-    empty primary HDU, and a fits table with LDD and e_LDD for each star listed
-    alphabetically.
-    
-    Parameters
-    ----------
-    sequences: dict
-        Dictionary mapping sequences (period, science target, bright/faint) to
-        lists of the targets in said CAL1-SCI1-CAL2-SCI2-CAL3 sequence. 
-    
-    complete_sequences: dict
-        Dictionary mapping sequences (period, science target, bright/faint) to
-        [night, grade, [[container, OB, target, grade, ob_time, obs_log, run, 
-                         ob_fits],...]
-    
-    tgt_info: pandas dataframe
-        Pandas dataframe of all target info
-    
-    base_path: str
-        String filepath where the calibrated data is stored.
-    
-    dir_suffix: str
-        String suffix on the end of each folder of calibrated data
-    
-    run_local: bool
-        Boolean indicating whether the pipeline is being run locally, and to
-        save files instead within reach/test/ for inspection.
-    
-    ldd_col: str
-        Column of predicted LDD from tgt_info to use.
-    
-    e_ldd_col:
-        Column of predicted e_LDD from tgt_info to use.
+def save_nightly_ldd(sequences, complete_sequences, tgt_info,
+                     pred_ldd, e_pred_ldd,
+                     base_path,
+                     dir_suffix="_v3.94_abcd", run_local=False):
     """
-    print("\n", "-"*79, "\n", "\tSaving Nightly oidiam files\n", "-"*79)
-    nights = OrderedDict()
-    
-    # Get nightly sets of what targets have been observed
-    for seq in complete_sequences:
-        night = complete_sequences[seq][0]
-        
-        sequence = [star for star in sequences[seq]]
-        if night not in nights:
-            nights[night] = set(sequence)
-        else:
-            nights[night].update(sequence)
-    
-    print("Writing oiDiam.fits for %i nights" % len(nights))
-    
-    diam_files_written = 0
-    
-    # For every night, construct a record array/fits file of target diameters
-    # This record array takes the form:
-    # TARGET_ID, DIAM, DIAMERR, HMAG, KMAG, VMAG, ISCAL, TARGET, INFO
-    #   >i2      >f8     >f8    >f8   >f8   >f8    >i4    s8     s18
-    # Where TARGET_ID is simply an integer index (one indexed), ISCAL is a 
-    # boolean value of either 0 or 1, and TARGET is the name of the target. 
-    # The targets are ordered by name, but sorted in ascii order (i.e. all 
-    # numbers, then all capital letters, then all lower case letters). Unclear 
-    # how significant this is. Only Hmags have been populated for some stars, 
-    # though it is unclear what impact this has on the calibration.
-    for night in nights:
-        
-        failed = False
-        
-        ids = []
-        failed_targets = []
-        # Grab the primary IDs
-        # Note that several stars are observed multiple times under different
-        # primary IDs, so we need to check HD and Bayer IDs as well
-        for star in nights[night]:
+    Create one oiDiam.fits file per observing night.
 
-            prim_id = match_target_name(tgt_info, star, verbose=False)
+    New behaviour
+    -------------
+    1. Read the targets actually present in the sampled OIFITS files.
+    2. Match each observed target to tgt_info.
+    3. Take LDD, uncertainty, magnitudes and SCI/CAL status from tgt_info.
+    4. Write only one oiDiam entry per observed target.
+    5. Use a target name compatible with the way PNDRS identifies the object.
 
-            if prim_id is None:
-                print("...failed on %s, %s" % (night, star))
-                failed_targets.append(star)
-                failed = True
-                continue
-            
+    This avoids the old behaviour based on:
+        HD_ID, Ref_ID_1, Ref_ID_2, Ref_ID_3
 
-            ids.append(prim_id)    
-            
-        if failed:
-            print("Skipping night %s because these targets could not be matched:" % night)
-            for target in failed_targets:
-                print("  %s" % target)
-            continue
-        ids_unique = []
-        for this_id in ids:
-            if this_id not in ids_unique:
-                ids_unique.append(this_id)
-        ids = ids_unique
-        # Sort the IDs
-        ids.sort()   
-        
-        # We need to compile entries for multiple targets with the same name
-        # due to the non-unique/inconsistent IDs initially sent to ESO. These
-        # are stored in the following columns of the input table.
-        ref_ids = ["HD_ID","Ref_ID_1", "Ref_ID_2", "Ref_ID_3"]
-        
-        recs = []
-        
-        # For each non-null reference ID, collate magnitude, LDD, and sci/cal
-        # Rename the reference ID column in the pandas dataframe, then stack
-        for ref_id in ref_ids:
-    
-            rec = tgt_info.loc[ids][tgt_info.loc[ids][ref_id].notnull()]
-            rec = rec[["Hmag", "Kmag", "Vmag", "Science", ref_id, "LDD_rel"]]
-            
-            # Insert the diameters - these are now coming from a separate data
-            # structure to facilitate potential bootstrapping. The variable
-            # appropriate_ids are only those IDs found to have the given ref_id
-            # since the ldd data structures don't know about this
-            rec["Ref_ID"] = rec[ref_id].astype(str)
+    which could produce aliases not recognised by PNDRS.
+    """
 
-    # Remove the original reference column
-            rec.drop(ref_id, axis=1, inplace=True)
+    print(
+        "\n",
+        "-" * 79,
+        "\n",
+        "\tSaving Nightly oidiam files\n",
+        "-" * 79
+    )
 
-    # Rename LDD_rel to INFO
-            rec.rename(columns={"LDD_rel": "INFO"}, inplace=True)
-            appropriate_ids = rec.index.values
 
-        # -------------------------------------------------------------------------
-# Insert predicted LDD values
-# pred_ldd is usually a Series for the current bootstrap iteration
-# -------------------------------------------------------------------------
-            try:
-                pred_values = pred_ldd.loc[appropriate_ids].value
-            except Exception:
-                pred_values = pred_ldd[appropriate_ids].values
+    # =====================================================================
+    # Helper functions
+    # =====================================================================
 
-            rec.insert(0, "pred_LDD", pred_values)
+    def get_scalar(data, target_id):
+        """
+        Get one scalar value from either:
+            - pandas Series
+            - pandas DataFrame with target IDs in columns
+            - pandas DataFrame with target IDs in index
+        """
 
-# -------------------------------------------------------------------------
-# Insert predicted LDD uncertainties
-# e_pred_ldd can be either:
-#   1) a Series indexed by target IDs
-#   2) a DataFrame with target IDs as columns
-#   3) a DataFrame with target IDs as index
-# -------------------------------------------------------------------------
-            if isinstance(e_pred_ldd, pd.DataFrame):
+        if isinstance(data, pd.DataFrame):
 
-    # Case A: target IDs are columns
-                if set(appropriate_ids).issubset(set(e_pred_ldd.columns)):
-                    e_ldd_values = e_pred_ldd.loc[:, appropriate_ids].values.flatten()
+            if target_id in data.columns:
 
-    # Case B: target IDs are index
-                elif set(appropriate_ids).issubset(set(e_pred_ldd.index)):
-                    e_ldd_values = e_pred_ldd.loc[appropriate_ids].values.flatten()
-                else:
-                    print("ERROR: e_pred_ldd does not contain the required target IDs.")
-                    print("appropriate_ids:")
-                    print(appropriate_ids)
-                    print("e_pred_ldd index:")
-                    print(e_pred_ldd.index)
-                    print("e_pred_ldd columns:")
-                    print(e_pred_ldd.columns)
-                    raise KeyError("Could not find target IDs in e_pred_ldd")
+                value = data[target_id].values
+
+            elif target_id in data.index:
+
+                value = data.loc[target_id].values
 
             else:
-    # Series case
-                try:
-                    e_ldd_values = e_pred_ldd.loc[appropriate_ids].values
-                except Exception:
-                    e_ldd_values = e_pred_ldd[appropriate_ids].values
 
-            rec.insert(1, "e_pred_LDD", e_ldd_values)
+                raise KeyError(
+                    "Target %s not found"
+                    % target_id
+                )
+
+        else:
+
+            try:
+                value = data.loc[target_id]
+
+            except Exception:
+                value = data[target_id]
+
+
+        value = np.asarray(value).flatten()
+
+        if len(value) == 0:
+
+            raise ValueError(
+                "No value for target %s"
+                % target_id
+            )
+
+        return float(value[0])
+
+
+    def safe_float(value, default):
+
+        try:
+
+            if pd.isnull(value):
+                return default
+
+            return float(value)
+
+        except Exception:
+
+            return default
+
+
+    def safe_string(value, default=""):
+
+        try:
+
+            if pd.isnull(value):
+                return default
+
+        except Exception:
+            pass
+
+        return str(value).strip()
+
+
+    def match_real_target(target_name):
+        """
+        Match a target appearing in OI_TARGET to tgt_info.
+
+        Includes special fallback for names such as:
+            bet_Hyi_bad -> bet_Hyi
+        """
+
+        matched_id = match_target_name(
+            tgt_info,
+            target_name,
+            verbose=False
+        )
+
+
+        if matched_id is not None:
+            return matched_id
+
+
+        # Special suffix used in some reduced observations
+        target_lower = str(target_name).lower()
+
+        if target_lower.endswith("_bad"):
+
+            base_name = str(target_name)[:-4]
+
+            matched_id = match_target_name(
+                tgt_info,
+                base_name,
+                verbose=False
+            )
+
+
+        return matched_id
+
+
+    def choose_pndrs_name(oi_target,
+                          matched_id,
+                          sequence_name_by_id):
+        """
+        Choose TARGET name to place in oiDiam.
+
+        We use the real OI_TARGET to identify the object, but account
+        for PNDRS name formatting.
+
+        Examples
+        --------
+        HR_2426      -> HR2426
+        HR_2342      -> HR2342
+        HD  63734    -> HD63734
+        HD_63734     -> HD63734
+
+        ksi_Gem      -> ksi_Gem
+        rho_Pup      -> rho_Pup
+        iot_Psc      -> iot_Psc
+
+        bet_Hyi_bad  -> bet_Hyi_bad
+        """
+
+        oi_target = str(
+            oi_target
+        ).strip()
+
+
+        # -------------------------------------------------------------
+        # Keep _bad exactly as it appears in the OIFITS.
+        # It is a real observed target name.
+        # -------------------------------------------------------------
+
+        if oi_target.lower().endswith("_bad"):
+            return oi_target
+
+
+        clean = clean_target_id(
+            oi_target
+        )
+
+
+        # -------------------------------------------------------------
+        # HR targets
+        #
+        # OI_TARGET may contain HR_2426, but PNDRS uses HR2426.
+        # -------------------------------------------------------------
+
+        if (
+            clean.startswith("hr")
+            and clean[2:].isdigit()
+        ):
+
+            return "HR%s" % clean[2:]
+
+
+        # -------------------------------------------------------------
+        # HD targets
+        #
+        # HD_63734 / HD  63734 -> HD63734
+        # -------------------------------------------------------------
+
+        if (
+            clean.startswith("hd")
+            and clean[2:].isdigit()
+        ):
+
+            return oi_target
+
+
+        # -------------------------------------------------------------
+        # Bayer/common-name targets:
+        # use the name from the observing sequence when possible.
+        #
+        # Examples:
+        # IOT_PSC -> iot_Psc
+        # ksi_Gem -> ksi_Gem
+        # rho_Pup -> rho_Pup
+        # -------------------------------------------------------------
+
+        if matched_id in sequence_name_by_id:
+
+            return str(
+                sequence_name_by_id[
+                    matched_id
+                ]
+            ).strip()
+
+
+        # Fallback
+        return oi_target
+
+
+    # =====================================================================
+    # Build list of nights
+    # =====================================================================
+
+    nights = OrderedDict()
+
+
+    for seq in complete_sequences:
+
+        night = complete_sequences[
+            seq
+        ][0]
+
+        sequence = [
+            star
+            for star in sequences[seq]
+        ]
+
+
+        if night not in nights:
+
+            nights[night] = set(
+                sequence
+            )
+
+        else:
+
+            nights[night].update(
+                sequence
+            )
+
+
+    print(
+        "Writing oiDiam.fits for %i nights"
+        % len(nights)
+    )
+
+
+    # Only nights successfully written will be returned
+    nights_written = OrderedDict()
+
+    diam_files_written = 0
+
+
+    # =====================================================================
+    # Loop through nights
+    # =====================================================================
+
+    for night in nights:
+
+
+        print(
+            "\n" + "=" * 79
+        )
+
+        print(
+            "Building oiDiam for %s"
+            % night
+        )
+
+        print(
+            "=" * 79
+        )
+
+
+        # -----------------------------------------------------------------
+        # Folder containing the interferograms that initialise_interferograms
+        # already selected for this bootstrap.
+        # -----------------------------------------------------------------
+
+        obs_dir = os.path.join(
+            base_path % night,
+            night
+        )
+
+
+        # -----------------------------------------------------------------
+        # Build physical-target ID -> sequence name mapping
+        # -----------------------------------------------------------------
+
+        sequence_name_by_id = {}
+
+
+        failed_sequence_match = False
+
+
+        for star in nights[night]:
+
+            matched_id = match_target_name(
+                tgt_info,
+                star,
+                verbose=False
+            )
+
+
+            if matched_id is None:
+
+                print(
+                    "ERROR: sequence target could not be matched:"
+                )
+
+                print(
+                    "  night  = %s"
+                    % night
+                )
+
+                print(
+                    "  target = %s"
+                    % star
+                )
+
+                failed_sequence_match = True
+
+                continue
+
+
+            if matched_id not in sequence_name_by_id:
+
+                sequence_name_by_id[
+                    matched_id
+                ] = star
+
+
+        if failed_sequence_match:
+
+            print(
+                "Skipping %s because a sequence target "
+                "could not be matched."
+                % night
+            )
+
+            continue
+
+
+        # -----------------------------------------------------------------
+        # Read REAL OI_TARGET names from sampled OIFITS
+        # -----------------------------------------------------------------
+
+        oifits_files = sorted(
+            glob.glob(
+                os.path.join(
+                    obs_dir,
+                    "PIONI*_oidata.fits"
+                )
+            )
+        )
+
+
+        print(
+            "Sampled OIFITS found: %i"
+            % len(oifits_files)
+        )
+
+
+        if len(oifits_files) == 0:
+
+            print(
+                "ERROR: no PIONI*_oidata.fits files found in:"
+            )
+
+            print(
+                obs_dir
+            )
+
+            continue
+
+
+        real_targets = []
+
+
+        for filename in oifits_files:
+
+            try:
+
+                with fits.open(
+                    filename
+                ) as hdul:
+
+
+                    if "OI_TARGET" not in hdul:
+
+                        print(
+                            "WARNING: OI_TARGET missing in:"
+                        )
+
+                        print(
+                            filename
+                        )
+
+                        continue
+
+
+                    target_table = hdul[
+                        "OI_TARGET"
+                    ].data
+
+
+                    for value in target_table[
+                        "TARGET"
+                    ]:
+
+                        target_name = str(
+                            value
+                        ).strip()
+
+
+                        if (
+                            target_name != ""
+                            and
+                            target_name not in real_targets
+                        ):
+
+                            real_targets.append(
+                                target_name
+                            )
+
+
+            except Exception as e:
+
+                print(
+                    "ERROR reading:"
+                )
+
+                print(
+                    filename
+                )
+
+                print(
+                    str(e)
+                )
+
+
+        real_targets.sort()
+
+
+        print(
+            "\nReal targets found in OI_TARGET:"
+        )
+
+        for target in real_targets:
+
+            print(
+                "  %s"
+                % target
+            )
+
+
+        if len(real_targets) == 0:
+
+            print(
+                "ERROR: no targets found for %s"
+                % night
+            )
+
+            continue
+
+
+        # =================================================================
+        # Build oiDiam rows
+        # =================================================================
+
+        rows = []
+
+        used_pndrs_names = set()
+
+        night_failed = False
+        expected_ids = set()
+        written_ids = set()
+
+        print(
+            "\nOI_TARGET -> tgt_info -> oiDiam"
+        )
+
+        print(
+            "-" * 79
+        )
+
+
+        for oi_target in real_targets:
+
+
+            # -------------------------------------------------------------
+            # Match REAL target to tgt_info
+            # -------------------------------------------------------------
+
+            matched_id = match_real_target(
+                oi_target
+            )
+
+
+            if matched_id is None:
+
+                print(
+                    "ERROR: cannot match OI_TARGET:"
+                )
+
+                print(
+                    "  %s"
+                    % oi_target
+                )
+
+                night_failed = True
+
+                continue
             
-            if len(rec) > 0:
-                recs.append(rec.copy(deep=True))
+            expected_ids.add(matched_id)
+            info = tgt_info.loc[
+                matched_id
+            ]
 
-     
 
-        rec = pd.concat(recs)
-        
-        # Replace any nans with zeroes to keep pndrs from throwing a
-        # Floating point interrupt (SIGFPE) error
-        rec["pred_LDD"].where(~np.isnan(rec["pred_LDD"].values), 1, inplace=True)
-        rec["e_pred_LDD"].where(~np.isnan(rec["e_pred_LDD"].values), 0.1, inplace=True)
-        
-        cols_to_check = ["Hmag", "Kmag", "Vmag"]
-        for col in cols_to_check:
-            rec[col].where(~np.isnan(rec[col].values), 0, inplace=True)
+            # -------------------------------------------------------------
+            # Name PNDRS should receive in oiDiam
+            # -------------------------------------------------------------
 
-        # Invert, as column is for calibrator status
-        rec.Science =  np.abs(rec.Science - 1)
-        #rec["INFO"] = np.repeat("(V-W3) diameter from Boyajian et al. 2014",
-                                #len(rec))
-        
-        rec.insert(0,"TARGET_ID", np.arange(1,len(rec)+1))
-        
-        max_id = np.max([len(id) for id in rec["Ref_ID"]])
-        max_info = np.max([len(str(info)) for info in rec["INFO"]])
-        
-        formats = "int16,float64,float64,float64,float64,float64,int32,a%s,a%s"
-        formats = formats % (max_id, max_info)
-        
-        names = "TARGET_ID,DIAM,DIAMERR,HMAG,KMAG,VMAG,ISCAL,TARGET,INFO"
-        rec = np.rec.array(rec.values.tolist(), names=names, formats=formats)
-        
-        # Construct a fits/astopy table in this form
-        hdu = fits.BinTableHDU.from_columns(rec)
-        
-        hdu.header["EXTNAME"] = ("OIU_DIAM", 
-                                 "name of this binary table extension")
-    
-        # Save the fits file to the night directory
+            pndrs_target = choose_pndrs_name(
+                oi_target,
+                matched_id,
+                sequence_name_by_id
+            )
+
+
+            # Avoid exact duplicate target names
+            if pndrs_target in used_pndrs_names:
+
+                print(
+                    "WARNING: duplicate PNDRS target name:"
+                )
+
+                print(
+                    "  %s"
+                    % pndrs_target
+                )
+
+                print(
+                    "Skipping duplicate."
+                )
+
+                continue
+
+
+            used_pndrs_names.add(
+                pndrs_target
+            )
+
+
+            # -------------------------------------------------------------
+            # Predicted diameter
+            # -------------------------------------------------------------
+
+            try:
+
+                diam = get_scalar(
+                    pred_ldd,
+                    matched_id
+                )
+
+
+            except Exception as e:
+
+                print(
+                    "ERROR: cannot get LDD for:"
+                )
+
+                print(
+                    "  OI_TARGET  = %s"
+                    % oi_target
+                )
+
+                print(
+                    "  matched_id = %s"
+                    % matched_id
+                )
+
+                print(
+                    str(e)
+                )
+
+                night_failed = True
+
+                continue
+
+
+            # Same behaviour as old function for NaN LDD
+            if np.isnan(diam):
+
+                diam = 1.0
+
+
+            # -------------------------------------------------------------
+            # Diameter uncertainty
+            # -------------------------------------------------------------
+
+            try:
+
+                diamerr = get_scalar(
+                    e_pred_ldd,
+                    matched_id
+                )
+
+
+            except Exception as e:
+
+                print(
+                    "ERROR: cannot get e_LDD for:"
+                )
+
+                print(
+                    "  OI_TARGET  = %s"
+                    % oi_target
+                )
+
+                print(
+                    "  matched_id = %s"
+                    % matched_id
+                )
+
+                print(
+                    str(e)
+                )
+
+                night_failed = True
+
+                continue
+
+
+            if np.isnan(diamerr):
+
+                diamerr = 0.1
+
+
+            # -------------------------------------------------------------
+            # Magnitudes
+            # -------------------------------------------------------------
+
+            hmag = safe_float(
+                info["Hmag"],
+                0.0
+            )
+
+            kmag = safe_float(
+                info["Kmag"],
+                0.0
+            )
+
+            vmag = safe_float(
+                info["Vmag"],
+                0.0
+            )
+
+
+            # -------------------------------------------------------------
+            # SCIENCE -> ISCAL
+            #
+            # tgt_info Science=True  -> ISCAL=0
+            # tgt_info Science=False -> ISCAL=1
+            # -------------------------------------------------------------
+
+            science = bool(
+                info["Science"]
+            )
+
+
+            if science:
+
+                iscal = 0
+                role = "SCI"
+
+            else:
+
+                iscal = 1
+                role = "CAL"
+
+
+            # -------------------------------------------------------------
+            # INFO
+            # -------------------------------------------------------------
+
+            if "LDD_rel" in info.index:
+
+                info_string = safe_string(
+                    info["LDD_rel"],
+                    ""
+                )
+
+            else:
+
+                info_string = ""
+
+
+            # -------------------------------------------------------------
+            # Diagnostic
+            # -------------------------------------------------------------
+
+            print(
+                "%-18s -> %-12s -> %-18s "
+                "%s ISCAL=%i"
+                % (
+                    oi_target,
+                    matched_id,
+                    pndrs_target,
+                    role,
+                    iscal
+                )
+            )
+
+
+            # TARGET_ID will be assigned below
+            rows.append(
+                (
+                    diam,
+                    diamerr,
+                    hmag,
+                    kmag,
+                    vmag,
+                    iscal,
+                    pndrs_target,
+                    info_string
+                )
+            )
+            
+            written_ids.add(matched_id)
+        # =================================================================
+        # Do NOT write a partial oiDiam
+        # =================================================================
+        print("\nCHECK OI_TARGET -> oiDiam")
+        print("-" * 60)
+
+        print(
+            "Targets expected : %i"
+            % len(expected_ids)
+        )
+
+        print(
+            "Targets written  : %i"
+            % len(written_ids)
+        )
+
+
+        missing_ids = expected_ids - written_ids
+
+
+        if len(missing_ids) > 0:
+
+            print("\nERROR: targets missing from oiDiam:")
+
+            for target_id in sorted(missing_ids):
+                print("  %s" % target_id)
+
+            raise RuntimeError(
+                "Incomplete oiDiam for night %s"
+                % night
+            )
+
+
+        print("CHECK: OK")
+
+        if night_failed:
+
+            print(
+                "\nERROR: night %s had matching/LDD errors."
+                % night
+            )
+
+            print(
+                "oiDiam will NOT be written for this night."
+            )
+
+            continue
+
+
+        if len(rows) == 0:
+
+            print(
+                "ERROR: no oiDiam rows generated for %s"
+                % night
+            )
+
+            continue
+
+
+        # =================================================================
+        # Sort alphabetically by PNDRS target name
+        # =================================================================
+
+        rows.sort(
+            key=lambda x: x[6]
+        )
+
+
+        # Add TARGET_ID
+        final_rows = []
+
+
+        for target_i, row in enumerate(
+            rows
+        ):
+
+            final_rows.append(
+                (
+                    target_i + 1,
+                    row[0],
+                    row[1],
+                    row[2],
+                    row[3],
+                    row[4],
+                    row[5],
+                    row[6],
+                    row[7]
+                )
+            )
+
+
+        # =================================================================
+        # Build record array
+        # =================================================================
+
+        max_target = max(
+            [
+                len(str(row[7]))
+                for row in final_rows
+            ]
+        )
+
+
+        max_info = max(
+            [
+                len(str(row[8]))
+                for row in final_rows
+            ]
+        )
+
+
+        if max_target < 1:
+            max_target = 1
+
+        if max_info < 1:
+            max_info = 1
+
+
+        formats = (
+            "int16,"
+            "float64,"
+            "float64,"
+            "float64,"
+            "float64,"
+            "float64,"
+            "int32,"
+            "a%s,"
+            "a%s"
+        )
+
+
+        formats = formats % (
+            max_target,
+            max_info
+        )
+
+
+        names = (
+            "TARGET_ID,"
+            "DIAM,"
+            "DIAMERR,"
+            "HMAG,"
+            "KMAG,"
+            "VMAG,"
+            "ISCAL,"
+            "TARGET,"
+            "INFO"
+        )
+
+
+        rec = np.rec.array(
+            final_rows,
+            names=names,
+            formats=formats
+        )
+
+
+        # =================================================================
+        # FITS table
+        # =================================================================
+
+        hdu = fits.BinTableHDU.from_columns(
+            rec
+        )
+
+
+        hdu.header[
+            "EXTNAME"
+        ] = (
+            "OIU_DIAM",
+            "name of this binary table extension"
+        )
+
+
+        # =================================================================
+        # Output directory
+        # =================================================================
+
         if not run_local:
-            dir =  (base_path % night)+ "/%s/" % (night)
+
+            output_dir = obs_dir
+
         else:
-            dir = "test/"
-       
 
-        if os.path.exists(dir):
-            fname = dir + "/" + night + "_oiDiam.fits" 
-            hdu.writeto(fname, output_verify="warn", overwrite=True)
-            
-            # Done, move to the next night
-            print("...wrote %s, %s" % (night, nights[night]))
-            diam_files_written += 1
-        else:
-            # The directory does not exist, flag
-            print("...directory '%s' does not exist" % dir)
-    print("%i oiDiam.fits files written" % diam_files_written)    
-    return nights
+            output_dir = "test"
 
 
+        if not os.path.exists(
+            output_dir
+        ):
 
+            os.makedirs(
+                output_dir
+            )
+
+
+        fname = os.path.join(
+            output_dir,
+            night + "_oiDiam.fits"
+        )
+
+
+        hdu.writeto(
+            fname,
+            output_verify="warn",
+            overwrite=True
+        )
+
+
+        print(
+            "\nWROTE:"
+        )
+
+        print(
+            fname
+        )
+
+
+        print(
+            "\nFINAL oiDiam:"
+        )
+
+        print(
+            "-" * 60
+        )
+
+        print(
+            "%-20s %-5s %s"
+            % (
+                "TARGET",
+                "ISCAL",
+                "INFO"
+            )
+        )
+
+        print(
+            "-" * 60
+        )
+
+
+        for row in final_rows:
+
+            print(
+                "%-20s %-5i %s"
+                % (
+                    row[7],
+                    row[6],
+                    row[8]
+                )
+            )
+
+
+        nights_written[
+            night
+        ] = nights[night]
+
+
+        diam_files_written += 1
+
+
+    print(
+        "\n%i oiDiam.fits files written"
+        % diam_files_written
+    )
+
+
+    return nights_written
 
 def load_bad_baselines_log(bad_baseline_file="data/bad_baselines.txt"):
     """
@@ -555,6 +1354,25 @@ def load_bad_baselines_log_old():
                              
     return bad_baseline_dict
 
+def get_observed_target_name(tgt_info, matched_id, observed_name):
+    """
+    Return the target name in the format expected by PNDRS.
+
+    Examples
+    --------
+    HR_2342  -> HR2342
+    HR_2391  -> HR2391
+    HR_2426  -> HR2426
+    ksi_Gem  -> ksi_Gem
+    """
+
+    name = str(observed_name).strip()
+
+    # PNDRS/OIFITS uses HR2342 instead of HR_2342
+    if name.startswith("HR_"):
+        name = name.replace("HR_", "HR", 1)
+
+    return name
 
 def save_nightly_pndrs_script(complete_sequences, tgt_info, 
             base_path,
@@ -891,7 +1709,7 @@ def calibrate_all_observations(reduced_data_folders, bootstrap_i,
               % (int(np.floor(cal_time/60.)), cal_time % 60.))
         
         # Move oifits files back to central location (reach/results by default)
-        move_sci_oifits(ob_folder,results_path,bootstrap_i,tgt_info=tgt_info)
+        move_sci_oifits_old(ob_folder,results_path,bootstrap_i)
     
     # All nights finished, print summary          
     total_time = (times[-1] - times[0]).total_seconds()    
@@ -1239,8 +2057,93 @@ def initialise_interferograms(complete_sequences, base_path, n_ifg=5,
     
         if not os.path.exists(bootstrapping_folder):
            os.makedirs(bootstrapping_folder)
-        ifgs = sample_interferograms(complete_sequences[seq][2], n_ifg, 
-                                     do_random_ifg_sampling)
+        #ifgs = sample_interferograms(complete_sequences[seq][2], n_ifg, 
+        #                             do_random_ifg_sampling)
+                # ============================================================
+        # Remove FRINGE observations that do not have a reduced
+        # _oidata.fits file.
+        #
+        # Example:
+        # PNDRS may skip a raw FRINGE because there is no DARK.
+        # Such a file must NOT be available for bootstrap sampling.
+        # ============================================================
+
+        obs_sequence = []
+
+        n_missing_oidata = 0
+
+
+        for obs in complete_sequences[seq][2]:
+
+            # Keep DARK, KAPPA, etc.
+            # sample_interferograms() already knows how to ignore them.
+            if obs[8] != "FRINGE":
+
+                obs_sequence.append(obs)
+
+                continue
+
+
+            # Raw filename stored in complete_sequences
+            raw_filename = obs[7]
+
+            fn = raw_filename.split("/")[-1]
+
+            oidata_name = fn.replace(
+                ".fits.Z",
+                "_oidata.fits"
+            )
+
+            oidata_path = os.path.join(
+                night_folder,
+                oidata_name
+            )
+
+
+            # Only allow this FRINGE into the bootstrap pool
+            # if PNDRS actually produced its reduced OIFITS.
+            if os.path.exists(oidata_path):
+
+                obs_sequence.append(obs)
+
+            else:
+
+                n_missing_oidata += 1
+
+                print(
+                    "WARNING: skipping unreduced FRINGE:"
+                )
+
+                print(
+                    "  target : %s"
+                    % obs[2]
+                )
+
+                print(
+                    "  file   : %s"
+                    % oidata_name
+                )
+
+
+        if n_missing_oidata > 0:
+
+            print(
+                "Skipped %i unreduced FRINGE file/s "
+                "for %s on %s"
+                % (
+                    n_missing_oidata,
+                    seq,
+                    night
+                )
+            )
+
+
+        # Now bootstrap ONLY from usable interferograms
+        ifgs = sample_interferograms(
+            obs_sequence,
+            n_ifg,
+            do_random_ifg_sampling
+        )
         
         for i_ifg, ifg in enumerate(ifgs):
             fn = ifg.split("/")[-1]
@@ -1408,7 +2311,57 @@ def run_one_calibration_set(sequences, complete_sequences, base_path,
         
         print("\n", "-"*79, "\n", "\tCalibrating %i night/s, bootstrap %i\n" 
               % (len(nights), bs_i), "-"*79)
-        
+     # ==============================================================
+        # DEBUG: inspect oiDiam BEFORE pndrsCalibrate
+        # ==============================================================
+
+        print("\n" + "=" * 79)
+        print("OIDiam BEFORE pndrsCalibrate")
+        print("=" * 79)
+
+        for night in nights.keys():
+
+            oidiam = (
+                base_path % night
+                + "%s/%s_oiDiam.fits"
+                % (night, night)
+            )
+
+            print("\nFile:")
+            print(oidiam)
+
+            # Save an untouched copy BEFORE pndrsCalibrate
+            backup = (
+                base_path % night
+                + "%s/%s_oiDiam_BEFORE_pndrsCalibrate.fits"
+                % (night, night)
+            )
+
+            copyfile(
+                oidiam,
+                backup
+            )
+
+            print("Backup:")
+            print(backup)
+
+            with fits.open(oidiam) as hdul:
+
+                data = hdul["OIU_DIAM"].data
+
+                print("\nTARGET        ISCAL        INFO")
+                print("-" * 60)
+
+                for row in data:
+
+                    print(
+                        "%-20s %-5s %s"
+                        % (
+                            row["TARGET"],
+                            row["ISCAL"],
+                            row["INFO"]
+                        )
+                    )
         # Run Calibration
         obs_folders = [base_path % night + "%s/" % night for night in nights.keys()]
         calibrate_all_observations(obs_folders,bs_i,results_path,complete_sequences=complete_sequences,tgt_info=tgt_info)

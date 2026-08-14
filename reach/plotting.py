@@ -7116,7 +7116,7 @@ def plot_science_intensity_maps(
     return output_file
 
 
-def plot_visibility_diagnostic_summary(
+def plot_visibility_diagnostic_summary_old(
         results,
         bs_results,
         tgt_info,
@@ -9440,7 +9440,3024 @@ def plot_visibility_diagnostic_summary(
     return output_file
 
 
+def plot_visibility_diagnostic_summary(
+        results,
+        bs_results,
+        tgt_info,
+        output_file=(
+            "plots/visibility_diagnostics/"
+            "visibility_diagnostic_summary.pdf"
+        ),
+        bootstrap_index=0,
+        sigma_threshold=3.0,
+        raw_residual_threshold=0.05,
+        e_wl_frac=0.0035,
+        star_filter=None,
+        highlight_night=None,
+        highlight_pair=None,
+        highlight_baseline_range=None,
+        highlight_wavelength_index=None,
+        max_annotations=10,
+        use_predicted_if_missing=True):
+    """
+    Create point-by-point visibility diagnostics.
 
+    The four panels are:
+
+        1. Corrected VIS2 coloured by observing night.
+        2. Corrected VIS2 coloured by telescope pair.
+        3. Raw residual:
+               VIS2_observed - VIS2_model
+           coloured by wavelength channel.
+        4. Standardized residual:
+               (VIS2_observed - VIS2_model) / e_VIS2
+           versus projected baseline.
+
+    A point is marked as a removal candidate when:
+
+        - it has an OIFITS flag; or
+        - abs(standardized residual) >= sigma_threshold
+          AND
+          abs(raw residual) >= raw_residual_threshold.
+
+    No data are removed by this function.
+    """
+
+    # ====================================================================
+    # Compatibility
+    # ====================================================================
+
+    try:
+        string_types = (basestring,)
+    except NameError:
+        string_types = (str,)
+
+    # ====================================================================
+    # Helper functions
+    # ====================================================================
+
+    def safe_float(value):
+
+        try:
+            return float(value)
+        except Exception:
+            return np.nan
+
+
+    def pair_to_string(value):
+        """
+        Convert a telescope-pair representation to a readable string.
+        """
+
+        try:
+
+            if isinstance(
+                    value,
+                    (tuple, list, np.ndarray)):
+
+                values = list(
+                    value
+                )
+
+                if len(values) >= 2:
+
+                    return "%s-%s" % (
+                        str(values[0]),
+                        str(values[1])
+                    )
+
+        except Exception:
+            pass
+
+        return str(
+            value
+        )
+
+
+    def resize_numeric_metadata(
+            values,
+            required_length):
+        """
+        Resize numerical metadata to the number of baseline rows.
+        """
+
+        output = np.empty(
+            required_length,
+            dtype=float
+        )
+
+        output[:] = np.nan
+
+        try:
+
+            values = np.asarray(
+                values,
+                dtype=float
+            ).ravel()
+
+        except Exception:
+
+            values = np.array(
+                [],
+                dtype=float
+            )
+
+        n_copy = min(
+            len(values),
+            required_length
+        )
+
+        if n_copy > 0:
+
+            output[:n_copy] = values[
+                :n_copy
+            ]
+
+        return output
+
+
+    def resize_pair_metadata(
+            values,
+            required_length):
+        """
+        Preserve telescope pairs without flattening tuple pairs.
+        """
+
+        output = np.empty(
+            required_length,
+            dtype=object
+        )
+
+        output[:] = "unknown"
+
+        try:
+
+            values = list(
+                values
+            )
+
+        except Exception:
+
+            values = []
+
+        n_copy = min(
+            len(values),
+            required_length
+        )
+
+        for value_i in xrange(
+                n_copy):
+
+            output[value_i] = pair_to_string(
+                values[value_i]
+            )
+
+        return output
+
+
+    def mjd_to_night(mjd_value):
+        """
+        Convert MJD to an observing-night string.
+
+        Subtracting half a day keeps observations made after midnight
+        associated with the evening on which the night began.
+        """
+
+        mjd_value = safe_float(
+            mjd_value
+        )
+
+        if not np.isfinite(
+                mjd_value):
+
+            return "unknown"
+
+        try:
+
+            mjd_epoch = datetime(
+                1858,
+                11,
+                17
+            )
+
+            date_value = (
+                mjd_epoch
+                + timedelta(
+                    days=mjd_value - 0.5
+                )
+            )
+
+            return date_value.strftime(
+                "%Y-%m-%d"
+            )
+
+        except Exception:
+
+            return "unknown"
+
+
+    def resolve_bs_key(
+            science_name,
+            sequence_name,
+            period_value):
+        """
+        Match one results row to the corresponding bs_results key.
+        """
+
+        science_clean = clean_target_name_for_plot(
+            science_name
+        )
+
+        sequence_clean = str(
+            sequence_name
+        ).strip().lower()
+
+        period_clean = str(
+            period_value
+        ).strip()
+
+        # Direct lookup for combined fits.
+        if science_name in bs_results:
+
+            return science_name
+
+        # Direct tuple possibilities.
+        direct_keys = [
+            (
+                science_name,
+                sequence_name,
+                period_value
+            ),
+            (
+                science_name,
+                str(sequence_name),
+                period_value
+            ),
+        ]
+
+        for direct_key in direct_keys:
+
+            if direct_key in bs_results:
+
+                return direct_key
+
+        # Robust matching.
+        for candidate_key in bs_results.keys():
+
+            if isinstance(
+                    candidate_key,
+                    tuple):
+
+                candidate_star = candidate_key[0]
+
+                candidate_sequence = ""
+
+                candidate_period = ""
+
+                if len(candidate_key) > 1:
+
+                    candidate_sequence = str(
+                        candidate_key[1]
+                    ).strip().lower()
+
+                if len(candidate_key) > 2:
+
+                    candidate_period = str(
+                        candidate_key[2]
+                    ).strip()
+
+                same_star = (
+                    clean_target_name_for_plot(
+                        candidate_star
+                    )
+                    == science_clean
+                )
+
+                same_sequence = (
+                    candidate_sequence
+                    == sequence_clean
+                )
+
+                same_period = (
+                    candidate_period
+                    == period_clean
+                )
+
+                if (
+                    same_star
+                    and same_sequence
+                    and same_period
+                ):
+
+                    return candidate_key
+
+            else:
+
+                same_star = (
+                    clean_target_name_for_plot(
+                        candidate_key
+                    )
+                    == science_clean
+                )
+
+                if same_star:
+
+                    return candidate_key
+
+        return None
+
+
+    def get_wavelength_coefficients(
+            result_row,
+            target_id,
+            coefficient_name,
+            n_wavelengths,
+            default_value):
+        """
+        Obtain U_LAMBDA or S_LAMBDA from results, falling back to
+        wavelength-specific columns in tgt_info.
+        """
+
+        if coefficient_name == "u":
+
+            result_column = "U_LAMBDA"
+            target_prefix = "u_lambda_"
+
+        else:
+
+            result_column = "S_LAMBDA"
+            target_prefix = "s_lambda_"
+
+        coefficient_values = np.empty(
+            n_wavelengths,
+            dtype=float
+        )
+
+        coefficient_values[:] = np.nan
+
+        # First use the final values stored in results.
+        if result_column in result_row.index:
+
+            try:
+
+                result_values = np.asarray(
+                    result_row[
+                        result_column
+                    ],
+                    dtype=float
+                ).ravel()
+
+                n_copy = min(
+                    len(result_values),
+                    n_wavelengths
+                )
+
+                coefficient_values[
+                    :n_copy
+                ] = result_values[
+                    :n_copy
+                ]
+
+            except Exception:
+                pass
+
+        # Fill missing values from tgt_info.
+        for wavelength_i in xrange(
+                n_wavelengths):
+
+            if np.isfinite(
+                    coefficient_values[
+                        wavelength_i
+                    ]):
+
+                continue
+
+            column_name = (
+                target_prefix
+                + str(wavelength_i)
+            )
+
+            if column_name in tgt_info.columns:
+
+                try:
+
+                    coefficient_values[
+                        wavelength_i
+                    ] = float(
+                        tgt_info.loc[
+                            target_id,
+                            column_name
+                        ]
+                    )
+
+                except Exception:
+                    pass
+
+        invalid_values = (
+            ~np.isfinite(
+                coefficient_values
+            )
+        )
+
+        coefficient_values[
+            invalid_values
+        ] = float(
+            default_value
+        )
+
+        return coefficient_values
+
+
+    def plot_grouped_visibilities(
+            axis,
+            group_values,
+            group_label,
+            spatial_frequency,
+            vis2_values,
+            e_vis2_values,
+            valid_mask,
+            colour_map):
+        """
+        Plot visibility measurements grouped by night or telescope pair.
+        """
+
+        unique_groups = sorted(
+            set(
+                group_values.tolist()
+            )
+        )
+
+        group_colours = {}
+
+        for group_i, group_value in enumerate(
+                unique_groups):
+
+            denominator = max(
+                1.0,
+                float(
+                    len(unique_groups) - 1
+                )
+            )
+
+            group_colour = colour_map(
+                float(group_i)
+                / denominator
+            )
+
+            group_colours[
+                group_value
+            ] = group_colour
+
+            group_mask = (
+                valid_mask
+                & (
+                    group_values
+                    == group_value
+                )
+            )
+
+            if not np.any(
+                    group_mask):
+
+                continue
+
+            finite_error = (
+                group_mask
+                & np.isfinite(
+                    e_vis2_values
+                )
+                & (
+                    e_vis2_values > 0
+                )
+            )
+
+            no_error = (
+                group_mask
+                & ~finite_error
+            )
+
+            if np.any(
+                    finite_error):
+
+                axis.errorbar(
+                    spatial_frequency[
+                        finite_error
+                    ],
+                    vis2_values[
+                        finite_error
+                    ],
+                    xerr=(
+                        spatial_frequency[
+                            finite_error
+                        ]
+                        * e_wl_frac
+                    ),
+                    yerr=e_vis2_values[
+                        finite_error
+                    ],
+                    fmt=".",
+                    color=group_colour,
+                    label=str(
+                        group_value
+                    ),
+                    elinewidth=0.3,
+                    capsize=0.5,
+                    capthick=0.3,
+                    markersize=4,
+                    zorder=3
+                )
+
+            if np.any(
+                    no_error):
+
+                axis.scatter(
+                    spatial_frequency[
+                        no_error
+                    ],
+                    vis2_values[
+                        no_error
+                    ],
+                    s=12,
+                    color=group_colour,
+                    label=(
+                        str(group_value)
+                        if not np.any(finite_error)
+                        else None
+                    ),
+                    zorder=3
+                )
+
+        axis.set_title(
+            group_label
+        )
+
+        axis.set_xlabel(
+            r"Spatial frequency (rad$^{-1}$)"
+        )
+
+        axis.set_ylabel(
+            r"Corrected visibility$^2$"
+        )
+
+        axis.set_xlim(
+            [0.0, 2.5E8]
+        )
+
+        axis.set_ylim(
+            [0.0, 1.5]
+        )
+
+        axis.grid()
+
+        handles, labels = (
+            axis.get_legend_handles_labels()
+        )
+
+        if len(handles) > 0:
+
+            axis.legend(
+                loc="best",
+                fontsize=7,
+                ncol=2
+            )
+
+        return group_colours
+
+
+    # ====================================================================
+    # Validate inputs
+    # ====================================================================
+
+    if results is None or len(
+            results) == 0:
+
+        raise ValueError(
+            "results is empty"
+        )
+
+    if bs_results is None or len(
+            bs_results) == 0:
+
+        raise ValueError(
+            "bs_results is empty"
+        )
+
+    if tgt_info is None:
+
+        raise ValueError(
+            "tgt_info must be provided"
+        )
+
+    # ====================================================================
+    # Output directories
+    # ====================================================================
+
+    output_directory = os.path.dirname(
+        output_file
+    )
+
+    if output_directory == "":
+
+        output_directory = "."
+
+    if not os.path.exists(
+            output_directory):
+
+        os.makedirs(
+            output_directory
+        )
+
+    individual_directory = os.path.join(
+        output_directory,
+        "individual"
+    )
+
+    if not os.path.exists(
+            individual_directory):
+
+        os.makedirs(
+            individual_directory
+        )
+
+    all_points_csv = os.path.join(
+        output_directory,
+        "visibility_point_diagnostics.csv"
+    )
+
+    candidate_csv = os.path.join(
+        output_directory,
+        "visibility_removal_candidates.csv"
+    )
+
+    v2_summary_pdf = os.path.join(
+        output_directory,
+        "visibility_v2_above_one_summary.pdf"
+    )
+
+    v2_summary_csv = os.path.join(
+        output_directory,
+        "visibility_v2_above_one_summary.csv"
+    )
+
+    v2_overview_png = os.path.join(
+        output_directory,
+        "visibility_v2_above_one_overview.png"
+    )
+
+    v2_individual_directory = os.path.join(
+        output_directory,
+        "v2_above_one_individual"
+    )
+
+    if not os.path.exists(
+            v2_individual_directory):
+
+        os.makedirs(
+            v2_individual_directory
+        )
+
+    # ====================================================================
+    # Star filtering
+    # ====================================================================
+
+    if star_filter is None:
+
+        selected_star_names = None
+
+    else:
+
+        if isinstance(
+                star_filter,
+                string_types):
+
+            star_filter = [
+                star_filter
+            ]
+
+        selected_star_names = set([
+            clean_target_name_for_plot(
+                target_name
+            )
+            for target_name in star_filter
+        ])
+
+    diagnostic_rows = []
+    v2_summary_rows = []
+
+    n_created = 0
+    n_failed = 0
+
+    plt.close(
+        "all"
+    )
+
+    print("")
+    print("=" * 79)
+    print("Creating visibility diagnostics")
+    print("Output:")
+    print(output_file)
+    print("=" * 79)
+
+    # ====================================================================
+    # Multipage PDFs
+    # ====================================================================
+
+    v2_pdf = PdfPages(
+        v2_summary_pdf
+    )
+
+    with PdfPages(
+            output_file) as pdf:
+
+        for result_i in xrange(
+                len(results)):
+
+            result_row = results.iloc[
+                result_i
+            ]
+
+            science_name = str(
+                result_row[
+                    "STAR"
+                ]
+            )
+
+            sequence_name = str(
+                result_row.get(
+                    "SEQUENCE",
+                    "combined"
+                )
+            )
+
+            period_value = result_row.get(
+                "PERIOD",
+                ""
+            )
+
+            science_clean = (
+                clean_target_name_for_plot(
+                    science_name
+                )
+            )
+
+            if (
+                selected_star_names is not None
+                and science_clean
+                not in selected_star_names
+            ):
+
+                continue
+
+            print("")
+            print(
+                "Diagnostic for %s, %s, %s"
+                % (
+                    science_name,
+                    sequence_name,
+                    str(period_value)
+                )
+            )
+
+            try:
+
+                # ============================================================
+                # Match target information
+                # ============================================================
+
+                target_id = result_row.get(
+                    "HD",
+                    None
+                )
+
+                if target_id not in tgt_info.index:
+
+                    target_id = match_target_for_plot(
+                        tgt_info,
+                        science_name,
+                        verbose=True
+                    )
+
+                if target_id is None:
+
+                    raise ValueError(
+                        "Could not match target in tgt_info"
+                    )
+
+                # ============================================================
+                # Match bootstrap metadata
+                # ============================================================
+
+                bootstrap_key = resolve_bs_key(
+                    science_name,
+                    sequence_name,
+                    period_value
+                )
+
+                if bootstrap_key is None:
+
+                    raise ValueError(
+                        "Could not find matching bs_results key"
+                    )
+
+                bootstrap_table = bs_results[
+                    bootstrap_key
+                ]
+
+                if len(bootstrap_table) == 0:
+
+                    raise ValueError(
+                        "Bootstrap table is empty"
+                    )
+
+                metadata_index = int(
+                    bootstrap_index
+                )
+
+                if metadata_index < 0:
+
+                    metadata_index = (
+                        len(bootstrap_table)
+                        + metadata_index
+                    )
+
+                metadata_index = max(
+                    0,
+                    min(
+                        metadata_index,
+                        len(bootstrap_table) - 1
+                    )
+                )
+
+                metadata_row = bootstrap_table.iloc[
+                    metadata_index
+                ]
+
+                # ============================================================
+                # Final VIS2 arrays
+                # ============================================================
+
+                baselines = np.asarray(
+                    result_row[
+                        "BASELINE"
+                    ],
+                    dtype=float
+                ).ravel()
+
+                wavelengths = np.asarray(
+                    result_row[
+                        "WAVELENGTH"
+                    ],
+                    dtype=float
+                ).ravel()
+
+                vis2_matrix = np.asarray(
+                    result_row[
+                        "VIS2"
+                    ],
+                    dtype=float
+                )
+
+                e_vis2_matrix = np.asarray(
+                    result_row[
+                        "e_VIS2"
+                    ],
+                    dtype=float
+                )
+
+                n_baselines = len(
+                    baselines
+                )
+
+                n_wavelengths = len(
+                    wavelengths
+                )
+
+                if n_baselines == 0:
+
+                    raise ValueError(
+                        "No baseline values"
+                    )
+
+                if n_wavelengths == 0:
+
+                    raise ValueError(
+                        "No wavelength values"
+                    )
+
+                expected_size = (
+                    n_baselines
+                    * n_wavelengths
+                )
+
+                if vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "VIS2 size=%i, expected=%i"
+                        % (
+                            vis2_matrix.size,
+                            expected_size
+                        )
+                    )
+
+                if e_vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "e_VIS2 size=%i, expected=%i"
+                        % (
+                            e_vis2_matrix.size,
+                            expected_size
+                        )
+                    )
+
+                vis2_matrix = vis2_matrix.reshape(
+                    n_baselines,
+                    n_wavelengths
+                )
+
+                e_vis2_matrix = e_vis2_matrix.reshape(
+                    n_baselines,
+                    n_wavelengths
+                )
+
+                # ============================================================
+                # Recover MJD, observing night and telescope pair
+                # ============================================================
+
+                mjds = resize_numeric_metadata(
+                    metadata_row[
+                        "MJD"
+                    ],
+                    n_baselines
+                )
+
+                telescope_pairs = resize_pair_metadata(
+                    metadata_row[
+                        "TEL_PAIR"
+                    ],
+                    n_baselines
+                )
+
+                night_labels = np.asarray([
+                    mjd_to_night(
+                        mjd_value
+                    )
+                    for mjd_value in mjds
+                ])
+
+                # ============================================================
+                # Recover flags
+                # ============================================================
+
+                try:
+
+                    flag_matrix = np.asarray(
+                        metadata_row[
+                            "FLAG"
+                        ]
+                    )
+
+                    if flag_matrix.size == expected_size:
+
+                        flag_matrix = flag_matrix.reshape(
+                            n_baselines,
+                            n_wavelengths
+                        )
+
+                        bad_flag_matrix = (
+                            flag_matrix.astype(
+                                bool
+                            )
+                        )
+
+                    else:
+
+                        print(
+                            "WARNING: FLAG shape does not match VIS2"
+                        )
+
+                        bad_flag_matrix = np.zeros(
+                            vis2_matrix.shape,
+                            dtype=bool
+                        )
+
+                except Exception:
+
+                    bad_flag_matrix = np.zeros(
+                        vis2_matrix.shape,
+                        dtype=bool
+                    )
+
+                # ============================================================
+                # Map C_SCALE to baseline rows
+                # ============================================================
+
+                try:
+
+                    c_values = np.asarray(
+                        result_row[
+                            "C_SCALE"
+                        ],
+                        dtype=float
+                    ).ravel()
+
+                except Exception:
+
+                    c_values = np.array(
+                        [1.0],
+                        dtype=float
+                    )
+
+                if len(c_values) == 0:
+
+                    c_values = np.array(
+                        [1.0],
+                        dtype=float
+                    )
+
+                invalid_c = (
+                    ~np.isfinite(
+                        c_values
+                    )
+                    | (
+                        c_values <= 0
+                    )
+                )
+
+                c_values[
+                    invalid_c
+                ] = 1.0
+
+                if len(c_values) == 1:
+
+                    c_per_baseline = np.repeat(
+                        c_values[0],
+                        n_baselines
+                    )
+
+                elif (
+                    n_baselines
+                    % len(c_values)
+                    == 0
+                ):
+
+                    baselines_per_c = int(
+                        n_baselines
+                        / len(c_values)
+                    )
+
+                    c_per_baseline = np.repeat(
+                        c_values,
+                        baselines_per_c
+                    )
+
+                else:
+
+                    print(
+                        "WARNING: cannot map C_SCALE to baselines; "
+                        "using C=1 for %s"
+                        % science_name
+                    )
+
+                    c_per_baseline = np.ones(
+                        n_baselines,
+                        dtype=float
+                    )
+
+                c_matrix = np.repeat(
+                    c_per_baseline[
+                        :, np.newaxis
+                    ],
+                    n_wavelengths,
+                    axis=1
+                )
+
+                vis2_corrected_matrix = (
+                    vis2_matrix
+                    / c_matrix
+                )
+
+                e_vis2_corrected_matrix = (
+                    e_vis2_matrix
+                    / c_matrix
+                )
+
+                # ============================================================
+                # Spatial-frequency arrays
+                # ============================================================
+
+                baseline_matrix = np.repeat(
+                    baselines[
+                        :, np.newaxis
+                    ],
+                    n_wavelengths,
+                    axis=1
+                )
+
+                wavelength_matrix = np.repeat(
+                    wavelengths[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                spatial_frequency_matrix = (
+                    baseline_matrix
+                    / wavelength_matrix
+                )
+
+                # ============================================================
+                # Angular diameter
+                # ============================================================
+
+                fitted_ldd = safe_float(
+                    result_row[
+                        "LDD_FIT"
+                    ]
+                )
+
+                fitted_ldd_error = safe_float(
+                    result_row[
+                        "e_LDD_FIT"
+                    ]
+                )
+
+                if (
+                    np.isfinite(fitted_ldd)
+                    and fitted_ldd > 0
+                ):
+
+                    model_ldd = fitted_ldd
+                    diameter_source = "fitted"
+
+                elif use_predicted_if_missing:
+
+                    model_ldd = safe_float(
+                        tgt_info.loc[
+                            target_id,
+                            "LDD_pred"
+                        ]
+                    )
+
+                    diameter_source = "predicted"
+
+                else:
+
+                    model_ldd = np.nan
+                    diameter_source = "unavailable"
+
+                if (
+                    not np.isfinite(model_ldd)
+                    or model_ldd <= 0
+                ):
+
+                    raise ValueError(
+                        "No valid angular diameter"
+                    )
+
+                # ============================================================
+                # Wavelength-dependent model coefficients
+                # ============================================================
+
+                u_lambdas = get_wavelength_coefficients(
+                    result_row,
+                    target_id,
+                    "u",
+                    n_wavelengths,
+                    0.3
+                )
+
+                s_lambdas = get_wavelength_coefficients(
+                    result_row,
+                    target_id,
+                    "s",
+                    n_wavelengths,
+                    1.0
+                )
+
+                u_matrix = np.repeat(
+                    u_lambdas[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                s_matrix = np.repeat(
+                    s_lambdas[
+                        np.newaxis, :
+                    ],
+                    n_baselines,
+                    axis=0
+                )
+
+                # ============================================================
+                # Flatten arrays
+                # ============================================================
+
+                spatial_frequency = (
+                    spatial_frequency_matrix.flatten()
+                )
+
+                baseline_per_point = (
+                    baseline_matrix.flatten()
+                )
+
+                wavelength_per_point = (
+                    wavelength_matrix.flatten()
+                )
+
+                vis2_corrected = (
+                    vis2_corrected_matrix.flatten()
+                )
+
+                e_vis2_corrected = (
+                    e_vis2_corrected_matrix.flatten()
+                )
+
+                u_per_point = (
+                    u_matrix.flatten()
+                )
+
+                s_per_point = (
+                    s_matrix.flatten()
+                )
+
+                bad_flag = (
+                    bad_flag_matrix.flatten()
+                )
+
+                wavelength_indices = np.tile(
+                    np.arange(
+                        n_wavelengths
+                    ),
+                    n_baselines
+                )
+
+                night_per_point = np.repeat(
+                    night_labels,
+                    n_wavelengths
+                )
+
+                pair_per_point = np.repeat(
+                    telescope_pairs,
+                    n_wavelengths
+                )
+
+                mjd_per_point = np.repeat(
+                    mjds,
+                    n_wavelengths
+                )
+
+                c_per_point = np.repeat(
+                    c_per_baseline,
+                    n_wavelengths
+                )
+
+                point_indices = np.arange(
+                    expected_size
+                )
+
+                # ============================================================
+                # Model VIS2
+                # ============================================================
+
+                model_vis2 = rdiam.calc_vis2(
+                    spatial_frequency,
+                    model_ldd,
+                    1.0,
+                    (
+                        len(spatial_frequency),
+                    ),
+                    u_per_point,
+                    s_per_point
+                )
+
+                # ============================================================
+                # Raw and standardized residuals
+                # ============================================================
+
+                raw_residual = (
+                    vis2_corrected
+                    - model_vis2
+                )
+
+                standardized_residual = np.empty(
+                    len(raw_residual),
+                    dtype=float
+                )
+
+                standardized_residual[:] = np.nan
+
+                valid_uncertainty = (
+                    np.isfinite(
+                        e_vis2_corrected
+                    )
+                    & (
+                        e_vis2_corrected > 0
+                    )
+                )
+
+                standardized_residual[
+                    valid_uncertainty
+                ] = (
+                    raw_residual[
+                        valid_uncertainty
+                    ]
+                    / e_vis2_corrected[
+                        valid_uncertainty
+                    ]
+                )
+
+                valid_data = (
+                    np.isfinite(
+                        spatial_frequency
+                    )
+                    & np.isfinite(
+                        vis2_corrected
+                    )
+                    & np.isfinite(
+                        model_vis2
+                    )
+                )
+
+                # ============================================================
+                # V2 > 1 summary statistics
+                # ============================================================
+
+                # Count every finite corrected V2 point, including OIFITS-
+                # flagged points. This makes the summary describe the complete
+                # corrected VIS2 array shown in the diagnostic plots.
+                finite_vis2 = np.isfinite(
+                    vis2_corrected
+                )
+
+                v2_above_one = (
+                    finite_vis2
+                    & (
+                        vis2_corrected > 1.0
+                    )
+                )
+
+                n_v2_points = int(
+                    np.sum(
+                        finite_vis2
+                    )
+                )
+
+                n_v2_above_one = int(
+                    np.sum(
+                        v2_above_one
+                    )
+                )
+
+                if n_v2_points > 0:
+
+                    fraction_v2_above_one = (
+                        float(
+                            n_v2_above_one
+                        )
+                        / float(
+                            n_v2_points
+                        )
+                    )
+
+                    finite_point_indices = np.where(
+                        finite_vis2
+                    )[0]
+
+                    max_point_index = int(
+                        finite_point_indices[
+                            np.argmax(
+                                vis2_corrected[
+                                    finite_point_indices
+                                ]
+                            )
+                        ]
+                    )
+
+                    max_vis2 = float(
+                        vis2_corrected[
+                            max_point_index
+                        ]
+                    )
+
+                    max_night = str(
+                        night_per_point[
+                            max_point_index
+                        ]
+                    )
+
+                    max_pair = str(
+                        pair_per_point[
+                            max_point_index
+                        ]
+                    )
+
+                    max_baseline = float(
+                        baseline_per_point[
+                            max_point_index
+                        ]
+                    )
+
+                    max_wavelength_index = int(
+                        wavelength_indices[
+                            max_point_index
+                        ]
+                    )
+
+                    max_wavelength_um = float(
+                        wavelength_per_point[
+                            max_point_index
+                        ]
+                        * 1.0E6
+                    )
+
+                else:
+
+                    fraction_v2_above_one = np.nan
+                    max_point_index = -1
+                    max_vis2 = np.nan
+                    max_night = "unknown"
+                    max_pair = "unknown"
+                    max_baseline = np.nan
+                    max_wavelength_index = -1
+                    max_wavelength_um = np.nan
+
+                v2_above_one_indices = np.where(
+                    v2_above_one
+                )[0]
+
+                v2_summary_rows.append({
+                    "star": science_name,
+                    "sequence": sequence_name,
+                    "period": period_value,
+                    "max_vis2_corrected": max_vis2,
+                    "max_point_id": (
+                        "P%i"
+                        % max_point_index
+                        if max_point_index >= 0
+                        else ""
+                    ),
+                    "max_night": max_night,
+                    "max_telescope_pair": max_pair,
+                    "max_baseline_m": max_baseline,
+                    "max_wavelength_index": max_wavelength_index,
+                    "max_wavelength_um": max_wavelength_um,
+                    "has_vis2_above_one": bool(
+                        n_v2_above_one > 0
+                    ),
+                    "n_finite_vis2_points": n_v2_points,
+                    "n_vis2_above_one": n_v2_above_one,
+                    "fraction_vis2_above_one":
+                        fraction_v2_above_one,
+                    "percent_vis2_above_one": (
+                        100.0
+                        * fraction_v2_above_one
+                        if np.isfinite(
+                            fraction_v2_above_one
+                        )
+                        else np.nan
+                    ),
+                    "point_ids_vis2_above_one": ";".join([
+                        "P%i"
+                        % int(point_i)
+                        for point_i
+                        in v2_above_one_indices
+                    ])
+                })
+
+                large_sigma_residual = (
+                    np.isfinite(
+                        standardized_residual
+                    )
+                    & (
+                        np.abs(
+                            standardized_residual
+                        )
+                        >= sigma_threshold
+                    )
+                )
+
+                large_raw_residual = (
+                    np.isfinite(
+                        raw_residual
+                    )
+                    & (
+                        np.abs(
+                            raw_residual
+                        )
+                        >= raw_residual_threshold
+                    )
+                )
+
+                combined_outlier = (
+                    large_sigma_residual
+                    & large_raw_residual
+                )
+
+                removal_candidate = (
+                    bad_flag
+                    | combined_outlier
+                )
+
+                # ============================================================
+                # Optional highlight mask
+                # ============================================================
+
+                highlight_mask = np.ones(
+                    expected_size,
+                    dtype=bool
+                )
+
+                has_highlight_filter = False
+
+                if highlight_night is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        night_per_point
+                        == str(highlight_night)
+                    )
+
+                if highlight_pair is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        pair_per_point
+                        == str(highlight_pair)
+                    )
+
+                if highlight_baseline_range is not None:
+
+                    has_highlight_filter = True
+
+                    baseline_min = float(
+                        highlight_baseline_range[0]
+                    )
+
+                    baseline_max = float(
+                        highlight_baseline_range[1]
+                    )
+
+                    highlight_mask &= (
+                        baseline_per_point
+                        >= baseline_min
+                    )
+
+                    highlight_mask &= (
+                        baseline_per_point
+                        <= baseline_max
+                    )
+
+                if highlight_wavelength_index is not None:
+
+                    has_highlight_filter = True
+
+                    highlight_mask &= (
+                        wavelength_indices
+                        == int(
+                            highlight_wavelength_index
+                        )
+                    )
+
+                if not has_highlight_filter:
+
+                    highlight_mask[:] = False
+
+                # ============================================================
+                # Add rows to output CSV
+                # ============================================================
+
+                for point_i in xrange(
+                        expected_size):
+
+                    diagnostic_rows.append({
+                        "star": science_name,
+                        "sequence": sequence_name,
+                        "period": period_value,
+                        "point_id": int(point_i),
+                        "night": str(
+                            night_per_point[
+                                point_i
+                            ]
+                        ),
+                        "mjd": mjd_per_point[
+                            point_i
+                        ],
+                        "telescope_pair": str(
+                            pair_per_point[
+                                point_i
+                            ]
+                        ),
+                        "baseline_m": baseline_per_point[
+                            point_i
+                        ],
+                        "wavelength_index": int(
+                            wavelength_indices[
+                                point_i
+                            ]
+                        ),
+                        "wavelength_um": (
+                            wavelength_per_point[
+                                point_i
+                            ]
+                            * 1.0E6
+                        ),
+                        "spatial_frequency_rad_inv":
+                            spatial_frequency[
+                                point_i
+                            ],
+                        "c_scale": c_per_point[
+                            point_i
+                        ],
+                        "vis2_corrected": vis2_corrected[
+                            point_i
+                        ],
+                        "e_vis2_corrected":
+                            e_vis2_corrected[
+                                point_i
+                            ],
+                        "model_vis2": model_vis2[
+                            point_i
+                        ],
+                        "raw_residual": raw_residual[
+                            point_i
+                        ],
+                        "standardized_residual":
+                            standardized_residual[
+                                point_i
+                            ],
+                        "oifits_flag": bool(
+                            bad_flag[
+                                point_i
+                            ]
+                        ),
+                        "large_raw_residual": bool(
+                            large_raw_residual[
+                                point_i
+                            ]
+                        ),
+                        "large_sigma_residual": bool(
+                            large_sigma_residual[
+                                point_i
+                            ]
+                        ),
+                        "candidate_remove": bool(
+                            removal_candidate[
+                                point_i
+                            ]
+                        ),
+                        "highlighted": bool(
+                            highlight_mask[
+                                point_i
+                            ]
+                        )
+                    })
+
+                # ============================================================
+                # Figure
+                # ============================================================
+
+                fig, axes = plt.subplots(
+                    2,
+                    2
+                )
+
+                fig.set_size_inches(
+                    16,
+                    11
+                )
+
+                axes = axes.flatten()
+
+                # ------------------------------------------------------------
+                # Smooth visibility model curves
+                # ------------------------------------------------------------
+
+                model_frequency = np.linspace(
+                    1.0E6,
+                    2.5E8,
+                    10000
+                )
+
+                for wavelength_i in xrange(
+                        n_wavelengths):
+
+                    model_curve = rdiam.calc_vis2(
+                        model_frequency,
+                        model_ldd,
+                        1.0,
+                        (
+                            len(model_frequency),
+                        ),
+                        u_lambdas[
+                            wavelength_i
+                        ],
+                        s_lambdas[
+                            wavelength_i
+                        ]
+                    )
+
+                    axes[0].plot(
+                        model_frequency,
+                        model_curve,
+                        color="0.75",
+                        linewidth=0.7,
+                        zorder=1
+                    )
+
+                    axes[1].plot(
+                        model_frequency,
+                        model_curve,
+                        color="0.75",
+                        linewidth=0.7,
+                        zorder=1
+                    )
+
+                # ------------------------------------------------------------
+                # Top-left: colour by night
+                # ------------------------------------------------------------
+
+                night_colours = plot_grouped_visibilities(
+                    axes[0],
+                    night_per_point,
+                    "Visibility points coloured by night",
+                    spatial_frequency,
+                    vis2_corrected,
+                    e_vis2_corrected,
+                    valid_data,
+                    cm.get_cmap(
+                        "jet"
+                    )
+                )
+
+                # ------------------------------------------------------------
+                # Top-right: colour by telescope pair
+                # ------------------------------------------------------------
+
+                pair_colours = plot_grouped_visibilities(
+                    axes[1],
+                    pair_per_point,
+                    "Visibility points coloured by telescope pair",
+                    spatial_frequency,
+                    vis2_corrected,
+                    e_vis2_corrected,
+                    valid_data,
+                    cm.get_cmap(
+                        "jet"
+                    )
+                )
+
+                # ------------------------------------------------------------
+                # Bottom-left: raw residual by wavelength channel
+                # ------------------------------------------------------------
+
+                wavelength_colour_map = cm.get_cmap(
+                    "viridis"
+                )
+
+                for wavelength_i in xrange(
+                        n_wavelengths):
+
+                    wavelength_mask = (
+                        np.isfinite(
+                            raw_residual
+                        )
+                        & (
+                            wavelength_indices
+                            == wavelength_i
+                        )
+                    )
+
+                    if not np.any(
+                            wavelength_mask):
+
+                        continue
+
+                    denominator = max(
+                        1.0,
+                        float(
+                            n_wavelengths - 1
+                        )
+                    )
+
+                    wavelength_colour = (
+                        wavelength_colour_map(
+                            float(wavelength_i)
+                            / denominator
+                        )
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            wavelength_mask
+                        ],
+                        raw_residual[
+                            wavelength_mask
+                        ],
+                        s=18,
+                        color=wavelength_colour,
+                        label=(
+                            "ch %i: %.3f um"
+                            % (
+                                wavelength_i,
+                                wavelengths[
+                                    wavelength_i
+                                ] * 1.0E6
+                            )
+                        )
+                    )
+
+                axes[2].axhline(
+                    0.0,
+                    linestyle="-",
+                    linewidth=0.7,
+                    color="0.3"
+                )
+
+                axes[2].axhline(
+                    raw_residual_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[2].axhline(
+                    -raw_residual_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[2].set_title(
+                    "Raw visibility residual by wavelength channel"
+                )
+
+                axes[2].set_xlabel(
+                    r"Spatial frequency (rad$^{-1}$)"
+                )
+
+                axes[2].set_ylabel(
+                    r"$V^2_{\rm obs}-V^2_{\rm model}$"
+                )
+
+                axes[2].grid()
+
+                axes[2].legend(
+                    loc="best",
+                    fontsize=7,
+                    ncol=2
+                )
+
+                # ------------------------------------------------------------
+                # Bottom-right: standardized residual versus baseline
+                # ------------------------------------------------------------
+
+                unique_pairs = sorted(
+                    set(
+                        pair_per_point.tolist()
+                    )
+                )
+
+                for pair_value in unique_pairs:
+
+                    pair_mask = (
+                        np.isfinite(
+                            standardized_residual
+                        )
+                        & (
+                            pair_per_point
+                            == pair_value
+                        )
+                    )
+
+                    if not np.any(
+                            pair_mask):
+
+                        continue
+
+                    pair_colour = pair_colours.get(
+                        pair_value,
+                        "0.4"
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            pair_mask
+                        ],
+                        standardized_residual[
+                            pair_mask
+                        ],
+                        s=20,
+                        color=pair_colour,
+                        label=str(
+                            pair_value
+                        )
+                    )
+
+                axes[3].axhline(
+                    0.0,
+                    linestyle="-",
+                    linewidth=0.7,
+                    color="0.3"
+                )
+
+                axes[3].axhline(
+                    sigma_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[3].axhline(
+                    -sigma_threshold,
+                    linestyle="--",
+                    linewidth=0.8,
+                    color="red"
+                )
+
+                axes[3].set_title(
+                    "Standardized residual versus projected baseline"
+                )
+
+                axes[3].set_xlabel(
+                    "Projected baseline (m)"
+                )
+
+                axes[3].set_ylabel(
+                    r"$(V^2_{\rm obs}-V^2_{\rm model})/\sigma$"
+                )
+
+                axes[3].grid()
+
+                axes[3].legend(
+                    loc="best",
+                    fontsize=7,
+                    ncol=2
+                )
+
+                # ============================================================
+                # Mark flagged measurements
+                # ============================================================
+
+                flagged_valid = (
+                    bad_flag
+                    & valid_data
+                )
+
+                if np.any(
+                        flagged_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            flagged_valid
+                        ],
+                        vis2_corrected[
+                            flagged_valid
+                        ],
+                        marker="x",
+                        s=50,
+                        color="black",
+                        zorder=7
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            flagged_valid
+                        ],
+                        vis2_corrected[
+                            flagged_valid
+                        ],
+                        marker="x",
+                        s=50,
+                        color="black",
+                        zorder=7
+                    )
+
+                # ============================================================
+                # Mark removal candidates
+                # ============================================================
+
+                candidate_valid = (
+                    removal_candidate
+                    & valid_data
+                )
+
+                if np.any(
+                        candidate_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        vis2_corrected[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        vis2_corrected[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            candidate_valid
+                        ],
+                        raw_residual[
+                            candidate_valid
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                    candidate_with_sigma = (
+                        candidate_valid
+                        & np.isfinite(
+                            standardized_residual
+                        )
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            candidate_with_sigma
+                        ],
+                        standardized_residual[
+                            candidate_with_sigma
+                        ],
+                        marker="o",
+                        s=80,
+                        facecolors="none",
+                        edgecolors="black",
+                        linewidths=1.2,
+                        zorder=8
+                    )
+
+                # ============================================================
+                # Highlight requested subset
+                # ============================================================
+
+                highlighted_valid = (
+                    highlight_mask
+                    & valid_data
+                )
+
+                if np.any(
+                        highlighted_valid):
+
+                    axes[0].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        vis2_corrected[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    axes[1].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        vis2_corrected[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    axes[2].scatter(
+                        spatial_frequency[
+                            highlighted_valid
+                        ],
+                        raw_residual[
+                            highlighted_valid
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                    highlighted_sigma = (
+                        highlighted_valid
+                        & np.isfinite(
+                            standardized_residual
+                        )
+                    )
+
+                    axes[3].scatter(
+                        baseline_per_point[
+                            highlighted_sigma
+                        ],
+                        standardized_residual[
+                            highlighted_sigma
+                        ],
+                        marker="s",
+                        s=100,
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        zorder=9
+                    )
+
+                # ============================================================
+                # Annotate strongest candidates
+                # ============================================================
+
+                candidate_indices = np.where(
+                    removal_candidate
+                )[0]
+
+                if len(candidate_indices) > 0:
+
+                    candidate_strength = np.abs(
+                        raw_residual[
+                            candidate_indices
+                        ]
+                    )
+
+                    finite_sigma_candidate = np.isfinite(
+                        standardized_residual[
+                            candidate_indices
+                        ]
+                    )
+
+                    candidate_strength[
+                        finite_sigma_candidate
+                    ] *= np.maximum(
+                        1.0,
+                        np.abs(
+                            standardized_residual[
+                                candidate_indices[
+                                    finite_sigma_candidate
+                                ]
+                            ]
+                        )
+                    )
+
+                    sorted_candidate_indices = (
+                        candidate_indices[
+                            np.argsort(
+                                candidate_strength
+                            )[::-1]
+                        ]
+                    )
+
+                    sorted_candidate_indices = (
+                        sorted_candidate_indices[
+                            :int(max_annotations)
+                        ]
+                    )
+
+                    for point_i in sorted_candidate_indices:
+
+                        point_label = (
+                            "P%i"
+                            % point_i
+                        )
+
+                        axes[2].annotate(
+                            point_label,
+                            xy=(
+                                spatial_frequency[
+                                    point_i
+                                ],
+                                raw_residual[
+                                    point_i
+                                ]
+                            ),
+                            xytext=(3, 3),
+                            textcoords="offset points",
+                            fontsize=6
+                        )
+
+                        if np.isfinite(
+                                standardized_residual[
+                                    point_i
+                                ]):
+
+                            axes[3].annotate(
+                                point_label,
+                                xy=(
+                                    baseline_per_point[
+                                        point_i
+                                    ],
+                                    standardized_residual[
+                                        point_i
+                                    ]
+                                ),
+                                xytext=(3, 3),
+                                textcoords="offset points",
+                                fontsize=6
+                            )
+
+                # ============================================================
+                # Candidate text
+                # ============================================================
+
+                candidate_text = []
+
+                candidate_text.append(
+                    "Candidate rule: FLAG or "
+                    "(|raw residual| >= %.3f and |residual/sigma| >= %.1f)"
+                    % (
+                        raw_residual_threshold,
+                        sigma_threshold
+                    )
+                )
+
+                if len(candidate_indices) == 0:
+
+                    candidate_text.append(
+                        "No removal candidates."
+                    )
+
+                else:
+
+                    candidate_text.append(
+                        "ID | night | pair | B(m) | channel | raw | sigma"
+                    )
+
+                    for point_i in sorted_candidate_indices[
+                            :8]:
+
+                        candidate_text.append(
+                            "P%i | %s | %s | %.1f | %i | %.3f | %s"
+                            % (
+                                point_i,
+                                night_per_point[
+                                    point_i
+                                ],
+                                pair_per_point[
+                                    point_i
+                                ],
+                                baseline_per_point[
+                                    point_i
+                                ],
+                                wavelength_indices[
+                                    point_i
+                                ],
+                                raw_residual[
+                                    point_i
+                                ],
+                                (
+                                    "%.2f"
+                                    % standardized_residual[
+                                        point_i
+                                    ]
+                                    if np.isfinite(
+                                        standardized_residual[
+                                            point_i
+                                        ]
+                                    )
+                                    else "nan"
+                                )
+                            )
+                        )
+
+                # ============================================================
+                # Final figure formatting
+                # ============================================================
+
+                if np.isfinite(
+                        fitted_ldd_error):
+
+                    diameter_text = (
+                        "%.4f +/- %.4f mas"
+                        % (
+                            model_ldd,
+                            fitted_ldd_error
+                        )
+                    )
+
+                else:
+
+                    diameter_text = (
+                        "%.4f mas"
+                        % model_ldd
+                    )
+
+                fig.suptitle(
+                    (
+                        "%s, %s, %s\n"
+                        "%s LDD = %s; "
+                        "%i measurements; %i removal candidates"
+                    )
+                    % (
+                        science_name,
+                        sequence_name,
+                        str(period_value),
+                        diameter_source,
+                        diameter_text,
+                        expected_size,
+                        int(
+                            np.sum(
+                                removal_candidate
+                            )
+                        )
+                    ),
+                    fontsize=14
+                )
+
+                fig.text(
+                    0.5,
+                    0.01,
+                    "\n".join(
+                        candidate_text
+                    ),
+                    horizontalalignment="center",
+                    verticalalignment="bottom",
+                    fontsize=7,
+                    family="monospace"
+                )
+
+                fig.tight_layout(
+                    rect=[
+                        0.0,
+                        0.11,
+                        1.0,
+                        0.93
+                    ]
+                )
+
+                # ============================================================
+                # Save page and PNG
+                # ============================================================
+
+                pdf.savefig(
+                    fig
+                )
+
+                safe_sequence = (
+                    clean_target_name_for_plot(
+                        sequence_name
+                    )
+                )
+
+                individual_filename = (
+                    "%s_%s_%s_visibility_diagnostic.png"
+                    % (
+                        science_clean,
+                        safe_sequence,
+                        str(period_value)
+                    )
+                )
+
+                individual_output = os.path.join(
+                    individual_directory,
+                    individual_filename
+                )
+
+                fig.savefig(
+                    individual_output,
+                    dpi=200
+                )
+
+                plt.close(
+                    fig
+                )
+
+                # ============================================================
+                # Separate V2 > 1 plot
+                # ============================================================
+
+                v2_figure, v2_axis = plt.subplots()
+
+                v2_figure.set_size_inches(
+                    13,
+                    7
+                )
+
+                point_number = np.arange(
+                    expected_size
+                )
+
+                v2_at_or_below_one = (
+                    finite_vis2
+                    & ~v2_above_one
+                )
+
+                if np.any(
+                        v2_at_or_below_one):
+
+                    v2_axis.scatter(
+                        point_number[
+                            v2_at_or_below_one
+                        ],
+                        vis2_corrected[
+                            v2_at_or_below_one
+                        ],
+                        s=22,
+                        color="0.35",
+                        label=r"$V^2 \leq 1$",
+                        zorder=3
+                    )
+
+                if np.any(
+                        v2_above_one):
+
+                    v2_axis.scatter(
+                        point_number[
+                            v2_above_one
+                        ],
+                        vis2_corrected[
+                            v2_above_one
+                        ],
+                        s=55,
+                        marker="o",
+                        facecolors="none",
+                        edgecolors="red",
+                        linewidths=1.4,
+                        label=r"$V^2 > 1$",
+                        zorder=5
+                    )
+
+                v2_axis.axhline(
+                    1.0,
+                    linestyle="--",
+                    linewidth=1.0,
+                    color="red",
+                    label=r"$V^2 = 1$",
+                    zorder=2
+                )
+
+                if max_point_index >= 0:
+
+                    v2_axis.scatter(
+                        [max_point_index],
+                        [max_vis2],
+                        marker="*",
+                        s=180,
+                        color="black",
+                        label="Maximum",
+                        zorder=7
+                    )
+
+                    v2_axis.annotate(
+                        "P%i: %.4f"
+                        % (
+                            max_point_index,
+                            max_vis2
+                        ),
+                        xy=(
+                            max_point_index,
+                            max_vis2
+                        ),
+                        xytext=(6, 7),
+                        textcoords="offset points",
+                        fontsize=9,
+                        fontweight="bold"
+                    )
+
+                if n_v2_points > 0:
+
+                    finite_vis2_values = vis2_corrected[
+                        finite_vis2
+                    ]
+
+                    v2_y_min = min(
+                        1.0,
+                        float(
+                            np.min(
+                                finite_vis2_values
+                            )
+                        )
+                    )
+
+                    v2_y_max = max(
+                        1.0,
+                        float(
+                            np.max(
+                                finite_vis2_values
+                            )
+                        )
+                    )
+
+                    v2_y_margin = max(
+                        0.05,
+                        0.08
+                        * (
+                            v2_y_max
+                            - v2_y_min
+                        )
+                    )
+
+                    v2_axis.set_ylim(
+                        [
+                            v2_y_min - v2_y_margin,
+                            v2_y_max + v2_y_margin
+                        ]
+                    )
+
+                v2_axis.set_xlim(
+                    [
+                        -1,
+                        max(
+                            1,
+                            expected_size
+                        )
+                    ]
+                )
+
+                v2_axis.set_xlabel(
+                    "Point ID"
+                )
+
+                v2_axis.set_ylabel(
+                    r"Corrected visibility$^2$"
+                )
+
+                v2_axis.set_title(
+                    (
+                        "%s, %s, %s: corrected V2 values"
+                    )
+                    % (
+                        science_name,
+                        sequence_name,
+                        str(period_value)
+                    )
+                )
+
+                v2_axis.grid()
+
+                v2_axis.legend(
+                    loc="best",
+                    fontsize=9
+                )
+
+                if max_point_index >= 0:
+
+                    maximum_detail_text = (
+                        "Maximum point details:\n"
+                        "  night: %s\n"
+                        "  pair: %s\n"
+                        "  baseline: %.2f m\n"
+                        "  channel: %i\n"
+                        "  wavelength: %.4f um"
+                        % (
+                            max_night,
+                            max_pair,
+                            max_baseline,
+                            max_wavelength_index,
+                            max_wavelength_um
+                        )
+                    )
+
+                else:
+
+                    maximum_detail_text = (
+                        "Maximum point details:\n"
+                        "  no finite V2 values"
+                    )
+
+                if np.isfinite(
+                        fraction_v2_above_one):
+
+                    fraction_text = (
+                        "%.4f (%.2f%%)"
+                        % (
+                            fraction_v2_above_one,
+                            100.0
+                            * fraction_v2_above_one
+                        )
+                    )
+
+                else:
+
+                    fraction_text = "nan"
+
+                v2_summary_text = (
+                    "V2 summary\n"
+                    "-----------------------------\n"
+                    "Maximum V2: %s\n"
+                    "Maximum point: %s\n"
+                    "Any V2 > 1: %s\n"
+                    "Number of finite points: %i\n"
+                    "Number of points V2 > 1: %i\n"
+                    "Fraction of points V2 > 1: %s\n\n"
+                    "%s"
+                    % (
+                        (
+                            "%.6f"
+                            % max_vis2
+                            if np.isfinite(
+                                max_vis2
+                            )
+                            else "nan"
+                        ),
+                        (
+                            "P%i"
+                            % max_point_index
+                            if max_point_index >= 0
+                            else "none"
+                        ),
+                        (
+                            "YES"
+                            if n_v2_above_one > 0
+                            else "NO"
+                        ),
+                        n_v2_points,
+                        n_v2_above_one,
+                        fraction_text,
+                        maximum_detail_text
+                    )
+                )
+
+                v2_figure.subplots_adjust(
+                    left=0.08,
+                    right=0.67,
+                    bottom=0.12,
+                    top=0.88
+                )
+
+                v2_figure.text(
+                    0.70,
+                    0.84,
+                    v2_summary_text,
+                    horizontalalignment="left",
+                    verticalalignment="top",
+                    fontsize=10,
+                    family="monospace",
+                    bbox=dict(
+                        boxstyle="round",
+                        facecolor="0.95",
+                        edgecolor="0.5"
+                    )
+                )
+
+                v2_pdf.savefig(
+                    v2_figure
+                )
+
+                safe_period = (
+                    clean_target_name_for_plot(
+                        str(period_value)
+                    )
+                )
+
+                v2_individual_filename = (
+                    "%s_%s_%s_v2_above_one.png"
+                    % (
+                        science_clean,
+                        safe_sequence,
+                        safe_period
+                    )
+                )
+
+                v2_individual_output = os.path.join(
+                    v2_individual_directory,
+                    v2_individual_filename
+                )
+
+                v2_figure.savefig(
+                    v2_individual_output,
+                    dpi=200
+                )
+
+                plt.close(
+                    v2_figure
+                )
+
+                n_created += 1
+
+                print(
+                    "Saved diagnostic for %s"
+                    % science_name
+                )
+
+            except Exception as error:
+
+                n_failed += 1
+
+                print("")
+                print(
+                    "FAILED visibility diagnostic for %s"
+                    % science_name
+                )
+
+                print(
+                    "Error: %s"
+                    % str(error)
+                )
+
+                traceback.print_exc()
+
+                plt.close(
+                    "all"
+                )
+
+    # ====================================================================
+    # Global V2 > 1 overview
+    # ====================================================================
+
+    if len(
+            v2_summary_rows) > 0:
+
+        overview_rows = sorted(
+            v2_summary_rows,
+            key=lambda row: (
+                row[
+                    "fraction_vis2_above_one"
+                ]
+                if np.isfinite(
+                    row[
+                        "fraction_vis2_above_one"
+                    ]
+                )
+                else -1.0
+            ),
+            reverse=True
+        )
+
+        overview_labels = []
+        overview_percentages = []
+        overview_annotations = []
+
+        for overview_row in overview_rows:
+
+            overview_labels.append(
+                "%s | %s | %s"
+                % (
+                    overview_row[
+                        "star"
+                    ],
+                    overview_row[
+                        "sequence"
+                    ],
+                    str(
+                        overview_row[
+                            "period"
+                        ]
+                    )
+                )
+            )
+
+            overview_fraction = overview_row[
+                "fraction_vis2_above_one"
+            ]
+
+            if np.isfinite(
+                    overview_fraction):
+
+                overview_percentage = (
+                    100.0
+                    * overview_fraction
+                )
+
+            else:
+
+                overview_percentage = 0.0
+
+            overview_percentages.append(
+                overview_percentage
+            )
+
+            overview_annotations.append(
+                (
+                    "%i/%i; max=%.4f (%s)"
+                    % (
+                        overview_row[
+                            "n_vis2_above_one"
+                        ],
+                        overview_row[
+                            "n_finite_vis2_points"
+                        ],
+                        overview_row[
+                            "max_vis2_corrected"
+                        ],
+                        overview_row[
+                            "max_point_id"
+                        ]
+                    )
+                )
+            )
+
+        overview_y = np.arange(
+            len(
+                overview_rows
+            )
+        )
+
+        overview_height = max(
+            6.0,
+            0.45
+            * len(
+                overview_rows
+            )
+            + 2.0
+        )
+
+        overview_figure, overview_axis = plt.subplots()
+
+        overview_figure.set_size_inches(
+            14,
+            overview_height
+        )
+
+        overview_bars = overview_axis.barh(
+            overview_y,
+            overview_percentages,
+            color="0.55"
+        )
+
+        overview_axis.set_yticks(
+            overview_y
+        )
+
+        overview_axis.set_yticklabels(
+            overview_labels,
+            fontsize=8
+        )
+
+        overview_axis.invert_yaxis()
+
+        overview_axis.set_xlabel(
+            r"Fraction of finite corrected $V^2$ points above 1 (percent)"
+        )
+
+        overview_axis.set_title(
+            (
+                "Corrected V2 > 1 overview\n"
+                "Labels show N(V2 > 1)/N(total), maximum V2 and maximum point"
+            )
+        )
+
+        maximum_overview_percentage = max(
+            overview_percentages
+        )
+
+        overview_x_max = max(
+            5.0,
+            maximum_overview_percentage
+            * 1.35
+            + 2.0
+        )
+
+        overview_axis.set_xlim(
+            [
+                0.0,
+                overview_x_max
+            ]
+        )
+
+        overview_axis.grid(
+            axis="x"
+        )
+
+        for overview_i, overview_bar in enumerate(
+                overview_bars):
+
+            annotation_x = max(
+                0.3,
+                overview_percentages[
+                    overview_i
+                ]
+                + 0.3
+            )
+
+            overview_axis.text(
+                annotation_x,
+                overview_bar.get_y()
+                + overview_bar.get_height()
+                / 2.0,
+                overview_annotations[
+                    overview_i
+                ],
+                verticalalignment="center",
+                horizontalalignment="left",
+                fontsize=8
+            )
+
+        overview_figure.tight_layout()
+
+        v2_pdf.savefig(
+            overview_figure
+        )
+
+        overview_figure.savefig(
+            v2_overview_png,
+            dpi=200,
+            bbox_inches="tight"
+        )
+
+        plt.close(
+            overview_figure
+        )
+
+    v2_pdf.close()
+
+    # ====================================================================
+    # Save diagnostic CSV files
+    # ====================================================================
+
+    diagnostic_table = pd.DataFrame(
+        diagnostic_rows
+    )
+
+    diagnostic_table.to_csv(
+        all_points_csv,
+        index=False
+    )
+
+    if (
+        len(diagnostic_table) > 0
+        and "candidate_remove"
+        in diagnostic_table.columns
+    ):
+
+        candidate_table = diagnostic_table[
+            diagnostic_table[
+                "candidate_remove"
+            ]
+        ].copy()
+
+    else:
+
+        candidate_table = pd.DataFrame()
+
+    candidate_table.to_csv(
+        candidate_csv,
+        index=False
+    )
+
+    v2_summary_table = pd.DataFrame(
+        v2_summary_rows
+    )
+
+    v2_summary_table.to_csv(
+        v2_summary_csv,
+        index=False
+    )
+
+    print("")
+    print("=" * 79)
+    print("Visibility diagnostics finished")
+    print(
+        "Created pages: %i"
+        % n_created
+    )
+    print(
+        "Failed pages: %i"
+        % n_failed
+    )
+    print("PDF:")
+    print(output_file)
+    print("Complete point table:")
+    print(all_points_csv)
+    print("Removal-candidate table:")
+    print(candidate_csv)
+    print("V2 > 1 summary PDF:")
+    print(v2_summary_pdf)
+    print("V2 > 1 summary CSV:")
+    print(v2_summary_csv)
+    print("V2 > 1 overview PNG:")
+    print(v2_overview_png)
+    print("Individual V2 > 1 plots:")
+    print(v2_individual_directory)
+    print("=" * 79)
+
+    if n_created == 0:
+
+        raise RuntimeError(
+            "No visibility diagnostic pages were generated"
+        )
+
+    return output_file
 
 def extract_constant_mass_points(
         basti_folder,

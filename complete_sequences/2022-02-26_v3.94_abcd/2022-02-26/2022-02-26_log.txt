@@ -6,7 +6,6 @@
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_oiDiam.fits
  oiFitsLoadOiDiam()
- WARNING : No target diameter could be retrieved.
  oiFitsLoadOiDiamFromCatalogs()
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
@@ -34,21 +33,11 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- 12_Mon has diameter of 0.85+-0.17mas (isCal=1) from values
- 0.85+-0.17 (4.6") in II_300_jsdc	 1.10+-0.33 (4.6") in J_AA_434_1201	
- WARNING : HR2426 has no diameter found with 5', enlarge to 10'
- WARNING : HR2426 has no diameter found with 10'
- HR2610 has diameter of 0.92+-0.19mas (isCal=1) from values
- 0.92+-0.19 (4.1") in II_300_jsdc	
- WARNING : ksi_Gem has no diameter found with 5', enlarge to 10'
- ksi_Gem has diameter of 1.40+-0.42mas (isCal=0) from values
- 1.40+-0.42 (5.7") in J_AA_434_1201	 1.40+-0.42 (5.7") in J_AA_434_1201	
- 2.00+-0.60 (5.7") in J_AA_434_1201	
+ 12_Mon is already in oiDiam with diam=0.95mas and isCal=1
+ HR2426 is already in oiDiam with diam=1.26mas and isCal=1
+ HR2610 is already in oiDiam with diam=0.95mas and isCal=1
+ ksi_Gem is already in oiDiam with diam=1.47mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
- pndrsGetstarFromJMMC()
- Use e_LDD for uncertainty
- pndrsGetstarFromJMMC done
-  Find diameter for HR2426: 1.08108mas
  oiFitsWriteOiDiam()
  oiDiam written in:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_oiDiam.fits
@@ -107,13 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:40:46.743_i00_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:38:52.195_i03_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:15:28.086_i20_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:59:59.148_i11_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:15:28.086_i22_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -122,19 +117,13 @@
  2022-02-26_TF_vis2_setup01_bin03.pdf 2022-02-26_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:50:24.994_i06_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:50:24.994_i07_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:59:21.317_i13_oidataCalibrated.fits
- pndrsUpdateFileWithPhase3()
- oiFitsLoadFiles()
- Update OI_ARRAY header
- pndrsUpdateFileWithPhase3 done
- Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:07:08.074_i15_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:07:08.074_i19_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -161,7 +150,7 @@
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_SCI_HR2426_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_CAL_HR2426_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: HR2610 (3 over 4)
  oiFitsKeepTargets()
