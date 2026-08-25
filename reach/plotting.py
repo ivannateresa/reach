@@ -1146,6 +1146,13 @@ def plot_bootstrapping_summary(
                     row["C_SCALE"],
                     dtype=float
                 ).ravel()
+                
+                if len(c_values) == 2:
+                    c_values = np.mean( c_values,
+                        dtype=float
+                    )
+
+          
 
                 if len(c_values) == 0:
 
@@ -1176,6 +1183,7 @@ def plot_bootstrapping_summary(
                     c_values[invalid_c] = 1.0
 
                 n_c = len(c_values)
+                print(n_c, n_bl)
 
                 if n_bl % n_c != 0:
                     raise ValueError(
