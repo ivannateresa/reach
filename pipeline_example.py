@@ -48,7 +48,7 @@ import diagnostics as dig
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic = False           # Use Stassun & Torres 18 plx offset --> don't use, was a Gaia DR1 thing. We should probably use Bailer-Jones distances
 
-do_random_ifg_sampling = True       # Sample interferograms with repeats
+do_random_ifg_sampling = False       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
 force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
@@ -57,20 +57,23 @@ pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
 n_calib_runs = 1                   # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
 calib_run_i = 0                     # ith calibration run to perform, 0 indexed
+# ============================================================
+# BASELINE MODE
+# ============================================================
 
+use_bad_baselines = True
 
 # Folder mask where the reduced files are stored
 base_path = "/home2/ihernand/Desktop/reach/complete_sequences/%s_v3.94_abcd/"
 # Day and N bootstrap specific results folder details
 str_date = time.strftime("%y-%m-%d")  
-results_folder = "%s_i%i" % (str_date, n_bootstraps)
-if not os.path.exists("/home2/ihernand/Desktop/reach/results/"):
-    os.mkdir("/home2/ihernand/Desktop/reach/results/")
+if use_bad_baselines:
 
-results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
+    baseline_mode = "BAD_BL_REMOVED"
 
-if not os.path.exists(results_path):
-    os.mkdir(results_path)
+else:
+
+    baseline_mode = "ALL_BASELINES"
 
 
 save_data_path = "/home2/ihernand/Desktop/reach/data/outputs"
@@ -107,7 +110,102 @@ tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
 
 print("\n", "-"*79, "\n", "\tSampling\n", "-"*79)  
 
+# ============================================================
+# CALIBRATORS EXCLUDED FROM CALIBRATION
+# ============================================================
 
+bad_calibrators = []
+
+for target_id, row in tgt_info.iterrows():
+
+    if row["Quality"] == "BAD":
+
+        if "Primary" in tgt_info.columns:
+            name = str(row["Primary"])
+        else:
+            name = str(target_id)
+
+        bad_calibrators.append(name)
+
+
+print("")
+print("=" * 70)
+print("CALIBRATORS EXCLUDED")
+print("=" * 70)
+
+if len(bad_calibrators) == 0:
+
+    print("None")
+
+else:
+
+    for cal in bad_calibrators:
+        print("  %s" % cal)
+
+print("=" * 70)
+
+def clean_for_filename(name):
+
+    name = str(name)
+
+    name = name.replace(" ", "")
+    name = name.replace("_", "")
+    name = name.replace("/", "")
+    name = name.replace("\\", "")
+
+    return name
+
+
+if len(bad_calibrators) == 0:
+
+    calibrator_mode = "ALL_CALS"
+
+else:
+
+    clean_bad_cals = [
+        clean_for_filename(cal)
+        for cal in bad_calibrators
+    ]
+
+    calibrator_mode = (
+        "NO_" + "_".join(clean_bad_cals)
+    )
+
+# ============================================================
+
+results_folder = "%s_i%i_%s_%s" % (
+    str_date,
+    n_bootstraps,
+    baseline_mode,
+    calibrator_mode
+)
+
+
+results_root = "/home2/ihernand/Desktop/reach/results/"
+
+if not os.path.exists(results_root):
+    os.mkdir(results_root)
+
+
+results_path = os.path.join(
+    results_root,
+    results_folder
+) + "/"
+
+
+if not os.path.exists(results_path):
+    os.mkdir(results_path)
+
+
+print("")
+print("=" * 70)
+print("RUN CONFIGURATION")
+print("=" * 70)
+print("results_folder       :", results_folder)
+print("baseline_mode        :", baseline_mode)
+print("bad_calibrators      :", bad_calibrators)
+print("random IFG sampling  :", do_random_ifg_sampling)
+print("=" * 70)
 #Pondre un plot donde me entregue los angular diameter predicted de cada uno, para ver como funciona, la relacion entre color y magnitud
 
 print("\n", "-"*79, "\n", "\tSave tgt_info in Data\n", "-"*79) 
@@ -200,6 +298,180 @@ else:
 
 complete_sequences, sequences = rutils.load_sequence_logs() 
 
+# ============================================================
+# gam_Lep
+# Keep only: HR2090 -> gam_Lep -> HD1947
+# ============================================================
+
+key = (106, "gam_Lep", "faint")
+
+wanted_sequence = ["HR_2090", "gam_Lep", "HD_42747"]
+
+def clean_name(name):
+    return str(name).replace("_", "").replace(" ", "").lower()
+
+
+if key in sequences and key in complete_sequences:
+
+    print("\n" + "=" * 70)
+    print("MODIFYING gam_Lep SEQUENCE")
+    print("=" * 70)
+
+    print("Original sequence:")
+    print(sequences[key])
+
+    # --------------------------------------------------------
+    # 1. Find HR2090 -> gam_Lep -> HD1947 in sequences
+    # --------------------------------------------------------
+
+    seq_clean = [clean_name(x) for x in sequences[key]]
+    wanted_clean = [clean_name(x) for x in wanted_sequence]
+
+    start_seq = None
+
+    for i in range(len(seq_clean) - 2):
+
+        if seq_clean[i:i+3] == wanted_clean:
+            start_seq = i
+            break
+
+    if start_seq is None:
+        raise RuntimeError(
+            "Could not find HR2090 -> gam_Lep -> HD1947 "
+            "in sequence %s" % str(sequences[key])
+        )
+
+    # Keep ONLY these 3 blocks
+    sequences[key] = sequences[key][start_seq:start_seq+3]
+
+    print("New sequence:")
+    print(sequences[key])
+
+    # --------------------------------------------------------
+    # 2. Modify complete_sequences
+    # --------------------------------------------------------
+
+    observations = complete_sequences[key][2]
+
+    print("Number of observations before:",
+          len(observations))
+
+    # --------------------------------------------------------
+    # Identify contiguous observing blocks
+    # --------------------------------------------------------
+
+    blocks = []
+
+    block_start = 0
+    previous_target = clean_name(observations[0][2])
+
+    for i in range(1, len(observations)):
+
+        current_target = clean_name(observations[i][2])
+
+        if current_target != previous_target:
+
+            blocks.append(
+                (
+                    previous_target,
+                    block_start,
+                    i
+                )
+            )
+
+            block_start = i
+            previous_target = current_target
+
+    # Last block
+    blocks.append(
+        (
+            previous_target,
+            block_start,
+            len(observations)
+        )
+    )
+
+    print("\nObserving blocks found:")
+
+    for i, block in enumerate(blocks):
+        print(
+            i,
+            observations[block[1]][2],
+            block[1],
+            block[2]
+        )
+
+    # --------------------------------------------------------
+    # Find consecutive:
+    #
+    # HR2090 -> gam_Lep -> HD1947
+    # --------------------------------------------------------
+
+    wanted_clean = [
+        clean_name("HR_2090"),
+        clean_name("gam_Lep"),
+        clean_name("HD_42747")
+    ]
+
+    first_good_block = None
+
+    for i in range(len(blocks) - 2):
+
+        names = [
+            blocks[i][0],
+            blocks[i+1][0],
+            blocks[i+2][0]
+        ]
+
+        if names == wanted_clean:
+            first_good_block = i
+            break
+
+    if first_good_block is None:
+
+        raise RuntimeError(
+            "Could not find observing blocks "
+            "HR2090 -> gam_Lep -> HD1947"
+        )
+
+    # Indices in the observation array
+    first_obs = blocks[first_good_block][1]
+
+    # End of HD1947 block
+    last_obs = blocks[first_good_block + 2][2]
+
+    # --------------------------------------------------------
+    # complete_sequences[key] is a tuple
+    # Convert to list -> modify -> tuple
+    # --------------------------------------------------------
+
+    tmp = list(complete_sequences[key])
+
+    tmp[2] = observations[first_obs:last_obs]
+
+    complete_sequences[key] = tuple(tmp)
+
+    print("\nNumber of observations after:",
+          len(complete_sequences[key][2]))
+
+    # --------------------------------------------------------
+    # Check final blocks
+    # --------------------------------------------------------
+
+    print("\nFINAL gam_Lep OBSERVING BLOCKS")
+
+    previous_target = None
+
+    for obs in complete_sequences[key][2]:
+
+        target = obs[2]
+
+        if clean_name(target) != clean_name(previous_target):
+
+            print("   ", target)
+            previous_target = target
+
+    print("=" * 70)
 sequences.pop((105, "HD142860", "bright"))
 complete_sequences.pop((105, "HD142860", "bright"))
 
@@ -283,10 +555,10 @@ if calibrate_calibrators:
 # **ONLY** for the first calib run (i.e. only do this once, but for all seq
 if calib_run_i == 0:
     if not run_local and not already_calibrated:
-        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path)
+        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path, use_bad_baselines=use_bad_baselines)
     elif not already_calibrated:
         rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path,
-                                         run_local=run_local)
+                                         run_local=run_local, use_bad_baselines=use_bad_baselines)
 
 # -----------------------------------------------------------------------------
 # Split into multiple bootstrapping runs if required

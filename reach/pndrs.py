@@ -1296,37 +1296,98 @@ def save_nightly_ldd(sequences, complete_sequences, tgt_info,
 
     return nights_written
 
-def load_bad_baselines_log(bad_baseline_file="data/bad_baselines.txt"):
+def load_bad_baselines_log(
+        bad_baseline_file="data/bad_baselines.txt"):
     """
-    Load bad baselines log.
+    Load bad baselines.
 
-    If the file is empty or does not exist, return an empty dictionary.
+    Format:
+    night  baseline  start_MJD  end_MJD
+
+    Multiple intervals are allowed for the same night.
+
+    Example:
+    2022-02-26 AT2-AT3 59636.1164 59636.1185
+    2022-02-26 AT2-AT3 59636.1280 59636.1301
     """
 
     import os
     import numpy as np
 
-    if (not os.path.exists(bad_baseline_file)) or os.path.getsize(bad_baseline_file) == 0:
-        print("No bad baselines found: %s is empty or missing" % bad_baseline_file)
+    if (
+        not os.path.exists(bad_baseline_file)
+        or os.path.getsize(bad_baseline_file) == 0
+    ):
+
+        print(
+            "No bad baselines found: %s is empty or missing"
+            % bad_baseline_file
+        )
+
         return {}
 
-    bad_baselines = np.loadtxt(bad_baseline_file, str, comments="#")
+    bad_baselines = np.loadtxt(
+        bad_baseline_file,
+        dtype=str,
+        comments="#"
+    )
 
     if bad_baselines.size == 0:
-        print("No bad baselines found in %s" % bad_baseline_file)
         return {}
 
-    # If there is only one row, np.loadtxt returns 1D. Convert to 2D.
-    bad_baselines = np.atleast_2d(bad_baselines)
+    # Important when the file contains only one line
+    bad_baselines = np.atleast_2d(
+        bad_baselines
+    )
 
     bad_baseline_dict = {}
 
     for row in bad_baselines:
-        night = row[0]
-        station = row[4]
-        start = float(row[5])
-        end = float(row[6])
-        bad_baseline_dict[night] = [station, start, end]
+
+        if len(row) != 4:
+
+            raise ValueError(
+                "Bad baseline line must contain exactly 4 columns: "
+                "night baseline start_MJD end_MJD. "
+                "Found %i columns: %s"
+                % (
+                    len(row),
+                    str(row)
+                )
+            )
+
+        night = str(row[0])
+        station = str(row[1])
+        start = float(row[2])
+        end = float(row[3])
+
+        if night not in bad_baseline_dict:
+            bad_baseline_dict[night] = []
+
+        bad_baseline_dict[night].append(
+            [
+                station,
+                start,
+                end
+            ]
+        )
+
+    # Diagnostic
+    print("\nBad baselines loaded:")
+
+    for night in sorted(bad_baseline_dict.keys()):
+
+        for station, start, end in bad_baseline_dict[night]:
+
+            print(
+                "  %s  %-10s  %.13f -> %.13f"
+                % (
+                    night,
+                    station,
+                    start,
+                    end
+                )
+            )
 
     return bad_baseline_dict
 def load_bad_baselines_log_old():
@@ -1374,9 +1435,13 @@ def get_observed_target_name(tgt_info, matched_id, observed_name):
 
     return name
 
-def save_nightly_pndrs_script(complete_sequences, tgt_info, 
-            base_path,
-            dir_suffix="_v3.94_abcd", run_local=False):
+def save_nightly_pndrs_script(
+        complete_sequences,
+        tgt_info,
+        base_path,
+        dir_suffix="_v3.94_abcd",
+        run_local=False,
+        use_bad_baselines=True):
     """This is a function to create and save the pndrs script files referencedF
     by pndrs during calibration. Each night of observations has a single such
     file with the name formatted per YYYY-MM-DD_pndrsScript.i containing a list
@@ -1447,8 +1512,24 @@ def save_nightly_pndrs_script(complete_sequences, tgt_info,
                      'base=station, tlimit=startend;')
     
     # Get the record of sequences with bad baselines
-    bad_baseline_dict = load_bad_baselines_log()
-    
+    #bad_baseline_dict = load_bad_baselines_log()
+    # ============================================================
+    # BAD BASELINE MODE
+    # ============================================================
+
+    if use_bad_baselines:
+
+        print("\nBAD BASELINE MODE: ON")
+        print("Bad baselines WILL be excluded during calibration.")
+
+        bad_baseline_dict = load_bad_baselines_log()
+
+    else:
+
+        print("\nBAD BASELINE MODE: OFF")
+        print("ALL baselines will be preserved during calibration.")
+
+        bad_baseline_dict = {}
     pndrs_scripts_written = 0
     no_script_nights = 0
     
@@ -1468,7 +1549,28 @@ def save_nightly_pndrs_script(complete_sequences, tgt_info,
         # Make the directory if it does not exist
         if not os.path.exists(dir):
             os.mkdir(dir)
-            
+        # ============================================================
+        # REMOVE OLD PNDRS SCRIPT
+        # ============================================================
+        #
+        # Very important:
+        # an old script may contain baseline flags from a previous run.
+        # Always remove it before deciding whether a new script is needed.
+        # ============================================================
+
+        fname = os.path.join(
+            dir,
+            night + "_pndrsScript.i"
+        )
+
+        if os.path.exists(fname):
+
+            print(
+                "Removing old PNDRS script: %s"
+                % fname
+            )
+
+            os.remove(fname)
         # It is only meaningful to write a script if we need to split the night
         # (i.e. if more than one sequence has been observed, that is there are
         # 4 or more MJD entries) or have bad calibrators/baselines to exclude 
@@ -1503,12 +1605,38 @@ def save_nightly_pndrs_script(complete_sequences, tgt_info,
                     
             # Ignore observations with bad baselines using station ID and MJD
             if night in bad_baseline_dict:
-                nightly_script.write(line_bad_bl_1 + "\n")
-                startend = "startend = %s;\n" % bad_baseline_dict[night][1:]
-                nightly_script.write(startend)
-                station = 'station = "*%s*";\n' % bad_baseline_dict[night][0]
-                nightly_script.write(station)
-                nightly_script.write(line_bad_bl_2 + "\n")
+
+                for bad_bl in bad_baseline_dict[night]:
+
+                    station_name = bad_bl[0]
+                    start_mjd = bad_bl[1]
+                    end_mjd = bad_bl[2]
+
+                    nightly_script.write(
+                        'yocoLogInfo, "Ignore bad baseline %s";\n'
+                        % station_name
+                    )
+
+                    nightly_script.write(
+                        "startend = [%.13f, %.13f];\n"
+                        % (
+                            start_mjd,
+                            end_mjd
+                        )
+                    )
+
+                    nightly_script.write(
+                        'station = "*%s*";\n'
+                        % station_name
+                    )
+
+                    nightly_script.write(
+                        "oiFitsFlagOiData, oiWave, oiArray, "
+                        "oiVis2, oiT3, oiVis, "
+                        "base=station, tlimit=startend;\n"
+                    )
+
+                    nightly_script.write("\n")
         
         # Done, move to the next night
         print("...wrote %s, night split into %s, bad calibrators: %s" 

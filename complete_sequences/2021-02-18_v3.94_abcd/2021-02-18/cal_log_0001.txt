@@ -9,7 +9,7 @@
     yocoLOG_INFO
  pndrsCalibrateAllOiData()
  oiFitsLoadFiles()
- read file 1 over 67 read file 2 over 67 read file 3 over 67 read file 4 over 67 read file 5 over 67 read file 6 over 67 read file 7 over 67 read file 8 over 67 read file 9 over 67 read file 10 over 67 read file 11 over 67 read file 12 over 67 read file 13 over 67 read file 14 over 67 read file 15 over 67 read file 16 over 67 read file 17 over 67 read file 18 over 67 read file 19 over 67 read file 20 over 67 read file 21 over 67 read file 22 over 67 read file 23 over 67 read file 24 over 67 read file 25 over 67 read file 26 over 67 read file 27 over 67 read file 28 over 67 read file 29 over 67 read file 30 over 67 read file 31 over 67 read file 32 over 67 read file 33 over 67 read file 34 over 67 read file 35 over 67 read file 36 over 67 read file 37 over 67 read file 38 over 67 read file 39 over 67 read file 40 over 67 read file 41 over 67 read file 42 over 67 read file 43 over 67 read file 44 over 67 read file 45 over 67 read file 46 over 67 read file 47 over 67 read file 48 over 67 read file 49 over 67 read file 50 over 67 read file 51 over 67 read file 52 over 67 read file 53 over 67 read file 54 over 67 read file 55 over 67 read file 56 over 67 read file 57 over 67 read file 58 over 67 read file 59 over 67 read file 60 over 67 read file 61 over 67 read file 62 over 67 read file 63 over 67 read file 64 over 67 read file 65 over 67 read file 66 over 67 read file 67 over 67 
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
  Clean arrays.
  oiFitsCleanDataFromDummy()
  oiFitsLoadOiDiam()
@@ -46,14 +46,14 @@
     /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
 ERROR Failed to load catalog
    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD38295 is already in oiDiam with diam=0.65mas and isCal=1
- HD42747 is already in oiDiam with diam=0.66mas and isCal=1
- HD59936 is already in oiDiam with diam=0.92mas and isCal=1
- HD__63734 is already in oiDiam with diam=1.01mas and isCal=1
+ HD38295 is already in oiDiam with diam=0.59mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.67mas and isCal=1
+ HD59936 is already in oiDiam with diam=0.95mas and isCal=1
+ HD__63734 is already in oiDiam with diam=1.00mas and isCal=1
  HR2090 is already in oiDiam with diam=0.83mas and isCal=1
- HR3317 is already in oiDiam with diam=0.87mas and isCal=1
- gam_Lep is already in oiDiam with diam=1.42mas and isCal=0
- rho_Pup is already in oiDiam with diam=1.44mas and isCal=0
+ HR3317 is already in oiDiam with diam=0.92mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.61mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.36mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -119,21 +119,21 @@ ERROR Failed to load catalog
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i00_oidataTf.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:35:56.770_i13_oidataTf.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:03.952_i22_oidataTf.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
@@ -144,14 +144,14 @@ ERROR Failed to load catalog
     2021-02-18_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i07_oidataCalibrated.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i18_oidataCalibrated.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
@@ -203,7 +203,7 @@ ERROR Failed to load catalog
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i02_oidataTf.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
@@ -217,7 +217,7 @@ ERROR Failed to load catalog
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:08.367_i21_oidataTf.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
@@ -228,7 +228,7 @@ ERROR Failed to load catalog
     2021-02-18_TF_t3phi_setup02_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
-    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i06_oidataCalibrated.fits
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  read file 1 over 1 
@@ -296,6 +296,2699 @@ ERROR Failed to load catalog
     /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
  oiFitsPlotUV()
  Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.69mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.69mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.02mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.92mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.84mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.88mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.41mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.52mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.68mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.72mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.02mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.97mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.81mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.88mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.41mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.54mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.68mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.64mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.00mas and isCal=1
+ HD__63734 is already in oiDiam with diam=1.04mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.82mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.82mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.36mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.55mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.64mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.64mas and isCal=1
+ HD59936 is already in oiDiam with diam=0.98mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.97mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.80mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.85mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.37mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.50mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.65mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.70mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.06mas and isCal=1
+ HD__63734 is already in oiDiam with diam=1.01mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.85mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.84mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.57mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.48mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.67mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.60mas and isCal=1
+ HD59936 is already in oiDiam with diam=0.99mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.85mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.88mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.89mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.33mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.46mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 50 read file 2 over 50 read file 3 over 50 read file 4 over 50 read file 5 over 50 read file 6 over 50 read file 7 over 50 read file 8 over 50 read file 9 over 50 read file 10 over 50 read file 11 over 50 read file 12 over 50 read file 13 over 50 read file 14 over 50 read file 15 over 50 read file 16 over 50 read file 17 over 50 read file 18 over 50 read file 19 over 50 read file 20 over 50 read file 21 over 50 read file 22 over 50 read file 23 over 50 read file 24 over 50 read file 25 over 50 read file 26 over 50 read file 27 over 50 read file 28 over 50 read file 29 over 50 read file 30 over 50 read file 31 over 50 read file 32 over 50 read file 33 over 50 read file 34 over 50 read file 35 over 50 read file 36 over 50 read file 37 over 50 read file 38 over 50 read file 39 over 50 read file 40 over 50 read file 41 over 50 read file 42 over 50 read file 43 over 50 read file 44 over 50 read file 45 over 50 read file 46 over 50 read file 47 over 50 read file 48 over 50 read file 49 over 50 read file 50 over 50 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD38295 is already in oiDiam with diam=0.63mas and isCal=1
+ HD42747 is already in oiDiam with diam=0.67mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.02mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.93mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.88mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.87mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.38mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.43mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Ignore bad baseline G1-J2
+ oiFitsFlagOiData()
+ Ignore bad baseline A0-G1
+ oiFitsFlagOiData()
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,24]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,11]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:22:25.584_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:29:26.938_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD38295 (1 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD38295_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD42747 (2 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (3 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (4 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (5 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (6 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (7 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (8 over 8)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 40 read file 2 over 40 read file 3 over 40 read file 4 over 40 read file 5 over 40 read file 6 over 40 read file 7 over 40 read file 8 over 40 read file 9 over 40 read file 10 over 40 read file 11 over 40 read file 12 over 40 read file 13 over 40 read file 14 over 40 read file 15 over 40 read file 16 over 40 read file 17 over 40 read file 18 over 40 read file 19 over 40 read file 20 over 40 read file 21 over 40 read file 22 over 40 read file 23 over 40 read file 24 over 40 read file 25 over 40 read file 26 over 40 read file 27 over 40 read file 28 over 40 read file 29 over 40 read file 30 over 40 read file 31 over 40 read file 32 over 40 read file 33 over 40 read file 34 over 40 read file 35 over 40 read file 36 over 40 read file 37 over 40 read file 38 over 40 read file 39 over 40 read file 40 over 40 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD42747 is already in oiDiam with diam=0.62mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.05mas and isCal=1
+ HD__63734 is already in oiDiam with diam=1.04mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.83mas and isCal=1
+ HR3317 is already in oiDiam with diam=0.95mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.44mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.57mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,18]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,12]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD42747 (1 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (2 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (3 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (4 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (5 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (6 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (7 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_rho_Pup_oidataCalibrated.fits
+ oiFitsPlotUV()
+ yoco - IPAG Yorick Contributions
+ yoco package loaded
+ cfitsioPlugin plugin loaded
+ oiFitsUtils package loaded
+ imgFitsUtils package loaded
+ pndrs package loaded (3.94)
+ Graphical outputs in batch mode (PDF only)
+ Log level set to:
+    yocoLOG_INFO
+ pndrsCalibrateAllOiData()
+ oiFitsLoadFiles()
+ read file 1 over 40 read file 2 over 40 read file 3 over 40 read file 4 over 40 read file 5 over 40 read file 6 over 40 read file 7 over 40 read file 8 over 40 read file 9 over 40 read file 10 over 40 read file 11 over 40 read file 12 over 40 read file 13 over 40 read file 14 over 40 read file 15 over 40 read file 16 over 40 read file 17 over 40 read file 18 over 40 read file 19 over 40 read file 20 over 40 read file 21 over 40 read file 22 over 40 read file 23 over 40 read file 24 over 40 read file 25 over 40 read file 26 over 40 read file 27 over 40 read file 28 over 40 read file 29 over 40 read file 30 over 40 read file 31 over 40 read file 32 over 40 read file 33 over 40 read file 34 over 40 read file 35 over 40 read file 36 over 40 read file 37 over 40 read file 38 over 40 read file 39 over 40 read file 40 over 40 
+ Clean arrays.
+ oiFitsCleanDataFromDummy()
+ oiFitsLoadOiDiam()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ oiFitsLoadOiDiam()
+ oiFitsLoadOiDiamFromCatalogs()
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_433_1155.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_393_183.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_300_jsdc.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_434_1201.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/J_AA_431_773.fits
+ Assume RAJ2000 in h:m:s
+ Assume DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/II_224_cadars.fits
+ RAJ2000 in h:m:s
+ DEJ2000 in d:m:s
+ Load local catalog:
+    /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ERROR Failed to load catalog
+   /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
+ HD42747 is already in oiDiam with diam=0.67mas and isCal=1
+ HD59936 is already in oiDiam with diam=1.03mas and isCal=1
+ HD__63734 is already in oiDiam with diam=0.98mas and isCal=1
+ HR2090 is already in oiDiam with diam=0.82mas and isCal=1
+ HR3317 is already in oiDiam with diam=1.00mas and isCal=1
+ gam_Lep is already in oiDiam with diam=1.53mas and isCal=0
+ rho_Pup is already in oiDiam with diam=1.51mas and isCal=0
+ pndrsUpdateOiDiamFromGetStar()
+ oiFitsWriteOiDiam()
+ oiDiam written in:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_oiDiam.fits
+ Remove files from previous calibration (except oiDiam.fits)
+ oiFitsListObs()
+ oiFitsListObs()
+ oiFitsListObs()
+ Include script file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_pndrsScript.i
+ Split night to isolate SCI-CAL sequences
+ oiFitsSplitNight()
+ oiVis2 split in 2 parts
+ oiT3 split in 2 parts
+ Ignore bad baseline G1-J2
+ oiFitsFlagOiData()
+ Ignore bad baseline A0-G1
+ oiFitsFlagOiData()
+ Script done.
+ Remove obs of INTERNAL source
+ oiFitsKeepTargets()
+ oiFitsGroupOiData()
+ oiFitsGroupOiData()
+ ****
+ Calibrate data for setup #1 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896679 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,14]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,6]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:37:13.081_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:49:41.947_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup01_bin03.pdf
+    2021-02-18_TF_t3phi_setup01_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:43:19.108_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ ****
+ Calibrate data for setup #2 over 2
+    PIONIER_Pnat(1.5330000/1.7730000)_3-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896556 A0G1J2J3
+ oiFitsKeepSetup()
+ oiFitsCalibrateNight()
+  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis) =[]
+  dimsof(oiT3)  =[1,20]
+ oiFitsCalibrateDiamOiT3()
+ oiFitsApplyTf (oiT3, tfmode=1)
+ oiFitsApplyTf (oiVis2, tfmode=1)
+ oiFitsCleanDataFromDummy()
+ pndrsPlotTfForAllChannels()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Wait for 3s for plots to be written...
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T03:59:45.815_i04_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:13:49.739_i14_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:26:46.437_i24_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ AssFiles:
+    2021-02-18_TF_vis2_setup02_bin03.pdf
+    2021-02-18_TF_t3phi_setup02_bin03.pdf
+ pndrsWriteFilesAccordingToTplStart()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:05:59.815_i09_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//PIONI.2021-02-18T04:20:22.342_i19_oidataCalibrated.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ read file 1 over 1 
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataTf.fits
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_ALL_oidataCalibrated.fits
+ oiFitsListObs()
+ oiFitsPlotCalibratedNight()
+ Plot the oiT3
+ Plot the oiVisPhi
+ Plot the oiVisAmp
+ Plot the UV
+ Make a summary for target: HD42747 (1 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD42747_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD59936 (2 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD59936_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HD__63734 (3 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HD__63734_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2090 (4 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR2090_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR3317 (5 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_CAL_HR3317_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: gam_Lep (6 over 7)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+    /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18//2021-02-18_SCI_gam_Lep_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: rho_Pup (7 over 7)
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:

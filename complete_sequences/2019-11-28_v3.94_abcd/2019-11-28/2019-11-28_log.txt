@@ -33,14 +33,14 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD218330 is already in oiDiam with diam=0.69mas and isCal=1
+ HD218330 is already in oiDiam with diam=0.67mas and isCal=1
  HD30507 is already in oiDiam with diam=0.79mas and isCal=1
- HD30519 is already in oiDiam with diam=0.85mas and isCal=1
- HD43 is already in oiDiam with diam=0.62mas and isCal=1
- HR1618 is already in oiDiam with diam=1.26mas and isCal=1
- HR67 is already in oiDiam with diam=0.82mas and isCal=1
- IOT_PSC is already in oiDiam with diam=1.14mas and isCal=0
- pi3_Ori is already in oiDiam with diam=1.60mas and isCal=0
+ HD30519 is already in oiDiam with diam=0.83mas and isCal=1
+ HD43 is already in oiDiam with diam=0.60mas and isCal=1
+ HR1618 is already in oiDiam with diam=1.21mas and isCal=1
+ HR67 is already in oiDiam with diam=0.77mas and isCal=1
+ IOT_PSC is already in oiDiam with diam=1.21mas and isCal=0
+ pi3_Ori is already in oiDiam with diam=1.67mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -106,19 +106,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T04:48:06.970_i02_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T04:48:06.970_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:06:09.646_i11_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:06:09.646_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:21:55.841_i22_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:21:55.841_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -127,13 +127,13 @@
  2019-11-28_TF_vis2_setup01_bin03.pdf 2019-11-28_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T04:52:56.837_i06_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T04:54:51.340_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:12:30.433_i15_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T05:13:08.623_i19_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -184,19 +184,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T23:52:02.278_i03_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-28T23:52:40.378_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:14:45.482_i10_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:14:45.482_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:28:31.323_i22_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:28:31.323_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -205,7 +205,7 @@
  2019-11-28_TF_vis2_setup02_bin03.pdf 2019-11-28_TF_t3phi_setup02_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:04:11.279_i05_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28//PIONI.2019-11-29T00:04:11.279_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header

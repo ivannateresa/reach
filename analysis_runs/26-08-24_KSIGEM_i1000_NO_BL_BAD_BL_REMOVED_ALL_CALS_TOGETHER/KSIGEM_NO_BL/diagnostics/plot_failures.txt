@@ -1,0 +1,18 @@
+Failures while generating ksi_Gem plots
+===============================================================================
+
+Plot: ksi_Gem single visibility plots
+Error: 'u_LLD'
+Traceback (most recent call last):
+  File "analyse_ksigem_tests.py", line 295, in run_plot
+    function(*args, **kwargs)
+  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 2275, in plot_single_vis2
+    u_lld = results.iloc[star_i]["u_LLD"]
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/core/series.py", line 868, in __getitem__
+    result = self.index.get_value(self, key)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/core/indexes/base.py", line 4389, in get_value
+    raise e1
+KeyError: 'u_LLD'
+
+-------------------------------------------------------------------------------
+

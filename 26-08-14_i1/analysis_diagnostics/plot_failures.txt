@@ -1,0 +1,61 @@
+Failures while generating plots
+===============================================================================
+
+Plot: PIONIER versus literature diameters
+Error: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/literature_diameters.tsv'
+Traceback (most recent call last):
+  File "analyse_example.py", line 390, in run_plot
+    function(*args, **kwargs)
+  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 3284, in plot_lit_diam_comp
+    lit_diam_info = pd.read_csv(lit_diam_file, sep="\t", header=0)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/io/parsers.py", line 702, in parser_f
+    return _read(filepath_or_buffer, kwds)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/io/parsers.py", line 429, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/io/parsers.py", line 895, in __init__
+    self._make_engine(self.engine)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/io/parsers.py", line 1122, in _make_engine
+    self._engine = CParserWrapper(self.f, **self.options)
+  File "/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/pandas/io/parsers.py", line 1853, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+  File "pandas/_libs/parsers.pyx", line 387, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 705, in pandas._libs.parsers.TextReader._setup_parser_source
+IOError: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/literature_diameters.tsv'
+
+-------------------------------------------------------------------------------
+
+Plot: All visibility fits
+Error: 'module' object has no attribute 'calculate_vis2'
+Traceback (most recent call last):
+  File "analyse_example.py", line 390, in run_plot
+    function(*args, **kwargs)
+  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 338, in plot_all_vis2_fits
+    sci)
+  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 265, in plot_vis2_fit
+    y_fit = rdiam.calculate_vis2(x, ldd_fit, u_lld)
+AttributeError: 'module' object has no attribute 'calculate_vis2'
+
+-------------------------------------------------------------------------------
+
+Plot: LDD bootstrap histograms
+Error: index 20 is out of bounds for axis 0 with size 20
+Traceback (most recent call last):
+  File "analyse_example.py", line 390, in run_plot
+    function(*args, **kwargs)
+  File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 358, in plot_ldd_hists
+    axes[sci_i].hist(n_ldd_fit[sci], n_bins)
+IndexError: index 20 is out of bounds for axis 0 with size 20
+
+-------------------------------------------------------------------------------
+
+Plot: Raw visibility plots from final bootstrap
+Error: No raw OIFITS plots were successfully created
+Traceback (most recent call last):
+  File "analyse_example.py", line 390, in run_plot
+    function(*args, **kwargs)
+  File "analyse_example.py", line 1111, in plot_last_bootstrap_oifits
+    "No raw OIFITS plots were successfully created")
+RuntimeError: No raw OIFITS plots were successfully created
+
+-------------------------------------------------------------------------------
+

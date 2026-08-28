@@ -1,0 +1,2 @@
+fraction_vis2_above_one,has_vis2_above_one,max_baseline_m,max_night,max_point_id,max_telescope_pair,max_vis2_corrected,max_wavelength_index,max_wavelength_um,n_finite_vis2_points,n_vis2_above_one,percent_vis2_above_one,period,point_ids_vis2_above_one,sequence,star
+0.0,False,78.40296593437404,2022-02-28,P149,3-4,0.9783415427122504,5,1.7730000081428443,144,0,0.0,,,combined,ksi_Gem

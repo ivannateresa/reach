@@ -1502,7 +1502,28 @@ def fit_ldd_for_all_bootstraps(tgt_info, n_bootstraps, results_path,
     #oifits_files.sort()
     mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths, seq_order = \
             collate_vis2_from_file(results_path, 0, separate_sequences, tgt_info)
-    
+    # ============================================================
+# DEBUG KSI GEM - CHECK ALL BASELINES BEFORE FITTING
+# ============================================================
+    for key in pairs.keys():
+        if "ksi" in str(key).lower():
+            print("\n" + "=" * 70)
+            print("KSI GEM DEBUG")
+            print("KEY:", key)
+
+            print("TEL PAIRS:")
+            print(pairs[key])
+
+            print("BASELINES:")
+            print(baselines[key])
+
+            print("VIS2:")
+            print(vis2[key])
+
+            print("FLAGS:")
+            print(flags[key])
+
+            print("=" * 70)
     #stars = set([file.split("SCI")[-1].split("oidata")[0].replace("_","")
                  #for file in oifits_files])
                  

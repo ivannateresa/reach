@@ -1,0 +1,9 @@
+ksi_Gem REACH analysis
+============================================================
+experiment_mode = ALL
+results_folder = 26-08-25_KSIGEM_i1000_NO_CAL_ALL_BASELINES_NO_HR2426
+n_bootstraps = 1000
+fitting_method = odr
+combined_fit = False
+e_wl_frac = 0.003500
+removed_calibrator = None

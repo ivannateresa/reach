@@ -1,0 +1,31 @@
+baseline_m,c_scale,candidate_remove,e_vis2_corrected,highlighted,large_raw_residual,large_sigma_residual,mjd,model_vis2,night,oifits_flag,period,point_id,raw_residual,sequence,spatial_frequency_rad_inv,standardized_residual,star,telescope_pair,vis2_corrected,wavelength_index,wavelength_um
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,18,,bright,,,ksi_Gem,2-3,,0,1.5330000451285741
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,19,,bright,,,ksi_Gem,2-3,,1,1.580999992256693
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,20,,bright,,,ksi_Gem,2-3,,2,1.6290000530716497
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,21,,bright,,,ksi_Gem,2-3,,3,1.6770000001997687
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,22,,bright,,,ksi_Gem,2-3,,4,1.7249999473278876
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,23,,bright,,,ksi_Gem,2-3,,5,1.7730000081428443
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,54,,bright,,,ksi_Gem,2-3,,0,1.5330000451285741
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,55,,bright,,,ksi_Gem,2-3,,1,1.580999992256693
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,56,,bright,,,ksi_Gem,2-3,,2,1.6290000530716497
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,57,,bright,,,ksi_Gem,2-3,,3,1.6770000001997687
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,58,,bright,,,ksi_Gem,2-3,,4,1.7249999473278876
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,59,,bright,,,ksi_Gem,2-3,,5,1.7730000081428443
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,66,,bright,,,ksi_Gem,3-4,,0,1.5330000451285741
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,67,,bright,,,ksi_Gem,3-4,,1,1.580999992256693
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,68,,bright,,,ksi_Gem,3-4,,2,1.6290000530716497
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,69,,bright,,,ksi_Gem,3-4,,3,1.6770000001997687
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,70,,bright,,,ksi_Gem,3-4,,4,1.7249999473278876
+,0.9892107978587806,True,,False,False,False,,,unknown,True,106,71,,bright,,,ksi_Gem,3-4,,5,1.7730000081428443
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,54,,bright,,,psi Vel A,2-3,,0,1.5330000451285741
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,55,,bright,,,psi Vel A,2-3,,1,1.580999992256693
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,56,,bright,,,psi Vel A,2-3,,2,1.6290000530716497
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,57,,bright,,,psi Vel A,2-3,,3,1.6770000001997687
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,58,,bright,,,psi Vel A,2-3,,4,1.7249999473278876
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,59,,bright,,,psi Vel A,2-3,,5,1.7730000081428443
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,60,,bright,,,psi Vel A,2-3,,0,1.5330000451285741
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,61,,bright,,,psi Vel A,2-3,,1,1.580999992256693
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,62,,bright,,,psi Vel A,2-3,,2,1.6290000530716497
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,63,,bright,,,psi Vel A,2-3,,3,1.6770000001997687
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,64,,bright,,,psi Vel A,2-3,,4,1.7249999473278876
+,1.0801619702880232,True,,False,False,False,,,unknown,True,106,65,,bright,,,psi Vel A,2-3,,5,1.7730000081428443

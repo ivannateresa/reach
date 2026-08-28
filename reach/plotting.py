@@ -914,6 +914,37 @@ def plot_bootstrapping_summary(
                     row["e_VIS2"],
                     dtype=float
                 )
+                                # ============================================================
+                # Remove completely invalid baseline rows
+                # ============================================================
+
+                invalid_baseline_rows = ~np.isfinite(baselines)
+
+                print("Invalid baseline rows:", np.where(invalid_baseline_rows)[0])
+
+                if np.any(invalid_baseline_rows):
+
+                    print(
+                        "Removing %i invalid baseline row(s) for %s"
+                        % (
+                            np.sum(invalid_baseline_rows),
+                            sci
+                        )
+                    )
+
+                    baselines = baselines[
+                        ~invalid_baseline_rows
+                    ]
+
+                    vis2_matrix = vis2_matrix[
+                        ~invalid_baseline_rows,
+                        :
+                    ]
+
+                    e_vis2_matrix = e_vis2_matrix[
+                        ~invalid_baseline_rows,
+                        :
+                    ]
 
                 n_bl = len(baselines)
                 n_wl = len(wavelengths)
@@ -1147,10 +1178,6 @@ def plot_bootstrapping_summary(
                     dtype=float
                 ).ravel()
                 
-                if len(c_values) == 2:
-                    c_values = np.mean( c_values,
-                        dtype=float
-                    )
 
           
 
@@ -1184,7 +1211,17 @@ def plot_bootstrapping_summary(
 
                 n_c = len(c_values)
                 print(n_c, n_bl)
-
+                print("")
+                print("DEBUG C MAPPING")
+                print("STAR:", sci)
+                print("SEQUENCE:", sequence)
+                print("SEQ_ORDER:", row.get("SEQ_ORDER", None))
+                print("C_SCALE:", c_values)
+                print("n_C:", len(c_values))
+                print("n_baselines:", n_bl)
+                print("BASELINE:", baselines)
+                print("VIS2 shape:", vis2_matrix.shape)
+                print("")
                 if n_bl % n_c != 0:
                     raise ValueError(
                         "Cannot associate C_SCALE with VIS2 rows "
@@ -3870,6 +3907,20 @@ def plot_vis2(oi_fits_file, star_id):
         flags = np.asarray(
             flags_all[seq_i]
         )
+
+        
+        
+        print("")
+        print("==========================================")
+        print("FLAG DEBUG")
+        print("sequence:", seq_i)
+        print("VIS2 shape:", vis2.shape)
+        print("VIS2 size :", vis2.size)
+        print("FLAG shape:", flags.shape)
+        print("FLAG size :", flags.size)
+        print("FLAG True :", np.sum(flags.astype(bool)))
+        print("FLAG False:", np.sum(~flags.astype(bool)))
+        print("==========================================")
 
         n_wl = len(wavelengths)
 
@@ -13321,3 +13372,830 @@ def plot_basti_constant_mass_evolution(
         )
 
     return mass_track_table
+
+
+
+def plot_complete_sequence_vis2(
+        night_directory,
+        science_target,
+        output_file,
+        y_min=0.0,
+        y_max=1.3,
+        low_v2_threshold=0.70):
+    """
+    Plot all calibrated VIS2 measurements present in a REACH
+    complete_sequences night.
+
+    SCI and CAL are shown together, but the science target is
+    also diagnosed separately.
+
+    This is a diagnostic only. It does NOT modify the data used
+    by the diameter fit.
+    """
+
+    import os
+    import glob
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    from astropy.io import fits
+
+
+    print("")
+    print("=" * 100)
+    print("COMPLETE-SEQUENCE VIS2 DIAGNOSTIC")
+    print("=" * 100)
+
+    print("Night directory:")
+    print(night_directory)
+
+    print("Science target:")
+    print(science_target)
+
+
+    # ============================================================
+    # Normalise target names
+    # ============================================================
+
+    def normalise_name(name):
+
+        if isinstance(name, bytes):
+            name = name.decode("utf-8")
+
+        return (
+            str(name)
+            .strip()
+            .replace("_", "")
+            .replace(" ", "")
+            .lower()
+        )
+
+
+    sci_clean = normalise_name(
+        science_target
+    )
+
+
+    # ============================================================
+    # Find calibrated products
+    #
+    # IMPORTANT:
+    # only non-bootstrap current calibrated files:
+    #
+    # *_oidataCalibrated.fits
+    #
+    # This deliberately does NOT read _00/_01.
+    # ============================================================
+
+    fits_files = sorted(
+        glob.glob(
+            os.path.join(
+                night_directory,
+                "*_oidataCalibrated.fits"
+            )
+        )
+    )
+
+
+    print("")
+    print(
+        "Calibrated files found:",
+        len(fits_files)
+    )
+
+
+    if len(fits_files) == 0:
+
+        print(
+            "No *_oidataCalibrated.fits files found."
+        )
+
+        return
+
+
+    # ============================================================
+    # Storage
+    # ============================================================
+
+    all_points = []
+
+    science_points = []
+
+
+    # ============================================================
+    # Read calibrated OIFITS
+    # ============================================================
+
+    for filename in fits_files:
+
+        basename = os.path.basename(
+            filename
+        )
+
+
+        # --------------------------------------------------------
+        # SCI / CAL from filename
+        # --------------------------------------------------------
+
+        if "_SCI_" in basename:
+
+            role = "SCI"
+
+        elif "_CAL_" in basename:
+
+            role = "CAL"
+
+        else:
+
+            continue
+
+
+        try:
+
+            hdul = fits.open(
+                filename
+            )
+
+        except Exception as error:
+
+            print(
+                "WARNING: cannot open %s: %s"
+                % (
+                    filename,
+                    str(error)
+                )
+            )
+
+            continue
+
+
+        try:
+
+            # ====================================================
+            # Required extensions
+            # ====================================================
+
+            if (
+                "OI_VIS2" not in hdul
+                or
+                "OI_WAVELENGTH" not in hdul
+                or
+                "OI_ARRAY" not in hdul
+            ):
+
+                continue
+
+
+            vis2 = hdul[
+                "OI_VIS2"
+            ].data
+
+
+            wave = np.asarray(
+                hdul[
+                    "OI_WAVELENGTH"
+                ].data[
+                    "EFF_WAVE"
+                ],
+                dtype=float
+            )
+
+
+            array = hdul[
+                "OI_ARRAY"
+            ].data
+
+
+            # ====================================================
+            # Station mapping
+            # ====================================================
+
+            station_map = {}
+
+
+            for row in array:
+
+                index = int(
+                    row[
+                        "STA_INDEX"
+                    ]
+                )
+
+
+                # Prefer station name:
+                # A0, G1, J2, J3...
+                try:
+
+                    name = row[
+                        "STA_NAME"
+                    ]
+
+                except Exception:
+
+                    name = row[
+                        "TEL_NAME"
+                    ]
+
+
+                if isinstance(
+                        name,
+                        bytes):
+
+                    name = name.decode(
+                        "utf-8"
+                    )
+
+
+                station_map[
+                    index
+                ] = str(
+                    name
+                ).strip()
+
+
+            # ====================================================
+            # TARGET mapping
+            # ====================================================
+
+            target_map = {}
+
+
+            if "OI_TARGET" in hdul:
+
+                target_table = hdul[
+                    "OI_TARGET"
+                ].data
+
+
+                for row in target_table:
+
+                    target_id = int(
+                        row[
+                            "TARGET_ID"
+                        ]
+                    )
+
+                    target_name = row[
+                        "TARGET"
+                    ]
+
+
+                    if isinstance(
+                            target_name,
+                            bytes):
+
+                        target_name = (
+                            target_name.decode(
+                                "utf-8"
+                            )
+                        )
+
+
+                    target_map[
+                        target_id
+                    ] = str(
+                        target_name
+                    ).strip()
+
+
+            # ====================================================
+            # VIS2 rows
+            # ====================================================
+
+            for row_i in range(
+                    len(vis2)):
+
+
+                target_id = int(
+                    vis2[
+                        "TARGET_ID"
+                    ][row_i]
+                )
+
+
+                target_name = (
+                    target_map.get(
+                        target_id,
+                        "UNKNOWN"
+                    )
+                )
+
+
+                target_clean = (
+                    normalise_name(
+                        target_name
+                    )
+                )
+
+
+                pair = vis2[
+                    "STA_INDEX"
+                ][row_i]
+
+
+                sta1 = station_map.get(
+                    int(pair[0]),
+                    str(pair[0])
+                )
+
+                sta2 = station_map.get(
+                    int(pair[1]),
+                    str(pair[1])
+                )
+
+
+                baseline_name = (
+                    "%s-%s"
+                    % (
+                        sta1,
+                        sta2
+                    )
+                )
+
+
+                mjd = float(
+                    vis2[
+                        "MJD"
+                    ][row_i]
+                )
+
+
+                ucoord = float(
+                    vis2[
+                        "UCOORD"
+                    ][row_i]
+                )
+
+                vcoord = float(
+                    vis2[
+                        "VCOORD"
+                    ][row_i]
+                )
+
+
+                baseline_m = np.sqrt(
+                    ucoord ** 2
+                    +
+                    vcoord ** 2
+                )
+
+
+                values = np.asarray(
+                    vis2[
+                        "VIS2DATA"
+                    ][row_i],
+                    dtype=float
+                )
+
+
+                errors = np.asarray(
+                    vis2[
+                        "VIS2ERR"
+                    ][row_i],
+                    dtype=float
+                )
+
+
+                flags = np.asarray(
+                    vis2[
+                        "FLAG"
+                    ][row_i],
+                    dtype=bool
+                )
+
+
+                # =================================================
+                # Wavelength channels
+                # =================================================
+
+                for channel_i in range(
+                        len(wave)):
+
+
+                    value = values[
+                        channel_i
+                    ]
+
+
+                    error = errors[
+                        channel_i
+                    ]
+
+
+                    flag = flags[
+                        channel_i
+                    ]
+
+
+                    if flag:
+                        continue
+
+
+                    if not np.isfinite(
+                            value):
+                        continue
+
+
+                    wavelength = float(
+                        wave[
+                            channel_i
+                        ]
+                    )
+
+
+                    spatial_frequency = (
+                        baseline_m
+                        /
+                        wavelength
+                    )
+
+
+                    point = {
+
+                        "role":
+                            role,
+
+                        "target":
+                            target_name,
+
+                        "target_clean":
+                            target_clean,
+
+                        "file":
+                            basename,
+
+                        "row":
+                            row_i,
+
+                        "channel":
+                            channel_i,
+
+                        "mjd":
+                            mjd,
+
+                        "baseline":
+                            baseline_name,
+
+                        "baseline_m":
+                            baseline_m,
+
+                        "wavelength":
+                            wavelength,
+
+                        "spatial_frequency":
+                            spatial_frequency,
+
+                        "vis2":
+                            value,
+
+                        "e_vis2":
+                            error,
+
+                    }
+
+
+                    all_points.append(
+                        point
+                    )
+
+
+                    # =================================================
+                    # Science target only
+                    # =================================================
+
+                    if (
+                        role == "SCI"
+                        and
+                        target_clean
+                        ==
+                        sci_clean
+                    ):
+
+                        science_points.append(
+                            point
+                        )
+
+
+        finally:
+
+            hdul.close()
+
+
+    # ============================================================
+    # Diagnostics
+    # ============================================================
+
+    print("")
+    print(
+        "TOTAL valid SCI+CAL points:",
+        len(all_points)
+    )
+
+    print(
+        "SCI points for %s:"
+        % science_target,
+        len(science_points)
+    )
+
+
+    if len(science_points) > 0:
+
+        sci_vis2 = np.asarray(
+            [
+                p["vis2"]
+                for p
+                in science_points
+            ],
+            dtype=float
+        )
+
+
+        print(
+            "SCI min V2 = %.8f"
+            % np.nanmin(
+                sci_vis2
+            )
+        )
+
+        print(
+            "SCI max V2 = %.8f"
+            % np.nanmax(
+                sci_vis2
+            )
+        )
+
+
+        print("")
+        print(
+            "SCI points with V2 < %.2f"
+            % low_v2_threshold
+        )
+
+        print("-" * 100)
+
+
+        low_found = False
+
+
+        for point in science_points:
+
+            if (
+                point[
+                    "vis2"
+                ]
+                <
+                low_v2_threshold
+            ):
+
+                low_found = True
+
+                print(
+                    "file=%s  "
+                    "row=%i  "
+                    "ch=%i  "
+                    "baseline=%s  "
+                    "MJD=%.8f  "
+                    "V2=%.8f"
+                    % (
+                        point[
+                            "file"
+                        ],
+                        point[
+                            "row"
+                        ],
+                        point[
+                            "channel"
+                        ],
+                        point[
+                            "baseline"
+                        ],
+                        point[
+                            "mjd"
+                        ],
+                        point[
+                            "vis2"
+                        ]
+                    )
+                )
+
+
+        if not low_found:
+
+            print(
+                "NONE"
+            )
+
+
+    # ============================================================
+    # Plot
+    # ============================================================
+
+    if len(
+            all_points) == 0:
+
+        print(
+            "No valid data to plot."
+        )
+
+        return
+
+
+    fig, ax = plt.subplots(
+        figsize=(10, 7)
+    )
+
+
+    # ============================================================
+    # Find targets
+    # ============================================================
+
+    target_names = []
+
+
+    for point in all_points:
+
+        name = point[
+            "target"
+        ]
+
+
+        if name not in target_names:
+
+            target_names.append(
+                name
+            )
+
+
+    # Let matplotlib choose colours automatically
+    target_color = {}
+
+
+    for target_i, target in enumerate(
+            target_names):
+
+        target_color[
+            target
+        ] = "C%i" % (
+            target_i % 10
+        )
+
+
+    # ============================================================
+    # Plot points
+    # ============================================================
+
+    used_labels = set()
+
+
+    for point in all_points:
+
+        role = point[
+            "role"
+        ]
+
+        target = point[
+            "target"
+        ]
+
+
+        label = "%s %s" % (
+            role,
+            target
+        )
+
+
+        if label in used_labels:
+
+            plot_label = None
+
+        else:
+
+            plot_label = label
+
+            used_labels.add(
+                label
+            )
+
+
+        if role == "SCI":
+
+            ax.scatter(
+
+                point[
+                    "spatial_frequency"
+                ],
+
+                point[
+                    "vis2"
+                ],
+
+                marker="o",
+
+                s=35,
+
+                color=target_color[
+                    target
+                ],
+
+                label=plot_label
+
+            )
+
+
+        else:
+
+            ax.scatter(
+
+                point[
+                    "spatial_frequency"
+                ],
+
+                point[
+                    "vis2"
+                ],
+
+                marker="x",
+
+                s=40,
+
+                color=target_color[
+                    target
+                ],
+
+                label=plot_label
+
+            )
+
+
+    ax.set_xlabel(
+        r"Spatial frequency [rad$^{-1}$]"
+    )
+
+    ax.set_ylabel(
+        r"$V^2$"
+    )
+
+    ax.set_ylim(
+        y_min,
+        y_max
+    )
+
+    ax.grid()
+
+    ax.legend(
+        fontsize=8,
+        loc="best"
+    )
+
+
+    ax.set_title(
+        "%s - complete calibrated sequence"
+        % science_target
+    )
+
+
+    fig.tight_layout()
+
+
+    # ============================================================
+    # Save
+    # ============================================================
+
+    output_directory = os.path.dirname(
+        output_file
+    )
+
+
+    if (
+        output_directory
+        and
+        not os.path.exists(
+            output_directory
+        )
+    ):
+
+        os.makedirs(
+            output_directory
+        )
+
+
+    fig.savefig(
+        output_file
+    )
+
+
+    plt.close(
+        fig
+    )
+
+
+    print("")
+    print(
+        "Saved complete-sequence plot:"
+    )
+
+    print(
+        output_file
+    )
+
+    print("=" * 100)

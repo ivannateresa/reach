@@ -33,14 +33,14 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- HD220757 is already in oiDiam with diam=0.68mas and isCal=1
- HD68 is already in oiDiam with diam=0.82mas and isCal=1
- HD8025 is already in oiDiam with diam=0.63mas and isCal=1
- HR1534 is already in oiDiam with diam=1.10mas and isCal=1
- HR1618 is already in oiDiam with diam=1.26mas and isCal=1
- HR1681 is already in oiDiam with diam=0.98mas and isCal=1
- pi3_Ori is already in oiDiam with diam=1.60mas and isCal=0
- zet_Tuc is already in oiDiam with diam=1.25mas and isCal=0
+ HD220757 is already in oiDiam with diam=0.73mas and isCal=1
+ HD68 is already in oiDiam with diam=0.74mas and isCal=1
+ HD8025 is already in oiDiam with diam=0.57mas and isCal=1
+ HR1534 is already in oiDiam with diam=0.98mas and isCal=1
+ HR1618 is already in oiDiam with diam=1.21mas and isCal=1
+ HR1681 is already in oiDiam with diam=0.99mas and isCal=1
+ pi3_Ori is already in oiDiam with diam=1.67mas and isCal=0
+ zet_Tuc is already in oiDiam with diam=1.28mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -55,6 +55,16 @@
  oiFitsSplitNight()
  oiVis2 split in 2 parts
  oiT3 split in 2 parts
+ Ignore bad baseline A0-G1
+ oiFitsFlagOiData()
+ Ignore bad baseline G1-J2
+ oiFitsFlagOiData()
+ Ignore bad baseline A0-G1
+ oiFitsFlagOiData()
+ Ignore bad baseline G1-J2
+ oiFitsFlagOiData()
+ Ignore bad baseline J2-J3
+ oiFitsFlagOiData()
  Script done.
  Remove obs of INTERNAL source
  oiFitsKeepTargets()
@@ -65,9 +75,9 @@
  PIONIER_Pnat(1.5330000/1.7730000)_1-GRISM-FREE-H [6x1+248+58]x26 0.50ms 7100mV 1 SIMPLE:1x512 -40,-120,40,120 C:2552801 A0G1J2J3
  oiFitsKeepSetup()
  oiFitsCalibrateNight()
-  dimsof(oiVis2)=[1,30]
+  dimsof(oiVis2)=[1,21]
   dimsof(oiVis) =[]
-  dimsof(oiT3)  =[1,20]
+  dimsof(oiT3)  =[1,8]
  oiFitsCalibrateDiamOiT3()
  oiFitsApplyTf (oiT3, tfmode=1)
  oiFitsApplyTf (oiVis2, tfmode=1)
@@ -106,19 +116,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:37:03.838_i04_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:37:41.965_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:58:30.721_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:58:30.721_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T01:12:18.732_i20_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T01:12:56.780_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -127,13 +137,13 @@
  2019-11-29_TF_vis2_setup01_bin03.pdf 2019-11-29_TF_t3phi_setup01_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:49:18.015_i06_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T00:49:18.015_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T01:05:44.407_i16_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T01:05:44.407_i19_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -184,19 +194,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:11:01.466_i00_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:11:39.714_i04_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:27:24.173_i12_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:27:24.173_i14_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:41:13.035_i22_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:41:13.035_i24_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -205,7 +215,7 @@
  2019-11-29_TF_vis2_setup02_bin03.pdf 2019-11-29_TF_t3phi_setup02_bin03.pdf
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:18:37.271_i07_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//PIONI.2019-11-29T05:18:37.271_i09_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -236,6 +246,7 @@
  oiFitsPlotUV()
  Make a summary for target: HD68 (2 over 8)
  oiFitsKeepTargets()
+ WARNING :  is now void: all observations have been excluded
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//2019-11-29_CAL_HD68_oidataCalibrated.fits
@@ -272,6 +283,7 @@
  oiFitsPlotUV()
  Make a summary for target: zet_Tuc (8 over 8)
  oiFitsKeepTargets()
+ WARNING :  is now void: all observations have been excluded
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29//2019-11-29_SCI_zet_Tuc_oidataCalibrated.fits

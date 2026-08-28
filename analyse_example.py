@@ -32,11 +32,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
-combined_fit =False                # Fit for LDD for multiple seq at once
+combined_fit =True               # Fit for LDD for multiple seq at once
 load_saved_results = False        # Load or do fitting fresha
 assign_default_uncertainties = True # Give default errors to stars without ???
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 3
+n_bootstraps = 2
 fitting_method = "odr"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -50,8 +50,65 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-08-13_i3"       # Final run for 1st draft
+results_folder = "26-08-21_i3"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
+
+# =============================================================================
+# ANALYSIS OUTPUT
+# =============================================================================
+c_fixed = False
+bad_baselines_included = True
+random_ifg_sampling = False
+analysis_name = "remove_calibrador_all_baselines"
+
+analysis_root = os.path.join(
+    "/home2/ihernand/Desktop/reach/analysis_runs",
+    results_folder,
+    analysis_name
+)
+
+plots_output = os.path.join(
+    analysis_root,
+    "plots"
+)
+
+paper_output = os.path.join(
+    analysis_root,
+    "paper"
+)
+
+diagnostics_folder = os.path.join(
+    analysis_root,
+    "diagnostics"
+)
+
+for directory in [
+        analysis_root,
+        plots_output,
+        paper_output,
+        diagnostics_folder]:
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+# ============================================================
+# PLOT FAILURE LOG
+# ============================================================
+
+plot_failure_log = os.path.join(
+    diagnostics_folder,
+    "plot_failures.txt"
+)
+
+with open(plot_failure_log, "w") as handle:
+    handle.write("Failures while generating plots\n")
+    handle.write("=" * 79 + "\n\n")
+print("")
+print("=" * 79)
+print("ANALYSIS OUTPUT")
+print("results_folder : %s" % results_folder)
+print("analysis_name  : %s" % analysis_name)
+print("output         : %s" % analysis_root)
+print("=" * 79)
 
 # Path to Casagrande & VandenBerg 2014/2018a/2018b bolometric correction code
 # and filters to use when calculating fbol_final from [Hp, Bt, Vt, Bp, Rp]
@@ -68,10 +125,7 @@ tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
 complete_sequences, sequences = rutils.load_sequence_logs()
 
 
-diagnostics_folder = os.path.join(results_folder, "analysis_diagnostics")
 
-if not os.path.exists(diagnostics_folder):
-    os.makedirs(diagnostics_folder)
 
 # -----------------------------------------------------------------------------
 # Loading Existing Results
@@ -108,6 +162,7 @@ else:
                                             results_path, sampled_sci_params,
                                             method=fitting_method, 
                                             e_wl_frac=e_wl_frac,
+                                            prune_errant_baselines=False,
                                             combined_fit=combined_fit) 
 
     # Summarise results
@@ -148,6 +203,7 @@ else:
                                             results_path, sampled_sci_params,
                                             method=fitting_method,  
                                             e_wl_frac=e_wl_frac,
+                                            prune_errant_baselines=False,
                                             combined_fit=combined_fit) 
     # Summarise results
     results = rdiam.summarise_results(bs_results, tgt_info, 
@@ -214,41 +270,433 @@ rpaper.make_table_limb_darkening(tgt_info)
 # =============================================================================
 # GENERATE ALL AVAILABLE PLOTS
 # =============================================================================
-
-
-def run_plot(label, function, *args, **kwargs):
+def get_plot_snapshot():
     """
-    Execute one plotting function.
-
-    Returns
-    -------
-    success : bool
-        True if the function finished without an exception.
+    Record existing plot files before running one plotting function.
     """
 
-    print("\n" + "=" * 79)
-    print("Generating plot: %s" % label)
+    snapshot = {}
+
+    search_directories = [
+        "plots",
+        "paper"
+    ]
+
+    extensions = (
+        ".pdf",
+        ".png",
+        ".jpg",
+        ".jpeg"
+    )
+
+    for search_directory in search_directories:
+
+        if not os.path.exists(search_directory):
+            continue
+
+        for root, directories, filenames in os.walk(
+                search_directory):
+
+            for filename in filenames:
+
+                if not filename.lower().endswith(
+                        extensions):
+                    continue
+
+                path = os.path.abspath(
+                    os.path.join(
+                        root,
+                        filename
+                    )
+                )
+
+                try:
+
+                    snapshot[path] = (
+                        os.path.getmtime(path),
+                        os.path.getsize(path)
+                    )
+
+                except OSError:
+                    pass
+
+    return snapshot
+
+def archive_new_plots(before_snapshot):
+
+    after_snapshot = get_plot_snapshot()
+
+    n_copied = 0
+
+    for source_path in after_snapshot:
+
+        old_info = before_snapshot.get(
+            source_path,
+            None
+        )
+
+        new_info = after_snapshot[
+            source_path
+        ]
+
+        if (
+            old_info is None
+            or old_info != new_info
+        ):
+
+            relative_path = os.path.relpath(
+                source_path,
+                os.getcwd()
+            )
+
+            # ====================================================
+            # PLOTS
+            # ====================================================
+
+            plot_prefix = os.path.join(
+                "plots",
+                results_folder
+            )
+
+            if (
+                relative_path == plot_prefix
+                or relative_path.startswith(
+                    plot_prefix + os.sep
+                )
+            ):
+
+                relative_inside = os.path.relpath(
+                    relative_path,
+                    plot_prefix
+                )
+
+                destination_path = os.path.join(
+                    plots_output,
+                    relative_inside
+                )
+
+            # ====================================================
+            # PAPER
+            # ====================================================
+
+            paper_prefix = os.path.join(
+                "paper",
+                results_folder
+            )
+
+            if (
+                relative_path == paper_prefix
+                or relative_path.startswith(
+                    paper_prefix + os.sep
+                )
+            ):
+
+                relative_inside = os.path.relpath(
+                    relative_path,
+                    paper_prefix
+                )
+
+                destination_path = os.path.join(
+                    paper_output,
+                    relative_inside
+                )
+
+            # ====================================================
+            # LEGACY plots/ OUTPUT
+            # ====================================================
+
+            elif (
+                relative_path == "plots"
+                or relative_path.startswith(
+                    "plots" + os.sep
+                )
+            ):
+
+                relative_inside = os.path.relpath(
+                    relative_path,
+                    "plots"
+                )
+
+                destination_path = os.path.join(
+                    plots_output,
+                    relative_inside
+                )
+
+            # ====================================================
+            # LEGACY paper/ OUTPUT
+            # ====================================================
+
+            elif (
+                relative_path == "paper"
+                or relative_path.startswith(
+                    "paper" + os.sep
+                )
+            ):
+
+                relative_inside = os.path.relpath(
+                    relative_path,
+                    "paper"
+                )
+
+                destination_path = os.path.join(
+                    paper_output,
+                    relative_inside
+                )
+
+            else:
+
+                continue
+
+
+            destination_directory = os.path.dirname(
+                destination_path
+            )
+
+            if not os.path.exists(
+                    destination_directory):
+
+                os.makedirs(
+                    destination_directory
+                )
+
+
+            shutil.copy2(
+                source_path,
+                destination_path
+            )
+
+            print(
+                "Archived plot:"
+            )
+
+            print(
+                "  %s"
+                % destination_path
+            )
+
+            n_copied += 1
+
+
+    return n_copied
+
+
+def copy_plot(source, destination):
+
+    if not os.path.exists(source):
+
+        print(
+            "Could not copy missing plot:"
+        )
+
+        print(
+            "  %s"
+            % source
+        )
+
+        return
+
+
+    # --------------------------------------------------------
+    # Normal compatibility copy
+    # --------------------------------------------------------
+
+    destination_directory = os.path.dirname(
+        destination
+    )
+
+    if (
+        destination_directory
+        and not os.path.exists(
+            destination_directory
+        )
+    ):
+
+        os.makedirs(
+            destination_directory
+        )
+
+
+    shutil.copy2(
+        source,
+        destination
+    )
+
+
+    print("Copied:")
+    print("  %s" % destination)
+
+
+    # --------------------------------------------------------
+    # Also archive the copy
+    # --------------------------------------------------------
+
+    relative_path = destination
+
+
+    plot_prefix = os.path.join(
+        "plots",
+        results_folder
+    )
+
+    paper_prefix = os.path.join(
+        "paper",
+        results_folder
+    )
+
+
+    if (
+        relative_path == plot_prefix
+        or relative_path.startswith(
+            plot_prefix + os.sep
+        )
+    ):
+
+        relative_inside = os.path.relpath(
+            relative_path,
+            plot_prefix
+        )
+
+        archive_destination = os.path.join(
+            plots_output,
+            relative_inside
+        )
+
+
+    elif (
+        relative_path == paper_prefix
+        or relative_path.startswith(
+            paper_prefix + os.sep
+        )
+    ):
+
+        relative_inside = os.path.relpath(
+            relative_path,
+            paper_prefix
+        )
+
+        archive_destination = os.path.join(
+            paper_output,
+            relative_inside
+        )
+
+
+    else:
+
+        return
+
+
+    archive_directory = os.path.dirname(
+        archive_destination
+    )
+
+    if not os.path.exists(
+            archive_directory):
+
+        os.makedirs(
+            archive_directory
+        )
+
+
+    shutil.copy2(
+        destination,
+        archive_destination
+    )
+
+
+    print(
+        "Archived copy:"
+    )
+
+    print(
+        "  %s"
+        % archive_destination
+    )
+def run_plot(
+        label,
+        function,
+        *args,
+        **kwargs):
+
+    print("")
     print("=" * 79)
+    print(
+        "Generating plot: %s"
+        % label
+    )
+    print("=" * 79)
+
+    # ---------------------------------------------------------
+    # Files existing before this plotting function
+    # ---------------------------------------------------------
+
+    before_snapshot = (
+        get_plot_snapshot()
+    )
 
     try:
 
-        function(*args, **kwargs)
+        function(
+            *args,
+            **kwargs
+        )
 
-        print("SUCCESS: %s" % label)
+        # -----------------------------------------------------
+        # Save everything generated by this function
+        # -----------------------------------------------------
+
+        n_archived = (
+            archive_new_plots(
+                before_snapshot
+            )
+        )
+
+        print(
+            "SUCCESS: %s"
+            % label
+        )
+
+        print(
+            "Plots archived: %i"
+            % n_archived
+        )
 
         return True
 
     except Exception as error:
 
-        print("FAILED: %s" % label)
-        print("Error: %s" % str(error))
+        print(
+            "FAILED: %s"
+            % label
+        )
 
-        with open(plot_failure_log, "a") as handle:
+        print(
+            "Error: %s"
+            % str(error)
+        )
 
-            handle.write("Plot: %s\n" % label)
-            handle.write("Error: %s\n" % str(error))
-            handle.write(traceback.format_exc())
-            handle.write("\n" + "-" * 79 + "\n\n")
+        with open(
+                plot_failure_log,
+                "a") as handle:
+
+            handle.write(
+                "Plot: %s\n"
+                % label
+            )
+
+            handle.write(
+                "Error: %s\n"
+                % str(error)
+            )
+
+            handle.write(
+                traceback.format_exc()
+            )
+
+            handle.write(
+                "\n"
+                + "-" * 79
+                + "\n\n"
+            )
 
         traceback.print_exc()
 
@@ -256,21 +704,9 @@ def run_plot(label, function, *args, **kwargs):
 
     finally:
 
-        plt.close("all")
-
-def copy_plot(source, destination):
-    """
-    Copy a plot when two plotting functions use the same output filename.
-    """
-
-    if os.path.exists(source):
-        shutil.copyfile(source, destination)
-        print("Copied:")
-        print("  %s" % destination)
-    else:
-        print("Could not copy missing plot:")
-        print("  %s" % source)
-
+        plt.close(
+            "all"
+        )
 
 print("Generating all plots...")
 
@@ -358,74 +794,6 @@ else:
 
     print("Joint visibility plot was not found:")
     print("  %s" % generated_joint_plot)
-# -------------------------------------------------------------------------
-# Plot failure log
-# -------------------------------------------------------------------------
-plot_failure_log = os.path.join(
-    diagnostics_folder,
-    "plot_failures.txt"
-)
-
-with open(plot_failure_log, "w") as handle:
-    handle.write("Failures while generating plots\n")
-    handle.write("=" * 79 + "\n\n")
-
-
-def run_plot(label, function, *args, **kwargs):
-    """
-    Execute one plotting function.
-
-    Returns
-    -------
-    success : bool
-        True if the function finished without an exception.
-    """
-
-    print("\n" + "=" * 79)
-    print("Generating plot: %s" % label)
-    print("=" * 79)
-
-    try:
-
-        function(*args, **kwargs)
-
-        print("SUCCESS: %s" % label)
-
-        return True
-
-    except Exception as error:
-
-        print("FAILED: %s" % label)
-        print("Error: %s" % str(error))
-
-        with open(plot_failure_log, "a") as handle:
-
-            handle.write("Plot: %s\n" % label)
-            handle.write("Error: %s\n" % str(error))
-            handle.write(traceback.format_exc())
-            handle.write("\n" + "-" * 79 + "\n\n")
-
-        traceback.print_exc()
-
-        return False
-
-    finally:
-
-        plt.close("all")
-
-def copy_plot(source, destination):
-    """
-    Copy a plot when two plotting functions use the same output filename.
-    """
-
-    if os.path.exists(source):
-        shutil.copyfile(source, destination)
-        print("Copied:")
-        print("  %s" % destination)
-    else:
-        print("Could not copy missing plot:")
-        print("  %s" % source)
-
 
 # =============================================================================
 # 1. Fundamental parameters
@@ -1170,3 +1538,63 @@ run_plot(
     use_predicted_if_missing=True
 )
 
+run_info_file = os.path.join(
+    analysis_root,
+    "run_info.txt"
+)
+
+with open(
+        run_info_file,
+        "w") as handle:
+
+    handle.write(
+        "REACH analysis configuration\n"
+    )
+
+    handle.write(
+        "=" * 60 + "\n"
+    )
+
+    handle.write(
+        "results_folder = %s\n"
+        % results_folder
+    )
+
+    handle.write(
+        "analysis_name = %s\n"
+        % analysis_name
+    )
+
+    handle.write(
+        "n_bootstraps = %i\n"
+        % n_bootstraps
+    )
+
+    handle.write(
+        "fitting_method = %s\n"
+        % fitting_method
+    )
+
+    handle.write(
+        "combined_fit = %s\n"
+        % str(combined_fit)
+    )
+
+    handle.write(
+        "e_wl_frac = %.6f\n"
+        % e_wl_frac
+    )
+    
+    handle.write(
+    "C_SCALE FIXED TO 1 = %s\n"
+    % str(c_fixed))
+    
+    
+    handle.write(
+    "BAD BASELINES INCLUDED = %s\n"
+    % str(bad_baselines_included))
+    
+    
+    handle.write(
+    "RANDOM IFG SAMPLING = %s\n"
+    % str(random_ifg_sampling))
