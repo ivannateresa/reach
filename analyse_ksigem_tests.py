@@ -95,7 +95,7 @@ force_claret_params = False
 # For final run:
 # n_bootstraps = 1000
 
-n_bootstraps = 2
+n_bootstraps = 1
 
 
 combined_fit = False
@@ -2174,31 +2174,93 @@ run_plot(
 # REACH BOOTSTRAP SUMMARY
 # =============================================================================
 
+
+bootstrap_summary_output = os.path.join(
+
+    plots_output,
+
+    "bootstrapped_summary.pdf"
+
+)
+
+
+def save_reach_bootstrap_summary():
+
+    # Older REACH versions save this PDF to the fixed relative path
+    # plots/bootstrapped_summary.pdf. Run only this plot from analysis_root
+    # so that both old and new plotting.py versions save it in this analysis.
+
+    original_working_directory = os.getcwd()
+
+
+    try:
+
+        os.chdir(
+            analysis_root
+        )
+
+
+        plot_result = rplt.plot_bootstrapping_summary(
+
+            results,
+
+            bs_results,
+
+            n_bins=30,
+
+            plot_cal_info=True,
+
+            sequences=
+                sequences,
+
+            complete_sequences=
+                complete_sequences,
+
+            tgt_info=
+                tgt_info,
+
+            e_wl_frac=
+                e_wl_frac
+
+        )
+
+
+    finally:
+
+        os.chdir(
+            original_working_directory
+        )
+
+
+    if not os.path.isfile(
+            bootstrap_summary_output):
+
+        raise RuntimeError(
+
+            "Bootstrap summary was not created: %s"
+
+            % bootstrap_summary_output
+
+        )
+
+
+    print(
+
+        "Saved bootstrap summary: %s"
+
+        % bootstrap_summary_output
+
+    )
+
+
+    return plot_result
+
+
 run_plot(
 
     "ksi_Gem bootstrap summary",
 
-    rplt.plot_bootstrapping_summary,
-
-    results,
-
-    bs_results,
-
-    n_bins=30,
-
-    plot_cal_info=True,
-
-    sequences=
-        sequences,
-
-    complete_sequences=
-        complete_sequences,
-
-    tgt_info=
-        tgt_info,
-
-    e_wl_frac=
-        e_wl_frac
+    save_reach_bootstrap_summary
 
 )
 
@@ -2480,17 +2542,11 @@ ksi_nights = [
 for sequence_name, night in ksi_nights:
 
 
-    night_directory = (
+    # Read the calibrated OIFITS belonging to this exact experiment.
+    # Using complete_sequences here would show the same original data for
+    # ALL, NO_BL, NO_CAL and NO_BL_NO_CAL.
 
-        "/home2/ihernand/Desktop/reach/"
-        "complete_sequences/"
-        "%s_v3.94_abcd/%s/"
-        % (
-            night,
-            night
-        )
-
-    )
+    night_directory = results_path
 
 
     output_file = os.path.join(
@@ -2523,7 +2579,16 @@ for sequence_name, night in ksi_nights:
                 1.3,
 
             low_v2_threshold=
-                0.70
+                0.70,
+
+            bootstrap_index=
+                0,
+
+            night=
+                night,
+
+            case_label=
+                analysis_name
 
         )
 

@@ -1,0 +1,288 @@
+Calibrator quality diagnostic
+======================================================================
+
+Input folder:
+/home2/ihernand/Desktop/reach/diagnostics/
+
+Number of diagnostic FITS files: 22
+
+----------------------------------------------------------------------
+READ_ERROR calibrators: 0
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+BAD calibrators: 0
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+CHECK calibrators: 0
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+OK calibrators: 22
+----------------------------------------------------------------------
+File: 2022-02-26_ALL_oidataCalibrated_00.fits
+Calibrator name: 2022-02-26_ALL
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 180
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0882985429672
+reduced_chi2: 11.1666625533
+
+File: 2022-02-26_CAL_12_Mon_oidataCalibrated_00.fits
+Calibrator name: 2022-02-26_CAL_12_Mon
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0196262831653
+reduced_chi2: 0.625067695437
+
+File: 2022-02-26_CAL_HR2426_oidataCalibrated_00.fits
+Calibrator name: 2022-02-26_CAL_HR2426
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0173496123978
+reduced_chi2: 0.443206473519
+
+File: 2022-02-26_CAL_HR2610_oidataCalibrated_00.fits
+Calibrator name: 2022-02-26_CAL_HR2610
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0164196310171
+reduced_chi2: 0.40844477067
+
+File: 2022-02-26_CAL_ksi_Gem_oidataCalibrated_00.fits
+Calibrator name: 2022-02-26_CAL_ksi_Gem
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 72
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0283052465089
+reduced_chi2: 1.29201642443
+
+File: 2022-02-26_SCI_12_Mon_oidataCalibrated_00.fits
+Calibrator name: 12_Mon
+HD_ID: HD46241
+Primary: 12Mon
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0358592433775
+reduced_chi2: 1.47781037786
+
+File: 2022-02-26_SCI_HR2426_oidataCalibrated_00.fits
+Calibrator name: HR2426
+HD_ID: HD47156
+Primary: HR2426
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0390491644485
+reduced_chi2: 0.870193818989
+
+File: 2022-02-26_SCI_HR2610_oidataCalibrated_00.fits
+Calibrator name: HR2610
+HD_ID: HD51814
+Primary: HR2610
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0291227638813
+reduced_chi2: 1.6560935425
+
+File: 2022-03-01_ALL_oidataCalibrated_00.fits
+Calibrator name: 2022-03-01_ALL
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 180
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0663850734604
+reduced_chi2: 0.243915972764
+
+File: 2022-03-01_CAL_HR2342_oidataCalibrated_00.fits
+Calibrator name: 2022-03-01_CAL_HR2342
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0354297511723
+reduced_chi2: 0.143305790337
+
+File: 2022-03-01_CAL_HR2391_oidataCalibrated_00.fits
+Calibrator name: 2022-03-01_CAL_HR2391
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0131854393559
+reduced_chi2: 0.0425193357564
+
+File: 2022-03-01_CAL_HR2426_oidataCalibrated_00.fits
+Calibrator name: 2022-03-01_CAL_HR2426
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0159302952218
+reduced_chi2: 0.0585231160804
+
+File: 2022-03-01_CAL_ksi_Gem_oidataCalibrated_00.fits
+Calibrator name: 2022-03-01_CAL_ksi_Gem
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 72
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0152086450568
+reduced_chi2: 0.0386318048739
+
+File: 2022-03-01_SCI_HR2342_oidataCalibrated_00.fits
+Calibrator name: HR2342
+HD_ID: HD45512
+Primary: HR2342
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0565920732265
+reduced_chi2: 0.404511429135
+
+File: 2022-03-01_SCI_HR2391_oidataCalibrated_00.fits
+Calibrator name: HR2391
+HD_ID: HD4849
+Primary: HR2391
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0228944056532
+reduced_chi2: 0.380762058675
+
+File: 2022-03-01_SCI_HR2426_oidataCalibrated_00.fits
+Calibrator name: HR2426
+HD_ID: HD47156
+Primary: HR2426
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0259977486793
+reduced_chi2: 0.13002266174
+
+File: PIONI.2022-02-26T02:40:46.743_i04_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-02-26T02:40:46.743_i04
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0358592433775
+reduced_chi2: 1.47781037786
+
+File: PIONI.2022-02-26T02:59:59.148_i14_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-02-26T02:59:59.148_i14
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0390491644485
+reduced_chi2: 0.870193818989
+
+File: PIONI.2022-02-26T03:15:28.086_i24_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-02-26T03:15:28.086_i24
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0291227638813
+reduced_chi2: 1.6560935425
+
+File: PIONI.2022-03-01T01:42:17.959_i04_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-03-01T01:42:17.959_i04
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0565920732265
+reduced_chi2: 0.404511429135
+
+File: PIONI.2022-03-01T02:00:43.237_i14_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-03-01T02:00:43.237_i14
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0228944056532
+reduced_chi2: 0.380762058675
+
+File: PIONI.2022-03-01T02:16:00.191_i24_oidataCalibrated_00.fits
+Calibrator name: PIONI.2022-03-01T02:16:00.191_i24
+HD_ID: None
+Primary: None
+Diagnosis: OK
+Reason: No obvious problem detected
+n_good: 36
+flagged_frac: 0.0
+bad_vis2_frac: 0.0
+robust_scatter: 0.0259977486793
+reduced_chi2: 0.13002266174
+
+

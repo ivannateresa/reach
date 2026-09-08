@@ -1390,6 +1390,132 @@ def load_bad_baselines_log(
             )
 
     return bad_baseline_dict
+
+
+def logical_baseline_to_station_baseline(night, logical_baseline):
+    """
+    Convert a logical AT baseline to the physical station baseline used by
+    PNDRS/OIFITS for the two ksi Gem observing nights.
+
+    Examples
+    --------
+    2022-02-26, AT2-AT3 -> G1-J2
+    2022-03-01, AT2-AT4 -> G1-J3
+    """
+
+    station_maps = {
+
+    # HR2998: A0-G1-J2-K0
+    "2019-11-25": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "K0"
+    },
+
+    # HR2998: A0-G1-J2-J3
+    "2019-11-26": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "J3"
+    },
+    "2021-02-17": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "J3"
+    },
+
+    # rho Pup: A0-G1-J2-J3
+    "2021-02-18": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "J3"
+    },
+    # gam Lep: A0-G1-J2-K0
+"2020-01-03": {
+    "AT1": "A0",
+    "AT2": "G1",
+    "AT3": "J2",
+    "AT4": "K0"
+},
+
+# gam Lep: A0-G1-J2-J3
+"2021-02-17": {
+    "AT1": "A0",
+    "AT2": "G1",
+    "AT3": "J2",
+    "AT4": "J3"
+},
+    # ksi Gem
+    "2022-02-26": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "K0"
+    },
+
+    # ksi Gem
+    "2022-03-01": {
+        "AT1": "A0",
+        "AT2": "G1",
+        "AT3": "J2",
+        "AT4": "J3"
+    }
+}
+
+    night = str(night).strip()
+
+    logical_baseline = (
+        str(logical_baseline)
+        .strip()
+        .upper()
+    )
+
+    if night not in station_maps:
+
+        raise ValueError(
+            "No AT-to-station mapping defined for night %s"
+            % night
+        )
+
+    parts = logical_baseline.split("-")
+
+    if len(parts) != 2:
+
+        raise ValueError(
+            "Invalid logical baseline: %s"
+            % logical_baseline
+        )
+
+    at_1 = parts[0]
+    at_2 = parts[1]
+
+    if (
+        at_1 not in station_maps[night]
+        or
+        at_2 not in station_maps[night]
+    ):
+
+        raise ValueError(
+            "Unknown AT label in baseline %s for night %s"
+            % (
+                logical_baseline,
+                night
+            )
+        )
+
+    station_1 = station_maps[night][at_1]
+    station_2 = station_maps[night][at_2]
+
+    return "%s-%s" % (
+        station_1,
+        station_2
+    )
+
+
 def load_bad_baselines_log_old():
     """Loads in the text file recording any bad baselines, where each entry
     has the form: (Period,ID,concatenation,station,start,end)
@@ -1608,13 +1734,24 @@ def save_nightly_pndrs_script(
 
                 for bad_bl in bad_baseline_dict[night]:
 
-                    station_name = bad_bl[0]
+                    logical_baseline = bad_bl[0]
+
+                    station_name = (
+                        logical_baseline_to_station_baseline(
+                            night,
+                            logical_baseline
+                        )
+                    )
+
                     start_mjd = bad_bl[1]
                     end_mjd = bad_bl[2]
 
                     nightly_script.write(
-                        'yocoLogInfo, "Ignore bad baseline %s";\n'
-                        % station_name
+                        'yocoLogInfo, "Ignore bad baseline %s (%s)";\n'
+                        % (
+                            logical_baseline,
+                            station_name
+                        )
                     )
 
                     nightly_script.write(
@@ -1637,6 +1774,17 @@ def save_nightly_pndrs_script(
                     )
 
                     nightly_script.write("\n")
+
+                    print(
+                        "  PNDRS bad baseline: %s -> %s, "
+                        "MJD %.13f-%.13f"
+                        % (
+                            logical_baseline,
+                            station_name,
+                            start_mjd,
+                            end_mjd
+                        )
+                    )
         
         # Done, move to the next night
         print("...wrote %s, night split into %s, bad calibrators: %s" 
@@ -1837,7 +1985,7 @@ def calibrate_all_observations(reduced_data_folders, bootstrap_i,
               % (int(np.floor(cal_time/60.)), cal_time % 60.))
         
         # Move oifits files back to central location (reach/results by default)
-        move_sci_oifits_old(ob_folder,results_path,bootstrap_i)
+        move_sci_oifits(ob_folder,results_path,bootstrap_i)
     
     # All nights finished, print summary          
     total_time = (times[-1] - times[0]).total_seconds()    

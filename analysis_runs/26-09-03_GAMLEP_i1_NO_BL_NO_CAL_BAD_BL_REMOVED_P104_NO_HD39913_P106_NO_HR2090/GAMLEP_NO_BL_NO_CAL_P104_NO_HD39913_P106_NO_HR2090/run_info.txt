@@ -1,0 +1,10 @@
+gam_Lep REACH analysis
+============================================================
+experiment_mode = NO_BL_NO_CAL
+results_folder = 26-09-03_GAMLEP_i1_NO_BL_NO_CAL_BAD_BL_REMOVED_P104_NO_HD39913_P106_NO_HR2090
+n_bootstraps = 1
+fitting_method = odr
+combined_fit = False
+e_wl_frac = 0.003500
+p104_removed_calibrator = HD39913
+p106_removed_calibrator = HR2090

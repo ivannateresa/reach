@@ -1,0 +1,3 @@
+fraction_vis2_above_one,has_vis2_above_one,max_baseline_m,max_night,max_point_id,max_telescope_pair,max_vis2_corrected,max_wavelength_index,max_wavelength_um,n_finite_vis2_points,n_vis2_above_one,percent_vis2_above_one,period,point_ids_vis2_above_one,sequence,star
+0.0,False,48.64816860434397,2020-01-02,P34,3-4,0.941291136654855,4,1.7249999473278876,60,0,0.0,104,,faint,gam_Lep
+0.0,False,75.90711216888974,2021-02-17,P5,1-2,0.8450290634897596,5,1.7730000081428443,60,0,0.0,106,,faint,gam_Lep

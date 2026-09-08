@@ -33,9 +33,10 @@
  DEJ2000 in d:m:s
  Load local catalog:
  /home/ihernand/pionier_pndrs/catalogs/JBLB.fits
- 12_Mon is already in oiDiam with diam=0.99mas and isCal=1
- HR2610 is already in oiDiam with diam=0.95mas and isCal=1
- ksi_Gem is already in oiDiam with diam=1.38mas and isCal=0
+ 12_Mon is already in oiDiam with diam=0.89mas and isCal=1
+ HR2426 is already in oiDiam with diam=1.24mas and isCal=1
+ HR2610 is already in oiDiam with diam=0.88mas and isCal=1
+ ksi_Gem is already in oiDiam with diam=1.56mas and isCal=0
  pndrsUpdateOiDiamFromGetStar()
  oiFitsWriteOiDiam()
  oiDiam written in:
@@ -44,21 +45,7 @@
  oiFitsListObs()
  oiFitsListObs()
  oiFitsListObs()
- Include script file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_pndrsScript.i
- Ignore bad baseline G1-J2
- oiFitsFlagOiData()
- Ignore bad baseline G1-J2
- oiFitsFlagOiData()
- Ignore bad baseline A0-J2
- oiFitsFlagOiData()
- Ignore bad baseline A0-J2
- oiFitsFlagOiData()
- Ignore bad baseline J2-K0
- oiFitsFlagOiData()
- Ignore bad baseline J2-K0
- oiFitsFlagOiData()
- Script done.
+ No script to load
  Remove obs of INTERNAL source
  oiFitsKeepTargets()
  oiFitsGroupOiData()
@@ -68,9 +55,9 @@
  PIONIER_Pnat(1.5330000/1.7730000)-GRISM-FREE-H [6x1+248+58]x26 0.50ms 5000mV 1 SIMPLE:1x512 -40,-120,40,120 C:2896546 A0G1J2K0
  oiFitsKeepSetup()
  oiFitsCalibrateNight()
-  dimsof(oiVis2)=[1,18]
+  dimsof(oiVis2)=[1,30]
   dimsof(oiVis) =[]
-  dimsof(oiT3)  =[1,10]
+  dimsof(oiT3)  =[1,20]
  oiFitsCalibrateDiamOiT3()
  oiFitsApplyTf (oiT3, tfmode=1)
  oiFitsApplyTf (oiVis2, tfmode=1)
@@ -109,13 +96,19 @@
  Wait for 3s for plots to be written...
  pndrsWriteFilesAccordingToTplStart()
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:40:46.743_i01_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:40:46.743_i02_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:14:49.963_i14_oidataTf.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T02:59:21.317_i13_oidataTf.fits
+ pndrsUpdateFileWithPhase3()
+ oiFitsLoadFiles()
+ Update OI_ARRAY header
+ pndrsUpdateFileWithPhase3 done
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:15:28.086_i21_oidataTf.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -130,7 +123,7 @@
  Update OI_ARRAY header
  pndrsUpdateFileWithPhase3 done
  Write file:
- /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:07:08.074_i09_oidataCalibrated.fits
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//PIONI.2022-02-26T03:07:08.074_i17_oidataCalibrated.fits
  pndrsUpdateFileWithPhase3()
  oiFitsLoadFiles()
  Update OI_ARRAY header
@@ -147,19 +140,25 @@
  Plot the oiVisPhi
  Plot the oiVisAmp
  Plot the UV
- Make a summary for target: 12_Mon (1 over 3)
+ Make a summary for target: 12_Mon (1 over 4)
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_CAL_12_Mon_oidataCalibrated.fits
  oiFitsPlotUV()
- Make a summary for target: HR2610 (2 over 3)
+ Make a summary for target: HR2426 (2 over 4)
+ oiFitsKeepTargets()
+ oiFitsWriteFiles()
+ Write file:
+ /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_CAL_HR2426_oidataCalibrated.fits
+ oiFitsPlotUV()
+ Make a summary for target: HR2610 (3 over 4)
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:
  /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26//2022-02-26_CAL_HR2610_oidataCalibrated.fits
  oiFitsPlotUV()
- Make a summary for target: ksi_Gem (3 over 3)
+ Make a summary for target: ksi_Gem (4 over 4)
  oiFitsKeepTargets()
  oiFitsWriteFiles()
  Write file:

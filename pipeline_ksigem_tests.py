@@ -31,15 +31,14 @@ lb_pc = 70
 
 use_plx_systematic = False
 
-do_random_ifg_sampling = True
-
-do_gaussian_diam_sampling = True
+do_random_ifg_sampling = False
+do_gaussian_diam_sampling = False
 
 assign_default_uncertainties = True
 
 force_claret_params = False
 
-n_bootstraps =2
+n_bootstraps = 1
 
 pred_ldd_col = "LDD_pred"
 
@@ -129,12 +128,26 @@ if experiment_mode not in valid_modes:
 # Are we removing baselines?
 # ------------------------------------------------------------
 
-use_bad_baselines = (
+remove_bad_baselines = (
     experiment_mode
     in [
         "NO_BL",
         "NO_BL_NO_CAL"
     ]
+)
+
+
+# In the local modified REACH version, this option activates
+# the bad-baseline log:
+#
+#   use_bad_baselines = True
+#       -> read data/bad_baselines.txt and flag its entries
+#
+#   use_bad_baselines = False
+#       -> do not apply the bad-baseline log
+
+use_bad_baselines = (
+    remove_bad_baselines
 )
 
 
@@ -263,6 +276,11 @@ print(
 
 print(
     "remove bad baselines  :",
+    remove_bad_baselines
+)
+
+print(
+    "use bad baselines     :",
     use_bad_baselines
 )
 
@@ -299,7 +317,7 @@ str_date = time.strftime(
 )
 
 
-if use_bad_baselines:
+if remove_bad_baselines:
 
     baseline_mode = (
         "BAD_BL_REMOVED"
@@ -452,12 +470,89 @@ tgt_info = rutils.initialise_tgt_info(
 
 
 # ============================================================
+# CONTROLLED KSI GEM EXPERIMENT
+#
+# Start every experiment with all calibrators enabled.
+# Otherwise, calibrators marked Quality="BAD" in tgt_info are
+# removed globally by REACH, even when experiment_mode == "ALL".
+#
+# NO_CAL and NO_BL_NO_CAL will still remove only the calibrators
+# explicitly requested on the command line.
+# ============================================================
+
+quality_bad_mask = (
+    tgt_info["Quality"]
+    .astype(str)
+    .str.strip()
+    .str.upper()
+    == "BAD"
+)
+
+
+globally_restored = []
+
+
+for target_id, row in tgt_info[quality_bad_mask].iterrows():
+
+    if "Primary" in tgt_info.columns:
+
+        restored_name = str(
+            row["Primary"]
+        )
+
+    else:
+
+        restored_name = str(
+            target_id
+        )
+
+
+    globally_restored.append(
+        restored_name
+    )
+
+
+tgt_info.loc[
+    quality_bad_mask,
+    "Quality"
+] = "GOOD"
+
+
+print("")
+
+print("=" * 79)
+
+print(
+    "GLOBAL QUALITY EXCLUSIONS DISABLED "
+    "FOR KSI GEM TESTS"
+)
+
+print("=" * 79)
+
+
+if len(globally_restored) == 0:
+
+    print("No Quality=BAD entries found.")
+
+else:
+
+    for restored_name in globally_restored:
+
+        print(
+            "  restored as GOOD: %s"
+            % restored_name
+        )
+
+
+print("=" * 79)
+
+
+# ============================================================
 # IMPORTANT
 #
-# Do NOT modify Quality for the sequence-specific calibrators.
-#
-# We still keep calibrators that were already marked BAD in
-# tgt_info, because those are global quality exclusions.
+# Quality exclusions were disabled above so that ALL really
+# means all calibrators. Sequence-specific exclusions are made
+# only in NO_CAL and NO_BL_NO_CAL.
 # ============================================================
 
 
@@ -679,7 +774,10 @@ print(
 
 
 tgt_info.to_csv(
-    "data/tgt_info.csv"
+    os.path.join(
+        results_path,
+        "tgt_info_used.csv"
+    )
 )
 
 

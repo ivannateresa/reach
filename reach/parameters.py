@@ -265,7 +265,37 @@ def sample_all(tgt_info, n_bootstraps, bc_path, force_claret_params=False,
     
     sample_bc_magnitudes(sampled_sci_params, tgt_info)
 
-    
+    print("\nSAMPLED PARAMETERS BEFORE BC")
+    print(
+        sampled_sci_params.groupby(
+            level=0
+        )["teff"].agg([
+            "mean",
+            "std",
+            "min",
+            "max"
+        ])
+    )
+
+    bad_temperature = (
+        (sampled_sci_params["teff"] < 3500)
+        | (sampled_sci_params["teff"] > 8000)
+    )
+
+    if np.any(bad_temperature):
+
+        print("\nINVALID TEMPERATURE SAMPLES:")
+        print(
+            sampled_sci_params.loc[
+                bad_temperature,
+                ["teff", "logg", "FeH_rel"]
+            ]
+        )
+
+        raise ValueError(
+            "Temperature samples outside the "
+            "bolometric-correction grid."
+        )
     sample_casagrande_bc(sampled_sci_params, bc_path)
     
     compute_sampled_fbol(sampled_sci_params, band_mask)

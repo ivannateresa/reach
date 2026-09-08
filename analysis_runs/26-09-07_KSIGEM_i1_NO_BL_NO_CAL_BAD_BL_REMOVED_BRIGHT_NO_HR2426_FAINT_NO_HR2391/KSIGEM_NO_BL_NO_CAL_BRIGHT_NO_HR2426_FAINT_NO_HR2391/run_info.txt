@@ -1,0 +1,10 @@
+ksi_Gem REACH analysis
+============================================================
+experiment_mode = NO_BL_NO_CAL
+results_folder = 26-09-07_KSIGEM_i1_NO_BL_NO_CAL_BAD_BL_REMOVED_BRIGHT_NO_HR2426_FAINT_NO_HR2391
+n_bootstraps = 1
+fitting_method = odr
+combined_fit = False
+e_wl_frac = 0.003500
+bright_removed_calibrator = HR2426
+faint_removed_calibrator = HR2391

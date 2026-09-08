@@ -1,0 +1,2 @@
+baseline_m,c_scale,candidate_remove,e_vis2_corrected,highlighted,large_raw_residual,large_sigma_residual,mjd,model_vis2,night,oifits_flag,period,point_id,raw_residual,sequence,spatial_frequency_rad_inv,standardized_residual,star,telescope_pair,vis2_corrected,wavelength_index,wavelength_um
+57.98153826838191,0.9702982976720189,True,0.0,False,True,False,59636.12927580935,0.8474962901572807,2022-02-25,True,106,54,-1.8781071882689673,bright,37822267.81573183,,ksi_Gem,2-3,-1.0306108981116866,0,1.5330000451285741

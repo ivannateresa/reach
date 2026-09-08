@@ -1,0 +1,11 @@
+REACH analysis configuration
+============================================================
+results_folder = 26-09-07_i2
+analysis_name = remove_calibrador_all_baselines
+n_bootstraps = 2
+fitting_method = odr
+combined_fit = True
+e_wl_frac = 0.003500
+C_SCALE FIXED TO 1 = False
+BAD BASELINES INCLUDED = True
+RANDOM IFG SAMPLING = False

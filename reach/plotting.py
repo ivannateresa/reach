@@ -701,7 +701,8 @@ def plot_bootstrapping_summary(
         sequences=None,
         complete_sequences=None,
         tgt_info=None,
-        e_wl_frac=0.03):
+        e_wl_frac=0.03,
+        output_file=None):
     """
     Plot the corrected VIS2 fit and the bootstrap LDD distribution.
 
@@ -737,6 +738,10 @@ def plot_bootstrapping_summary(
 
     e_wl_frac : float
         Fractional wavelength uncertainty.
+
+    output_file : str or None
+        Destination of the multipage PDF. If None, preserve the original
+        behaviour and save it as plots/bootstrapped_summary.pdf.
 
     Returns
     -------
@@ -802,15 +807,18 @@ def plot_bootstrapping_summary(
 
     plt.close("all")
 
-    output_dir = "plots"
+    if output_file is None:
+        output_file = os.path.join(
+            "plots",
+            "bootstrapped_summary.pdf"
+        )
 
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    output_file = os.path.join(
-        output_dir,
-        "bootstrapped_summary.pdf"
+    output_dir = os.path.dirname(
+        output_file
     )
+
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     print("")
     print("=" * 79)
@@ -1286,10 +1294,18 @@ def plot_bootstrapping_summary(
                     e_vis2_corrected_matrix.flatten()
                 )
 
+                # VIS2 points remain valid for plotting even when their
+                # bootstrap dispersion is zero or unavailable. This happens
+                # naturally when n_bootstraps == 1. In that case, draw the
+                # points with zero-length vertical error bars.
+
                 valid_points = (
                     np.isfinite(sfreq)
                     & np.isfinite(vis2_corrected)
-                    & np.isfinite(e_vis2_corrected)
+                )
+
+                valid_positive_errors = (
+                    np.isfinite(e_vis2_corrected)
                     & (e_vis2_corrected > 0)
                 )
 
@@ -1301,9 +1317,19 @@ def plot_bootstrapping_summary(
                     valid_points
                 ]
 
-                e_vis2_plot = e_vis2_corrected[
-                    valid_points
-                ]
+                e_vis2_plot = np.where(
+
+                    valid_positive_errors[
+                        valid_points
+                    ],
+
+                    e_vis2_corrected[
+                        valid_points
+                    ],
+
+                    0.0
+
+                )
 
                 print(
                     "C_SCALE values: %s"
@@ -1320,6 +1346,17 @@ def plot_bootstrapping_summary(
                     % (
                         len(vis2_plot),
                         len(vis2_corrected)
+                    )
+                )
+
+                print(
+                    "VIS2 points with positive error bars: %i / %i"
+                    % (
+                        np.sum(
+                            valid_positive_errors
+                            & valid_points
+                        ),
+                        len(vis2_plot)
                     )
                 )
 
@@ -13381,10 +13418,13 @@ def plot_complete_sequence_vis2(
         output_file,
         y_min=0.0,
         y_max=1.3,
-        low_v2_threshold=0.70):
+        low_v2_threshold=0.70,
+        bootstrap_index=None,
+        night=None,
+        case_label=None):
     """
-    Plot all calibrated VIS2 measurements present in a REACH
-    complete_sequences night.
+    Plot calibrated VIS2 measurements from either a REACH
+    complete_sequences night or one experiment results folder.
 
     SCI and CAL are shown together, but the science target is
     also diagnosed separately.
@@ -13437,24 +13477,50 @@ def plot_complete_sequence_vis2(
 
 
     # ============================================================
-    # Find calibrated products
-    #
-    # IMPORTANT:
-    # only non-bootstrap current calibrated files:
-    #
-    # *_oidataCalibrated.fits
-    #
-    # This deliberately does NOT read _00/_01.
+    # Find calibrated products. The original diagnostic reads the current
+    # products in complete_sequences. For experiment comparisons, read one
+    # explicit bootstrap from that experiment's results folder.
     # ============================================================
+
+    if bootstrap_index is None:
+
+        filename_pattern = (
+            "*_oidataCalibrated.fits"
+        )
+
+    else:
+
+        filename_pattern = (
+            "*_oidataCalibrated_%02i.fits"
+            % int(bootstrap_index)
+        )
+
 
     fits_files = sorted(
         glob.glob(
             os.path.join(
                 night_directory,
-                "*_oidataCalibrated.fits"
+                filename_pattern
             )
         )
     )
+
+
+    if night is not None:
+
+        night_prefix = (
+            str(night) + "_"
+        )
+
+        fits_files = [
+            filename
+            for filename in fits_files
+            if os.path.basename(
+                filename
+            ).startswith(
+                night_prefix
+            )
+        ]
 
 
     print("")
@@ -13467,7 +13533,8 @@ def plot_complete_sequence_vis2(
     if len(fits_files) == 0:
 
         print(
-            "No *_oidataCalibrated.fits files found."
+            "No calibrated files found for pattern: %s"
+            % filename_pattern
         )
 
         return
@@ -14148,9 +14215,38 @@ def plot_complete_sequence_vis2(
     )
 
 
-    ax.set_title(
-        "%s - complete calibrated sequence"
+    plot_title = (
+        "%s - calibrated experiment data"
         % science_target
+    )
+
+
+    if case_label is not None:
+
+        plot_title += (
+            "\n%s"
+            % str(case_label)
+        )
+
+
+    if night is not None:
+
+        plot_title += (
+            " - %s"
+            % str(night)
+        )
+
+
+    if bootstrap_index is not None:
+
+        plot_title += (
+            " - bootstrap %02i"
+            % int(bootstrap_index)
+        )
+
+
+    ax.set_title(
+        plot_title
     )
 
 
@@ -14199,3 +14295,932 @@ def plot_complete_sequence_vis2(
     )
 
     print("=" * 100)
+def plot_bootstrapping_summary_by_baseline(
+        results,
+        bs_results,
+        n_bins=20,
+        plot_cal_info=True,
+        sequences=None,
+        complete_sequences=None,
+        tgt_info=None,
+        e_wl_frac=0.03,
+        output_file=None):
+
+    """
+    Bootstrap summary with VIS2 points coloured by telescope baseline.
+
+    The fit and bootstrap histogram are unchanged.
+    Only the visibility and residual panels are separated by TEL_PAIR.
+    """
+
+    plt.close("all")
+
+    if tgt_info is None:
+        raise ValueError(
+            "tgt_info must be provided"
+        )
+
+    if results is None or len(results) == 0:
+        raise ValueError(
+            "results is empty"
+        )
+
+    if bs_results is None:
+        bs_results = {}
+
+    if output_file is None:
+        output_file = os.path.join(
+            "plots",
+            "bootstrapped_summary_by_baseline.pdf"
+        )
+
+    output_dir = os.path.dirname(
+        output_file
+    )
+
+    if output_dir and not os.path.exists(
+            output_dir):
+
+        os.makedirs(
+            output_dir
+        )
+
+    print("")
+    print("=" * 79)
+    print("Creating bootstrap summary coloured by baseline")
+    print("Output:")
+    print(output_file)
+    print("=" * 79)
+
+    # ============================================================
+    # Fixed colour for each PIONIER telescope pair
+    # ============================================================
+
+    canonical_pairs = [
+        "1-2",
+        "1-3",
+        "1-4",
+        "2-3",
+        "2-4",
+        "3-4"
+    ]
+
+    pretty_pair_names = {
+        "1-2": "AT1-AT2",
+        "1-3": "AT1-AT3",
+        "1-4": "AT1-AT4",
+        "2-3": "AT2-AT3",
+        "2-4": "AT2-AT4",
+        "3-4": "AT3-AT4"
+    }
+
+    pair_colours = {}
+
+    cmap = plt.cm.Set1
+
+    for pair_i, pair_name in enumerate(
+            canonical_pairs):
+
+        pair_colours[
+            pair_name
+        ] = cmap(
+            float(pair_i) / 8.0
+        )
+
+    # ============================================================
+    # Helper: convert TEL_PAIR to string
+    # ============================================================
+
+    def pair_to_string(value):
+
+        try:
+
+            if isinstance(
+                    value,
+                    (tuple, list, np.ndarray)):
+
+                values = list(
+                    value
+                )
+
+                if len(values) >= 2:
+
+                    return "%s-%s" % (
+                        str(values[0]),
+                        str(values[1])
+                    )
+
+        except Exception:
+            pass
+
+        value = str(
+            value
+        )
+
+        value = value.replace(
+            "(", ""
+        )
+
+        value = value.replace(
+            ")", ""
+        )
+
+        value = value.replace(
+            "[", ""
+        )
+
+        value = value.replace(
+            "]", ""
+        )
+
+        value = value.replace(
+            "'", ""
+        )
+
+        value = value.replace(
+            '"',
+            ""
+        )
+
+        value = value.replace(
+            ",",
+            "-"
+        )
+
+        value = value.replace(
+            " ",
+            ""
+        )
+
+        return value
+
+    # ============================================================
+    # PDF
+    # ============================================================
+
+    with PdfPages(
+            output_file) as pdf:
+
+        for result_i in xrange(
+                len(results)):
+
+            row = results.iloc[
+                result_i
+            ]
+
+            sci = str(
+                row["STAR"]
+            )
+
+            period = row[
+                "PERIOD"
+            ]
+
+            sequence = str(
+                row["SEQUENCE"]
+            )
+
+            hd_id = row[
+                "HD"
+            ]
+
+            print("")
+            print("=" * 79)
+            print(
+                "Bootstrap baseline plot for %s"
+                % sci
+            )
+            print("=" * 79)
+
+            try:
+
+                # ====================================================
+                # Bootstrap key
+                # ====================================================
+
+                if sequence == "combined":
+
+                    star_id = sci
+                    stitle = sci
+
+                else:
+
+                    star_id = (
+                        sci,
+                        sequence,
+                        period
+                    )
+
+                    stitle = "%s (%s, %s)" % (
+                        sci,
+                        sequence,
+                        period
+                    )
+
+                bootstrap_key = star_id
+
+                if (
+                    bootstrap_key not in bs_results
+                    and sci in bs_results
+                ):
+
+                    bootstrap_key = sci
+
+                if bootstrap_key not in bs_results:
+
+                    raise ValueError(
+                        "No bootstrap results for %s"
+                        % sci
+                    )
+
+                bootstrap_table = bs_results[
+                    bootstrap_key
+                ]
+
+                if len(
+                        bootstrap_table) == 0:
+
+                    raise ValueError(
+                        "Empty bootstrap table for %s"
+                        % sci
+                    )
+
+                # ====================================================
+                # Target matching
+                # ====================================================
+
+                if hd_id not in tgt_info.index:
+
+                    hd_id = match_target_for_plot(
+                        tgt_info,
+                        sci,
+                        verbose=True
+                    )
+
+                if hd_id is None:
+
+                    raise ValueError(
+                        "Could not match target %s"
+                        % sci
+                    )
+
+                # ====================================================
+                # Final VIS2 arrays
+                # ====================================================
+
+                baselines = np.asarray(
+                    row["BASELINE"],
+                    dtype=float
+                ).ravel()
+
+                wavelengths = np.asarray(
+                    row["WAVELENGTH"],
+                    dtype=float
+                ).ravel()
+
+                vis2_matrix = np.asarray(
+                    row["VIS2"],
+                    dtype=float
+                )
+
+                e_vis2_matrix = np.asarray(
+                    row["e_VIS2"],
+                    dtype=float
+                )
+
+                n_bl = len(
+                    baselines
+                )
+
+                n_wl = len(
+                    wavelengths
+                )
+
+                expected_size = (
+                    n_bl
+                    * n_wl
+                )
+
+                if vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "VIS2 size mismatch for %s"
+                        % sci
+                    )
+
+                if e_vis2_matrix.size != expected_size:
+
+                    raise ValueError(
+                        "e_VIS2 size mismatch for %s"
+                        % sci
+                    )
+
+                vis2_matrix = vis2_matrix.reshape(
+                    n_bl,
+                    n_wl
+                )
+
+                e_vis2_matrix = e_vis2_matrix.reshape(
+                    n_bl,
+                    n_wl
+                )
+
+                # ====================================================
+                # Remove invalid baseline rows
+                # ====================================================
+
+                valid_baseline_rows = np.isfinite(
+                    baselines
+                )
+
+                baselines = baselines[
+                    valid_baseline_rows
+                ]
+
+                vis2_matrix = vis2_matrix[
+                    valid_baseline_rows,
+                    :
+                ]
+
+                e_vis2_matrix = e_vis2_matrix[
+                    valid_baseline_rows,
+                    :
+                ]
+
+                n_bl = len(
+                    baselines
+                )
+
+                # ====================================================
+                # Telescope pairs from bootstrap metadata
+                # ====================================================
+
+                metadata_row = bootstrap_table.iloc[
+                    0
+                ]
+
+                raw_pairs = list(
+                    metadata_row[
+                        "TEL_PAIR"
+                    ]
+                )
+
+                pair_labels = np.asarray([
+                    pair_to_string(
+                        pair
+                    )
+                    for pair in raw_pairs
+                ], dtype=object)
+
+                if len(pair_labels) == len(
+                        valid_baseline_rows):
+
+                    pair_labels = pair_labels[
+                        valid_baseline_rows
+                    ]
+
+                # Protect against metadata size mismatch
+                pair_rows = np.empty(
+                    n_bl,
+                    dtype=object
+                )
+
+                pair_rows[:] = "unknown"
+
+                n_copy = min(
+                    n_bl,
+                    len(pair_labels)
+                )
+
+                pair_rows[
+                    :n_copy
+                ] = pair_labels[
+                    :n_copy
+                ]
+
+                # ====================================================
+                # C_SCALE
+                # ====================================================
+
+                c_values = np.asarray(
+                    row["C_SCALE"],
+                    dtype=float
+                ).ravel()
+
+                c_values[
+                    ~np.isfinite(
+                        c_values
+                    )
+                    | (
+                        c_values <= 0
+                    )
+                ] = 1.0
+
+                if len(c_values) == 0:
+
+                    c_values = np.array([
+                        1.0
+                    ])
+
+                if len(c_values) == 1:
+
+                    c_per_baseline = np.repeat(
+                        c_values[0],
+                        n_bl
+                    )
+
+                elif (
+                    n_bl
+                    % len(c_values)
+                    == 0
+                ):
+
+                    n_bl_per_c = int(
+                        n_bl
+                        / len(c_values)
+                    )
+
+                    c_per_baseline = np.repeat(
+                        c_values,
+                        n_bl_per_c
+                    )
+
+                else:
+
+                    print(
+                        "WARNING: C_SCALE mapping failed "
+                        "for %s. Using C=1."
+                        % sci
+                    )
+
+                    c_per_baseline = np.ones(
+                        n_bl,
+                        dtype=float
+                    )
+
+                c_matrix = np.repeat(
+                    c_per_baseline[
+                        :, np.newaxis
+                    ],
+                    n_wl,
+                    axis=1
+                )
+
+                # ====================================================
+                # Correct VIS2
+                # ====================================================
+
+                vis2_corrected_matrix = (
+                    vis2_matrix
+                    / c_matrix
+                )
+
+                e_vis2_corrected_matrix = (
+                    e_vis2_matrix
+                    / c_matrix
+                )
+
+                # ====================================================
+                # Spatial frequency matrix
+                # ====================================================
+
+                baseline_matrix = np.repeat(
+                    baselines[
+                        :, np.newaxis
+                    ],
+                    n_wl,
+                    axis=1
+                )
+
+                wavelength_matrix = np.repeat(
+                    wavelengths[
+                        np.newaxis,
+                        :
+                    ],
+                    n_bl,
+                    axis=0
+                )
+
+                sfreq_matrix = (
+                    baseline_matrix
+                    / wavelength_matrix
+                )
+
+                # ====================================================
+                # LDD
+                # ====================================================
+
+                ldd_fit = float(
+                    row["LDD_FIT"]
+                )
+
+                e_ldd_fit = float(
+                    row["e_LDD_FIT"]
+                )
+
+                # ====================================================
+                # Limb darkening
+                # ====================================================
+
+                u_columns = [
+                    "u_lambda_0",
+                    "u_lambda_1",
+                    "u_lambda_2",
+                    "u_lambda_3",
+                    "u_lambda_4",
+                    "u_lambda_5"
+                ]
+
+                u_values = np.asarray(
+                    tgt_info.loc[
+                        hd_id,
+                        u_columns
+                    ].values,
+                    dtype=float
+                )
+
+                u_values = u_values[
+                    np.isfinite(
+                        u_values
+                    )
+                ]
+
+                if len(u_values) > 0:
+
+                    u_lld = np.mean(
+                        u_values
+                    )
+
+                else:
+
+                    u_lld = 0.3
+
+                # ====================================================
+                # Model
+                # ====================================================
+
+                x_model = np.arange(
+                    1.0E6,
+                    25.0E7,
+                    10000.0
+                )
+
+                y_fit = rdiam.calc_vis2(
+                    x_model,
+                    ldd_fit,
+                    1.0,
+                    (
+                        len(x_model),
+                    ),
+                    u_lld,
+                    1.0
+                )
+
+                # ====================================================
+                # Figure
+                # ====================================================
+
+                fig, axes = plt.subplots(
+                    1,
+                    2
+                )
+
+                fig.set_size_inches(
+                    16,
+                    9
+                )
+
+                axes = np.atleast_1d(
+                    axes
+                ).flatten()
+
+                divider = make_axes_locatable(
+                    axes[0]
+                )
+
+                res_ax = divider.append_axes(
+                    "bottom",
+                    size="22%",
+                    pad=0.05
+                )
+
+                # ====================================================
+                # VIS2 BY BASELINE
+                # ====================================================
+
+                for pair_name in sorted(
+                        set(
+                            pair_rows.tolist()
+                        )):
+
+                    row_mask = (
+                        pair_rows
+                        == pair_name
+                    )
+
+                    if not np.any(
+                            row_mask):
+
+                        continue
+
+                    x_values = sfreq_matrix[
+                        row_mask,
+                        :
+                    ].flatten()
+
+                    y_values = vis2_corrected_matrix[
+                        row_mask,
+                        :
+                    ].flatten()
+
+                    y_errors = e_vis2_corrected_matrix[
+                        row_mask,
+                        :
+                    ].flatten()
+
+                    valid = (
+                        np.isfinite(
+                            x_values
+                        )
+                        & np.isfinite(
+                            y_values
+                        )
+                    )
+
+                    x_values = x_values[
+                        valid
+                    ]
+
+                    y_values = y_values[
+                        valid
+                    ]
+
+                    y_errors = y_errors[
+                        valid
+                    ]
+
+                    y_errors = np.where(
+                        np.isfinite(
+                            y_errors
+                        )
+                        & (
+                            y_errors > 0
+                        ),
+                        y_errors,
+                        0.0
+                    )
+
+                    colour = pair_colours.get(
+                        pair_name,
+                        None
+                    )
+
+                    display_name = pretty_pair_names.get(
+                        pair_name,
+                        pair_name
+                    )
+
+                    axes[0].errorbar(
+                        x_values,
+                        y_values,
+                        xerr=x_values
+                        * e_wl_frac,
+                        yerr=y_errors,
+                        fmt=".",
+                        color=colour,
+                        label=display_name,
+                        markersize=5,
+                        elinewidth=0.3,
+                        capsize=0.5,
+                        capthick=0.3
+                    )
+
+                    # ================================================
+                    # Residuals for same baseline
+                    # ================================================
+
+                    model_values = rdiam.calc_vis2(
+                        x_values,
+                        ldd_fit,
+                        1.0,
+                        (
+                            len(x_values),
+                        ),
+                        u_lld,
+                        1.0
+                    )
+
+                    residuals = (
+                        y_values
+                        - model_values
+                    )
+
+                    res_ax.errorbar(
+                        x_values,
+                        residuals,
+                        xerr=x_values
+                        * e_wl_frac,
+                        yerr=y_errors,
+                        fmt=".",
+                        color=colour,
+                        markersize=4,
+                        elinewidth=0.3,
+                        capsize=0.5,
+                        capthick=0.3
+                    )
+
+                # ====================================================
+                # Fit
+                # ====================================================
+
+                axes[0].plot(
+                    x_model,
+                    y_fit,
+                    "--",
+                    label=(
+                        r"Fit "
+                        r"($\theta_{\rm LDD}"
+                        r"=%.4f\pm%.4f$ mas)"
+                        % (
+                            ldd_fit,
+                            e_ldd_fit
+                        )
+                    )
+                )
+
+                axes[0].set_title(
+                    stitle
+                )
+
+                axes[0].set_ylabel(
+                    r"Corrected visibility$^2$"
+                )
+
+                axes[0].set_xlim(
+                    0.0,
+                    25.0E7
+                )
+
+                axes[0].set_ylim(
+                    0.0,
+                    1.5
+                )
+
+                axes[0].set_xticklabels(
+                    []
+                )
+
+                axes[0].grid()
+
+                axes[0].legend(
+                    loc="best",
+                    fontsize=8,
+                    ncol=2
+                )
+
+                # ====================================================
+                # Residual panel
+                # ====================================================
+
+                res_ax.axhline(
+                    0.0,
+                    linestyle=":"
+                )
+
+                res_ax.set_xlim(
+                    0.0,
+                    25.0E7
+                )
+
+                res_ax.set_ylabel(
+                    "Residuals"
+                )
+
+                res_ax.set_xlabel(
+                    r"Spatial frequency (rad$^{-1}$)"
+                )
+
+                # ====================================================
+                # Bootstrap histogram
+                # ====================================================
+
+                ldd_samples = np.asarray(
+                    bootstrap_table[
+                        "LDD_FIT"
+                    ],
+                    dtype=float
+                ).ravel()
+
+                ldd_samples = ldd_samples[
+                    np.isfinite(
+                        ldd_samples
+                    )
+                    & (
+                        ldd_samples > 0
+                    )
+                ]
+
+                if len(ldd_samples) > 0:
+
+                    axes[1].hist(
+                        ldd_samples,
+                        bins=n_bins
+                    )
+
+                    axes[1].axvline(
+                        ldd_fit,
+                        linestyle="--",
+                        label="Final fit"
+                    )
+
+                    axes[1].axvline(
+                        ldd_fit
+                        - e_ldd_fit,
+                        linestyle=":"
+                    )
+
+                    axes[1].axvline(
+                        ldd_fit
+                        + e_ldd_fit,
+                        linestyle=":"
+                    )
+
+                    axes[1].set_title(
+                        stitle
+                        + r" ($N_{\rm bootstrap}=%i$)"
+                        % len(
+                            ldd_samples
+                        )
+                    )
+
+                    axes[1].set_xlabel(
+                        r"$\theta_{\rm LDD}$ (mas)"
+                    )
+
+                    axes[1].set_ylabel(
+                        "Number of realisations"
+                    )
+
+                    axes[1].text(
+                        0.5,
+                        0.95,
+                        (
+                            r"$\theta_{\rm LDD}"
+                            r"=%.4f\pm%.4f$ mas"
+                            % (
+                                ldd_fit,
+                                e_ldd_fit
+                            )
+                        ),
+                        transform=axes[1].transAxes,
+                        horizontalalignment="center",
+                        verticalalignment="top"
+                    )
+
+                else:
+
+                    axes[1].text(
+                        0.5,
+                        0.5,
+                        "No bootstrap LDD values",
+                        transform=axes[1].transAxes,
+                        horizontalalignment="center"
+                    )
+
+                fig.tight_layout()
+
+                pdf.savefig(
+                    fig
+                )
+
+                plt.close(
+                    fig
+                )
+
+            except Exception as error:
+
+                print(
+                    "FAILED baseline bootstrap plot for %s"
+                    % sci
+                )
+
+                print(
+                    "Error: %s"
+                    % str(error)
+                )
+
+                traceback.print_exc()
+
+                plt.close(
+                    "all"
+                )
+
+    print("")
+    print("=" * 79)
+    print(
+        "Bootstrap summary by baseline finished"
+    )
+    print(output_file)
+    print("=" * 79)
+
+    return output_file

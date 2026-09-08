@@ -121,6 +121,274 @@ def match_target_name(tgt_info, name, verbose=False):
         print("Using first match: %s" % matches_unique[0])
 
     return matches_unique[0]
+
+
+# -----------------------------------------------------------------------------
+# Sequence-specific bad-baseline masking
+# -----------------------------------------------------------------------------
+def analysis_uses_bad_baseline_log(results_path):
+    """Return True only for NO_BL and NO_BL_NO_CAL result folders."""
+
+    results_folder = os.path.basename(
+        os.path.normpath(results_path)
+    ).upper()
+
+    return "_NO_BL_" in results_folder
+
+
+def get_bad_baselines_filename():
+    """Return the bad-baseline log in the REACH data directory."""
+
+    reach_root = os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
+
+    filename = os.path.join(
+        reach_root,
+        "data",
+        "bad_baselines.txt"
+    )
+
+    # Fallback for execution from the REACH repository root.
+    if not os.path.exists(filename):
+
+        filename = os.path.join(
+            "data",
+            "bad_baselines.txt"
+        )
+
+    return filename
+
+
+def at_baseline_to_tel_pair(baseline):
+    """Convert labels such as AT2-AT3 to the OIFITS pair 2-3."""
+
+    parts = str(baseline).strip().upper().split("-")
+
+    if len(parts) != 2:
+
+        raise ValueError(
+            "Invalid baseline label: %s" % str(baseline)
+        )
+
+    indices = []
+
+    for part in parts:
+
+        if not part.startswith("AT"):
+
+            raise ValueError(
+                "Baseline must use AT labels, for example AT2-AT3: %s"
+                % str(baseline)
+            )
+
+        indices.append(
+            int(part.replace("AT", ""))
+        )
+
+    indices.sort()
+
+    return "%i-%i" % (
+        indices[0],
+        indices[1]
+    )
+
+
+def load_analysis_bad_baselines(filename=None):
+    """Load every night/baseline/MJD interval from the four-column log."""
+
+    if filename is None:
+
+        filename = get_bad_baselines_filename()
+
+    if not os.path.exists(filename):
+
+        raise IOError(
+            "Bad-baseline file not found: %s" % filename
+        )
+
+    entries = {}
+
+    with open(filename, "r") as bad_file:
+
+        for line_number, line in enumerate(bad_file, 1):
+
+            line = line.strip()
+
+            if len(line) == 0 or line.startswith("#"):
+
+                continue
+
+            columns = line.split()
+
+            if len(columns) != 4:
+
+                raise ValueError(
+                    "Expected four columns in %s at line %i; found %i"
+                    % (
+                        filename,
+                        line_number,
+                        len(columns)
+                    )
+                )
+
+            night = columns[0]
+            baseline = columns[1]
+            start_mjd = float(columns[2])
+            end_mjd = float(columns[3])
+
+            if end_mjd < start_mjd:
+
+                raise ValueError(
+                    "end_MJD is before start_MJD at line %i"
+                    % line_number
+                )
+
+            tel_pair = at_baseline_to_tel_pair(
+                baseline
+            )
+
+            if night not in entries:
+
+                entries[night] = []
+
+            entries[night].append(
+                (
+                    baseline,
+                    tel_pair,
+                    start_mjd,
+                    end_mjd
+                )
+            )
+
+    print("")
+    print("=" * 79)
+    print("BAD BASELINES LOADED FOR ANALYSIS")
+    print("=" * 79)
+    print("File:", filename)
+
+    for night in sorted(entries.keys()):
+
+        print(
+            "%s: %i interval(s)"
+            % (
+                night,
+                len(entries[night])
+            )
+        )
+
+    print("=" * 79)
+
+    return entries
+
+
+def mask_bad_baselines_for_sequence(night, mjds, pairs, vis2, e_vis2,
+                                    flags, bad_baseline_entries):
+    """Flag and mask bad V2 points for one OIFITS sequence in memory."""
+
+    mjds = np.asarray(
+        mjds,
+        dtype=float
+    )
+
+    pairs = np.asarray(
+        pairs
+    ).astype(str)
+
+    vis2 = np.asarray(
+        vis2,
+        dtype=float
+    ).copy()
+
+    e_vis2 = np.asarray(
+        e_vis2,
+        dtype=float
+    ).copy()
+
+    flags = np.asarray(
+        flags
+    ).copy()
+
+    masked_rows = np.zeros(
+        len(mjds),
+        dtype=bool
+    )
+
+    for entry in bad_baseline_entries.get(night, []):
+
+        baseline, tel_pair, start_mjd, end_mjd = entry
+
+        row_mask = (
+            (pairs == tel_pair)
+            &
+            (mjds >= start_mjd)
+            &
+            (mjds <= end_mjd)
+        )
+
+        n_rows = int(
+            np.sum(row_mask)
+        )
+
+        print(
+            "Bad baseline %s -> pair %s, MJD %.10f-%.10f: %i row(s)"
+            % (
+                baseline,
+                tel_pair,
+                start_mjd,
+                end_mjd,
+                n_rows
+            )
+        )
+
+        masked_rows = (
+            masked_rows
+            |
+            row_mask
+        )
+
+    if flags.ndim == 1:
+
+        flags[masked_rows] = True
+        vis2[masked_rows] = np.nan
+        e_vis2[masked_rows] = np.nan
+
+    else:
+
+        flags[masked_rows, :] = True
+        vis2[masked_rows, :] = np.nan
+        e_vis2[masked_rows, :] = np.nan
+
+    n_masked_rows = int(
+        np.sum(masked_rows)
+    )
+
+    if flags.ndim == 1:
+
+        n_masked_points = n_masked_rows
+
+    else:
+
+        n_masked_points = (
+            n_masked_rows
+            *
+            flags.shape[1]
+        )
+
+    print(
+        "Night %s: masked %i baseline row(s), %i V2 point(s)"
+        % (
+            night,
+            n_masked_rows,
+            n_masked_points
+        )
+    )
+
+    return vis2, e_vis2, flags, n_masked_rows, n_masked_points
+
+
 # -----------------------------------------------------------------------------
 # Predicting LDD
 # -----------------------------------------------------------------------------
@@ -1131,6 +1399,29 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False, tg
     all_baselines = {}
     all_wavelengths = {}
     sequence_order = {}
+
+    use_analysis_bad_baselines = (
+        analysis_uses_bad_baseline_log(
+            results_path
+        )
+    )
+
+    if use_analysis_bad_baselines:
+
+        bad_baseline_entries = (
+            load_analysis_bad_baselines()
+        )
+
+    else:
+
+        bad_baseline_entries = {}
+
+        print(
+            "Bad-baseline masking disabled for results folder: %s"
+            % os.path.basename(
+                os.path.normpath(results_path)
+            )
+        )
     
     ith_bs_oifits = glob.glob(results_path 
                               + "*SCI*oidataCalibrated_%02i.fits" % bs_i)
@@ -1191,12 +1482,35 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False, tg
         # one list of results
         mjds, pairs, vis2, e_vis2, flags, baselines, wavelengths = \
             extract_vis2(oifits)
+
+        night = (
+            oifits
+            .split("/")[-1]
+            .split("_SCI")[0]
+        )
         
         
         for seq_i in np.arange(0, len(mjds)):
 
+            if use_analysis_bad_baselines:
+
+                (
+                    vis2[seq_i],
+                    e_vis2[seq_i],
+                    flags[seq_i],
+                    n_masked_rows,
+                    n_masked_points
+                ) = mask_bad_baselines_for_sequence(
+                    night,
+                    mjds[seq_i],
+                    pairs[seq_i],
+                    vis2[seq_i],
+                    e_vis2[seq_i],
+                    flags[seq_i],
+                    bad_baseline_entries
+                )
+
         # Figure out what sequence we're dealing with
-            night = oifits.split("/")[-1].split("_SCI")[0]
 
         # IMPORTANT: initialise seq_tup, so it always exists
             seq_tup = None
@@ -1685,7 +1999,7 @@ def fit_ldd_for_all_bootstraps(tgt_info, n_bootstraps, results_path,
     return bs_results
 
 
-def summarise_results(bs_results, tgt_info, e_wl_frac, add_e_wl_to_ldd_in_quad,
+def summarise_results(bs_results, tgt_info, e_wl_frac, add_e_wl_to_ldd_in_quad, 
                       pred_ldd_col="LDD_pred", e_pred_ldd_col="e_LDD_pred"):
     """Summarise N boostrapping results by computing mean and standard 
     deviations for each distribution.

@@ -262,11 +262,14 @@ def build_sequences_for_pickle(sequence_dict, list_files, sequence_label):
 
     sequences_pickle = OrderedDict()
 
-    for list_file in list_files:
-        period = get_period_from_filename(list_file)
-
-        for sci in sequence_dict:
-            sequences_pickle[(period, sci, sequence_label)] = sequence_dict[sci]
+    # sequence_dict is already period-aware.  Do not assign every science
+    # target to every period: rho_Pup exists in both p104 and p106 and those
+    # two definitions must remain independent.
+    for period_and_science in sequence_dict:
+        period, sci = period_and_science
+        sequences_pickle[(period, sci, sequence_label)] = (
+            sequence_dict[period_and_science]
+        )
 
     return sequences_pickle
 
@@ -287,9 +290,11 @@ def make_sequence(current_science, current_cals):
 
 def build_sequences(list_files):
 
-    sequences = {}
+    sequences = OrderedDict()
 
     for list_file in list_files:
+
+        period = get_period_from_filename(list_file)
 
         current_science = None
         current_cals = []
@@ -308,7 +313,7 @@ def build_sequences(list_files):
                 if is_science == "TRUE":
 
                     if current_science is not None and len(current_cals) > 0:
-                        sequences[current_science] = make_sequence(
+                        sequences[(period, current_science)] = make_sequence(
                             current_science,
                             current_cals
                         )
@@ -319,7 +324,7 @@ def build_sequences(list_files):
                 else:
                     current_cals.append(name)
         if current_science is not None and len(current_cals) > 0:
-            sequences[current_science] = make_sequence(
+            sequences[(period, current_science)] = make_sequence(
                 current_science,
                 current_cals
             )
@@ -350,8 +355,14 @@ faint_sequences  = build_sequences(faint_list_files)
 all_sequences = [bright_sequences, faint_sequences]
 seq_label = ["bright", "faint"]
 
-missing_sequences = [(key, "bright") for key in bright_sequences]
-missing_sequences.extend([(key, "faint") for key in faint_sequences])
+missing_sequences = [
+    (key[0], key[1], "bright")
+    for key in bright_sequences
+]
+missing_sequences.extend([
+    (key[0], key[1], "faint")
+    for key in faint_sequences
+])
 missing_sequences = set(missing_sequences)
 
 # -----------------------------------------------------------------------------
@@ -395,7 +406,9 @@ for night in night_log.keys():
         print("-------", seq_label[seq_i], "-------")
         # For every science target...
 
-        for sci in sequence:
+        for period_and_science in sequence:
+
+            expected_period, sci = period_and_science
             print("")
             print(sci, end="   ")
             # Step through the nightly observations attempting to match
@@ -407,7 +420,7 @@ for night in night_log.keys():
             ob_i = 0            # The ith observation that night
             tgt_i = 0           # The ith target in the CAL-SCI sequence
             concatenation = []  # Current list of obs from CAL-SCI sequence
-            expected_sequence = sequence[sci]
+            expected_sequence = sequence[period_and_science]
             expected_sequence_norm = [normalize_target_name(target_name) for target_name in expected_sequence]
             # For every observation in the night...
             while ob_i < len(night_log[night]):
@@ -415,13 +428,17 @@ for night in night_log.keys():
                 grade = night_log[night][ob_i][3]
                 obs_tar = night_log[night][ob_i][2] 
                 obs_tar_norm = normalize_target_name(obs_tar)
+                obs_period = int(
+                    night_log[night][ob_i][6].split(".")[0]
+                )
 
                 
                 sequence_added_to = True
                 
                 # First element of sequence
                 # - Add to concatenation and increment to next observation
-                if (len(concatenation) == 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
+                if (obs_period == expected_period
+                    and len(concatenation) == 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
                     and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
@@ -429,7 +446,8 @@ for night in night_log.keys():
                 
                 # Continuation of current target
                 # - Add to concatenation and increment to next observation
-                elif (len(concatenation) > 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
+                elif (obs_period == expected_period
+                      and len(concatenation) > 0 and expected_sequence_norm[tgt_i] == obs_tar_norm
                       and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
@@ -437,7 +455,8 @@ for night in night_log.keys():
                     
                 # No more obs for current target, check next in sequence
                 # - If not at last ob, add to concatenation and increment ob
-                elif (len(concatenation) > 0 and tgt_i + 1 < len(expected_sequence_norm) and expected_sequence_norm[tgt_i + 1] == obs_tar_norm
+                elif (obs_period == expected_period
+                      and len(concatenation) > 0 and tgt_i + 1 < len(expected_sequence_norm) and expected_sequence_norm[tgt_i + 1] == obs_tar_norm
                       and is_good_grade(grade)):
                     concatenation.append(night_log[night][ob_i])
                     ob_i += 1
@@ -468,7 +487,7 @@ for night in night_log.keys():
                 #  2 - On last target of sequence, reached end of night
                 # If the last target in the sequence, and we either did not add
                 # to anything or we are at the end of the night
-                if (tgt_i + 1 == len(sequence[sci]) 
+                if (tgt_i + 1 == len(expected_sequence) 
                     and (not sequence_added_to
                     or ob_i + 1 == len(night_log[night]))):
                     # Note that there is the case where the grade is bad on the
@@ -491,8 +510,14 @@ for night in night_log.keys():
                     )
                     print(" [DONE, %s, # Obs: %i]" % (grade, len(grade)))
                     
-                    if (sci, seq_label[seq_i]) in missing_sequences:
-                        missing_sequences.remove((sci, seq_label[seq_i]))
+                    missing_key = (
+                        expected_period,
+                        sci,
+                        seq_label[seq_i]
+                    )
+
+                    if missing_key in missing_sequences:
+                        missing_sequences.remove(missing_key)
                     
                     tgt_i = 0
                     
@@ -513,13 +538,13 @@ for night in night_log.keys():
             "night =", night,
             "| sci =", sci,
             "| seq =", seq_label[seq_i],
-            "| expected =", sequence[sci][tgt_i],
+            "| expected =", expected_sequence[tgt_i],
             "| found =", night_log[night][ob_i][2],
             "| grade =", grade,
             "| good_grade =", is_good_grade(grade),
             "| ob_i =", ob_i,
             "| tgt_i =", tgt_i,
-            "| full_expected_seq =", sequence[sci]
+            "| full_expected_seq =", expected_sequence
             )
                     
                     # Here is where we decide whether to move to the next 
@@ -690,8 +715,13 @@ for ob in obs_keys:
 print("\n\n----------------------\nMissing Sequences\n----------------------")  
 print("%i Missing Sequences\n" % len(missing_sequences))
     
-for sequence in missing_sequences:
-    print("%-12s%-12s" % (sequence[0], sequence[1]))
+print("%-10s%-18s%-12s" % ("Period", "Target", "Sequence"))
+
+for sequence in sorted(missing_sequences):
+    print(
+        "%-10s%-18s%-12s"
+        % (sequence[0], sequence[1], sequence[2])
+    )
 
 # -----------------------------------------------------------------------------
 # Copy the completed sequences to a new directory structure

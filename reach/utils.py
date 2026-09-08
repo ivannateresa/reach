@@ -308,6 +308,8 @@ def load_target_information(filepath="/home2/ihernand/Desktop/reach/data/target_
     tgt_info = pd.read_csv(filepath, sep=",", header=1, index_col=8,
                               skiprows=0)
     
+    print(tgt_info)
+    
     
 
     # Organise dataframe by removing duplicates
@@ -359,8 +361,61 @@ def load_target_information(filepath="/home2/ihernand/Desktop/reach/data/target_
         tgt_info = tgt_info[tgt_info["in_paper"]]
                                
     # Return result
+        # ------------------------------------------------------------
+    # Use Gaia EDR3 photometry with the column names expected
+    # by the original REACH pipeline
+    # ------------------------------------------------------------
+
+    tgt_info["BPmag"] = pd.to_numeric(
+        tgt_info["BP_mag"],
+        errors="coerce"
+    )
+
+    tgt_info["RPmag"] = pd.to_numeric(
+        tgt_info["RP_mag"],
+        errors="coerce"
+    )
+
+    tgt_info["Gmag"] = pd.to_numeric(
+        tgt_info["Gmag"],
+        errors="coerce"
+    )
+
+    tgt_info["e_BPmag"] = pd.to_numeric(
+        tgt_info["e_BPmag"],
+        errors="coerce"
+    )
+
+    tgt_info["e_RPmag"] = pd.to_numeric(
+        tgt_info["e_RPmag"],
+        errors="coerce"
+    )
+
+    tgt_info["e_Gmag"] = pd.to_numeric(
+        tgt_info["e_Gmag"],
+        errors="coerce"
+    )
+
+    # Check that Gaia EDR3 photometry was transferred
+    print("Gaia EDR3 photometry:")
+    print(
+        tgt_info[
+            [
+                "Primary",
+                "BPmag",
+                "e_BPmag",
+                "Gmag",
+                "e_Gmag",
+                "RPmag",
+                "e_RPmag"
+            ]
+        ].head(10)
+    )
+
+    # Final dataframe index
     tgt_info.index.name = "HD_ID"
     tgt_info["HD_ID"] = tgt_info.index
+
     return tgt_info
     
     
@@ -486,103 +541,158 @@ def get_unique_key_old(tgt_info, id_list):
     return list(unique_ids)
     
     
-def compute_dist(tgt_info, use_plx_systematic=True):
-    """Calculate distances and distance errors for both stars with Gaia and HIP
-    parallaxes.
+def compute_dist(tgt_info, max_rel_plx_error=0.20):
+    """Adopt stellar distances using the following priority:
 
-    Incorporates the systematic offset in Gaia DR2 by subtracting the offset
-    from the parallax, then adding its uncertainty in quadrature. This makes 
-    the parallax bigger.
+    1. Inversion of the corrected Gaia EDR3 parallax.
+    2. Bailer-Jones photogeometric distance (rpgeo).
+    3. Inversion of the Hipparcos parallax.
+
+    Parameters
+    ----------
+    tgt_info : pandas.DataFrame
+        Target information table.
+
+    max_rel_plx_error : float
+        Maximum fractional Gaia parallax uncertainty allowed
+        for direct inversion. Default: 0.20 (20%).
+
+    Returns
+    -------
+    pandas.DataFrame
+        Original table with Dist, e_Dist, and Dist_source columns.
     """
 
-    # Stassun & Torres systematic offsets
-    if use_plx_systematic:
-        plx_off = -0.082    # mas
-        e_plx_off = 0.033   # mas
+    # Initialise output columns
+    tgt_info["Dist"] = np.nan
+    tgt_info["e_Dist"] = np.nan
+    tgt_info["Dist_source"] = np.nan
 
-        # Incorporate the systematic offset
-        plx = tgt_info["Plx"] - plx_off
-        e_plx = np.sqrt(tgt_info["e_Plx"]**2 + e_plx_off**2)
+    # ============================================================
+    # 1. Corrected Gaia EDR3 parallax
+    # ============================================================
 
-    else:
-        plx = tgt_info["Plx"]
-        e_plx = tgt_info["e_Plx"]
-
-    # ------------------------------------------------------------
-    # Compute distance
-    # ------------------------------------------------------------
-    # Main distance calculation using Plx
-    tgt_info["Dist"] = 1000.0 / plx
-
-    # If Dist is NaN, use the alternative parallax Plx_alt
-    missing_dist = tgt_info["Dist"].isnull()
-
-    tgt_info.loc[missing_dist, "Dist"] = (
-        1000.0 / tgt_info.loc[missing_dist, "Plx_alt"]
+    gaia_plx = pd.to_numeric(
+        tgt_info["plx_corregido"], errors="coerce"
     )
 
-    # ------------------------------------------------------------
-    # Compute distance error
-    # ------------------------------------------------------------
-    # Main uncertainty calculation using Plx
-    tgt_info["e_Dist"] = np.abs(tgt_info["Dist"] * e_plx / plx)
+    gaia_e_plx = pd.to_numeric(
+        tgt_info["e_Plx"], errors="coerce"
+    )
 
-    # If e_Dist is NaN, use the alternative parallax.
-    missing_e_dist = tgt_info["e_Dist"].isnull()
+    relative_gaia_error = gaia_e_plx / gaia_plx
 
-    # If there is an uncertainty column for Plx_alt, use it.
-    if "e_Plx_alt" in tgt_info.columns:
-        tgt_info.loc[missing_e_dist, "e_Dist"] = np.abs(
-            tgt_info.loc[missing_e_dist, "Dist"]
-            * tgt_info.loc[missing_e_dist, "e_Plx_alt"]
-            / tgt_info.loc[missing_e_dist, "Plx_alt"]
+    reliable_gaia = (
+        gaia_plx.notna()
+        & gaia_e_plx.notna()
+        & np.isfinite(gaia_plx)
+        & np.isfinite(gaia_e_plx)
+        & (gaia_plx > 0)
+        & (gaia_e_plx >= 0)
+        & (relative_gaia_error <= max_rel_plx_error)
+    )
+
+    tgt_info.loc[reliable_gaia, "Dist"] = (
+        1000.0 / gaia_plx[reliable_gaia]
+    )
+
+    tgt_info.loc[reliable_gaia, "e_Dist"] = (
+        1000.0
+        * gaia_e_plx[reliable_gaia]
+        / gaia_plx[reliable_gaia]**2
+    )
+
+    tgt_info.loc[reliable_gaia, "Dist_source"] = (
+        "Gaia EDR3 corrected parallax"
+    )
+
+    # ============================================================
+    # 2. Bailer-Jones photogeometric distance
+    # ============================================================
+
+    rpgeo = pd.to_numeric(
+        tgt_info["rpgeo"], errors="coerce"
+    )
+
+    b_rpgeo = pd.to_numeric(
+        tgt_info["b_rpgeo"], errors="coerce"
+    )
+
+    B_rpgeo = pd.to_numeric(
+        tgt_info["B_rpgeo"], errors="coerce"
+    )
+
+    use_bailer_jones = (
+        tgt_info["Dist"].isna()
+        & rpgeo.notna()
+        & np.isfinite(rpgeo)
+        & (rpgeo > 0)
+    )
+
+    tgt_info.loc[use_bailer_jones, "Dist"] = (
+        rpgeo[use_bailer_jones]
+    )
+
+    # Approximate the asymmetric interval with a symmetric error
+    valid_bj_limits = (
+        use_bailer_jones
+        & b_rpgeo.notna()
+        & B_rpgeo.notna()
+        & np.isfinite(b_rpgeo)
+        & np.isfinite(B_rpgeo)
+    )
+
+    tgt_info.loc[valid_bj_limits, "e_Dist"] = (
+        (
+            B_rpgeo[valid_bj_limits]
+            - b_rpgeo[valid_bj_limits]
         )
+        / 2.0
+    )
 
-    # If not, use e_Plx as fallback.
-    else:
-        tgt_info.loc[missing_e_dist, "e_Dist"] = np.abs(
-            tgt_info.loc[missing_e_dist, "Dist"]
-            * tgt_info.loc[missing_e_dist, "e_Plx"]
-            / tgt_info.loc[missing_e_dist, "Plx_alt"]
-        )
-def compute_dist_old(tgt_info, use_plx_systematic=True):
-    """Calculate distances and distance errors for both stars with Gaia and HIP
-    parallaxes. 
-    
-    Incorporates the systematic offset in Gaia DR2 by subtracting the offset
-    from the parallax, then adding its uncertainty in quadrature. This makes 
-    the parallax *bigger*.
+    tgt_info.loc[use_bailer_jones, "Dist_source"] = (
+        "Bailer-Jones rpgeo"
+    )
 
-    https://ui.adsabs.harvard.edu/abs/2018ApJ...862...61S/abstract
-    """
-    # Stassun & Torres systematic offsets
-    if use_plx_systematic:
-        plx_off = -0.082    # mas
-        e_plx_off = 0.033   # mas
+    # ============================================================
+    # 3. Hipparcos parallax
+    # ============================================================
 
-        # Incorporate the systematic
-        plx = tgt_info["Plx"] - plx_off
-        e_plx = np.sqrt(tgt_info["e_Plx"]**2 + e_plx_off**2)
-    
-    # Not using offsets
-    else:
-        plx = tgt_info["Plx"]
-        e_plx = tgt_info["e_Plx"]
+    hip_plx = pd.to_numeric(
+        tgt_info["Plx_HIP"], errors="coerce"
+    )
 
-    # Compute distance
-    tgt_info["Dist"] = 1000 / plx
-    tgt_info["Dist"].where(~np.isnan(tgt_info["Dist"]), 
-                       1000/tgt_info["Plx_alt"][np.isnan(tgt_info["Dist"])],
-                       inplace=True)
-    
-    # Compute distance error
-    # e_dist = |D*-1*e_plx / plx|
-    tgt_info["e_Dist"] = np.abs(tgt_info["Dist"] * e_plx / plx)
-    tgt_info["e_Dist"].where(~np.isnan(tgt_info["e_Dist"]),
-                        np.abs(tgt_info["Dist"] * tgt_info["e_Plx"] 
-                               / tgt_info["Plx"]))
-    
-    
+    hip_e_plx = pd.to_numeric(
+        tgt_info["e_plx_HIP"], errors="coerce"
+    )
+
+    use_hipparcos = (
+        tgt_info["Dist"].isna()
+        & hip_plx.notna()
+        & hip_e_plx.notna()
+        & np.isfinite(hip_plx)
+        & np.isfinite(hip_e_plx)
+        & (hip_plx > 0)
+        & (hip_e_plx >= 0)
+    )
+
+    tgt_info.loc[use_hipparcos, "Dist"] = (
+        1000.0 / hip_plx[use_hipparcos]
+    )
+
+    tgt_info.loc[use_hipparcos, "e_Dist"] = (
+        1000.0
+        * hip_e_plx[use_hipparcos]
+        / hip_plx[use_hipparcos]**2
+    )
+
+    tgt_info.loc[use_hipparcos, "Dist_source"] = (
+        "Hipparcos parallax"
+    )
+
+    return tgt_info
+
+
 def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
                         use_plx_systematic=True):
     """

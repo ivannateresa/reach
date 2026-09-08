@@ -1,0 +1,3 @@
+Full_sequence,N_calibrators,N_science_positions,N_targets,Period,Science_target_key,Sequence_type,calibrator_01,calibrator_02,calibrator_03,science_01,science_02,target_01,target_02,target_03,target_04,target_05
+12_Mon - ksi_Gem - HR_2426 - ksi_Gem - HR_2610,3,2,5,106,ksi_Gem,bright,12_Mon,HR_2426,HR_2610,ksi_Gem,ksi_Gem,12_Mon,ksi_Gem,HR_2426,ksi_Gem,HR_2610
+HR_2342 - ksi_Gem - HR_2391 - ksi_Gem - HR_2426,3,2,5,106,ksi_Gem,faint,HR_2342,HR_2391,HR_2426,ksi_Gem,ksi_Gem,HR_2342,ksi_Gem,HR_2391,ksi_Gem,HR_2426

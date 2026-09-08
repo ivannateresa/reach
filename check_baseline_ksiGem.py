@@ -11,11 +11,11 @@ from astropy.io import fits
 # Sequence to inspect
 # ============================================================
 
-night = "2022-02-26"
+night = ""
 
-target_to_inspect = "ksi_Gem"
-
-baseline_to_inspect = "G1-J2"
+target_to_inspect = "gam Lep"
+ß
+baseline_to_inspect = ""
 
 
 # ============================================================

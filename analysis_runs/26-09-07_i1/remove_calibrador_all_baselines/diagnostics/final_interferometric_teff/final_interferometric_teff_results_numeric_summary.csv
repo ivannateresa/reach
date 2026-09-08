@@ -1,0 +1,2 @@
+column,max,mean,median,min,n_finite,n_nan,n_total,std
+index,23.0,11.5,11.5,0.0,24,0,24,6.922186552431729

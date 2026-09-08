@@ -32,11 +32,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
-combined_fit =True               # Fit for LDD for multiple seq at once
+combined_fit =True             # Fit for LDD for multiple seq at once
 load_saved_results = False        # Load or do fitting fresha
 assign_default_uncertainties = True # Give default errors to stars without ???
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 2
+n_bootstraps = 1000
 fitting_method = "odr"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -50,7 +50,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-08-21_i3"       # Final run for 1st draft
+results_folder = "26-09-07_i1000"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # =============================================================================
@@ -193,7 +193,7 @@ else:
     print("-"*79, "\n", "\tFinal Analysis (Interferometric Teff)\n", "-"*79)
     sampled_sci_params = rparam.sample_all(tgt_info, n_bootstraps, bc_path,
                                            force_claret_params, band_mask,
-                                           use_literature_teffs=False)
+                                           use_literature_teffs=True)
                                           
     rutils.save_sampled_params(sampled_sci_params, results_folder, 
                                force_claret_params=force_claret_params,
@@ -240,6 +240,121 @@ rutils.get_mean_delta_h(tgt_info, complete_sequences, sequences)
 print("-"*79, "\n", "\tTables and Plots (Literature Teff)\n", "-"*79)
 # Generate tables
 print("Generating tables...")
+
+# ============================================================
+# CLEAN NUMERIC COLUMNS BEFORE CREATING TABLES
+# ============================================================
+
+numeric_columns = [
+    "RA",
+    "DEC",
+    "RA.1",
+    "DEC.1",
+    "Teff",
+    "e_teff",
+    "logg",
+    "e_logg",
+    "FeH_abs",
+    "FeH_rel",
+    "e_FeH_rel",
+    "vtur",
+    "e_vtur",
+    "vsini",
+    "Dist",
+    "e_Dist",
+    "Plx",
+    "e_Plx",
+    "Plx_alt",
+    "e_Plx_alt",
+    "LDD_pred",
+    "e_LDD_pred"
+]
+
+for column in numeric_columns:
+
+    if column in tgt_info.columns:
+
+        original = tgt_info[column].copy()
+
+        converted = pd.to_numeric(
+            original,
+            errors="coerce"
+        )
+
+        invalid = (
+            original.notnull()
+            & converted.isnull()
+        )
+
+        if invalid.any():
+
+            print(
+                "\nNon-numeric values in %s:"
+                % column
+            )
+
+            print(
+                tgt_info.loc[
+                    invalid,
+                    ["Primary", column]
+                ].to_string()
+            )
+
+        tgt_info[column] = converted
+# Convert coordinates to numeric values
+tgt_info["RA"] = pd.to_numeric(
+    tgt_info["RA"],
+    errors="coerce"
+)
+
+tgt_info["DEC"] = pd.to_numeric(
+    tgt_info["DEC"],
+    errors="coerce"
+)
+
+# Check problematic coordinates
+bad_coordinates = tgt_info[
+    tgt_info["RA"].isnull()
+    | tgt_info["DEC"].isnull()
+]
+
+if "RA.1" in tgt_info.columns:
+
+    tgt_info["RA"] = tgt_info["RA"].where(
+        tgt_info["RA"].notnull(),
+        tgt_info["RA.1"]
+    )
+
+if "DEC.1" in tgt_info.columns:
+
+    tgt_info["DEC"] = tgt_info["DEC"].where(
+        tgt_info["DEC"].notnull(),
+        tgt_info["DEC.1"]
+    )
+
+for star_id, row in tgt_info.iterrows():
+
+    try:
+        float(row["DEC"])
+
+    except (TypeError, ValueError):
+
+        print(
+            "Invalid DEC:",
+            star_id,
+            row["Primary"],
+            repr(row["DEC"])
+        )
+
+if len(bad_coordinates) > 0:
+
+    print("\nWARNING: invalid RA/DEC coordinates:")
+
+    print(
+        bad_coordinates[
+            ["Primary", "RA", "DEC"]
+        ].to_string()
+    )
 rpaper.make_table_targets(tgt_info)
 rpaper.make_table_calibrators(tgt_info, sequences)
 rpaper.make_table_observation_log(tgt_info, complete_sequences, sequences)
@@ -1598,3 +1713,25 @@ with open(
     handle.write(
     "RANDOM IFG SAMPLING = %s\n"
     % str(random_ifg_sampling))
+
+
+# =============================================================================
+# Bootstrap summary coloured by baseline
+# =============================================================================
+
+run_plot(
+    "Bootstrap summary coloured by baseline",
+    rplt.plot_bootstrapping_summary_by_baseline,
+    results,
+    bs_results,
+    n_bins=20,
+    plot_cal_info=True,
+    sequences=sequences,
+    complete_sequences=complete_sequences,
+    tgt_info=tgt_info,
+    e_wl_frac=e_wl_frac,
+    output_file=(
+        "plots/{}/bootstrapped_summary_by_baseline.pdf"
+        .format(results_folder)
+    )
+)

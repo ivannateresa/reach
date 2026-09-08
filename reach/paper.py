@@ -567,16 +567,91 @@ def make_table_targets(tgt_info):
             continue
         
         # Format RA and DEC
+                # ------------------------------------------------------------
+        # Format RA and DEC
+        # ------------------------------------------------------------
 
-        ra_hr = np.floor(star["RA"] / 15)
-        ra_min = np.floor((star["RA"] / 15 - ra_hr) * 60)
-        ra_sec = ((star["RA"] / 15 - ra_hr) * 60 - ra_min) * 60
-        ra = "%02i %02i %05.2f" % (ra_hr, ra_min, ra_sec)
-        
-        dec_deg = np.floor(star["DEC"])
-        dec_min = np.floor((star["DEC"] - dec_deg) * 60)
-        dec_sec = ((star["DEC"] - dec_deg) * 60 - dec_min) * 60
-        dec = "%02i %02i %05.2f" % (dec_deg, dec_min, dec_sec)
+        try:
+            ra_deg_value = float(star["RA"])
+            dec_deg_value = float(star["DEC"])
+        except (TypeError, ValueError):
+            ra_deg_value = np.nan
+            dec_deg_value = np.nan
+
+        if (
+            np.isfinite(ra_deg_value)
+            and np.isfinite(dec_deg_value)
+        ):
+
+            # RA: degrees -> hours, minutes, seconds
+            ra_hours_total = (
+                ra_deg_value / 15.0
+            ) % 24.0
+
+            ra_hr = int(
+                np.floor(ra_hours_total)
+            )
+
+            ra_minutes_total = (
+                ra_hours_total - ra_hr
+            ) * 60.0
+
+            ra_min = int(
+                np.floor(ra_minutes_total)
+            )
+
+            ra_sec = (
+                ra_minutes_total - ra_min
+            ) * 60.0
+
+            ra = "%02i %02i %05.2f" % (
+                ra_hr,
+                ra_min,
+                float(ra_sec)
+            )
+
+            # DEC: degrees -> sign, degrees, minutes, seconds
+            if dec_deg_value < 0:
+                dec_sign = "-"
+            else:
+                dec_sign = "+"
+
+            dec_absolute = abs(
+                dec_deg_value
+            )
+
+            dec_degree = int(
+                np.floor(dec_absolute)
+            )
+
+            dec_minutes_total = (
+                dec_absolute - dec_degree
+            ) * 60.0
+
+            dec_minute = int(
+                np.floor(dec_minutes_total)
+            )
+
+            dec_second = (
+                dec_minutes_total - dec_minute
+            ) * 60.0
+
+            dec = "%s%02i %02i %04.1f" % (
+                dec_sign,
+                dec_degree,
+                dec_minute,
+                float(dec_second)
+            )
+
+        else:
+
+            print(
+                "WARNING: missing coordinates for %s"
+                % str(star.get("Primary"))
+            )
+
+            ra = "-- -- --"
+            dec = "-- -- --"
         
         # Step through column by column
         table_row += "%s & " % rutils.format_id(star["Primary"])

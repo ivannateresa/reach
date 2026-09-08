@@ -48,20 +48,20 @@ import diagnostics as dig
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic = False           # Use Stassun & Torres 18 plx offset --> don't use, was a Gaia DR1 thing. We should probably use Bailer-Jones distances
 
-do_random_ifg_sampling = False       # Sample interferograms with repeats
+do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
 force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
-n_bootstraps = 3             # Number of bootstrapping iterations
+n_bootstraps = 1000          # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
-n_calib_runs = 1                   # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
+n_calib_runs = 10                  # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
 calib_run_i = 0                     # ith calibration run to perform, 0 indexed
 # ============================================================
 # BASELINE MODE
 # ============================================================
 
-use_bad_baselines = True
+use_bad_baselines = False
 
 # Folder mask where the reduced files are stored
 base_path = "/home2/ihernand/Desktop/reach/complete_sequences/%s_v3.94_abcd/"
@@ -109,6 +109,30 @@ tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
                                       use_plx_systematic)
 
 print("\n", "-"*79, "\n", "\tSampling\n", "-"*79)  
+
+check_columns = [
+    "Primary",
+    "Science",
+    "BTmag",
+    "VTmag",
+    "Bmag_dr",
+    "Vmag_dr",
+    "FeH_rel",
+    "LDD_rel",
+    "LDD_BV",
+    "e_LDD_BV",
+    "LDD_pred",
+    "e_LDD_pred",
+    "JSDC_LDD"
+]
+
+check_columns = [
+    column for column in check_columns
+    if column in tgt_info.columns
+]
+
+print("\nHR2391 CHECK")
+print(tgt_info.loc["HD46374", check_columns])
 
 # ============================================================
 # CALIBRATORS EXCLUDED FROM CALIBRATION
