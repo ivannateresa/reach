@@ -25,6 +25,9 @@ all_data/0104.D-0580(A)/
 # Allow all files inside those date folders
 !/complete_sequences/*_v3.94_abcd/20*/**
 
+# Large PIONIER observational data
+/all_data/105.20N8.001/*.fits
+
 *.fits.Z
 *.oifits
 *.pkl

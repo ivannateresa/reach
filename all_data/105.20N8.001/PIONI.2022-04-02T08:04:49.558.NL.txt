@@ -1,0 +1,100 @@
+General weather conditions:
+Seeing:          0.45 - 1.61 arcsec
+Humidity:        18 - 35 %
+Wind:            3.1 - 10.7 m/s
+Temperature:     10.2 - 14.2 C
+Overall comment: 
+---------------------------------------------------
+
+Weather observations:
+Time	Conditions	Comment
+22:47	Clear	No clouds above 20 degrees.
+23:47	Photometric	According to FORS.
+04:26	Photometric	No changes.
+06:34	Photometric	According to FORS.
+09:03	Photometric	No changes.
+---------------------------------------------------
+
+See: https://www.eso.org/asm/ui/publicLog?name=Paranal&hoursInterval=24&startDate=2022-04-01
+
+---------------------------------------------------
+
+General Comments:
+---------------------------------------------------
+
+OB:         2769033
+Instrument: PIONIER
+Name:       SCI_HD141004_f2.obx
+Target:     HD141004
+Run:        105.20N8.001
+Container:  2768997
+---------------------------------------------------
+
+Comments:
+23:00 TF seems stable, conditions were good - 
+---------------------------------------------------
+
+Constraint       	Fulfilled	Requested
+Seeing:          	-		2.0
+Sky transparency:	Yes		CLEAR
+Airmass:         	Yes		2.0
+FLI:             	Yes		1.0
+Moon distance:   	Yes		30
+Twilight:        	-		0
+Water Vapour:    	Yes		30.0
+Strehl:          	-		0.0
+ATM:             	Yes		70%
+Fringe Quality:  	Almost
+Ellipticity:     	n/a
+I.Q. Variation:  	n/a
+Grade:       	 	B
+---------------------------------------------------
+
+Files produced and additional information
+---------------------------------------------------
+OBS.ID: 2769033
+OBS.NAME: SCI_HD141004_f2.obx
+OBS.PROG.ID: 105.20N8.001
+OBS.START: 2022-04-02T07:46:33
+OBS.TARG.NAME: HD141004 (RA:8.5179322E8, DEC:2.6469828E7)
+STATION 1: A0
+STATION 2: G1
+STATION 3: J2
+STATION 4: J3
+---------------------------------------------------
+---------------------------------------------------
+Template: PIONIER_obs_science
+Data product: SCIENCE/FRINGE,OBJECT
+Airmass: 1.181
+WindSpeed: 5.78
+WindDir: 355.0
+DL1/DL2/DL3/DL4 OPL: 60.526443 / 33.916504 / 45.419304 / 109.76908
+PROJECTED BL: BL12/BL13/BL14: 86.412 / 128.595 / 125.753
+PROJECTED BL: BL23/BL24/BL34: 56.504 / 113.366 / 88.658
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_OBS_FRINGE092_0031.fits	PIONI.2022-04-02T08:03:33.552	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005276	
+PIONIER_OBS_FRINGE092_0032.fits	PIONI.2022-04-02T08:04:11.533	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005276	
+PIONIER_OBS_FRINGE092_0033.fits	PIONI.2022-04-02T08:04:49.558	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005276	
+PIONIER_OBS_FRINGE092_0034.fits	PIONI.2022-04-02T08:05:27.806	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005276	
+PIONIER_OBS_FRINGE092_0035.fits	PIONI.2022-04-02T08:06:05.881	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.005451	
+---------------------------------------------------
+Template: PIONIER_gen_cal_dark
+Data product: CALIB/DARK
+Airmass: 1.181
+WindSpeed: 5.78
+WindDir: 355.0
+DL1/DL2/DL3/DL4 OPL: 60.526443 / 33.916504 / 45.419304 / 109.76908
+PROJECTED BL: BL12/BL13/BL14: 86.412 / 128.595 / 125.753
+PROJECTED BL: BL23/BL24/BL34: 56.504 / 113.366 / 88.658
+---------------------------------------------------
+Original Filename	Archive Filename	DET.NDIT/DET.DIT	DISPERSION	FILT1	FILT2	MODE	NREADS	NSAMPIX	STROKE	TAU0	
+PIONIER_GEN_DARK092_0007.fits	PIONI.2022-04-02T08:06:44.552	51200/5.0E-4	REF	H	null	SIMPLE	1	1	4.0E-5	0.004057	
+---------------------------------------------------
+OB Grades
+A : Fully within constraints - OB completed
+B : Mostly within constraints, some constraint is ~10% violated - OB completed
+C : Out of constraints - OB must be repeated
+D : Out of constraints - OB considered completed
+X : Uncertain / Not Applicable
+_ : no grade assigned
