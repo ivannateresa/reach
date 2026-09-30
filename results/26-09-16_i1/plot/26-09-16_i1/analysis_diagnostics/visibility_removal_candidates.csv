@@ -1,0 +1,13 @@
+baseline_m,c_scale,candidate_remove,e_vis2_corrected,highlighted,large_raw_residual,large_sigma_residual,mjd,model_vis2,night,oifits_flag,period,point_id,raw_residual,sequence,spatial_frequency_rad_inv,standardized_residual,star,telescope_pair,vis2_corrected,wavelength_index,wavelength_um
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,54,,combined,,,psi_Vel,2-3,,0,1.5330000451285741
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,55,,combined,,,psi_Vel,2-3,,1,1.580999992256693
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,56,,combined,,,psi_Vel,2-3,,2,1.6290000530716497
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,57,,combined,,,psi_Vel,2-3,,3,1.6770000001997687
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,58,,combined,,,psi_Vel,2-3,,4,1.7249999473278876
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,59,,combined,,,psi_Vel,2-3,,5,1.7730000081428443
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,60,,combined,,,psi_Vel,2-3,,0,1.5330000451285741
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,61,,combined,,,psi_Vel,2-3,,1,1.580999992256693
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,62,,combined,,,psi_Vel,2-3,,2,1.6290000530716497
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,63,,combined,,,psi_Vel,2-3,,3,1.6770000001997687
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,64,,combined,,,psi_Vel,2-3,,4,1.7249999473278876
+,1.0946969761597067,True,,False,False,False,,,unknown,True,,65,,combined,,,psi_Vel,2-3,,5,1.7730000081428443
