@@ -257,11 +257,13 @@ Sequence:
 Period: 106
 Science target: gam_Lep
 Sequence type: faint
-Number of targets in sequence: 3
+Number of targets in sequence: 5
 Sequence:
-  01  HR_2090
+  01  HD_38295
   02  gam_Lep
-  03  HD_42747
+  03  HR_2090
+  04  gam_Lep
+  05  HD_42747
 
 ----------------------------------------------------------------------
 Period: 106
