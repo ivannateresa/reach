@@ -1,0 +1,437 @@
+
+======================================================================
+PARALLEL CONFIGURATION
+n_bootstraps = 1000
+n_calib_runs = 10
+calib_run_i  = 0
+======================================================================
+
+Beginning calibration and fitting run. Parameters set as follow:
+ - n_bootstraps			=	1000
+ - do_random_ifg_sampling	=	True
+ - do_gaussian_diam_sampling	=	True
+           Period  Science Sequence  Dup_tar    Primary  Ref_ID_1  Ref_ID_2  Ref_ID_3  ...    LDDCHI CAlFlag  LDD_rel Quality  Quality_reason  exclusion_reason in_paper Comments
+HD_ID                                                                                  ...                                                                                       
+HD222368      104     True     Both    False    iot_Psc       NaN       NaN       NaN  ...  0.019939     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD1367        104    False     Both    False      HR_67      HR67       NaN       NaN  ...  0.096932     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD222919      104    False   Bright    False  HD_222919  HD222919       NaN       NaN  ...  0.019746     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD223292      104    False   Bright    False  HD_223292  HD223292       NaN       NaN  ...  0.087829     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD218330      104    False    Faint    False  HD_218330  HD218330       NaN       NaN  ...  0.033544     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD43          104    False    Faint    False      HD_43      HD43       NaN       NaN  ...  0.630822     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD1581        104     True     Both    False    zet_Tuc       NaN       NaN       NaN  ...  0.027000     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD68          104    False     Both    False      HD_68       NaN       NaN       NaN  ...  0.218397     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD218558      104    False    Faint    False    HR_8809       NaN       NaN       NaN  ...       NaN     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD323         104    False    Faint    False     HD_323       NaN       NaN       NaN  ...  0.072107     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD220757      104    False   Bright    False  HD_220757       NaN       NaN       NaN  ...  0.689734     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD8025        104    False   Bright    False    HD_8025       NaN       NaN       NaN  ...  0.202367     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD30652       104     True     Both    False    pi3_Ori       NaN       NaN       NaN  ...  0.011032     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD32263       104    False     Both    False    HR_1618    HR1618       NaN       NaN  ...  0.071317     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30519       104    False    Faint    False   HD_30519   HD30519       NaN       NaN  ...  0.131219     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30507       104    False    Faint    False   HD_30507   HD30507       NaN       NaN  ...  0.191503     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30545       104    False   Bright    False    HR_1534    HR1534       NaN       NaN  ...  0.042708     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD33419       104    False   Bright    False    HR_1681    HR1681       NaN       NaN  ...  0.033679     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD38393       104     True     Both    False    gam_Lep       NaN       NaN       NaN  ...  0.003735     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38579       104    False    Faint    False   HD_38579       NaN       NaN       NaN  ...  0.609293     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD39913       104    False    Faint    False   HD_39913       NaN       NaN       NaN  ...  0.591500     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD40235       104    False    Faint    False    HR_2090       NaN       NaN       NaN  ...  0.104117     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD62644       104     True     Both    False    HR_2998       NaN       NaN       NaN  ...  0.012269     2.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD64181       104    False     Both    False    HR_3069       NaN       NaN       NaN  ...  0.101762     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD61574       104    False    Faint    False   HD_61574       NaN       NaN       NaN  ...  0.006498     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65187       104    False    Faint    False   HD_65187       NaN       NaN       NaN  ...  0.703343     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65491       104    False   Bright    False   HD_65491       NaN       NaN       NaN  ...  0.849357     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD66162       104    False   Bright    False   HD_66162       NaN       NaN       NaN  ...  0.122570     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD67523       104     True     Both    False    rho_Pup       NaN       NaN       NaN  ...  0.009672     4.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD59936       104    False    Faint    False   HD_59936       NaN       NaN       NaN  ...  0.366727     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+...           ...      ...      ...      ...        ...       ...       ...       ...  ...       ...     ...      ...     ...             ...               ...      ...      ...
+HD15248       106    False    Faint    False    kap_Hyi       NaN       NaN       NaN  ...  0.022964     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD210056      106    False    Faint    False  HD_210056  HD210056   HR_8432       NaN  ...  0.147559     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38393       106     True     Both    False    gam_Lep       NaN       NaN       NaN  ...  0.003735     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38295       106    False     Both    False   HD_38295       NaN       NaN       NaN  ...  0.708550     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD40235       106    False    Faint     True    HR_2090       NaN       NaN       NaN  ...  0.104117     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD42747       106    False    Faint     True   HD_42747       NaN       NaN       NaN  ...  0.095268     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD48737       106     True     Both    False    ksi_Gem       NaN       NaN       NaN  ...  0.020040     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD47156       106    False     Both    False    HR_2426       NaN       NaN       NaN  ...  0.151494     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD46241       106    False   Bright    False     12_Mon       NaN       NaN       NaN  ...  0.033016     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD51814       106    False   Bright    False    HR_2610       NaN       NaN       NaN  ...  0.028840     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD45512       106    False    Faint    False    HR_2342       NaN       NaN       NaN  ...  0.013215     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD46374       106    False    Faint    False    HR_2391       NaN       NaN       NaN  ...       NaN     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD67523       106     True     Both    False    rho_Pup       NaN       NaN       NaN  ...       NaN     NaN      NaN     NaN             NaN               NaN      NaN      NaN
+HD71231       106    False     Both    False    HR_3317       NaN       NaN       NaN  ...  0.051867     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65181       106    False    Faint    False   HD_65181       NaN       NaN       NaN  ...  0.045635     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD70942       106    False    Faint    False   HD_70942       NaN       NaN       NaN  ...  0.146231     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD59936       106    False   Bright    False   HD_59936       NaN       NaN       NaN  ...  0.366727     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD  63734     106    False   Bright    False  HD  63734       NaN       NaN       NaN  ...  0.128599     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD82434       106     True     Both    False    psi_Vel    psivel   HD82434       NaN  ...  0.013000     NaN   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD81134       106    False     Both    False    HR_3729       NaN       NaN       NaN  ...  0.012711     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD76437       106    False    Faint    False   HD_76437       NaN       NaN       NaN  ...  0.201713     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD84369       106    False    Faint    False   HD_84369       NaN       NaN       NaN  ...  0.953039     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD61421       106     True     Both    False    alf_CMi    alfcmi       NaN       NaN  ...  0.019264     4.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD55751       106    False   Bright    False    HR_2729       NaN       NaN       NaN  ...  0.058159     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD63241       106    False   Bright    False   HD_63241       NaN       NaN       NaN  ...  0.210344     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65695       106    False   Bright    False     27_Mon       NaN       NaN       NaN  ...  0.024717     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD82434A      106     True     Both    False  psi Vel A   psivela  HD82434A       NaN  ...  0.013000     NaN   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD79810       106    False   Bright    False   HD_79810       NaN       NaN       NaN  ...  0.128232     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD84900       106    False   Bright    False   HD_84900       NaN       NaN       NaN  ...  0.012279     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD81134       106    False     Both    False    HR_3729       NaN       NaN       NaN  ...  0.012711     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+
+[91 rows x 140 columns]
+Gaia EDR3 photometry:
+           Primary     BPmag       e_BPmag      Gmag        e_Gmag     RPmag       e_RPmag
+HD_ID                                                                                     
+HD222368    iotPsc  4.261436      0.001831  4.011512      0.001371  3.556306      0.002603
+HD1367        HR67  6.406062      0.000616  5.957026      0.000228  5.319321      0.001205
+HD222919  HD222919  7.120420      0.000555  6.575631      0.000103  5.861661      0.000422
+HD223292  HD223292  7.120972      0.000472  6.597271      0.000115  5.895704      0.000698
+HD218330  HD218330  7.229627      0.000755  6.668612      0.000173  5.945434      0.000708
+HD43     /home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/scipy/interpolate/interpolate.py:688: RuntimeWarning: invalid value encountered in less
+  below_bounds = x_new < self.x[0]
+/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/scipy/interpolate/interpolate.py:689: RuntimeWarning: invalid value encountered in greater
+  above_bounds = x_new > self.x[-1]
+     HD43  7.152301      0.000742  6.627427      0.000174  5.934733      0.000691
+HD1581      zetTuc  4.369477      0.001158  4.086077      0.001214  3.600201      0.002357
+HD68          HD68  7.324628      0.000686  6.673541      0.000170  5.886825      0.000860
+HD218558    HR8809  6.697760  28876.000000  6.215614  11100.000000  5.548916  44000.000000
+HD323        HD323  7.080617      0.001104  6.529203      0.000136  5.815854      0.000873
+
+ ------------------------------------------------------------------------------- 
+ 	Sampling
+ -------------------------------------------------------------------------------
+
+HR2391 CHECK
+Primary          HR2391
+Science           False
+BTmag             6.995
+VTmag              5.68
+Bmag_dr         7.19204
+Vmag_dr         5.94723
+FeH_rel             NaN
+LDD_rel          LDD_VK
+LDD_BV          2.37686
+e_LDD_BV       0.185395
+LDD_pred        1.27774
+e_LDD_pred    0.0587762
+JSDC_LDD            NaN
+Name: HD46374, dtype: object
+
+======================================================================
+CALIBRATORS EXCLUDED
+======================================================================
+None
+======================================================================
+
+======================================================================
+RUN CONFIGURATION
+======================================================================
+results_folder       : 26-09-14_i1000_ALL_BASELINES_ALL_CALS
+baseline_mode        : ALL_BASELINES
+bad_calibrators      : []
+random IFG sampling  : True
+======================================================================
+
+ ------------------------------------------------------------------------------- 
+ 	Save tgt_info in Data
+ -------------------------------------------------------------------------------
+
+ ------------------------------------------------------------------------------- 
+ 	Diagnostic
+ -------------------------------------------------------------------------------
+
+ HD1367 HR67
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD222919 HD222919
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD223292 HD223292
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD218330 HD218330
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD43 HD43
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD68 HD68
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD218558 HR8809
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD323 HD323
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD220757 HD220757
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD8025 HD8025
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD32263 HR1618
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30519 HD30519
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30507 HD30507
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30545 HR1534
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD33419 HR1681
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD38579 HD38579
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD39913 HD39913
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD40235 HR2090
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD64181 HR3069
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD61574 HD61574
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65187 HD65187
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65491 HD65491
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD66162 HD66162
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD59936 HD59936
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD63734 HD63734
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD71231 HR3317
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD118839 HD118839
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD120540 HD120540
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD125490 HD125490
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD121981 HD121981
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD123255 HD123255
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD122135 HD122135
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD125183 HD125183
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142443 HD142443
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142639 HD142639
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD139610 HD139610
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142862 HD142862
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143129 HD143129
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD141589 HD141589
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD141827 HD141827
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143896 HD143896
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143257 HD143257
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD140346 HD140346
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD182572 HD182572
+
+ HD178665 HD178665
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD178596 HD178596
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD186202 HD186202
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD5457 lamTuc
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD197635 sigPav
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD4332 HD4332
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD15248 kapHyi
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD210056 HD210056
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD38295 HD38295
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD42747 HD42747
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD47156 HR2426
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD46241 12Mon
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD51814 HR2610
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD45512 HR2342
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD46374 HR2391
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65181 HD65181
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD70942 HD70942
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD  63734 HD63734
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD82434 psiVel
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD81134 HR3729
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD76437 HD76437
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD84369 HD84369
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD61421 alfCMi
+  Falta BTmag o VTmag -> no se puede calcular Bmag/Vmag
+
+ HD55751 HR2729
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD63241 HD63241
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65695 27Mon
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD82434A psiVelA
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD79810 HD79810
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD84900 HD84900
+  Falta FeH_rel -> teff_casagrande queda NaN
+Saved diagnostic CSV:
+/home2/ihernand/Desktop/reach/data/diagnostics/nan_diagnostic.csv
+Saved diagnostic TXT:
+/home2/ihernand/Desktop/reach/data/diagnostics/nan_diagnostic.txt
+
+======================================================================
+Sampling already done, loading...
+======================================================================
+
+===============================================================================
+ALL COMPLETE SEQUENCES TO TEST
+===============================================================================
+(104, 'HR_2998', 'bright')  night=2019-11-26
+(104, 'HR_2998', 'faint')  night=2019-11-25
+(104, 'gam_Lep', 'faint')  night=2020-01-03
+(104, 'iot_Psc', 'bright')  night=2019-11-27
+(104, 'iot_Psc', 'faint')  night=2019-11-28
+(104, 'pi3_Ori', 'bright')  night=2019-11-29
+(104, 'pi3_Ori', 'faint')  night=2019-11-28
+(104, 'zet_Tuc', 'bright')  night=2019-11-29
+(104, 'zet_Tuc', 'faint')  night=2019-11-27
+(105, 'HD124850', 'bright')  night=2022-04-03
+(105, 'HD124850', 'faint')  night=2022-03-31
+(105, 'HD141004', 'bright')  night=2022-03-31
+(105, 'HD141004', 'faint')  night=2022-04-02
+(105, 'HD142860', 'faint')  night=2022-04-03
+(106, 'alf_CMi', 'bright')  night=2021-02-26
+(106, 'bet_Hyi', 'bright')  night=2021-09-05
+(106, 'bet_Hyi', 'faint')  night=2021-09-11
+(106, 'gam_Lep', 'faint')  night=2021-02-18
+(106, 'ksi_Gem', 'bright')  night=2022-02-26
+(106, 'ksi_Gem', 'faint')  night=2022-03-01
+(106, 'psi Vel A', 'bright')  night=2022-01-06
+(106, 'psi_Vel', 'faint')  night=2021-03-05
+(106, 'rho_Pup', 'bright')  night=2021-02-18
+(106, 'rho_Pup', 'faint')  night=2021-02-17
+
+TOTAL COMPLETE SEQUENCES: 24
+TOTWARNING: ErfaWarning: ERFA function "dtf2d" yielded 1 of "dubious year (Note 6)" [astropy._erfa.core]
+AL NIGHTS: 18
+===============================================================================
+Saved sequence diagnostics:
+/home2/ihernand/Desktop/reach/data/diagnostics/pionier_sequences.csv
+/home2/ihernand/Desktop/reach/data/diagnostics/pionier_sequences.txt
+/home2/ihernand/Desktop/reach/data/diagnostics/pionier_complete_sequences.txt
+
+======================================================================
+Generating nightly PNDRS scripts...
+======================================================================
+
+ ------------------------------------------------------------------------------- 
+ 	Saving Nightly pndrs Scripts
+ -------------------------------------------------------------------------------
+
+BAD BASELINE MODE: OFF
+ALL baselines will be preserved during calibration.
+WARNING: multiple matches for HD  63734: ['HD63734', 'HD  63734']
+Using first match: HD63734
+WARNING: multiple matches for psi Vel A: ['HD82434A', 'HD82434']
+Using first match: HD82434A
+WARNING: multiple matches for psi Vel A: ['HD82434A', 'HD82434']
+Using first match: HD82434A
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_pndrsScript.i
+...wrote 2022-04-03, night split into 2, bad calibrators: 0
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2019-11-27_v3.94_abcd/2019-11-27/2019-11-27_pndrsScript.i
+...wrote 2019-11-27, night split into 2, bad calibrators: 0
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2019-11-28_v3.94_abcd/2019-11-28/2019-11-28_pndrsScript.i
+...wrote 2019-11-28, night split into 2, bad calibrators: 0
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2019-11-29_v3.94_abcd/2019-11-29/2019-11-29_pndrsScript.i
+...wrote 2019-11-29, night split into 2, bad calibrators: 0
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2021-02-18_v3.94_abcd/2021-02-18/2021-02-18_pndrsScript.i
+...wrote 2021-02-18, night split into 2, bad calibrators: 0
+Removing old PNDRS script: /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_pndrsScript.i
+...wrote 2022-03-31, night split into 2, bad calibrators: 0
+6 pndrs.i scripts written
+12 no script nights
+
+======================================================================
+PREPARATION COMPLETE
+Sampling and PNDRS scripts have been generated.
+No bootstrap calibration will be performed.
+======================================================================

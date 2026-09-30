@@ -1,0 +1,2012 @@
+
+======================================================================
+PARALLEL CONFIGURATION
+n_bootstraps = 1000
+n_calib_runs = 2
+calib_run_i  = 1
+======================================================================
+
+Beginning calibration and fitting run. Parameters set as follow:
+ - n_bootstraps			=	1000
+ - do_random_ifg_sampling	=	True
+ - do_gaussian_diam_sampling	=	True
+           Period  Science Sequence  Dup_tar    Primary  Ref_ID_1  Ref_ID_2  Ref_ID_3  ...    LDDCHI CAlFlag  LDD_rel Quality  Quality_reason  exclusion_reason in_paper Comments
+HD_ID                                                                                  ...                                                                                       
+HD222368      104     True     Both    False    iot_Psc       NaN       NaN       NaN  ...  0.019939     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD1367        104    False     Both    False      HR_67      HR67       NaN       NaN  ...  0.096932     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD222919      104    False   Bright    False  HD_222919  HD222919       NaN       NaN  ...  0.019746     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD223292      104    False   Bright    False  HD_223292  HD223292       NaN       NaN  ...  0.087829     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD218330      104    False    Faint    False  HD_218330  HD218330       NaN       NaN  ...  0.033544     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD43          104    False    Faint    False      HD_43      HD43       NaN       NaN  ...  0.630822     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD1581        104     True     Both    False    zet_Tuc       NaN       NaN       NaN  ...  0.027000     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD68          104    False     Both    False      HD_68       NaN       NaN       NaN  ...  0.218397     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD218558      104    False    Faint    False    HR_8809       NaN       NaN       NaN  ...       NaN     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD323         104    False    Faint    False     HD_323       NaN       NaN       NaN  ...  0.072107     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD220757      104    False   Bright    False  HD_220757       NaN       NaN       NaN  ...  0.689734     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD8025        104    False   Bright    False    HD_8025       NaN       NaN       NaN  ...  0.202367     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD30652       104     True     Both    False    pi3_Ori       NaN       NaN       NaN  ...  0.011032     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD32263       104    False     Both    False    HR_1618    HR1618       NaN       NaN  ...  0.071317     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30519       104    False    Faint    False   HD_30519   HD30519       NaN       NaN  ...  0.131219     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30507       104    False    Faint    False   HD_30507   HD30507       NaN       NaN  ...  0.191503     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD30545       104    False   Bright    False    HR_1534    HR1534       NaN       NaN  ...  0.042708     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD33419       104    False   Bright    False    HR_1681    HR1681       NaN       NaN  ...  0.033679     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD38393       104     True     Both    False    gam_Lep       NaN       NaN       NaN  ...  0.003735     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38579       104    False    Faint    False   HD_38579       NaN       NaN       NaN  ...  0.609293     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD39913       104    False    Faint    False   HD_39913       NaN       NaN       NaN  ...  0.591500     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD40235       104    False    Faint    False    HR_2090       NaN       NaN       NaN  ...  0.104117     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD62644       104     True     Both    False    HR_2998       NaN       NaN       NaN  ...  0.012269     2.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD64181       104    False     Both    False    HR_3069       NaN       NaN       NaN  ...  0.101762     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD61574       104    False    Faint    False   HD_61574       NaN       NaN       NaN  ...  0.006498     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65187       104    False    Faint    False   HD_65187       NaN       NaN       NaN  ...  0.703343     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65491       104    False   Bright    False   HD_65491       NaN       NaN       NaN  ...  0.849357     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD66162       104    False   Bright    False   HD_66162       NaN       NaN       NaN  ...  0.122570     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD67523       104     True     Both    False    rho_Pup       NaN       NaN       NaN  ...  0.009672     4.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD59936       104    False    Faint    False   HD_59936       NaN       NaN       NaN  ...  0.366727     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+...           ...      ...      ...      ...        ...       ...       ...       ...  ...       ...     ...      ...     ...             ...               ...      ...      ...
+HD15248       106    False    Faint    False    kap_Hyi       NaN       NaN       NaN  ...  0.022964     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD210056      106    False    Faint    False  HD_210056  HD210056   HR_8432       NaN  ...  0.147559     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38393       106     True     Both    False    gam_Lep       NaN       NaN       NaN  ...  0.003735     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD38295       106    False     Both    False   HD_38295       NaN       NaN       NaN  ...  0.708550     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD40235       106    False    Faint     True    HR_2090       NaN       NaN       NaN  ...  0.104117     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD42747       106    False    Faint     True   HD_42747       NaN       NaN       NaN  ...  0.095268     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD48737       106     True     Both    False    ksi_Gem       NaN       NaN       NaN  ...  0.020040     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD47156       106    False     Both    False    HR_2426       NaN       NaN       NaN  ...  0.151494     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD46241       106    False   Bright    False     12_Mon       NaN       NaN       NaN  ...  0.033016     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD51814       106    False   Bright    False    HR_2610       NaN       NaN       NaN  ...  0.028840     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD45512       106    False    Faint    False    HR_2342       NaN       NaN       NaN  ...  0.013215     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD46374       106    False    Faint    False    HR_2391       NaN       NaN       NaN  ...       NaN     0.0   LDD_VK    GOOD             NaN               NaN     True      NaN
+HD67523       106     True     Both    False    rho_Pup       NaN       NaN       NaN  ...       NaN     NaN      NaN     NaN             NaN               NaN      NaN      NaN
+HD71231       106    False     Both    False    HR_3317       NaN       NaN       NaN  ...  0.051867     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65181       106    False    Faint    False   HD_65181       NaN       NaN       NaN  ...  0.045635     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD70942       106    False    Faint    False   HD_70942       NaN       NaN       NaN  ...  0.146231     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD59936       106    False   Bright    False   HD_59936       NaN       NaN       NaN  ...  0.366727     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD  63734     106    False   Bright    False  HD  63734       NaN       NaN       NaN  ...  0.128599     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD82434       106     True     Both    False    psi_Vel    psivel   HD82434       NaN  ...  0.013000     NaN   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD81134       106    False     Both    False    HR_3729       NaN       NaN       NaN  ...  0.012711     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD76437       106    False    Faint    False   HD_76437       NaN       NaN       NaN  ...  0.201713     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD84369       106    False    Faint    False   HD_84369       NaN       NaN       NaN  ...  0.953039     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD61421       106     True     Both    False    alf_CMi    alfcmi       NaN       NaN  ...  0.019264     4.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD55751       106    False   Bright    False    HR_2729       NaN       NaN       NaN  ...  0.058159     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD63241       106    False   Bright    False   HD_63241       NaN       NaN       NaN  ...  0.210344     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD65695       106    False   Bright    False     27_Mon       NaN       NaN       NaN  ...  0.024717     0.0  LDD_VW3    GOOD             NaN               NaN     True      NaN
+HD82434A      106     True     Both    False  psi Vel A   psivela  HD82434A       NaN  ...  0.013000     NaN   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD79810       106    False   Bright    False   HD_79810       NaN       NaN       NaN  ...  0.128232     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD84900       106    False   Bright    False   HD_84900       NaN       NaN       NaN  ...  0.012279     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+HD81134       106    False     Both    False    HR_3729       NaN       NaN       NaN  ...  0.012711     0.0   LDD_BV    GOOD             NaN               NaN     True      NaN
+
+[91 rows x 140 columns]
+Gaia EDR3 photometry:
+           Primary     BPmag       e_BPmag      Gmag        e_Gmag     RPmag       e_RPmag
+HD_ID                                                                                     
+HD222368    iotPsc  4.261436      0.001831  4.011512      0.001371  3.556306      0.002603
+HD1367        HR67  6.406062      0.000616  5.957026      0.000228  5.319321      0.001205
+HD222919  HD222919  7.120420      0.000555  6.575631      0.000103  5.861661      0.000422
+HD223292  HD223292  7.120972      0.000472  6.597271      0.000115  5.895704      0.000698
+HD218330  HD218330  7.229627      0.000755  6.668612      0.000173  5.945434      0.000708
+HD43      /home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/scipy/interpolate/interpolate.py:688: RuntimeWarning: invalid value encountered in less
+  below_bounds = x_new < self.x[0]
+/home/ihernand/.conda/envs/py27_good/lib/python2.7/site-packages/scipy/interpolate/interpolate.py:689: RuntimeWarning: invalid value encountered in greater
+  above_bounds = x_new > self.x[-1]
+    HD43  7.152301      0.000742  6.627427      0.000174  5.934733      0.000691
+HD1581      zetTuc  4.369477      0.001158  4.086077      0.001214  3.600201      0.002357
+HD68          HD68  7.324628      0.000686  6.673541      0.000170  5.886825      0.000860
+HD218558    HR8809  6.697760  28876.000000  6.215614  11100.000000  5.548916  44000.000000
+HD323        HD323  7.080617      0.001104  6.529203      0.000136  5.815854      0.000873
+
+ ------------------------------------------------------------------------------- 
+ 	Sampling
+ -------------------------------------------------------------------------------
+
+HR2391 CHECK
+Primary          HR2391
+Science           False
+BTmag             6.995
+VTmag              5.68
+Bmag_dr         7.19204
+Vmag_dr         5.94723
+FeH_rel             NaN
+LDD_rel          LDD_VK
+LDD_BV          2.37686
+e_LDD_BV       0.185395
+LDD_pred        1.27774
+e_LDD_pred    0.0587762
+JSDC_LDD            NaN
+Name: HD46374, dtype: object
+
+======================================================================
+CALIBRATORS EXCLUDED
+======================================================================
+None
+======================================================================
+
+======================================================================
+RUN CONFIGURATION
+======================================================================
+results_folder       : 26-09-14_i1000_ALL_BASELINES_ALL_CALS
+baseline_mode        : ALL_BASELINES
+bad_calibrators      : []
+random IFG sampling  : True
+======================================================================
+
+ ------------------------------------------------------------------------------- 
+ 	Save tgt_info in Data
+ -------------------------------------------------------------------------------
+
+ ------------------------------------------------------------------------------- 
+ 	Diagnostic
+ -------------------------------------------------------------------------------
+
+ HD1367 HR67
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD222919 HD222919
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD223292 HD223292
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD218330 HD218330
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD43 HD43
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD68 HD68
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD218558 HR8809
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD323 HD323
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD220757 HD220757
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD8025 HD8025
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD32263 HR1618
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30519 HD30519
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30507 HD30507
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD30545 HR1534
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD33419 HR1681
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD38579 HD38579
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD39913 HD39913
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD40235 HR2090
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD64181 HR3069
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD61574 HD61574
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65187 HD65187
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65491 HD65491
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD66162 HD66162
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD59936 HD59936
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD63734 HD63734
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD71231 HR3317
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD118839 HD118839
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD120540 HD120540
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD125490 HD125490
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD121981 HD121981
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD123255 HD123255
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD122135 HD122135
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD125183 HD125183
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142443 HD142443
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142639 HD142639
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD139610 HD139610
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD142862 HD142862
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143129 HD143129
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD141589 HD141589
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD141827 HD141827
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143896 HD143896
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD143257 HD143257
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD140346 HD140346
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD182572 HD182572
+
+ HD178665 HD178665
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD178596 HD178596
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD186202 HD186202
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD5457 lamTuc
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD197635 sigPav
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD4332 HD4332
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD15248 kapHyi
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD210056 HD210056
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD38295 HD38295
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD42747 HD42747
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD47156 HR2426
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD46241 12Mon
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD51814 HR2610
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD45512 HR2342
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD46374 HR2391
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65181 HD65181
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD70942 HD70942
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD  63734 HD63734
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD82434 psiVel
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD81134 HR3729
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD76437 HD76437
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD84369 HD84369
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD61421 alfCMi
+  Falta BTmag o VTmag -> no se puede calcular Bmag/Vmag
+
+ HD55751 HR2729
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD63241 HD63241
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD65695 27Mon
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD82434A psiVelA
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD79810 HD79810
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+ HD84900 HD84900
+  Falta FeH_rel -> teff_casagrande queda NaN
+
+======================================================================
+Sampling already done, loading...
+======================================================================
+
+===============================================================================
+ALL COMPLETE SEQUENCES TO TEST
+===============================================================================
+(104, 'HR_2998', 'bright')  night=2019-11-26
+(104, 'HR_2998', 'faint')  night=2019-11-25
+(104, 'gam_Lep', 'faint')  night=2020-01-03
+(104, 'iot_Psc', 'bright')  night=2019-11-27
+(104, 'iot_Psc', 'faint')  night=2019-11-28
+(104, 'pi3_Ori', 'bright')  night=2019-11-29
+(104, 'pi3_Ori', 'faint')  night=2019-11-28
+(104, 'zet_Tuc', 'bright')  night=2019-11-29
+(104, 'zet_Tuc', 'faint')  night=2019-11-27
+(105, 'HD124850', 'bright')  night=2022-04-03
+(105, 'HD124850', 'faint')  night=2022-03-31
+(105, 'HD141004', 'bright')  night=2022-03-31
+(105, 'HD141004', 'faint')  night=2022-04-02
+(105, 'HD142860', 'faint')  night=2022-04-03
+(106, 'alf_CMi', 'bright')  night=2021-02-26
+(106, 'bet_Hyi', 'bright')  night=2021-09-05
+(106, 'bet_Hyi', 'faint')  night=2021-09-11
+(106, 'gam_Lep', 'faint')  night=2021-02-18
+(106, 'ksi_Gem', 'bright')  night=2022-02-26
+(106, 'ksi_Gem', 'faint')  night=2022-03-01
+(106, 'psi Vel A', 'bright')  night=2022-01-06
+(106, 'psi_Vel', 'faint')  night=2021-03-05
+(106, 'rho_Pup', 'bright')  night=2021-02-18
+(106, 'rho_Pup', 'faint')  night=2021-02-17
+
+TOTAL COMPLETE SEQUENCES: 24
+TOTAL NIGHTS: 18
+===============================================================================
+
+======================================================================
+TOTAL NIGHTS BEFORE SPLITTING: 18
+TOTAL SEQUENCES: 24
+======================================================================
+
+======================================================================
+PARALLEL RUN 2/2
+
+Nights assigned to this run:
+    2021-03-05
+    2021-09-05
+    2021-09-11
+    2022-01-06
+    2022-02-26
+    2022-03-01
+    2022-03-31
+    2022-04-02
+    2022-04-03
+
+Sequences: 11/24
+======================================================================
+
+ ------------------------------------------------------------------------------- 
+ 	Bootstrapping
+ -------------------------------------------------------------------------------
+Bootstrapping run 2/2
+Running on 11/24 sequences over 9/18 nights
+
+ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
+	Bootstrapping iteration 0
+ |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+ ------------------------------------------------------------------------------- 
+ 	Initialising Interferograms
+ -------------------------------------------------------------------------------
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/
+Deleting 60 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/
+Deleting 60 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/
+
+Removed 330 old files 
+
+Moved 25 new interferograms for (106, 'bet_Hyi', 'faint') on 2021-09-11
+Moved 25 new interferograms for (105, 'HD141004', 'faint') on 2022-04-02
+Moved 25 new interferograms for (105, 'HD141004', 'bright') on 2022-03-31
+Moved 25 new interferograms for (105, 'HD124850', 'faint') on 2022-03-31
+Moved 25 new interferograms for (105, 'HD124850', 'bright') on 2022-04-03
+Moved 25 new interferograms for (106, 'ksi_Gem', 'faint') on 2022-03-01
+WARNING: skipping unreduced FRINGE:
+  target : sig_Pav
+  file   : PIONI.2021-09-05T06:04:30.054_oidata.fits
+Skipped 1 unreduced FRINGE file/s for (106, 'bet_Hyi', 'bright') on 2021-09-05
+Moved 25 new interferograms for (106, 'bet_Hyi', 'bright') on 2021-09-05
+Moved 25 new interferograms for (106, 'psi Vel A', 'bright') on 2022-01-06
+Moved 25 new interferograms for (105, 'HD142860', 'faint') on 2022-04-03
+Moved 25 new interferograms for (106, 'ksi_Gem', 'bright') on 2022-02-26
+Moved 25 new interferograms for (106, 'psi_Vel', 'faint') on 2021-03-05
+
+ ------------------------------------------------------------------------------- 
+ 	Saving Nightly oidiam files
+ -------------------------------------------------------------------------------
+Writing oiDiam.fits for 9 nights
+
+===============================================================================
+Building oiDiam for 2021-09-11
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD210056
+  bet_Hyi_bad
+  kap_Hyi
+  lam_Tuc
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD210056           -> HD210056     -> HD210056           CAL ISCAL=1
+bet_Hyi_bad        -> HD2151       -> bet_Hyi_bad        SCI ISCAL=0
+kap_Hyi            -> HD15248      -> kap_Hyi            CAL ISCAL=1
+lam_Tuc            -> HD5457       -> lam_Tuc            CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD210056             1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+kap_Hyi              1     LDD_VK
+lam_Tuc              1     LDD_VK
+
+===============================================================================
+Building oiDiam for 2022-04-02
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD141004
+  HD142443
+  HD142862
+  HD143129
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD141004           -> HD141004     -> HD141004           SCI ISCAL=0
+HD142443           -> HD142443     -> HD142443           CAL ISCAL=1
+HD142862           -> HD142862     -> HD142862           CAL ISCAL=1
+HD143129           -> HD143129     -> HD143129           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142862             1     LDD_VW3
+HD143129             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-03-31
+===============================================================================
+Sampled OIFITS found: 50
+
+Real targets found in OI_TARGET:
+  HD121981
+  HD123255
+  HD124850
+  HD125490
+  HD139610
+  HD141004
+  HD142443
+  HD142639
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD121981           -> HD121981     -> HD121981           CAL ISCAL=1
+HD123255           -> HD123255     -> HD123255           CAL ISCAL=1
+HD124850           -> HD124850     -> HD124850           SCI ISCAL=0
+HD125490           -> HD125490     -> HD125490           CAL ISCAL=1
+HD139610           -> HD139610     -> HD139610           CAL ISCAL=1
+HD141004           -> HD141004     -> HD141004           SCI ISCAL=0
+HD142443           -> HD142443     -> HD142443           CAL ISCAL=1
+HD142639           -> HD142639     -> HD142639           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 8
+Targets written  : 8
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD121981             1     LDD_VW3
+HD123255             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125490             1     LDD_VW3
+HD139610             1     LDD_VW3
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142639             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-04-03
+===============================================================================
+Sampled OIFITS found: 50
+
+Real targets found in OI_TARGET:
+  HD122135
+  HD124850
+  HD125183
+  HD125490
+  HD141589
+  HD141827
+  HD142860
+  HD143896
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD122135           -> HD122135     -> HD122135           CAL ISCAL=1
+HD124850           -> HD124850     -> HD124850           SCI ISCAL=0
+HD125183           -> HD125183     -> HD125183           CAL ISCAL=1
+HD125490           -> HD125490     -> HD125490           CAL ISCAL=1
+HD141589           -> HD141589     -> HD141589           CAL ISCAL=1
+HD141827           -> HD141827     -> HD141827           CAL ISCAL=1
+HD142860           -> HD142860     -> HD142860           SCI ISCAL=0
+HD143896           -> HD143896     -> HD143896           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 8
+Targets written  : 8
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD122135             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125183             1     LDD_VW3
+HD125490             1     LDD_VW3
+HD141589             1     LDD_VW3
+HD141827             1     LDD_VW3
+HD142860             0     LDD_VW3
+HD143896             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-03-01
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HR_2342
+  HR_2391
+  HR_2426
+  ksi_Gem
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HR_2342            -> HD45512      -> HR2342             CAL ISCAL=1
+HR_2391            -> HD46374      -> HR2391             CAL ISCAL=1
+HR_2426            -> HD47156      -> HR2426             CAL ISCAL=1
+ksi_Gem            -> HD48737      -> ksi_Gem            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HR2342               1     LDD_VK
+HR2391               1     LDD_VK
+HR2426               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+===============================================================================
+Building oiDiam for 2021-09-05
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD4332
+  bet_Hyi_bad
+  lam_Tuc
+  sig_Pav
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD4332             -> HD4332       -> HD4332             CAL ISCAL=1
+bet_Hyi_bad        -> HD2151       -> bet_Hyi_bad        SCI ISCAL=0
+lam_Tuc            -> HD5457       -> lam_Tuc            CAL ISCAL=1
+sig_Pav            -> HD197635     -> sig_Pav            CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD4332               1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+lam_Tuc              1     LDD_VK
+sig_Pav              1     LDD_VK
+
+===============================================================================
+Building oiDiam for 2022-01-06
+===============================================================================
+WARNING: multiple matches for psi Vel A:
+['HD82434A', 'HD82434']
+Using first match: HD82434A
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD79810
+  HD84900
+  HR_3729
+  psi Vel A
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD79810            -> HD79810      -> HD79810            CAL ISCAL=1
+HD84900            -> HD84900      -> HD84900            CAL ISCAL=1
+HR_3729            -> HD81134      -> HR3729             CAL ISCAL=1
+WARNING: multiple matches for psi Vel A:
+['HD82434A', 'HD82434']
+Using first match: HD82434A
+psi Vel A          -> HD82434A     -> psi Vel A          SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD79810              1     LDD_BV
+HD84900              1     LDD_BV
+HR3729               1     LDD_BV
+psi Vel A            0     LDD_BV
+
+===============================================================================
+Building oiDiam for 2022-02-26
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  12_Mon
+  HR_2426
+  HR_2610
+  ksi_Gem
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+12_Mon             -> HD46241      -> 12_Mon             CAL ISCAL=1
+HR_2426            -> HD47156      -> HR2426             CAL ISCAL=1
+HR_2610            -> HD51814      -> HR2610             CAL ISCAL=1
+ksi_Gem            -> HD48737      -> ksi_Gem            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+12_Mon               1     LDD_VK
+HR2426               1     LDD_VK
+HR2610               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+===============================================================================
+Building oiDiam for 2021-03-05
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD76437
+  HD84369
+  HR_3729
+  psi_Vel
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD76437            -> HD76437      -> HD76437            CAL ISCAL=1
+HD84369            -> HD84369      -> HD84369            CAL ISCAL=1
+HR_3729            -> HD81134      -> HR3729             CAL ISCAL=1
+psi_Vel            -> HD82434      -> psi_Vel            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD76437              1     LDD_BV
+HD84369              1     LDD_BV
+HR3729               1     LDD_BV
+psi_Vel              0     LDD_BV
+
+9 oiDiam.fits files written
+
+ ------------------------------------------------------------------------------- 
+ 	Calibrating 9 night/s, bootstrap 0
+ -------------------------------------------------------------------------------
+
+===============================================================================
+OIDiam BEFORE pndrsCalibrate
+===============================================================================
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD210056             1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+kap_Hyi              1     LDD_VK
+lam_Tuc              1     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142862             1     LDD_VW3
+HD143129             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD121981             1     LDD_VW3
+HD123255             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125490             1     LDD_VW3
+HD139610             1     LDD_VW3
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142639             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD122135             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125183             1     LDD_VW3
+HD125490             1     LDD_VW3
+HD141589             1     LDD_VW3
+HD141827             1     LDD_VW3
+HD142860             0     LDD_VW3
+HD143896             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HR2342               1     LDD_VK
+HR2391               1     LDD_VK
+HR2426               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD4332               1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+lam_Tuc              1     LDD_VK
+sig_Pav              1     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD79810              1     LDD_BV
+HD84900              1     LDD_BV
+HR3729               1     LDD_BV
+psi Vel A            0     LDD_BV
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+12_Mon               1     LDD_VK
+HR2426               1     LDD_VK
+HR2610               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD76437              1     LDD_BV
+HD84369              1     LDD_BV
+HR3729               1     LDD_BV
+psi_Vel              0     LDD_BV
+
+Calibrating 2021-09-11, night 1/9...calibrated in 00:09.6 min
+...copying 2021-09-11_ALL_oidataCalibrated.fits as 2021-09-11_ALL_oidataCalibrated_00.fits
+   target_raw: 2021-09-11_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_HD210056_oidataCalibrated.fits as 2021-09-11_CAL_HD210056_oidataCalibrated_00.fits
+   target_raw: HD210056
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_kap_Hyi_oidataCalibrated.fits as 2021-09-11_CAL_kap_Hyi_oidataCalibrated_00.fits
+   target_raw: kap_Hyi
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_lam_Tuc_oidataCalibrated.fits as 2021-09-11_CAL_lam_Tuc_oidataCalibrated_00.fits
+   target_raw: lam_Tuc
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_SCI_bet_Hyi_bad_oidataCalibrated.fits as 2021-09-11_SCI_bet_Hyi_bad_oidataCalibrated_00.fits
+   target_raw: bet_Hyi
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-11T04:10:45.763_i05_oidataCalibrated.fits as PIONI.2021-09-11T04:10:45.763_i05_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-09-11T04:10:45.763_i05
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-11T04:23:43.485_i15_oidataCalibrated.fits as PIONI.2021-09-11T04:23:43.485_i15_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-09-11T04:23:43.485_i15
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-04-02, night 2/9...calibrated in 00:09.6 min
+...copying 2022-04-02_ALL_oidataCalibrated.fits as 2022-04-02_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-04-02_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD142443_oidataCalibrated.fits as 2022-04-02_CAL_HD142443_oidataCalibrated_00.fits
+   target_raw: HD142443
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD142862_oidataCalibrated.fits as 2022-04-02_CAL_HD142862_oidataCalibrated_00.fits
+   target_raw: HD142862
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD143129_oidataCalibrated.fits as 2022-04-02_CAL_HD143129_oidataCalibrated_00.fits
+   target_raw: HD143129
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_SCI_HD141004_oidataCalibrated.fits as 2022-04-02_SCI_HD141004_oidataCalibrated_00.fits
+   target_raw: HD141004
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-02T07:37:38.179_i08_oidataCalibrated.fits as PIONI.2022-04-02T07:37:38.179_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-02T07:37:38.179_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-02T08:06:05.881_i18_oidataCalibrated.fits as PIONI.2022-04-02T08:06:05.881_i18_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-02T08:06:05.881_i18
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-03-31, night 3/9...calibrated in 00:18.5 min
+...copying 2022-03-31_ALL_oidataCalibrated.fits as 2022-03-31_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-03-31_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD121981_oidataCalibrated.fits as 2022-03-31_CAL_HD121981_oidataCalibrated_00.fits
+   target_raw: HD121981
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD123255_oidataCalibrated.fits as 2022-03-31_CAL_HD123255_oidataCalibrated_00.fits
+   target_raw: HD123255
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD125490_oidataCalibrated.fits as 2022-03-31_CAL_HD125490_oidataCalibrated_00.fits
+   target_raw: HD125490
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD139610_oidataCalibrated.fits as 2022-03-31_CAL_HD139610_oidataCalibrated_00.fits
+   target_raw: HD139610
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD142443_oidataCalibrated.fits as 2022-03-31_CAL_HD142443_oidataCalibrated_00.fits
+   target_raw: HD142443
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD142639_oidataCalibrated.fits as 2022-03-31_CAL_HD142639_oidataCalibrated_00.fits
+   target_raw: HD142639
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_SCI_HD124850_oidataCalibrated.fits as 2022-03-31_SCI_HD124850_oidataCalibrated_00.fits
+   target_raw: HD124850
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_SCI_HD141004_oidataCalibrated.fits as 2022-03-31_SCI_HD141004_oidataCalibrated_00.fits
+   target_raw: HD141004
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T07:27:28.708_i08_oidataCalibrated.fits as PIONI.2022-03-31T07:27:28.708_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-31T07:27:28.708_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T07:44:54.495_i17_oidataCalibrated.fits as PIONI.2022-03-31T07:44:54.495_i17_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-31T07:44:54.495_i17
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T08:11:46.517_i08_oidataCalibrated.fits as PIONI.2022-03-31T08:11:46.517_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-31T08:11:46.517_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T08:23:49.526_i19_oidataCalibrated.fits as PIONI.2022-03-31T08:23:49.526_i19_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-31T08:23:49.526_i19
+   matched_id: UNKNOWN
+   Science: None
+13 files copied
+0 files skipped
+
+Calibrating 2022-04-03, night 4/9...calibrated in 00:18.5 min
+...copying 2022-04-03_ALL_oidataCalibrated.fits as 2022-04-03_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-04-03_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD122135_oidataCalibrated.fits as 2022-04-03_CAL_HD122135_oidataCalibrated_00.fits
+   target_raw: HD122135
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD125183_oidataCalibrated.fits as 2022-04-03_CAL_HD125183_oidataCalibrated_00.fits
+   target_raw: HD125183
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD125490_oidataCalibrated.fits as 2022-04-03_CAL_HD125490_oidataCalibrated_00.fits
+   target_raw: HD125490
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD141589_oidataCalibrated.fits as 2022-04-03_CAL_HD141589_oidataCalibrated_00.fits
+   target_raw: HD141589
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD141827_oidataCalibrated.fits as 2022-04-03_CAL_HD141827_oidataCalibrated_00.fits
+   target_raw: HD141827
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD143896_oidataCalibrated.fits as 2022-04-03_CAL_HD143896_oidataCalibrated_00.fits
+   target_raw: HD143896
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_SCI_HD124850_oidataCalibrated.fits as 2022-04-03_SCI_HD124850_oidataCalibrated_00.fits
+   target_raw: HD124850
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_SCI_HD142860_oidataCalibrated.fits as 2022-04-03_SCI_HD142860_oidataCalibrated_00.fits
+   target_raw: HD142860
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T07:08:20.501_i05_oidataCalibrated.fits as PIONI.2022-04-03T07:08:20.501_i05_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-03T07:08:20.501_i05
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T07:23:19.095_i18_oidataCalibrated.fits as PIONI.2022-04-03T07:23:19.095_i18_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-03T07:23:19.095_i18
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T08:55:11.192_i08_oidataCalibrated.fits as PIONI.2022-04-03T08:55:11.192_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-03T08:55:11.192_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T09:09:34.067_i18_oidataCalibrated.fits as PIONI.2022-04-03T09:09:34.067_i18_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-04-03T09:09:34.067_i18
+   matched_id: UNKNOWN
+   Science: None
+13 files copied
+0 files skipped
+
+Calibrating 2022-03-01, night 5/9...calibrated in 00:09.6 min
+...copying 2022-03-01_ALL_oidataCalibrated.fits as 2022-03-01_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-03-01_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2342_oidataCalibrated.fits as 2022-03-01_CAL_HR2342_oidataCalibrated_00.fits
+   target_raw: HR2342
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2391_oidataCalibrated.fits as 2022-03-01_CAL_HR2391_oidataCalibrated_00.fits
+   target_raw: HR2391
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2426_oidataCalibrated.fits as 2022-03-01_CAL_HR2426_oidataCalibrated_00.fits
+   target_raw: HR2426
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_SCI_ksi_Gem_oidataCalibrated.fits as 2022-03-01_SCI_ksi_Gem_oidataCalibrated_00.fits
+   target_raw: ksi_Gem
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-01T01:50:45.745_i08_oidataCalibrated.fits as PIONI.2022-03-01T01:50:45.745_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-01T01:50:45.745_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-01T02:07:04.053_i17_oidataCalibrated.fits as PIONI.2022-03-01T02:07:04.053_i17_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-03-01T02:07:04.053_i17
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2021-09-05, night 6/9...calibrated in 00:09.5 min
+...copying 2021-09-05_ALL_oidataCalibrated.fits as 2021-09-05_ALL_oidataCalibrated_00.fits
+   target_raw: 2021-09-05_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-05_CAL_HD4332_oidataCalibrated.fits as 2021-09-05_CAL_HD4332_oidataCalibrated_00.fits
+   target_raw: HD4332
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-05_CAL_lam_Tuc_oidataCalibrated.fits as 2021-09-05_CAL_lam_Tuc_oidataCalibrated_00.fits
+   target_raw: lam_Tuc
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-05_CAL_sig_Pav_oidataCalibrated.fits as 2021-09-05_CAL_sig_Pav_oidataCalibrated_00.fits
+   target_raw: sig_Pav
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-05_SCI_bet_Hyi_bad_oidataCalibrated.fits as 2021-09-05_SCI_bet_Hyi_bad_oidataCalibrated_00.fits
+   target_raw: bet_Hyi
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-05T06:14:25.888_i07_oidataCalibrated.fits as PIONI.2021-09-05T06:14:25.888_i07_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-09-05T06:14:25.888_i07
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-05T06:29:39.975_i19_oidataCalibrated.fits as PIONI.2021-09-05T06:29:39.975_i19_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-09-05T06:29:39.975_i19
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-01-06, night 7/9...calibrated in 00:09.6 min
+...copying 2022-01-06_ALL_oidataCalibrated.fits as 2022-01-06_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-01-06_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-01-06_CAL_HD79810_oidataCalibrated.fits as 2022-01-06_CAL_HD79810_oidataCalibrated_00.fits
+   target_raw: HD79810
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-01-06_CAL_HD84900_oidataCalibrated.fits as 2022-01-06_CAL_HD84900_oidataCalibrated_00.fits
+   target_raw: HD84900
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-01-06_CAL_HR3729_oidataCalibrated.fits as 2022-01-06_CAL_HR3729_oidataCalibrated_00.fits
+   target_raw: HR3729
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-01-06_SCI_psi_Vel_A_oidataCalibrated.fits as 2022-01-06_SCI_psi_Vel_A_oidataCalibrated_00.fits
+   target_raw: psi_Vel_A
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-01-06T07:33:12.054_i05_oidataCalibrated.fits as PIONI.2022-01-06T07:33:12.054_i05_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-01-06T07:33:12.054_i05
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-01-06T07:47:07.753_i16_oidataCalibrated.fits as PIONI.2022-01-06T07:47:07.753_i16_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-01-06T07:47:07.753_i16
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-02-26, night 8/9...calibrated in 00:09.6 min
+...copying 2022-02-26_ALL_oidataCalibrated.fits as 2022-02-26_ALL_oidataCalibrated_00.fits
+   target_raw: 2022-02-26_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-02-26_CAL_12_Mon_oidataCalibrated.fits as 2022-02-26_CAL_12_Mon_oidataCalibrated_00.fits
+   target_raw: 12_Mon
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-02-26_CAL_HR2426_oidataCalibrated.fits as 2022-02-26_CAL_HR2426_oidataCalibrated_00.fits
+   target_raw: HR2426
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-02-26_CAL_HR2610_oidataCalibrated.fits as 2022-02-26_CAL_HR2610_oidataCalibrated_00.fits
+   target_raw: HR2610
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-02-26_SCI_ksi_Gem_oidataCalibrated.fits as 2022-02-26_SCI_ksi_Gem_oidataCalibrated_00.fits
+   target_raw: ksi_Gem
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-02-26T02:50:24.994_i08_oidataCalibrated.fits as PIONI.2022-02-26T02:50:24.994_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-02-26T02:50:24.994_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-02-26T03:07:08.074_i19_oidataCalibrated.fits as PIONI.2022-02-26T03:07:08.074_i19_oidataCalibrated_00.fits
+   target_raw: PIONI.2022-02-26T03:07:08.074_i19
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2021-03-05, night 9/9...calibrated in 00:09.6 min
+...copying 2021-03-05_ALL_oidataCalibrated.fits as 2021-03-05_ALL_oidataCalibrated_00.fits
+   target_raw: 2021-03-05_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-03-05_CAL_HD76437_oidataCalibrated.fits as 2021-03-05_CAL_HD76437_oidataCalibrated_00.fits
+   target_raw: HD76437
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-03-05_CAL_HD84369_oidataCalibrated.fits as 2021-03-05_CAL_HD84369_oidataCalibrated_00.fits
+   target_raw: HD84369
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-03-05_CAL_HR3729_oidataCalibrated.fits as 2021-03-05_CAL_HR3729_oidataCalibrated_00.fits
+   target_raw: HR3729
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-03-05_SCI_psi_Vel_oidataCalibrated.fits as 2021-03-05_SCI_psi_Vel_oidataCalibrated_00.fits
+   target_raw: psi_Vel
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-03-05T03:47:37.962_i08_oidataCalibrated.fits as PIONI.2021-03-05T03:47:37.962_i08_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-03-05T03:47:37.962_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-03-05T04:03:19.018_i16_oidataCalibrated.fits as PIONI.2021-03-05T04:03:19.018_i16_oidataCalibrated_00.fits
+   target_raw: PIONI.2021-03-05T04:03:19.018_i16
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibration finished, 9 nights in 01:44.2
+
+
+
+Boostrap 1 done in 01:55.0
+
+
+ ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
+	Bootstrapping iteration 1
+ |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+ ------------------------------------------------------------------------------- 
+ 	Initialising Interferograms
+ -------------------------------------------------------------------------------
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/
+Deleting 60 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/
+Deleting 30 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/
+Deleting 60 files from: /home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/
+
+Removed 330 old files 
+
+Moved 25 new interferograms for (106, 'bet_Hyi', 'faint') on 2021-09-11
+Moved 25 new interferograms for (105, 'HD141004', 'faint') on 2022-04-02
+Moved 25 new interferograms for (105, 'HD141004', 'bright') on 2022-03-31
+Moved 25 new interferograms for (105, 'HD124850', 'faint') on 2022-03-31
+Moved 25 new interferograms for (105, 'HD124850', 'bright') on 2022-04-03
+Moved 25 new interferograms for (106, 'ksi_Gem', 'faint') on 2022-03-01
+WARNING: skipping unreduced FRINGE:
+  target : sig_Pav
+  file   : PIONI.2021-09-05T06:04:30.054_oidata.fits
+Skipped 1 unreduced FRINGE file/s for (106, 'bet_Hyi', 'bright') on 2021-09-05
+Moved 25 new interferograms for (106, 'bet_Hyi', 'bright') on 2021-09-05
+Moved 25 new interferograms for (106, 'psi Vel A', 'bright') on 2022-01-06
+Moved 25 new interferograms for (105, 'HD142860', 'faint') on 2022-04-03
+Moved 25 new interferograms for (106, 'ksi_Gem', 'bright') on 2022-02-26
+Moved 25 new interferograms for (106, 'psi_Vel', 'faint') on 2021-03-05
+
+ ------------------------------------------------------------------------------- 
+ 	Saving Nightly oidiam files
+ -------------------------------------------------------------------------------
+Writing oiDiam.fits for 9 nights
+
+===============================================================================
+Building oiDiam for 2021-09-11
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD210056
+  bet_Hyi_bad
+  kap_Hyi
+  lam_Tuc
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD210056           -> HD210056     -> HD210056           CAL ISCAL=1
+bet_Hyi_bad        -> HD2151       -> bet_Hyi_bad        SCI ISCAL=0
+kap_Hyi            -> HD15248      -> kap_Hyi            CAL ISCAL=1
+lam_Tuc            -> HD5457       -> lam_Tuc            CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD210056             1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+kap_Hyi              1     LDD_VK
+lam_Tuc              1     LDD_VK
+
+===============================================================================
+Building oiDiam for 2022-04-02
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD141004
+  HD142443
+  HD142862
+  HD143129
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD141004           -> HD141004     -> HD141004           SCI ISCAL=0
+HD142443           -> HD142443     -> HD142443           CAL ISCAL=1
+HD142862           -> HD142862     -> HD142862           CAL ISCAL=1
+HD143129           -> HD143129     -> HD143129           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142862             1     LDD_VW3
+HD143129             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-03-31
+===============================================================================
+Sampled OIFITS found: 50
+
+Real targets found in OI_TARGET:
+  HD121981
+  HD123255
+  HD124850
+  HD125490
+  HD139610
+  HD141004
+  HD142443
+  HD142639
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD121981           -> HD121981     -> HD121981           CAL ISCAL=1
+HD123255           -> HD123255     -> HD123255           CAL ISCAL=1
+HD124850           -> HD124850     -> HD124850           SCI ISCAL=0
+HD125490           -> HD125490     -> HD125490           CAL ISCAL=1
+HD139610           -> HD139610     -> HD139610           CAL ISCAL=1
+HD141004           -> HD141004     -> HD141004           SCI ISCAL=0
+HD142443           -> HD142443     -> HD142443           CAL ISCAL=1
+HD142639           -> HD142639     -> HD142639           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 8
+Targets written  : 8
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD121981             1     LDD_VW3
+HD123255             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125490             1     LDD_VW3
+HD139610             1     LDD_VW3
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142639             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-04-03
+===============================================================================
+Sampled OIFITS found: 50
+
+Real targets found in OI_TARGET:
+  HD122135
+  HD124850
+  HD125183
+  HD125490
+  HD141589
+  HD141827
+  HD142860
+  HD143896
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD122135           -> HD122135     -> HD122135           CAL ISCAL=1
+HD124850           -> HD124850     -> HD124850           SCI ISCAL=0
+HD125183           -> HD125183     -> HD125183           CAL ISCAL=1
+HD125490           -> HD125490     -> HD125490           CAL ISCAL=1
+HD141589           -> HD141589     -> HD141589           CAL ISCAL=1
+HD141827           -> HD141827     -> HD141827           CAL ISCAL=1
+HD142860           -> HD142860     -> HD142860           SCI ISCAL=0
+HD143896           -> HD143896     -> HD143896           CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 8
+Targets written  : 8
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD122135             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125183             1     LDD_VW3
+HD125490             1     LDD_VW3
+HD141589             1     LDD_VW3
+HD141827             1     LDD_VW3
+HD142860             0     LDD_VW3
+HD143896             1     LDD_VW3
+
+===============================================================================
+Building oiDiam for 2022-03-01
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HR_2342
+  HR_2391
+  HR_2426
+  ksi_Gem
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HR_2342            -> HD45512      -> HR2342             CAL ISCAL=1
+HR_2391            -> HD46374      -> HR2391             CAL ISCAL=1
+HR_2426            -> HD47156      -> HR2426             CAL ISCAL=1
+ksi_Gem            -> HD48737      -> ksi_Gem            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HR2342               1     LDD_VK
+HR2391               1     LDD_VK
+HR2426               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+===============================================================================
+Building oiDiam for 2021-09-05
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD4332
+  bet_Hyi_bad
+  lam_Tuc
+  sig_Pav
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD4332             -> HD4332       -> HD4332             CAL ISCAL=1
+bet_Hyi_bad        -> HD2151       -> bet_Hyi_bad        SCI ISCAL=0
+lam_Tuc            -> HD5457       -> lam_Tuc            CAL ISCAL=1
+sig_Pav            -> HD197635     -> sig_Pav            CAL ISCAL=1
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD4332               1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+lam_Tuc              1     LDD_VK
+sig_Pav              1     LDD_VK
+
+===============================================================================
+Building oiDiam for 2022-01-06
+===============================================================================
+WARNING: multiple matches for psi Vel A:
+['HD82434A', 'HD82434']
+Using first match: HD82434A
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD79810
+  HD84900
+  HR_3729
+  psi Vel A
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD79810            -> HD79810      -> HD79810            CAL ISCAL=1
+HD84900            -> HD84900      -> HD84900            CAL ISCAL=1
+HR_3729            -> HD81134      -> HR3729             CAL ISCAL=1
+WARNING: multiple matches for psi Vel A:
+['HD82434A', 'HD82434']
+Using first match: HD82434A
+psi Vel A          -> HD82434A     -> psi Vel A          SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD79810              1     LDD_BV
+HD84900              1     LDD_BV
+HR3729               1     LDD_BV
+psi Vel A            0     LDD_BV
+
+===============================================================================
+Building oiDiam for 2022-02-26
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  12_Mon
+  HR_2426
+  HR_2610
+  ksi_Gem
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+12_Mon             -> HD46241      -> 12_Mon             CAL ISCAL=1
+HR_2426            -> HD47156      -> HR2426             CAL ISCAL=1
+HR_2610            -> HD51814      -> HR2610             CAL ISCAL=1
+ksi_Gem            -> HD48737      -> ksi_Gem            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+12_Mon               1     LDD_VK
+HR2426               1     LDD_VK
+HR2610               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+===============================================================================
+Building oiDiam for 2021-03-05
+===============================================================================
+Sampled OIFITS found: 25
+
+Real targets found in OI_TARGET:
+  HD76437
+  HD84369
+  HR_3729
+  psi_Vel
+
+OI_TARGET -> tgt_info -> oiDiam
+-------------------------------------------------------------------------------
+HD76437            -> HD76437      -> HD76437            CAL ISCAL=1
+HD84369            -> HD84369      -> HD84369            CAL ISCAL=1
+HR_3729            -> HD81134      -> HR3729             CAL ISCAL=1
+psi_Vel            -> HD82434      -> psi_Vel            SCI ISCAL=0
+
+CHECK OI_TARGET -> oiDiam
+------------------------------------------------------------
+Targets expected : 4
+Targets written  : 4
+CHECK: OK
+
+WROTE:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam.fits
+
+FINAL oiDiam:
+------------------------------------------------------------
+TARGET               ISCAL INFO
+------------------------------------------------------------
+HD76437              1     LDD_BV
+HD84369              1     LDD_BV
+HR3729               1     LDD_BV
+psi_Vel              0     LDD_BV
+
+9 oiDiam.fits files written
+
+ ------------------------------------------------------------------------------- 
+ 	Calibrating 9 night/s, bootstrap 1
+ -------------------------------------------------------------------------------
+
+===============================================================================
+OIDiam BEFORE pndrsCalibrate
+===============================================================================
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-11_v3.94_abcd/2021-09-11/2021-09-11_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD210056             1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+kap_Hyi              1     LDD_VK
+lam_Tuc              1     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-02_v3.94_abcd/2022-04-02/2022-04-02_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142862             1     LDD_VW3
+HD143129             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-31_v3.94_abcd/2022-03-31/2022-03-31_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD121981             1     LDD_VW3
+HD123255             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125490             1     LDD_VW3
+HD139610             1     LDD_VW3
+HD141004             0     LDD_VW3
+HD142443             1     LDD_VW3
+HD142639             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-04-03_v3.94_abcd/2022-04-03/2022-04-03_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD122135             1     LDD_VW3
+HD124850             0     LDD_VW3
+HD125183             1     LDD_VW3
+HD125490             1     LDD_VW3
+HD141589             1     LDD_VW3
+HD141827             1     LDD_VW3
+HD142860             0     LDD_VW3
+HD143896             1     LDD_VW3
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-03-01_v3.94_abcd/2022-03-01/2022-03-01_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HR2342               1     LDD_VK
+HR2391               1     LDD_VK
+HR2426               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-09-05_v3.94_abcd/2021-09-05/2021-09-05_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD4332               1     LDD_VK
+bet_Hyi_bad          0     LDD_VK
+lam_Tuc              1     LDD_VK
+sig_Pav              1     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-01-06_v3.94_abcd/2022-01-06/2022-01-06_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD79810              1     LDD_BV
+HD84900              1     LDD_BV
+HR3729               1     LDD_BV
+psi Vel A            0     LDD_BV
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2022-02-26_v3.94_abcd/2022-02-26/2022-02-26_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+12_Mon               1     LDD_VK
+HR2426               1     LDD_VK
+HR2610               1     LDD_VK
+ksi_Gem              0     LDD_VK
+
+File:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam.fits
+Backup:
+/home2/ihernand/Desktop/reach/complete_sequences/2021-03-05_v3.94_abcd/2021-03-05/2021-03-05_oiDiam_BEFORE_pndrsCalibrate.fits
+
+TARGET        ISCAL        INFO
+------------------------------------------------------------
+HD76437              1     LDD_BV
+HD84369              1     LDD_BV
+HR3729               1     LDD_BV
+psi_Vel              0     LDD_BV
+
+Calibrating 2021-09-11, night 1/9...calibrated in 00:09.6 min
+...copying 2021-09-11_ALL_oidataCalibrated.fits as 2021-09-11_ALL_oidataCalibrated_01.fits
+   target_raw: 2021-09-11_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_HD210056_oidataCalibrated.fits as 2021-09-11_CAL_HD210056_oidataCalibrated_01.fits
+   target_raw: HD210056
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_kap_Hyi_oidataCalibrated.fits as 2021-09-11_CAL_kap_Hyi_oidataCalibrated_01.fits
+   target_raw: kap_Hyi
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_CAL_lam_Tuc_oidataCalibrated.fits as 2021-09-11_CAL_lam_Tuc_oidataCalibrated_01.fits
+   target_raw: lam_Tuc
+   matched_id: UNKNOWN
+   Science: None
+...copying 2021-09-11_SCI_bet_Hyi_bad_oidataCalibrated.fits as 2021-09-11_SCI_bet_Hyi_bad_oidataCalibrated_01.fits
+   target_raw: bet_Hyi
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-11T04:10:45.763_i09_oidataCalibrated.fits as PIONI.2021-09-11T04:10:45.763_i09_oidataCalibrated_01.fits
+   target_raw: PIONI.2021-09-11T04:10:45.763_i09
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2021-09-11T04:24:59.498_i17_oidataCalibrated.fits as PIONI.2021-09-11T04:24:59.498_i17_oidataCalibrated_01.fits
+   target_raw: PIONI.2021-09-11T04:24:59.498_i17
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-04-02, night 2/9...calibrated in 00:09.6 min
+...copying 2022-04-02_ALL_oidataCalibrated.fits as 2022-04-02_ALL_oidataCalibrated_01.fits
+   target_raw: 2022-04-02_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD142443_oidataCalibrated.fits as 2022-04-02_CAL_HD142443_oidataCalibrated_01.fits
+   target_raw: HD142443
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD142862_oidataCalibrated.fits as 2022-04-02_CAL_HD142862_oidataCalibrated_01.fits
+   target_raw: HD142862
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_CAL_HD143129_oidataCalibrated.fits as 2022-04-02_CAL_HD143129_oidataCalibrated_01.fits
+   target_raw: HD143129
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-02_SCI_HD141004_oidataCalibrated.fits as 2022-04-02_SCI_HD141004_oidataCalibrated_01.fits
+   target_raw: HD141004
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-02T07:37:38.179_i08_oidataCalibrated.fits as PIONI.2022-04-02T07:37:38.179_i08_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-02T07:37:38.179_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-02T08:04:49.558_i18_oidataCalibrated.fits as PIONI.2022-04-02T08:04:49.558_i18_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-02T08:04:49.558_i18
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2022-03-31, night 3/9...calibrated in 00:18.5 min
+...copying 2022-03-31_ALL_oidataCalibrated.fits as 2022-03-31_ALL_oidataCalibrated_01.fits
+   target_raw: 2022-03-31_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD121981_oidataCalibrated.fits as 2022-03-31_CAL_HD121981_oidataCalibrated_01.fits
+   target_raw: HD121981
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD123255_oidataCalibrated.fits as 2022-03-31_CAL_HD123255_oidataCalibrated_01.fits
+   target_raw: HD123255
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD125490_oidataCalibrated.fits as 2022-03-31_CAL_HD125490_oidataCalibrated_01.fits
+   target_raw: HD125490
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD139610_oidataCalibrated.fits as 2022-03-31_CAL_HD139610_oidataCalibrated_01.fits
+   target_raw: HD139610
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD142443_oidataCalibrated.fits as 2022-03-31_CAL_HD142443_oidataCalibrated_01.fits
+   target_raw: HD142443
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_CAL_HD142639_oidataCalibrated.fits as 2022-03-31_CAL_HD142639_oidataCalibrated_01.fits
+   target_raw: HD142639
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_SCI_HD124850_oidataCalibrated.fits as 2022-03-31_SCI_HD124850_oidataCalibrated_01.fits
+   target_raw: HD124850
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-31_SCI_HD141004_oidataCalibrated.fits as 2022-03-31_SCI_HD141004_oidataCalibrated_01.fits
+   target_raw: HD141004
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T07:28:06.893_i09_oidataCalibrated.fits as PIONI.2022-03-31T07:28:06.893_i09_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-31T07:28:06.893_i09
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T07:44:54.495_i18_oidataCalibrated.fits as PIONI.2022-03-31T07:44:54.495_i18_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-31T07:44:54.495_i18
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T08:11:46.517_i08_oidataCalibrated.fits as PIONI.2022-03-31T08:11:46.517_i08_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-31T08:11:46.517_i08
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-31T08:25:43.456_i19_oidataCalibrated.fits as PIONI.2022-03-31T08:25:43.456_i19_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-31T08:25:43.456_i19
+   matched_id: UNKNOWN
+   Science: None
+13 files copied
+0 files skipped
+
+Calibrating 2022-04-03, night 4/9...calibrated in 00:18.5 min
+...copying 2022-04-03_ALL_oidataCalibrated.fits as 2022-04-03_ALL_oidataCalibrated_01.fits
+   target_raw: 2022-04-03_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD122135_oidataCalibrated.fits as 2022-04-03_CAL_HD122135_oidataCalibrated_01.fits
+   target_raw: HD122135
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD125183_oidataCalibrated.fits as 2022-04-03_CAL_HD125183_oidataCalibrated_01.fits
+   target_raw: HD125183
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD125490_oidataCalibrated.fits as 2022-04-03_CAL_HD125490_oidataCalibrated_01.fits
+   target_raw: HD125490
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD141589_oidataCalibrated.fits as 2022-04-03_CAL_HD141589_oidataCalibrated_01.fits
+   target_raw: HD141589
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD141827_oidataCalibrated.fits as 2022-04-03_CAL_HD141827_oidataCalibrated_01.fits
+   target_raw: HD141827
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_CAL_HD143896_oidataCalibrated.fits as 2022-04-03_CAL_HD143896_oidataCalibrated_01.fits
+   target_raw: HD143896
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_SCI_HD124850_oidataCalibrated.fits as 2022-04-03_SCI_HD124850_oidataCalibrated_01.fits
+   target_raw: HD124850
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-04-03_SCI_HD142860_oidataCalibrated.fits as 2022-04-03_SCI_HD142860_oidataCalibrated_01.fits
+   target_raw: HD142860
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T07:08:58.646_i05_oidataCalibrated.fits as PIONI.2022-04-03T07:08:58.646_i05_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-03T07:08:58.646_i05
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T07:23:19.095_i18_oidataCalibrated.fits as PIONI.2022-04-03T07:23:19.095_i18_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-03T07:23:19.095_i18
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T08:56:27.383_i07_oidataCalibrated.fits as PIONI.2022-04-03T08:56:27.383_i07_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-03T08:56:27.383_i07
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-04-03T09:09:34.067_i17_oidataCalibrated.fits as PIONI.2022-04-03T09:09:34.067_i17_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-04-03T09:09:34.067_i17
+   matched_id: UNKNOWN
+   Science: None
+13 files copied
+0 files skipped
+
+Calibrating 2022-03-01, night 5/9...calibrated in 00:09.6 min
+...copying 2022-03-01_ALL_oidataCalibrated.fits as 2022-03-01_ALL_oidataCalibrated_01.fits
+   target_raw: 2022-03-01_ALL
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2342_oidataCalibrated.fits as 2022-03-01_CAL_HR2342_oidataCalibrated_01.fits
+   target_raw: HR2342
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2391_oidataCalibrated.fits as 2022-03-01_CAL_HR2391_oidataCalibrated_01.fits
+   target_raw: HR2391
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_CAL_HR2426_oidataCalibrated.fits as 2022-03-01_CAL_HR2426_oidataCalibrated_01.fits
+   target_raw: HR2426
+   matched_id: UNKNOWN
+   Science: None
+...copying 2022-03-01_SCI_ksi_Gem_oidataCalibrated.fits as 2022-03-01_SCI_ksi_Gem_oidataCalibrated_01.fits
+   target_raw: ksi_Gem
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-01T01:50:45.745_i09_oidataCalibrated.fits as PIONI.2022-03-01T01:50:45.745_i09_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-01T01:50:45.745_i09
+   matched_id: UNKNOWN
+   Science: None
+...copying PIONI.2022-03-01T02:07:04.053_i19_oidataCalibrated.fits as PIONI.2022-03-01T02:07:04.053_i19_oidataCalibrated_01.fits
+   target_raw: PIONI.2022-03-01T02:07:04.053_i19
+   matched_id: UNKNOWN
+   Science: None
+7 files copied
+0 files skipped
+
+Calibrating 2021-09-05, night 6/9...
