@@ -52,11 +52,45 @@ do_random_ifg_sampling = True       # Sample interferograms with repeats
 do_gaussian_diam_sampling = True    # Sample diameters from normal distribution
 assign_default_uncertainties = True # Assign conservative placeholder errors
 force_claret_params = False         # Force Claret & Bloemen 2011 u_lambda
-n_bootstraps = 1000          # Number of bootstrapping iterations
+n_bootstraps = 1          # Number of bootstrapping iterations
 pred_ldd_col = "LDD_pred"           # tgt_info column with LDD colour relation
 e_pred_ldd_col = "e_LDD_pred"       # tgt_info column with LDD relation errors
-n_calib_runs = 10                  # N calibration runs to split nights among, correr en paralelo n times, por cada noche 
-calib_run_i = 0                     # ith calibration run to perform, 0 indexed
+# ============================================================
+# PARALLEL CONFIGURATION
+# ============================================================
+
+n_bootstraps = int(
+    os.environ.get("N_BOOTSTRAPS", "1000")
+)
+
+n_calib_runs = int(
+    os.environ.get("N_CALIB_RUNS", "10")
+)
+
+calib_run_i = int(
+    os.environ.get("CALIB_RUN_I", "0")
+)
+
+prepare_only = (
+    os.environ.get("PREPARE_ONLY", "0") == "1"
+)
+
+
+extinction_mode="edenhofer"
+
+print("")
+print("=" * 70)
+print("PARALLEL CONFIGURATION")
+print("n_bootstraps =", n_bootstraps)
+print("n_calib_runs =", n_calib_runs)
+print("calib_run_i  =", calib_run_i)
+print("=" * 70)
+
+if calib_run_i < 0 or calib_run_i >= n_calib_runs:
+    raise ValueError(
+        "CALIB_RUN_I=%i must be between 0 and %i"
+        % (calib_run_i, n_calib_runs - 1)
+    )
 # ============================================================
 # BASELINE MODE
 # ============================================================
@@ -105,8 +139,13 @@ print(" - do_gaussian_diam_sampling\t=\t%s" % do_gaussian_diam_sampling)
 # Targets information is loaded into a pandas dataframe, with column labels for
 # each of the stored parameters (e.g. VTmag) and row indices of HD ID
 
-tgt_info = rutils.initialise_tgt_info(assign_default_uncertainties, lb_pc,
-                                      use_plx_systematic)
+
+tgt_info = rutils.initialise_tgt_info(
+    extinction_mode="edenhofer",
+    extinction_csv="data/targets_extinction_edenhofer.csv",
+    extinction_curve_file="data/extinction_curve.txt"
+)
+
 
 print("\n", "-"*79, "\n", "\tSampling\n", "-"*79)  
 
@@ -233,7 +272,9 @@ print("=" * 70)
 #Pondre un plot donde me entregue los angular diameter predicted de cada uno, para ver como funciona, la relacion entre color y magnitud
 
 print("\n", "-"*79, "\n", "\tSave tgt_info in Data\n", "-"*79) 
-tgt_info.to_csv("data/tgt_info.csv")
+if calib_run_i == 0:
+    tgt_info.to_csv("data/tgt_info.csv")
+
 
 
 ### Diagnostico para ver que estrella no tienen algunos datos para ver que podemos hacer. 
@@ -274,47 +315,129 @@ for star, row in nan_rows.iterrows():
 
 
 
-diagnostic = dig.save_initialise_diagnostics(
-    tgt_info,
-    outdir="/home2/ihernand/Desktop/reach/data/diagnostics",
-    prefix="nan_diagnostic"
+if calib_run_i == 0:
+    diagnostic = dig.save_initialise_diagnostics(
+        tgt_info,
+        outdir="/home2/ihernand/Desktop/reach/data/diagnostics",
+        prefix="nan_diagnostic"
+    )
+
+# If already created, load sampled diameters
+# ============================================================
+# SAMPLING
+# ============================================================
+
+sampling_exists = rutils.sampling_already_done(
+    results_folder,
+    force_claret_params
 )
 
 
-# If already created, load sampled diameters
-if rutils.sampling_already_done(results_folder, force_claret_params):
+if sampling_exists:
+
+    print("")
+    print("=" * 70)
     print("Sampling already done, loading...")
-    n_pred_ldd, e_pred_ldd = rutils.load_sampled_ldd(results_folder)
+    print("=" * 70)
 
-# Sample diameters for bootstrapping (if n_bootstraps < 1, actual predictions)
-# and initialise the sampled stellar parameters (though we only require this
-# later when doing the fits)    
+    n_pred_ldd, e_pred_ldd = rutils.load_sampled_ldd(
+        results_folder
+    )
+
+
 else:
-    print("Sampling not yet done, doing now...")
-    n_pred_ldd, e_pred_ldd = rdiam.sample_n_pred_ldd(tgt_info, n_bootstraps, 
-                                                 pred_ldd_col, e_pred_ldd_col,
-                                                 do_gaussian_diam_sampling)
-    #s)
-    rutils.save_sampled_ldd(n_pred_ldd, e_pred_ldd, results_folder)
-                                                 
-    # Sample stellar parameters
-    sampled_sci_params = rparam.sample_all(tgt_info, n_bootstraps, bc_path,
-                                           force_claret_params, band_mask)
 
-    rutils.save_sampled_params(sampled_sci_params, results_folder)
+    # --------------------------------------------------------
+    # Sampling can ONLY be generated in PREPARE_ONLY mode
+    # --------------------------------------------------------
 
-    # Save sampled predicted diameters also as CSV
-    n_pred_ldd_csv = os.path.join(save_data_path, "n_pred_ldd.csv")
-    e_pred_ldd_csv = os.path.join(save_data_path, "e_pred_ldd.csv")
-    pd.DataFrame(n_pred_ldd).to_csv(n_pred_ldd_csv, index=True)
-    pd.DataFrame(e_pred_ldd).to_csv(e_pred_ldd_csv, index=True)
+    if not prepare_only:
 
+        raise RuntimeError(
+            "\nSampling has not been prepared.\n"
+            "Do NOT generate sampling during parallel runs.\n"
+            "\nFirst run:\n"
+            "PREPARE_ONLY=1 CALIB_RUN_I=0 N_CALIB_RUNS=10 "
+            "python pipeline_example.py\n"
+        )
+
+
+    print("")
+    print("=" * 70)
+    print("Sampling not yet done.")
+    print("PREPARE_ONLY mode: generating sampling now...")
+    print("=" * 70)
+
+
+    # --------------------------------------------------------
+    # Sample predicted angular diameters
+    # --------------------------------------------------------
+
+    n_pred_ldd, e_pred_ldd = rdiam.sample_n_pred_ldd(
+        tgt_info,
+        n_bootstraps,
+        pred_ldd_col,
+        e_pred_ldd_col,
+        do_gaussian_diam_sampling
+    )
+
+    rutils.save_sampled_ldd(
+        n_pred_ldd,
+        e_pred_ldd,
+        results_folder
+    )
+
+
+    # --------------------------------------------------------
+    # Sample stellar parameters / bolometric corrections
+    # --------------------------------------------------------
+
+    sampled_sci_params = rparam.sample_all(
+        tgt_info,
+        n_bootstraps,
+        bc_path,
+        force_claret_params,
+        band_mask
+    )
+
+    rutils.save_sampled_params(
+        sampled_sci_params,
+        results_folder
+    )
+
+
+    # --------------------------------------------------------
+    # Save sampled LDD as CSV
+    # --------------------------------------------------------
+
+    n_pred_ldd_csv = os.path.join(
+        save_data_path,
+        "n_pred_ldd.csv"
+    )
+
+    e_pred_ldd_csv = os.path.join(
+        save_data_path,
+        "e_pred_ldd.csv"
+    )
+
+    pd.DataFrame(
+        n_pred_ldd
+    ).to_csv(
+        n_pred_ldd_csv,
+        index=True
+    )
+
+    pd.DataFrame(
+        e_pred_ldd
+    ).to_csv(
+        e_pred_ldd_csv,
+        index=True
+    )
+
+    print("")
     print("Saved sampled LDD:")
     print(n_pred_ldd_csv)
     print(e_pred_ldd_csv)
-
-
-
 # -----------------------------------------------------------------------------
 # Import observing logs, remove unwanted sequences/stars
 # -----------------------------------------------------------------------------
@@ -327,9 +450,9 @@ complete_sequences, sequences = rutils.load_sequence_logs()
 # Keep only: HR2090 -> gam_Lep -> HD1947
 # ============================================================
 
-key = (106, "gam_Lep", "faint")
+key = ()
 
-wanted_sequence = ["HR_2090", "gam_Lep", "HD_42747"]
+wanted_sequence = []
 
 def clean_name(name):
     return str(name).replace("_", "").replace(" ", "").lower()
@@ -531,12 +654,13 @@ print("TOTAL NIGHTS: %i"
 
 print("=" * 79)
 
-sequences_df = dig.save_sequence_logs_diagnostics(
-    complete_sequences,
-    sequences,
-    outdir="/home2/ihernand/Desktop/reach/data/diagnostics",
-    prefix="pionier"
-)
+if calib_run_i == 0:
+    sequences_df = dig.save_sequence_logs_diagnostics(
+        complete_sequences,
+        sequences,
+        outdir="/home2/ihernand/Desktop/reach/data/diagnostics",
+        prefix="pionier"
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -577,12 +701,49 @@ if calibrate_calibrators:
 #  i)  Exclude bad calibrators
 #  ii) Split nights between sequences
 # **ONLY** for the first calib run (i.e. only do this once, but for all seq
-if calib_run_i == 0:
+# -----------------------------------------------------------------------------
+# Write nightly PNDRS scripts ONLY during preparation
+# -----------------------------------------------------------------------------
+
+if prepare_only and calib_run_i == 0:
+
+    print("")
+    print("=" * 70)
+    print("Generating nightly PNDRS scripts...")
+    print("=" * 70)
+
     if not run_local and not already_calibrated:
-        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path, use_bad_baselines=use_bad_baselines)
+
+        rpndrs.save_nightly_pndrs_script(
+            complete_sequences,
+            tgt_info,
+            base_path,
+            use_bad_baselines=use_bad_baselines
+        )
+
     elif not already_calibrated:
-        rpndrs.save_nightly_pndrs_script(complete_sequences, tgt_info, base_path,
-                                         run_local=run_local, use_bad_baselines=use_bad_baselines)
+
+        rpndrs.save_nightly_pndrs_script(
+            complete_sequences,
+            tgt_info,
+            base_path,
+            run_local=run_local,
+            use_bad_baselines=use_bad_baselines
+        )
+# ============================================================
+# PREPARATION-ONLY MODE
+# ============================================================
+
+if prepare_only:
+
+    print("")
+    print("=" * 70)
+    print("PREPARATION COMPLETE")
+    print("Sampling and PNDRS scripts have been generated.")
+    print("No bootstrap calibration will be performed.")
+    print("=" * 70)
+
+    sys_exit(0)
 
 # -----------------------------------------------------------------------------
 # Split into multiple bootstrapping runs if required
@@ -592,33 +753,118 @@ if calib_run_i == 0:
 
 # Easiest to parallelise at the night level. Get the list of (unique) nights
 # and sort of consistency
-        
-nights = [complete_sequences[seq][0] for seq in complete_sequences.keys()]
-nights = list(set(nights))
-nights.sort()
+        # -----------------------------------------------------------------------------
+# Split into multiple bootstrapping runs
+# -----------------------------------------------------------------------------
+
+nights = [
+    complete_sequences[seq][0]
+    for seq in complete_sequences.keys()
+]
+
+nights = sorted(list(set(nights)))
 
 n_init_seq = len(complete_sequences)
-valid_nights = nights
 
-if n_calib_runs != 1:
-    # This is setup such that we can run n_calib_runs separate runs of this 
-    # script, with equal amounts of nights between them (rounding up for the 
-    # last such run)
-    n_nights = np.round(len(nights) / n_calib_runs).astype(int)
-    
-    min_night_i = n_nights * calib_run_i  
-    max_night_i = n_nights * (calib_run_i + 1)
-    
-    if max_night_i > len(nights) : max_night_i = len(nights)
-    
-    # Run only on the sequences associated with these nights
-    valid_nights = nights[min_night_i:max_night_i]
-    valid_seqs = [seq for seq in complete_sequences.keys()
-                  if complete_sequences[seq][0] in valid_nights]
+print("")
+print("=" * 70)
+print("TOTAL NIGHTS BEFORE SPLITTING:", len(nights))
+print("TOTAL SEQUENCES:", n_init_seq)
+print("=" * 70)
 
-    complete_sequences = {seq:complete_sequences[seq] for seq in valid_seqs}
-    
-    sequences = {seq:sequences[seq] for seq in complete_sequences}
+
+# -----------------------------------------------------------------------------
+# Split nights between parallel processes
+# -----------------------------------------------------------------------------
+
+if n_calib_runs > 1:
+
+    night_chunks = np.array_split(
+        np.array(nights, dtype=object),
+        n_calib_runs
+    )
+
+    valid_nights = list(
+        night_chunks[calib_run_i]
+    )
+
+else:
+
+    valid_nights = nights
+
+
+# -----------------------------------------------------------------------------
+# Nothing assigned to this process
+# -----------------------------------------------------------------------------
+
+if len(valid_nights) == 0:
+
+    print("")
+    print("=" * 70)
+    print(
+        "PARALLEL RUN %i/%i"
+        % (calib_run_i + 1, n_calib_runs)
+    )
+    print("No nights assigned to this run.")
+    print("Exiting normally.")
+    print("=" * 70)
+
+    sys_exit(0)
+
+
+# -----------------------------------------------------------------------------
+# Select sequences belonging to these nights
+# -----------------------------------------------------------------------------
+
+valid_seqs = [
+    seq
+    for seq in complete_sequences.keys()
+    if complete_sequences[seq][0] in valid_nights
+]
+
+complete_sequences = {
+    seq: complete_sequences[seq]
+    for seq in valid_seqs
+}
+
+sequences = {
+    seq: sequences[seq]
+    for seq in complete_sequences
+}
+
+
+# -----------------------------------------------------------------------------
+# Diagnostic
+# -----------------------------------------------------------------------------
+
+print("")
+print("=" * 70)
+
+print(
+    "PARALLEL RUN %i/%i"
+    % (
+        calib_run_i + 1,
+        n_calib_runs
+    )
+)
+
+print("")
+print("Nights assigned to this run:")
+
+for night in valid_nights:
+    print("   ", night)
+
+print("")
+print(
+    "Sequences: %i/%i"
+    % (
+        len(complete_sequences),
+        n_init_seq
+    )
+)
+
+print("=" * 70)
+
 
 # -----------------------------------------------------------------------------
 # Run bootstrapping

@@ -32,11 +32,11 @@ from matplotlib.backends.backend_pdf import PdfPages
 # -----------------------------------------------------------------------------
 lb_pc = 70                          # The size of the local bubble in pc
 use_plx_systematic =  False          # Use Stassun & Torres 18 plx offset
-combined_fit =False             # Fit for LDD for multiple seq at once
+combined_fit =True             # Fit for LDD for multiple seq at once
 load_saved_results = False        # Load or do fitting fresha
 assign_default_uncertainties = True # Give default errors to stars without ???
 force_claret_params = False         # Force use of Claret+11 limb d. params
-n_bootstraps = 1000
+n_bootstraps = 1
 fitting_method = "odr"               # Fitting method to use: ls or odr
 e_wl_frac = 0.0035                  # Fractional error on wl scale
 
@@ -50,7 +50,7 @@ else:
 
 #results_folder = "19-06-27_i2000"       # Parallel!
 #results_folder = "19-07-05_i3000"       # Long run with all bad cals removed
-results_folder = "26-09-14_i1000"       # Final run for 1st draft
+results_folder = "26-09-16_i1"       # Final run for 1st draft
 results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 
 # =============================================================================
@@ -58,7 +58,7 @@ results_path = "/home2/ihernand/Desktop/reach/results/%s/" % results_folder
 # =============================================================================
 c_fixed = False
 bad_baselines_included = True
-random_ifg_sampling = False
+random_ifg_sampling = True
 analysis_name = "remove_calibrador_all_baselines"
 
 analysis_root = os.path.join(
@@ -150,7 +150,87 @@ print(tgt_info[[
 
 complete_sequences, sequences = rutils.load_sequence_logs()
 
+# ============================================================================
+# NORMALISE STAR ALIASES
+# ============================================================================
+# Same physical target observed under different names.
+STAR_ALIASES = {
+    "psi Vel A": "psi_Vel",
+    "psi Vel":   "psi_Vel",
+    "psi_Vel_A": "psi_Vel",
+}
 
+def canonical_star_name(name):
+    if name is None:
+        return name
+
+    name = str(name).strip()
+
+    return STAR_ALIASES.get(name, name)
+
+
+def normalise_sequence_names(obj):
+    """
+    Recursively replace alternative star names by one canonical name.
+
+    Works for dictionaries, lists, tuples and strings.
+    Compatible with the structures returned by load_sequence_logs().
+    """
+
+    # Dictionary
+    if isinstance(obj, dict):
+
+        new_obj = {}
+
+        for key, value in obj.items():
+
+            new_key = normalise_sequence_names(key)
+            new_value = normalise_sequence_names(value)
+
+            if new_key in new_obj:
+
+                # If two aliases collapse onto exactly the same key,
+                # preserve both when possible.
+                old_value = new_obj[new_key]
+
+                if isinstance(old_value, list) and isinstance(new_value, list):
+                    new_obj[new_key] = old_value + new_value
+                else:
+                    new_obj[new_key] = new_value
+
+            else:
+                new_obj[new_key] = new_value
+
+        return new_obj
+
+    # List
+    if isinstance(obj, list):
+        return [normalise_sequence_names(x) for x in obj]
+
+    # Tuple
+    if isinstance(obj, tuple):
+        return tuple(normalise_sequence_names(x) for x in obj)
+
+    # String
+    try:
+        string_types = (basestring,)
+    except NameError:
+        string_types = (str,)
+
+    if isinstance(obj, string_types):
+        return canonical_star_name(obj)
+
+    return obj
+
+
+complete_sequences = normalise_sequence_names(complete_sequences)
+sequences = normalise_sequence_names(sequences)
+
+
+print("\n" + "=" * 79)
+print("STAR NAME NORMALISATION")
+print("psi Vel A -> psi_Vel")
+print("=" * 79)
 
 
 # -----------------------------------------------------------------------------

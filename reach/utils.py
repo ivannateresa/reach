@@ -305,7 +305,7 @@ def load_target_information(filepath="/home2/ihernand/Desktop/reach/data/target_
     pandas.read_csv.html#pandas.read_csv
     """
     # Import (TODO: specify dtypes)
-    tgt_info = pd.read_csv(filepath, sep=",", header=1, index_col=8,
+    tgt_info = pd.read_csv(filepath, sep=",", header=1, index_col=6,
                               skiprows=0)
     
     print(tgt_info)
@@ -367,12 +367,12 @@ def load_target_information(filepath="/home2/ihernand/Desktop/reach/data/target_
     # ------------------------------------------------------------
 
     tgt_info["BPmag"] = pd.to_numeric(
-        tgt_info["BP_mag"],
+        tgt_info["BPmag"],
         errors="coerce"
     )
 
     tgt_info["RPmag"] = pd.to_numeric(
-        tgt_info["RP_mag"],
+        tgt_info["RPmag"],
         errors="coerce"
     )
 
@@ -573,11 +573,11 @@ def compute_dist(tgt_info, max_rel_plx_error=0.20):
     # ============================================================
 
     gaia_plx = pd.to_numeric(
-        tgt_info["plx_corregido"], errors="coerce"
+        tgt_info["plx_corregido_EDR3"], errors="coerce"
     )
 
     gaia_e_plx = pd.to_numeric(
-        tgt_info["e_Plx"], errors="coerce"
+        tgt_info["e_Plx_EDR3"], errors="coerce"
     )
 
     relative_gaia_error = gaia_e_plx / gaia_plx
@@ -693,8 +693,567 @@ def compute_dist(tgt_info, max_rel_plx_error=0.20):
     return tgt_info
 
 
-def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
-                        use_plx_systematic=True):
+import numpy as np
+import pandas as pd
+
+def assign_extinction_legacy(tgt_info, lb_pc=70):
+    """Original colour method, with explicit local zero extinction."""
+
+    grid = rphot.create_spt_uv_grid()
+
+    eb_v = rphot.calculate_selective_extinction(
+        tgt_info["Bmag"],
+        tgt_info["Vmag"],
+        tgt_info["SpT_simple"],
+        grid
+    )
+
+    tgt_info["eb_v"] = np.asarray(eb_v, dtype=float)
+
+    distance = pd.to_numeric(
+        tgt_info["Dist"], errors="coerce"
+    )
+
+    # Original legacy boundary: only Dist > lb_pc is corrected.
+    local = (
+        np.isfinite(distance)
+        & (distance > 0)
+        & (distance <= lb_pc)
+    )
+
+    # Explicit assignment also replaces NaN for local stars.
+    tgt_info.loc[local, "eb_v"] = 0.0
+
+    tgt_info["A_V"] = rphot.calculate_v_band_extinction(
+        tgt_info["eb_v"]
+    )
+
+    tgt_info["extinction_method"] = "legacy"
+    tgt_info.loc[
+        local, "extinction_method"
+    ] = "legacy_assumed_zero"
+def assign_extinction_edenhofer(tgt_info, extinction_csv):
+    """
+    d < 69 pc: A_V = 0 por supuesto del analisis.
+    d >= 69 pc: A_V del CSV de Edenhofer.
+    """
+
+    distance = pd.to_numeric(
+        tgt_info["Dist"],
+        errors="coerce"
+    )
+
+    invalid_distance = (
+        ~np.isfinite(distance)
+        | (distance <= 0)
+    )
+
+    if invalid_distance.any():
+        raise ValueError(
+            "Distancias invalidas para: {}".format(
+                tgt_info.loc[
+                    invalid_distance, "Primary"
+                ].tolist()
+            )
+        )
+
+    mask_local = distance < 69.0
+    mask_map = ~mask_local
+
+    # Columnas de salida
+    tgt_info["A_V"] = np.nan
+    tgt_info["eb_v"] = np.nan
+    tgt_info["E_ZGR_Edenhofer"] = np.nan
+    tgt_info["extinction_method"] = "not_assigned"
+    tgt_info["Edenhofer_map"] = "none"
+    tgt_info["Edenhofer_status"] = "not_queried"
+
+    # Extincion cero adoptada para estrellas cercanas
+    tgt_info.loc[mask_local, "A_V"] = 0.0
+    tgt_info.loc[mask_local, "eb_v"] = 0.0
+    tgt_info.loc[
+        mask_local, "extinction_method"
+    ] = "assumed_zero"
+    tgt_info.loc[
+        mask_local, "Edenhofer_status"
+    ] = "assumed_zero_d_lt_69pc"
+
+    # Si todos los objetos son cercanos, no necesitamos CSV
+    if not mask_map.any():
+        return
+
+    if extinction_csv is None:
+        raise ValueError(
+            "Debes indicar extinction_csv para d >= 69 pc."
+        )
+
+    ext = pd.read_csv(extinction_csv)
+
+    required = ["Primary", "Av_Edenhofer"]
+    missing = [
+        column for column in required
+        if column not in ext.columns
+    ]
+
+    if missing:
+        raise ValueError(
+            "Faltan columnas en el CSV: {}".format(missing)
+        )
+
+    if ext["Primary"].isnull().any():
+        raise ValueError("Hay nombres vacios en el CSV.")
+
+    if tgt_info.loc[mask_map, "Primary"].isnull().any():
+        raise ValueError("Hay nombres vacios en tgt_info.")
+
+    ext["Primary"] = ext["Primary"].astype(str).str.strip()
+    names = (
+        tgt_info.loc[mask_map, "Primary"]
+        .astype(str)
+        .str.strip()
+    )
+
+    if (ext["Primary"] == "").any() or (names == "").any():
+        raise ValueError("Hay nombres vacios.")
+
+    duplicates = ext["Primary"].duplicated(keep=False)
+
+    if duplicates.any():
+        raise ValueError(
+            "Nombres duplicados en el CSV: {}".format(
+                ext.loc[duplicates, "Primary"].tolist()
+            )
+        )
+
+    ext["Av_Edenhofer"] = pd.to_numeric(
+        ext["Av_Edenhofer"],
+        errors="coerce"
+    )
+
+    lookup = ext.set_index("Primary")
+    av = names.map(lookup["Av_Edenhofer"])
+
+    invalid = ~np.isfinite(av) | (av < 0)
+
+    if invalid.any():
+        raise ValueError(
+            "Falta un A_V valido para: {}".format(
+                names.loc[invalid].tolist()
+            )
+        )
+
+    tgt_info.loc[mask_map, "A_V"] = av.values
+    tgt_info.loc[
+        mask_map, "extinction_method"
+    ] = "edenhofer"
+    tgt_info.loc[
+        mask_map, "Edenhofer_status"
+    ] = "loaded_from_csv"
+
+    for column in [
+        "E_ZGR_Edenhofer",
+        "Edenhofer_map",
+        "Edenhofer_status"
+    ]:
+        if column in lookup.columns:
+            tgt_info.loc[mask_map, column] = (
+                names.map(lookup[column]).values
+            )
+
+def assign_extinction(
+    tgt_info,
+    mode="legacy",
+    lb_pc=70,
+    extinction_csv=None
+):
+    """Selecciona el metodo que asigna la columna A_V."""
+
+    if mode == "legacy":
+        assign_extinction_legacy(tgt_info, lb_pc=lb_pc)
+
+    elif mode == "edenhofer":
+        assign_extinction_edenhofer(
+            tgt_info,
+            extinction_csv=extinction_csv
+        )
+
+    else:
+        raise ValueError(
+            "Modo de extincion desconocido: {}".format(mode)
+        )
+
+
+def initialise_tgt_info(
+    assign_default_uncertainties=True,
+    lb_pc=70,
+    use_plx_systematic=True,
+    extinction_mode="legacy",
+    extinction_csv=None,
+    extinction_curve_file=None
+):
+    """Initialise targets and correct photometry.
+
+    legacy:
+        Original B-V extinction estimate + CCM89.
+
+    edenhofer:
+        Integrated E_ZGR from CSV + published ZGR23 curve.
+        Assumes zero extinction for Dist < 69 pc.
+    """
+
+    if extinction_mode not in ("legacy", "edenhofer"):
+        raise ValueError(
+            "Unknown extinction mode: {}".format(extinction_mode)
+        )
+
+    # -----------------------------------------------------------------
+    # Load targets and calculate adopted distances
+    # -----------------------------------------------------------------
+    tgt_info = load_target_information(
+        assign_default_uncertainties=assign_default_uncertainties
+    )
+
+    compute_dist(tgt_info, use_plx_systematic)
+
+    # -----------------------------------------------------------------
+    # Convert Tycho to Johnson
+    # -----------------------------------------------------------------
+    Bmag, Vmag = rphot.convert_vtbt_to_vb(
+        tgt_info["BTmag"],
+        tgt_info["VTmag"]
+    )
+
+    tgt_info["Bmag"] = Bmag
+    tgt_info["e_Bmag"] = tgt_info["e_BTmag"]
+
+    tgt_info["Vmag"] = Vmag
+    tgt_info["e_Vmag"] = tgt_info["e_VTmag"]
+
+    # -----------------------------------------------------------------
+    # Original optical bands and representative wavelengths [nm]
+    # These are approximations inherited from the existing pipeline.
+    # -----------------------------------------------------------------
+    band_config = [
+        ("Bmag", 445.0),
+        ("Vmag", 551.0),
+        ("Hpmag", 528.0),
+        ("BTmag", 420.0),
+        ("VTmag", 532.0),
+        ("BPmag", 532.0),
+        ("RPmag", 797.0),
+        ("Gmag", 673.0),
+    ]
+
+    # -----------------------------------------------------------------
+    # Original extinction method
+    # -----------------------------------------------------------------
+    if extinction_mode == "legacy":
+
+        assign_extinction_legacy(tgt_info, lb_pc=lb_pc)
+        bad = ~np.isfinite(
+            np.asarray(tgt_info["A_V"], dtype=float)
+        )
+
+        if bad.any():
+            print("\nObjetos con A_V invalido:")
+
+            print(tgt_info.loc[
+                bad,
+                [
+                    "Primary",
+                    "Dist",
+                    "BTmag",
+                    "VTmag",
+                    "Bmag",
+                    "Vmag",
+                    "SpT_simple",
+                    "eb_v",
+                    "A_V"
+                ]
+            ].to_string())
+
+        phot_cols = [item[0] for item in band_config]
+        error_cols = ["e_" + column for column in phot_cols]
+
+        filter_eff_lambda = np.array(
+            [10.0 * item[1] for item in band_config],
+            dtype=float
+        )
+
+        a_mags = rphot.deredden_photometry(
+            tgt_info[phot_cols],
+            tgt_info[error_cols],
+            filter_eff_lambda,
+            tgt_info["A_V"],
+            r_v=3.1
+        )
+
+    # -----------------------------------------------------------------
+    # Edenhofer + ZGR23
+    # -----------------------------------------------------------------
+    else:
+
+        if extinction_curve_file is None:
+            raise ValueError(
+                "Provide extinction_curve_file: extinction_curve.txt"
+            )
+
+        distance = pd.to_numeric(
+            tgt_info["Dist"], errors="coerce"
+        )
+
+        invalid_distance = (
+            ~np.isfinite(distance) | (distance <= 0)
+        )
+
+        if invalid_distance.any():
+            raise ValueError(
+                "Invalid distances for: {}".format(
+                    tgt_info.loc[
+                        invalid_distance, "Primary"
+                    ].tolist()
+                )
+            )
+
+        local = distance < 69.0
+        nonlocal_mask = ~local
+
+        # These values include the adopted local-zero assumption.
+        e_used = pd.Series(
+            np.nan, index=tgt_info.index, dtype=float
+        )
+        e_used.loc[local] = 0.0
+
+        tgt_info["extinction_method"] = "assumed_zero"
+        tgt_info["Edenhofer_status"] = "assumed_zero_d_lt_69pc"
+
+        # Read the map output only if non-local targets exist.
+        if nonlocal_mask.any():
+
+            if extinction_csv is None:
+                raise ValueError(
+                    "Provide extinction_csv for stars at Dist >= 69 pc."
+                )
+
+            ext = pd.read_csv(extinction_csv)
+
+            required = ["Primary", "E_ZGR_Edenhofer"]
+            missing = [
+                column for column in required
+                if column not in ext.columns
+            ]
+
+            if missing:
+                raise ValueError(
+                    "Missing CSV columns: {}".format(missing)
+                )
+
+            target_names = tgt_info.loc[
+                nonlocal_mask, "Primary"
+            ]
+
+            if (
+                ext["Primary"].isnull().any()
+                or target_names.isnull().any()
+            ):
+                raise ValueError("Missing target names.")
+
+            ext["Primary"] = (
+                ext["Primary"].astype(str).str.strip()
+            )
+            dup = ext[
+                ext["Primary"].duplicated(keep=False)
+            ].sort_values("Primary")
+
+            print("\n" + "=" * 70)
+            print("DUPLICATED PRIMARY IN EXTINCTION CSV")
+            print("=" * 70)
+
+            if len(dup) > 0:
+                cols_show = [
+                    col for col in [
+                        "Primary",
+                        "Dist",
+                        "E_ZGR_Edenhofer",
+                        "Av_Edenhofer",
+                        "Edenhofer_map",
+                        "Edenhofer_status"
+                    ]
+                    if col in dup.columns
+                ]
+
+                print(dup[cols_show].to_string(index=False))
+            else:
+                print("No duplicated Primary values.")
+            target_names = target_names.astype(str).str.strip()
+
+            if (
+                (ext["Primary"] == "").any()
+                or (target_names == "").any()
+            ):
+                raise ValueError("Empty target names.")
+
+                        # -------------------------------------------------------------
+            # Handle duplicated stars in Edenhofer extinction table
+            # -------------------------------------------------------------
+            duplicated = ext["Primary"].duplicated(keep=False)
+
+            if duplicated.any():
+
+                dup = ext.loc[
+                    duplicated,
+                    ["Primary", "E_ZGR_Edenhofer"]
+                ].sort_values("Primary")
+
+                print("\nDuplicated Primary values in extinction CSV:")
+                print(dup.to_string(index=False))
+
+                # Check whether duplicated rows disagree in extinction
+                inconsistent = (
+                    dup.groupby("Primary")["E_ZGR_Edenhofer"]
+                    .nunique(dropna=False)
+                    > 1
+                )
+
+                bad_names = inconsistent[inconsistent].index.tolist()
+
+                if len(bad_names) > 0:
+                    raise ValueError(
+                        "Duplicated Primary values have different "
+                        "E_ZGR_Edenhofer values: {}".format(bad_names)
+                    )
+
+                # Same star and same extinction -> keep one
+                ext = ext.drop_duplicates(
+                    subset="Primary",
+                    keep="first"
+                ).copy()
+
+                print(
+                    "Identical duplicated extinction entries removed."
+                )
+
+            ext["E_ZGR_Edenhofer"] = pd.to_numeric(
+                ext["E_ZGR_Edenhofer"], errors="coerce"
+            )
+
+            lookup = ext.set_index("Primary")
+            matched = target_names.map(
+                lookup["E_ZGR_Edenhofer"]
+            )
+
+            invalid_e = (
+                ~np.isfinite(matched) | (matched < 0)
+            )
+
+            if invalid_e.any():
+                raise ValueError(
+                    "Missing or invalid E_ZGR for: {}".format(
+                        target_names.loc[invalid_e].tolist()
+                    )
+                )
+
+            e_used.loc[nonlocal_mask] = matched.values
+
+            tgt_info.loc[
+                nonlocal_mask, "extinction_method"
+            ] = "edenhofer_zgr23"
+
+            tgt_info.loc[
+                nonlocal_mask, "Edenhofer_status"
+            ] = "loaded_from_csv"
+
+        # Keep the map estimate distinct from the adopted local zeros.
+        tgt_info["E_ZGR_Edenhofer"] = e_used.values
+        tgt_info.loc[local, "E_ZGR_Edenhofer"] = np.nan
+        tgt_info["E_ZGR_used"] = e_used.values
+
+        # E_ZGR is not E(B-V).
+        tgt_info["eb_v"] = np.nan
+        tgt_info.loc[local, "eb_v"] = 0.0
+
+        # Approximate reference conversion used in Edenhofer's paper.
+        # This is NOT the coefficient interpolated at 551 nm.
+        tgt_info["A_V"] = 2.8 * e_used.values
+
+        # Add available infrared bands supported by the ZGR23 table.
+        infrared_bands = [
+            ("Jmag", 1235.0),
+            ("Hmag", 1662.0),
+            ("Kmag", 2159.0),
+            ("W1mag", 3352.6),
+            ("W2mag", 4602.8),
+        ]
+
+        band_config.extend([
+            item for item in infrared_bands
+            if item[0] in tgt_info.columns
+        ])
+
+        phot_cols = [item[0] for item in band_config]
+
+        # Convert nm to Angstroms for the function's interface.
+        filter_eff_lambda = np.array(
+            [10.0 * item[1] for item in band_config],
+            dtype=float
+        )
+
+        a_mags = rphot.deredden_photometry_zgr23(
+            tgt_info[phot_cols],
+            filter_eff_lambda,
+            tgt_info["E_ZGR_used"],
+            distance,
+            curve_file=extinction_curve_file
+        )
+
+    # -----------------------------------------------------------------
+    # Apply and retain each photometric correction
+    # -----------------------------------------------------------------
+    for j, column in enumerate(phot_cols):
+
+        tgt_info["A_" + column] = a_mags[:, j]
+
+        tgt_info[column + "_dr"] = (
+            pd.to_numeric(tgt_info[column], errors="coerce")
+            - a_mags[:, j]
+        )
+
+    # -----------------------------------------------------------------
+    # Predicted V-K colour: retain the original pipeline relation
+    # -----------------------------------------------------------------
+    tgt_info["V-K_calc"] = rphot.calc_vk_colour(
+        tgt_info["VTmag_dr"],
+        tgt_info["RPmag_dr"]
+    )
+
+    # -----------------------------------------------------------------
+    # Angular diameter predictions
+    # -----------------------------------------------------------------
+    rdiam.predict_all_ldd(tgt_info)
+
+    # -----------------------------------------------------------------
+    # Casagrande et al. temperatures
+    # -----------------------------------------------------------------
+    import reach.parameters as rparam
+
+    teffs, e_teffs = rparam.compute_casagrande_2010_teff(
+        tgt_info["BTmag_dr"],
+        tgt_info["VTmag_dr"],
+        tgt_info["FeH_rel"]
+    )
+
+    tgt_info["teff_casagrande"] = teffs
+    tgt_info["e_teff_casagrande"] = e_teffs
+
+    return tgt_info
+
+def initialise_tgt_info_old(
+    assign_default_uncertainties=True,
+    lb_pc=70,
+    use_plx_systematic=True,
+    extinction_mode="legacy",
+    extinction_csv=None
+):
     """
     """
     # Import the base target info sans calculations
@@ -738,35 +1297,48 @@ def initialise_tgt_info(assign_default_uncertainties=True, lb_pc=70,
                                   7970.])
 
     # Import/create the SpT vs B-V grid
-    grid = rphot.create_spt_uv_grid()
+    
+    assign_extinction(
+        tgt_info,
+        mode=extinction_mode,
+        lb_pc=lb_pc,
+        extinction_csv=extinction_csv
+    )
 
-    # Create a mask which has values of 1 for stars outside the local bubble,
-    # values of 0 for stars within it. This is multiplied by the calculated 
-    # extinction in each band, treating it as zero for stars within the bubble,
-    # as calculated for those stars outside it.
-    lb_mask = (tgt_info["Dist"] > lb_pc).astype(int)
+    tgt_info["A_V"] = (
+    rphot.calculate_v_band_extinction_edenhofer(
+        tgt_info["E_ZGR_Edenhofer"]
+    )
+)
 
-    # Calculate selective extinction (i.e. (B-V) colour excess) only for stars
-    # outside the local bubble
-   
-    eb_v = rphot.calculate_selective_extinction(tgt_info["Bmag"], 
-                                                tgt_info["Vmag"], 
-                                                tgt_info["SpT_simple"], grid)
-    eb_v *= lb_mask
-    eb_v[eb_v==0] = 0.      # Remove -0 values
-    tgt_info["eb_v"] = eb_v
+# Tu supuesto: extincion cero para d < 69 p
+    mask_local = tgt_info["Dist"] < 69.0
+    tgt_info.loc[mask_local, "A_V"] = 0.0
 
-    # Calculate V band extinction
-    tgt_info["A_V"] = rphot.calculate_v_band_extinction(tgt_info["eb_v"])
+    invalid_av = (
+        ~np.isfinite(tgt_info["A_V"])
+        | (tgt_info["A_V"] < 0)
+    )
 
+    if invalid_av.any():
+        raise ValueError(
+            "Falta A_V valido para: {}".format(
+                tgt_info.loc[invalid_av, "Primary"].tolist()
+            )
+        )
     # Determine extinction
-    a_mags = rphot.deredden_photometry(tgt_info[["Bmag", "Vmag", "Hpmag", 
-                                                 "BTmag", "VTmag", "BPmag", 
-                                                 "RPmag"]], 
-                                      tgt_info[["e_Bmag", "e_Vmag", "e_Hpmag", 
-                                                 "e_BTmag", "e_VTmag", 
-                                                 "e_BPmag", "e_RPmag"]], 
-                                      filter_eff_lambda, tgt_info["A_V"])
+    a_mags = rphot.deredden_photometry(tgt_info[
+        ["Bmag", "Vmag", "Hpmag",
+         "BTmag", "VTmag", "BPmag", "RPmag"]
+    ],
+    tgt_info[
+        ["e_Bmag", "e_Vmag", "e_Hpmag",
+         "e_BTmag", "e_VTmag", "e_BPmag", "e_RPmag"]
+    ],
+    filter_eff_lambda,
+    tgt_info["A_V"],
+    r_v=3.1
+)
 
     # Correct for extinction only for those stars outside the Local Bubble
     tgt_info["Bmag_dr"] = tgt_info["Bmag"] - a_mags[:,0]# * lb_mask

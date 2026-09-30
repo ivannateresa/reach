@@ -21,7 +21,21 @@ class UnknownFittingRoutine(Exception):
     pass
 
 
+def canonical_science_name(name):
 
+    if name is None:
+        return name
+
+    name = str(name).strip()
+
+    aliases = {
+        "psi Vel A": "psi_Vel",
+        "psi Vel": "psi_Vel",
+        "psi_Vel_A": "psi_Vel",
+        "psi_Vel": "psi_Vel",
+    }
+
+    return aliases.get(name, name)
 
 def clean_target_id(x):
     """
@@ -1655,13 +1669,30 @@ def collate_vis2_from_file(results_path, bs_i=None, separate_sequences=False, tg
                 print("  Skipping this sequence")
                 continue
 
+                        # ------------------------------------------------------------
+            # Canonicalise aliases of the same physical science target
+            # ------------------------------------------------------------
+            original_star = seq_tup[0]
+            canonical_star = canonical_science_name(original_star)
+
+            if canonical_star != original_star:
+                print(
+                    "Canonical science target: %s -> %s"
+                    % (original_star, canonical_star)
+                )
+
+            seq_tup = (
+                canonical_star,
+                seq_tup[1],
+                seq_tup[2]
+            )
     # ------------------------------------------------------------
     # Define dictionary ID
     # ------------------------------------------------------------
             if separate_sequences:
                 seq_id = seq_tup
             else:
-                seq_id = sci
+                seq_id = canonical_star
   
                 
         # Extract data from oifits file and stack as appropriate
@@ -2026,6 +2057,55 @@ def summarise_results(bs_results, tgt_info, e_wl_frac, add_e_wl_to_ldd_in_quad,
         Summarised results of the bootstrapping with mean and std values
         computed from respective parameter distributions.
     """    
+        # Copia del diccionario: conserva los resultados originales
+    # fuera de esta funcion.
+    bs_results = dict(bs_results)
+
+    star_bad = "HR_2998"
+    bootstrap_bad = 723
+
+    if star_bad in bs_results:
+        star_results = bs_results[star_bad]
+
+        if bootstrap_bad in star_results.index:
+            bad_shape = np.asarray(
+                star_results.loc[bootstrap_bad, "VIS2"]
+            ).shape
+
+            # Excluir solo el caso que hemos identificado.
+            if bad_shape == (12, 6):
+                remaining = star_results.drop(
+                    bootstrap_bad
+                ).copy()
+
+                remaining_shapes = [
+                    np.asarray(value).shape
+                    for value in remaining["VIS2"]
+                ]
+
+                if (
+                    len(remaining) == 0
+                    or any(
+                        shape != (24, 6)
+                        for shape in remaining_shapes
+                    )
+                ):
+                    raise ValueError(
+                        "HR_2998: hay otras dimensiones "
+                        "inesperadas; revisar antes de resumir."
+                    )
+
+                # Quita la fila completa: VIS2, LDD, UDD,
+                # factores C y demas datos de esta realizacion.
+                bs_results[star_bad] = remaining
+
+                print(
+                    "HR_2998: bootstrap 723 excluido del resumen "
+                    "por falta del FITS de 2019-11-26. "
+                    "Se usan {} realizaciones.".format(
+                        len(remaining)
+                    )
+                )
     # Initialise
     cols = ["STAR", "HD", "PERIOD", "SEQUENCE", "VIS2", "e_VIS2", "BASELINE", 
             "WAVELENGTH", "LDD_FIT", "e_LDD_FIT", "C_SCALE", "e_C_SCALE", 
@@ -2096,6 +2176,32 @@ def summarise_results(bs_results, tgt_info, e_wl_frac, add_e_wl_to_ldd_in_quad,
             results.iloc[star_i]["e_LDD_FIT"] = e_ldd_fit
             results.iloc[star_i]["e_UDD_FIT"] = e_udd_fit
 
+        vis2_arrays = bs_results[star]["VIS2"]
+        shapes = [
+            np.asarray(array).shape
+            for array in vis2_arrays
+        ]
+
+        if len(set(shapes)) > 1:
+            print("\nVIS2 dimensions differ for: {}".format(star))
+
+            for shape in sorted(set(shapes)):
+                positions = [
+                    i for i, current in enumerate(shapes)
+                    if current == shape
+                ]
+
+                print(
+                    "shape={} | count={} | first positions={}".format(
+                        shape,
+                        len(positions),
+                        positions[:20]
+                    )
+                )
+
+            raise ValueError(
+                "Inconsistent VIS2 shapes for {}".format(star)
+            )
         results.iloc[star_i]["VIS2"] = \
             np.nanmean(np.dstack(bs_results[star]["VIS2"]), axis=2)
             

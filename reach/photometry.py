@@ -293,6 +293,28 @@ def calculate_v_band_extinction(e_bv, r_v=3.1):
     a_v = r_v * e_bv
     
     return a_v
+
+
+def calculate_v_band_extinction_edenhofer(e_zgr):
+    """Convert integrated Edenhofer extinction to A(V).
+
+    Uses the conversion adopted by Edenhofer et al.:
+        A(V) = 2.8 * E_ZGR
+
+    Parameters
+    ----------
+    e_zgr: float or array-like
+        Integrated extinction in ZGR23 units.
+        This is not E(B-V) or extinction density per parsec.
+
+    Returns
+    -------
+    a_v: float or array-like
+        V-band extinction in magnitudes.
+    """
+    a_v = 2.8 * e_zgr
+
+    return a_v
     
     
 def calculate_effective_wavelength(spt, filter):
@@ -324,7 +346,7 @@ def calculate_effective_wavelength(spt, filter):
     pass
     
     
-def deredden_photometry(ext_mag, ext_mag_err, filter_eff_lambda, a_v, r_v=3.1):
+def deredden_photometry_old(ext_mag, ext_mag_err, filter_eff_lambda, a_v, r_v=3.1):
     """Use an extinction law to deredden photometry from a given band.
     
     Relies on:
@@ -373,6 +395,99 @@ def deredden_photometry(ext_mag, ext_mag_err, filter_eff_lambda, a_v, r_v=3.1):
 # -----------------------------------------------------------------------------
 # Other
 # -----------------------------------------------------------------------------
+
+
+def deredden_photometry(
+    ext_mag,
+    ext_mag_err,
+    filter_eff_lambda,
+    a_v,
+    r_v=3.1
+):
+    """Calculate extinction at each filter wavelength using CCM89.
+
+    Parameters
+    ----------
+    ext_mag : DataFrame or ndarray
+        Observed magnitudes, with shape (stars, bands).
+    ext_mag_err : DataFrame or ndarray
+        Kept for compatibility. Not used in this calculation.
+    filter_eff_lambda : array
+        One wavelength per band, in Angstroms.
+        Must follow the same order as ext_mag columns.
+    a_v : array
+        One A_V per star, in the same row order as ext_mag.
+    r_v : float
+        CCM89 parameter. Default: 3.1.
+
+    Returns
+    -------
+    a_mags : ndarray
+        Extinction in magnitudes, with shape (stars, bands).
+        Corrected magnitudes are ext_mag - a_mags.
+
+    Notes
+    -----
+    Uses one wavelength per filter, not full passband integration.
+    Does not propagate extinction uncertainties.
+    """
+
+    magnitudes = np.asarray(ext_mag, dtype=float)
+    wavelengths = np.asarray(filter_eff_lambda, dtype=float)
+    av = np.asarray(a_v, dtype=float)
+
+    if magnitudes.ndim != 2:
+        raise ValueError(
+            "ext_mag must have shape (number of stars, number of bands)."
+        )
+
+    n_stars, n_bands = magnitudes.shape
+
+    if wavelengths.shape != (n_bands,):
+        raise ValueError(
+            "Provide one wavelength per band, in the same column order."
+        )
+
+    if av.shape != (n_stars,):
+        raise ValueError("Provide one A_V per star.")
+
+    if np.any(~np.isfinite(wavelengths)):
+        raise ValueError("Filter wavelengths must be finite.")
+
+    # Documented CCM89 range: 1250 Angstroms to 3.3 microns
+    if np.any((wavelengths < 1250.0) | (wavelengths > 33000.0)):
+        raise ValueError(
+            "CCM89 requires wavelengths between 1250 and 33000 Angstroms. "
+            "Exclude WISE W1, W2, W3 and W4."
+        )
+
+    if np.any(~np.isfinite(av)):
+        bad_rows = np.flatnonzero(~np.isfinite(av))
+
+        raise ValueError(
+            "A_V contains NaN or infinity at row positions: {}".format(
+                bad_rows.tolist()
+            )
+        )
+
+    if not np.isfinite(r_v) or r_v <= 0:
+        raise ValueError("r_v must be finite and positive.")
+
+    a_mags = np.zeros((n_stars, n_bands), dtype=float)
+
+    for star_i in range(n_stars):
+        if av[star_i] == 0.0:
+            continue
+
+        a_mags[star_i, :] = extinction.ccm89(
+            wavelengths,
+            av[star_i],
+            r_v,
+            unit="aa"
+        )
+
+    return a_mags
+
 def inspect_dr_photometry(tgt_info):
     """Diagnostic function to inspect for issues with reddening/diameters. WIP. 
     """
@@ -404,3 +519,93 @@ def inspect_dr_photometry(tgt_info):
                    dist, vk_ldd, vw3_ldd, primary))
                        
     print("\nFlagged Stars: %i/%i" % (num_flagged, len(tgt_info)))
+
+
+
+def deredden_photometry_zgr23(
+    ext_mag,
+    filter_eff_lambda,
+    e_zgr,
+    distance_pc,
+    curve_file
+):
+    """Return extinction estimates using the published ZGR23 table.
+
+    Optical: interpolate between 392 and 992 nm.
+    Infrared: use the model coefficients for J, H, Ks, W1, W2.
+    Input filter wavelengths are in Angstroms, as in REACH.
+
+    Returns an array with shape (stars, bands).
+    Optical results use a representative-wavelength approximation.
+    """
+
+    curve = np.loadtxt(curve_file, skiprows=1)
+    wave_nm = curve[:, 0]
+    coefficients = curve[:, 1]
+
+    optical = (wave_nm >= 392.0) & (wave_nm <= 992.0)
+
+    # Published photometric terms: no interpolation between IR bands.
+    ir_terms = {
+        "Jmag":  (1235.0, 0.6821472644805908),
+        "Hmag":  (1662.0, 0.4082775115966797),
+        "Kmag":  (2159.0, 0.2695426046848297),
+        "W1mag": (3352.60009765625, 0.13694290816783905),
+        "W2mag": (4602.7998046875, 0.09808244556188583),
+    }
+
+    wavelengths_nm = (
+        np.asarray(filter_eff_lambda, dtype=float) / 10.0
+    )
+
+    e = np.asarray(e_zgr, dtype=float).copy()
+    distance = np.asarray(distance_pc, dtype=float)
+
+    n_stars, n_bands = ext_mag.shape
+
+    if wavelengths_nm.shape != (n_bands,):
+        raise ValueError("Provide one wavelength per band.")
+
+    if e.shape != (n_stars,) or distance.shape != (n_stars,):
+        raise ValueError("Provide one E_ZGR and distance per star.")
+
+    if np.any(~np.isfinite(distance) | (distance <= 0)):
+        raise ValueError("Invalid distances.")
+
+    # Your adopted local-extinction assumption
+    e[distance < 69.0] = 0.0
+
+    if np.any(~np.isfinite(e) | (e < 0)):
+        raise ValueError("Missing or invalid E_ZGR outside 69 pc.")
+
+    k_bands = np.zeros(n_bands, dtype=float)
+
+    for j, column in enumerate(ext_mag.columns):
+
+        if column in ir_terms:
+            k_bands[j] = ir_terms[column][1]
+            continue
+
+        if column in ("W3mag", "W4mag"):
+            raise ValueError("W3 and W4 are not supported.")
+
+        wavelength = wavelengths_nm[j]
+
+        if (
+            not np.isfinite(wavelength)
+            or wavelength < 392.0
+            or wavelength > 992.0
+        ):
+            raise ValueError(
+                "Optical wavelength outside ZGR23 coverage: {}".format(
+                    column
+                )
+            )
+
+        k_bands[j] = np.interp(
+            wavelength,
+            wave_nm[optical],
+            coefficients[optical]
+        )
+
+    return e[:, None] * k_bands[None, :]
