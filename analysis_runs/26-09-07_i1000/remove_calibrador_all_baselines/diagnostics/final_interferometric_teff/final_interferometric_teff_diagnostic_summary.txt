@@ -7,7 +7,7 @@ Output directory: /home2/ihernand/Desktop/reach/analysis_runs/26-09-07_i1000/rem
 tgt_info
 ----------------------------------------------------------------------
 Type: <class 'pandas.core.frame.DataFrame'>
-Shape: (85, 218)
+Shape: (85, 228)
 Columns:
   Period
   Science
@@ -159,13 +159,23 @@ Columns:
   e_Vmag
   eb_v
   A_V
+  extinction_method
+  A_Bmag
   Bmag_dr
+  A_Vmag
   Vmag_dr
+  A_Hpmag
   Hpmag_dr
+  A_BTmag
   BTmag_dr
+  A_VTmag
   VTmag_dr
+  A_BPmag
   BPmag_dr
+  A_RPmag
   RPmag_dr
+  A_Gmag
+  Gmag_dr
   V-K_calc
   LDD_VK
   e_LDD_VK

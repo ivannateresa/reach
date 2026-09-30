@@ -4,7 +4,7 @@ Failures while generating plots
 Plot: PIONIER versus literature diameters
 Error: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/literature_diameters.tsv'
 Traceback (most recent call last):
-  File "analyse_example.py", line 755, in run_plot
+  File "analyse_example.py", line 781, in run_plot
     **kwargs
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 3366, in plot_lit_diam_comp
     lit_diam_info = pd.read_csv(lit_diam_file, sep="\t", header=0)
@@ -27,7 +27,7 @@ IOError: [Errno 2] File data/literature_diameters.tsv does not exist: 'data/lite
 Plot: All visibility fits
 Error: 'module' object has no attribute 'calculate_vis2'
 Traceback (most recent call last):
-  File "analyse_example.py", line 755, in run_plot
+  File "analyse_example.py", line 781, in run_plot
     **kwargs
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 338, in plot_all_vis2_fits
     sci)
@@ -40,7 +40,7 @@ AttributeError: 'module' object has no attribute 'calculate_vis2'
 Plot: Single visibility plots
 Error: [Errno 2] No such file or directory: 'plots/single_vis2/vis2_HR_2998__combined.pdf'
 Traceback (most recent call last):
-  File "analyse_example.py", line 755, in run_plot
+  File "analyse_example.py", line 781, in run_plot
     **kwargs
   File "/home2/ihernand/Desktop/reach/reach/plotting.py", line 2369, in plot_single_vis2
     plt.savefig("plots/single_vis2/vis2_%s_%s_%s.pdf" % (sci, period, sequence))
