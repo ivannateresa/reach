@@ -11,6 +11,10 @@ all_data/0104.D-0580(A)/
 # Ignore everything inside complete_sequences
 /complete_sequences/*
 
+# Edenhofer 2023 dust maps
+/dustmaps_data/edenhofer_2023/*.fits
+
+
 # Allow v3.95_abcd folders
 !/complete_sequences/*_v3.94_abcd/
 
